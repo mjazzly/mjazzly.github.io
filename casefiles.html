@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css">
+<title>Case Files — Megat Jazly</title>
+<meta name="description" content="Project case studies by Megat Jazly: real systems told as stories, from constraint to running solution to measured impact.">
+</head>
+<body>
+<nav class="top"><div class="wrap">
+  <a class="brand" href="index.html">Megat Jazly</a>
+  <div class="links">
+    <a href="index.html">Systems</a>
+    <a href="operator.html">Operator</a>
+    <a href="casefiles.html" class="active">Case Files</a>
+  </div>
+</div></nav>
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">Case Files <span class="dot">·</span> Systems, Told Properly</div>
+  <h1>Proof, with the story intact</h1>
+  <p class="thesis">A README tells you what a project is. It rarely tells you why it had to exist, what constraint shaped it, or what changed once it ran. Each case file here follows the same arc: the situation, the constraint, the system, the result. Client-identifying details are omitted by design.</p>
+</header>
+
+<section id="cases">
+  <h2>Case files</h2>
+
+  <div class="case">
+    <div class="case-top">
+      <h3>The report that ate Mondays</h3>
+      <span class="sys-id">CASE-01 · REPORTING PIPELINE</span>
+    </div>
+    <div class="case-body">
+      <div class="beat">
+        <span class="beat-label">Situation</span>
+        <p>A weekly performance report for a US-based client pulled 20+ metrics from five advertising and CRM platforms: Google, Bing, LinkedIn, Meta, and Salesforce. Every Monday, hours went into exporting, reconciling, and reformatting the same numbers by hand. The report was accurate, but the person producing it was the pipeline.</p>
+      </div>
+      <div class="beat">
+        <span class="beat-label">Constraint</span>
+        <p>No data warehouse, no engineering support, and no budget for new tooling. Whatever the solution was, it had to run inside the tools already on the desk and be simple enough for a colleague to operate during handover or leave.</p>
+      </div>
+      <div class="beat">
+        <span class="beat-label">System</span>
+        <p>A Power Query pipeline that ingests each platform export, standardises naming and formats, applies the cleaning rules that were previously tribal knowledge, and lands everything in a single source of truth table feeding the client dashboard. The transformation logic is documented step by step, so the pipeline is inspectable rather than magical.</p>
+      </div>
+      <div class="beat result">
+        <span class="beat-label">Result</span>
+        <p>Weekly manual preparation time down <b>over 90%</b>. Reconciliation errors near zero because the rules run identically every week. Monday mornings returned to analysis instead of assembly, and the process survived a full handover test: someone else ran it without me in the room.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slot">
+    <span class="sys-id">CASE-02 · GENAI DELIVERY WORKFLOWS</span>
+    <h3>Teaching AI to be checkable</h3>
+    <p>In documentation. How structured prompt testing and a validation protocol turned Generative AI from a novelty into a dependable part of client delivery.</p>
+  </div>
+
+  <div class="slot">
+    <span class="sys-id">CASE-03 · PACKAGED AI ASSISTANTS</span>
+    <h3>The workflow that runs itself</h3>
+    <p>In documentation. Converting a recurring multi-stage data process into a packaged assistant with guides and executable scripts.</p>
+  </div>
+
+</section>
+
+<footer>
+  <div class="eyebrow">Contact</div>
+  <p>New case files are added as systems are documented for public reading. If a case is relevant to a role you are hiring for, I am happy to walk through the unabridged version in conversation.</p>
+  <div class="foot-links">
+    <a href="mailto:megatjazly@gmail.com">Email</a>
+    <a href="https://linkedin.com/in/megatjazly" rel="me">LinkedIn</a>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
