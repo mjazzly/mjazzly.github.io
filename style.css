@@ -88,3 +88,13 @@ footer p{color:var(--ink-soft);font-size:15.5px;max-width:560px}
 .slot h3{font-family:var(--display);font-size:17px;font-weight:600;margin:8px 0 4px;color:var(--ink-soft)}
 .slot p{font-size:14.5px;color:var(--ink-soft)}
 @media(max-width:600px){header.hero{padding:52px 0 40px}section{padding:42px 0}.strength{flex-direction:column;gap:8px}}
+
+/* Expanded case arc — bold emphasis + six-beat */
+.case .beat p b{color:var(--ink);font-weight:600}
+.case .beat.result p b{color:var(--marine)}
+.case .beat.approach{background:var(--marine-soft);border-radius:5px;padding:14px 16px;margin-left:-2px}
+.case .beat.approach .beat-label{color:var(--marine)}
+.case .beat.principle{border-top:1px dashed var(--line);padding-top:16px;margin-top:18px}
+.case .beat.principle .beat-label{color:var(--amber)}
+.case .beat.principle p{font-style:italic;color:var(--ink)}
+.thesis b{color:var(--ink);font-weight:600}
