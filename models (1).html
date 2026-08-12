@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mental Models — Megat Jazly</title>
+<meta name="description" content="The mental models Megat Jazly builds and works by: Maker/Marker/Multiplier, Iteration Loops, Productive Failure, Introduce Chaos, and the Founders Triangle.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3F5F4;--card:#FBFCFB;--ink:#1C2B2D;--ink-soft:#44585B;
+  --line:#D5DCDA;--marine:#2C5F7C;--marine-soft:#E4EDF2;--amber:#B07E23;
+  --mono:'IBM Plex Mono',monospace;--body:'IBM Plex Sans',sans-serif;--display:'Sora',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--marine);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s}
+a:hover,a:focus-visible{border-bottom-color:var(--marine)}
+a:focus-visible{outline:2px solid var(--marine);outline-offset:3px;border-radius:2px}
+.wrap{max-width:880px;margin:0 auto;padding:0 24px}
+.eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.eyebrow .dot{color:var(--amber)}
+nav.top{border-bottom:1px solid var(--line);background:var(--card)}
+nav.top .wrap{display:flex;justify-content:space-between;align-items:center;padding-top:18px;padding-bottom:18px;gap:16px;flex-wrap:wrap}
+nav.top .brand{font-family:var(--display);font-weight:700;font-size:17px;color:var(--ink);border-bottom:none}
+nav.top .links{display:flex;gap:22px;font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+nav.top .links a{color:var(--ink-soft)}
+nav.top .links a.active{color:var(--marine);border-bottom-color:var(--amber)}
+header.hero{padding:66px 0 46px;border-bottom:1px solid var(--line)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,5.4vw,44px);line-height:1.1;letter-spacing:-.02em;margin:16px 0 14px}
+.thesis{max-width:600px;color:var(--ink-soft);font-size:17px}
+section{padding:46px 0}
+.spine{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:6px;padding:18px 22px;margin-bottom:30px;font-size:15px;color:var(--ink-soft);line-height:1.6}
+.spine b{color:var(--marine);font-weight:600}
+.models{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.model{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:22px;display:flex;flex-direction:column}
+.model.wide{grid-column:1 / -1}
+.viz{height:112px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:14px}
+.viz svg{height:96px;width:auto;max-width:100%;display:block}
+.model h3{font-family:var(--display);font-size:17px;font-weight:600;margin-bottom:7px;letter-spacing:-.01em}
+.model .def{font-size:14.5px;color:var(--ink-soft);line-height:1.6;margin-bottom:14px}
+.model .def b{color:var(--ink);font-weight:600}
+.model .practice{margin-top:auto;border-top:1px dashed var(--line);padding-top:12px}
+.model .practice .lab{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);margin-bottom:5px}
+.model .practice .txt{display:block;font-size:14px;color:var(--ink);line-height:1.55}
+footer{padding:40px 0 64px;border-top:1px solid var(--line)}
+footer .eyebrow{margin-bottom:12px}
+footer p{color:var(--ink-soft);font-size:15px;max-width:540px}
+.foot-links{margin-top:20px;display:flex;gap:24px;font-family:var(--mono);font-size:14px;flex-wrap:wrap}
+@media(max-width:720px){
+  .models{grid-template-columns:1fr}
+  header.hero{padding:48px 0 36px}
+  section{padding:36px 0}
+}
+</style>
+</head>
+<body>
+<nav class="top"><div class="wrap">
+  <a class="brand" href="index.html">Megat Jazly</a>
+  <div class="links">
+    <a href="index.html">Systems</a>
+    <a href="operator.html">Operator</a>
+    <a href="models.html" class="active">Models</a>
+    <a href="casefiles.html">Case Files</a>
+  </div>
+</div></nav>
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">Mental Models <span class="dot">·</span> How I Reason</div>
+  <h1>The models I build by</h1>
+  <p class="thesis">Good work is not improvised, it runs on a small set of reusable models. These are the five I actually use, and they are not a list, they are a cycle: build a system, refine it, absorb its failures, harden it against the ones you did not see coming.</p>
+</header>
+
+<section>
+  <div class="spine">
+    <b>Maker / Marker / Multiplier</b> builds it, <b>Iteration Loops</b> refines it, <b>Productive Failure</b> absorbs the misses, <b>Introduce Chaos</b> hardens it, and the <b>Founders Triangle</b> grows the person underneath all of it.
+  </div>
+
+  <div class="models">
+
+    <!-- Maker / Marker / Multiplier — wide -->
+    <div class="model wide">
+      <div class="viz">
+        <svg viewBox="0 0 300 96" role="img" aria-label="Three ascending stages: Maker, Marker, Multiplier">
+          <rect x="8" y="58" width="78" height="28" rx="5" fill="#E4EDF2" stroke="#2C5F7C" stroke-width="1.6"/>
+          <text x="47" y="76" text-anchor="middle" fill="#2C5F7C" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="0.5">MAKER</text>
+          <path d="M92 66 L104 54" stroke="#B07E23" stroke-width="1.6" fill="none"/>
+          <polygon points="107,51 99,52 103,58" fill="#B07E23"/>
+          <rect x="110" y="38" width="80" height="28" rx="5" fill="#E4EDF2" stroke="#2C5F7C" stroke-width="1.6"/>
+          <text x="150" y="56" text-anchor="middle" fill="#2C5F7C" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="0.5">MARKER</text>
+          <path d="M196 46 L208 34" stroke="#B07E23" stroke-width="1.6" fill="none"/>
+          <polygon points="211,31 203,32 207,38" fill="#B07E23"/>
+          <rect x="214" y="18" width="86" height="28" rx="5" fill="#2C5F7C"/>
+          <text x="257" y="36" text-anchor="middle" fill="#FBFCFB" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="0.5">MULTIPLIER</text>
+        </svg>
+      </div>
+      <h3>Maker / Marker / Multiplier</h3>
+      <p class="def"><b>Maker:</b> build the process end to end. <b>Marker:</b> once the process is clear, the job becomes checking each checkpoint, human or AI, against the standard. <b>Multiplier:</b> a proven process reveals where to improve and scale the whole workflow.</p>
+      <div class="practice"><span class="lab">In practice</span><span class="txt">It is the arc of every system I ship: build it, make it checkable, then scale what works.</span></div>
+    </div>
+
+    <!-- Iteration Loops -->
+    <div class="model">
+      <div class="viz">
+        <svg viewBox="0 0 120 96" role="img" aria-label="A continuous loop: ship, review, improve">
+          <circle cx="60" cy="48" r="34" fill="none" stroke="#2C5F7C" stroke-width="1.6" opacity="0.9" stroke-dasharray="150 40" transform="rotate(-90 60 48)"/>
+          <polygon points="60,10 52,16 62,19" fill="#2C5F7C" transform="rotate(96 60 48)"/>
+          <circle cx="60" cy="14" r="3.2" fill="#B07E23"/>
+          <circle cx="94" cy="48" r="3.2" fill="#B07E23"/>
+          <circle cx="60" cy="82" r="3.2" fill="#B07E23"/>
+          <text x="60" y="43" text-anchor="middle" fill="#2C5F7C" font-family="IBM Plex Mono, monospace" font-size="9.5" letter-spacing="0.4">SHIP</text>
+          <text x="60" y="54" text-anchor="middle" fill="#44585B" font-family="IBM Plex Mono, monospace" font-size="9.5" letter-spacing="0.4">REVIEW</text>
+          <text x="60" y="65" text-anchor="middle" fill="#2C5F7C" font-family="IBM Plex Mono, monospace" font-size="9.5" letter-spacing="0.4">IMPROVE</text>
+        </svg>
+      </div>
+      <h3>Iteration Loops</h3>
+      <p class="def">Run every piece of work end to end, then review it honestly: what worked, what did not, what to improve. The output of one loop is the input of the next.</p>
+      <div class="practice"><span class="lab">In practice</span><span class="txt">No deliverable is final, it is the current best version, and the loop never fully closes.</span></div>
+    </div>
+
+    <!-- Productive Failure -->
+    <div class="model">
+      <div class="viz">
+        <svg viewBox="0 0 200 96" role="img" aria-label="A curve that dips at a miss then rises to the next point">
+          <line x1="14" y1="78" x2="188" y2="78" stroke="#D5DCDA" stroke-width="1.4"/>
+          <path d="M14 32 Q54 32 74 64 Q84 78 96 64 Q124 34 188 22" fill="none" stroke="#2C5F7C" stroke-width="1.8"/>
+          <circle cx="85" cy="71" r="3.4" fill="#B07E23"/>
+          <text x="85" y="92" text-anchor="middle" fill="#44585B" font-family="IBM Plex Mono, monospace" font-size="9.5">the miss</text>
+          <circle cx="188" cy="22" r="3.4" fill="#2C5F7C"/>
+          <text x="182" y="14" text-anchor="end" fill="#2C5F7C" font-family="IBM Plex Mono, monospace" font-size="9.5">next point</text>
+        </svg>
+      </div>
+      <h3>Productive Failure</h3>
+      <p class="def">Fail fast, refocus faster. A miss is information, not identity. The discipline, associated with Federer's next-point mindset, is to let the last point go and give the next one your full attention.</p>
+      <div class="practice"><span class="lab">In practice</span><span class="txt">Speed of recovery beats fear of failure, so experiments stay cheap and frequent.</span></div>
+    </div>
+
+    <!-- Introduce Chaos -->
+    <div class="model">
+      <div class="viz">
+        <svg viewBox="0 0 150 96" role="img" aria-label="An ordered grid with one displaced tile representing an edge case">
+          <g fill="#E4EDF2" stroke="#2C5F7C" stroke-width="1.6">
+            <rect x="14" y="10" width="20" height="20" rx="3"/>
+            <rect x="41" y="10" width="20" height="20" rx="3"/>
+            <rect x="68" y="10" width="20" height="20" rx="3"/>
+            <rect x="14" y="37" width="20" height="20" rx="3"/>
+            <rect x="41" y="37" width="20" height="20" rx="3"/>
+            <rect x="68" y="37" width="20" height="20" rx="3"/>
+            <rect x="14" y="64" width="20" height="20" rx="3"/>
+            <rect x="41" y="64" width="20" height="20" rx="3"/>
+            <rect x="68" y="64" width="20" height="20" rx="3"/>
+          </g>
+          <rect x="106" y="34" width="20" height="20" rx="3" fill="#FBFCFB" stroke="#B07E23" stroke-width="1.8" transform="rotate(22 116 44)"/>
+          <text x="118" y="80" text-anchor="middle" fill="#B07E23" font-family="IBM Plex Mono, monospace" font-size="9.5">edge case</text>
+        </svg>
+      </div>
+      <h3>Introduce Chaos To Your System</h3>
+      <p class="def">Deliberately imagine the edge cases and worst-case scenarios that could break a system, workflow, or framework, then design for them. The goal is antifragility: even the cases you did not foresee land inside a blanket you already built.</p>
+      <div class="practice"><span class="lab">In practice</span><span class="txt">I stress-test a process by attacking it before a client or a deadline does.</span></div>
+    </div>
+
+    <!-- Founders Triangle -->
+    <div class="model">
+      <div class="viz">
+        <svg viewBox="0 0 190 96" role="img" aria-label="A triangle with corners labelled Depth, Domain and Distribution">
+          <polygon points="95,20 148,74 42,74" fill="#E4EDF2" stroke="#2C5F7C" stroke-width="1.8"/>
+          <circle cx="95" cy="20" r="3.4" fill="#B07E23"/>
+          <circle cx="148" cy="74" r="3.4" fill="#B07E23"/>
+          <circle cx="42" cy="74" r="3.4" fill="#B07E23"/>
+          <text x="95" y="12" text-anchor="middle" fill="#2C5F7C" font-family="IBM Plex Mono, monospace" font-size="9.5" letter-spacing="0.4">DEPTH</text>
+          <text x="42" y="90" text-anchor="middle" fill="#2C5F7C" font-family="IBM Plex Mono, monospace" font-size="9.5" letter-spacing="0.4">DOMAIN</text>
+          <text x="152" y="90" text-anchor="middle" fill="#2C5F7C" font-family="IBM Plex Mono, monospace" font-size="9.5" letter-spacing="0.4">DISTRIBUTION</text>
+        </svg>
+      </div>
+      <h3>Founders Triangle</h3>
+      <p class="def">Three sides to hone deliberately: <b>Depth</b>, real skill in a craft. <b>Domain</b>, knowing the field it applies to. <b>Distribution</b>, the ability to communicate and reach an audience. Strength in all three compounds.</p>
+      <div class="practice"><span class="lab">In practice</span><span class="txt">The reason I pair building systems with documenting and explaining them clearly.</span></div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="eyebrow">Contact</div>
+  <p>These models are working tools, not decoration. If any of them is relevant to how your team operates, I am happy to talk through how I apply it.</p>
+  <div class="foot-links">
+    <a href="mailto:megatjazly@gmail.com">Email</a>
+    <a href="https://linkedin.com/in/megatjazly" rel="me">LinkedIn</a>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
