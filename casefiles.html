@@ -2,29 +2,81 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css">
-<title>Case Files — Megat Jazly</title>
-<meta name="description" content="Project case studies by Megat Jazly: real systems told as stories, from constraint to running solution to measured impact.">
+<title>Case Files | Megat Jazly</title>
+<meta name="description" content="Live SQL and Power BI projects and client case files by Megat Jazly: public analysis trails with the queries and review in the open, and real systems told from constraint to running solution to measured impact.">
 </head>
 <body>
 <nav class="top"><div class="wrap">
   <a class="brand" href="index.html">Megat Jazly</a>
   <div class="links">
+    <a href="casefiles.html" class="active">Case Files</a>
     <a href="index.html">Systems</a>
     <a href="operator.html">Operator</a>
     <a href="models.html">Models</a>
-    <a href="casefiles.html" class="active">Case Files</a>
   </div>
 </div></nav>
 <div class="wrap">
 
 <header class="hero">
-  <div class="eyebrow">Case Files <span class="dot">·</span> Systems, Told Properly</div>
+  <div class="eyebrow">Case Files <span class="dot">·</span> Live Projects and Systems, Told Properly</div>
   <h1>Proof, with the story intact</h1>
-  <p class="thesis">A README tells you what a project is. It rarely tells you why it had to exist, how the problem was framed, or what changed once the system ran. Each case file follows the same arc: <b>context, problem, approach, system, result, principle</b>, so the thinking is visible, not just the outcome. Client-identifying details are omitted by design.</p>
+  <p class="thesis">Systems from client work, told with the arc intact: context, problem, approach, system, result, principle. Client-identifying details are omitted by design. Public projects, with the queries, the model, and the review trail in the open, are added here as they ship.</p>
 </header>
 
+<!--LIVE:SECTION-OPEN hidden
+<section id="live">
+  <h2>Live projects</h2>
+
+LIVE:END-->
+<!--LIVE:A status=in-progress
+  <div class="case">
+    <div class="case-top">
+      <h3>Air cargo capacity versus demand, in SQL</h3>
+      <span class="sys-id">LIVE-A · SQL TRAIL · IN PROGRESS</span>
+    </div>
+    <div class="case-body">
+      <div class="beat">
+        <span class="beat-label">Context</span>
+        <p>Air cargo moves on two kinds of aircraft, dedicated freighters and the bellies of passenger planes, and the balance between capacity flown and freight carried changes by lane, by season, and by year. The US Bureau of Transportation Statistics publishes every segment flown by US and foreign carriers to and from the US in the <b>T-100 dataset</b>: about <b>1.9 million rows</b> for 2023 to 2026, with tonnage and payload capacity on the same row.</p>
+      </div>
+      <div class="beat">
+        <span class="beat-label">Problem</span>
+        <p>SQL learned in courses does not survive contact with a real table. The only way to prove working fluency is to answer real questions against real data in public, with the mistakes and the corrections visible.</p>
+      </div>
+      <div class="beat approach">
+        <span class="beat-label">Approach</span>
+        <p>A <b>twenty question ladder</b>, one business question per weekday, where each rung forces one concept: grain and data quality first, then joins, then time and CTEs, then window functions, then the write-up. The rule on every question: <b>write the prediction, write the query, run it, then let an AI review pass critique it</b>. The reviewer never writes first. Every review is logged, so the trail shows what changed and why.</p>
+      </div>
+      <div class="beat">
+        <span class="beat-label">System</span>
+        <p>Local <b>DuckDB</b> database, one raw table plus dimension tables, a style guide every committed query follows, a quality ledger of zero-row checks (key uniqueness, not-null measures, row-count reconciliation), and a public repository with one <code>.sql</code> file per question. Each finished question ships three things: <b>the finding</b> (what a decision maker should do differently), <b>the model and its tests</b> (the staging aggregate the question rests on), and <b>the AI guardrail</b> (what the review pass is allowed to change).</p>
+      </div>
+      <div class="beat result">
+        <span class="beat-label">Status</span>
+        <p><b>In progress, September to October 2026.</b> Trail pages are added here as each question passes review. Repository: <a href="https://github.com/mjazzly/aircargo-sql-trail">github.com/mjazzly/aircargo-sql-trail</a>.</p>
+      </div>
+      <div class="beat principle">
+        <span class="beat-label">Principle</span>
+        <p>Fluency is proven by work that can be checked, not by certificates. Predict before you query, and let the review change the query, not the standard.</p>
+      </div>
+    </div>
+  </div>
+
+LIVE:END-->
+<!--LIVE:B status=queued
+  <div class="slot">
+    <span class="sys-id">LIVE-B · POWER BI DASHBOARD · QUEUED, OCTOBER TO NOVEMBER 2026</span>
+    <h3>The same question, as a published dashboard</h3>
+    <p>Capacity versus demand by lane and month on the trail's aggregates: a proper star schema, DAX measures with written definitions, a published data scope statement, and a public link. The model and the measure definitions are published alongside the visuals.</p>
+  </div>
+
+LIVE:END-->
+<!--LIVE:SECTION-CLOSE hidden
+</section>
+LIVE:END-->
+
 <section id="cases">
-  <h2>Case files</h2>
+  <h2>Case files from client work</h2>
 
   <div class="case">
     <div class="case-top">
@@ -34,7 +86,7 @@
     <div class="case-body">
       <div class="beat">
         <span class="beat-label">Context</span>
-        <p>A weekly performance report for a US-based client pulled <b>20+ metrics from five advertising and CRM platforms</b> (Google, Bing, LinkedIn, Meta, Salesforce). The audience was the client's marketing leadership, who needed it reliably every week to steer spend.</p>
+        <p>A weekly performance report for a US-based client pulled <b>20+ metrics from five source platforms</b> (paid channels and CRM). The audience was the client's commercial leadership, who needed it reliably every week to steer spend.</p>
       </div>
       <div class="beat">
         <span class="beat-label">Problem</span>
@@ -93,19 +145,20 @@
   </div>
 
   <div class="slot">
-    <span class="sys-id">CASE-03 · PACKAGED AI ASSISTANTS</span>
-    <h3>The workflow that runs itself</h3>
-    <p>In documentation. Converting a recurring multi-stage data process into a packaged assistant with guides and executable scripts.</p>
+    <span class="sys-id">CASE-03 · DATA QUALITY PIPELINE</span>
+    <h3>The list that had to be right before it was fast</h3>
+    <p>In documentation. A multi-stage data expansion pipeline for a client CRM: export, identity and email validation, fit scoring, deduplication, and a per-record status on every import. Over 2,300 validated records and a quality ledger per round.</p>
   </div>
 
 </section>
 
 <footer>
   <div class="eyebrow">Contact</div>
-  <p>New case files are added as systems are documented for public reading. If a case is relevant to a role you are hiring for, I am happy to walk through the unabridged version in conversation.</p>
+  <p>New trail pages and case files are added as work is documented for public reading. If a project or case is relevant to a role you are hiring for, I am happy to walk through the unabridged version in conversation.</p>
   <div class="foot-links">
     <a href="mailto:megatjazly@gmail.com">Email</a>
     <a href="https://linkedin.com/in/megatjazly" rel="me">LinkedIn</a>
+    <a href="https://github.com/mjazzly" rel="me">GitHub</a>
   </div>
 </footer>
 
