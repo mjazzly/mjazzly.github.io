@@ -113,41 +113,8 @@ LIVE:END-->
 
   <div class="case">
     <div class="case-top">
-      <h3>The report that ate Mondays</h3>
-      <span class="sys-id">CASE-02 · REPORTING PIPELINE</span>
-    </div>
-    <div class="case-body">
-      <div class="beat">
-        <span class="beat-label">Context</span>
-        <p>A weekly performance report for a US-based client pulled <b>20+ metrics from five source platforms</b> (paid channels and CRM). The audience was the client's commercial leadership, who needed it reliably every week to steer spend.</p>
-      </div>
-      <div class="beat">
-        <span class="beat-label">Problem</span>
-        <p>Every Monday, hours went into exporting, reconciling, and reformatting the same numbers by hand. The report was accurate, but <b>the person producing it was the pipeline</b>, and that is a single point of failure.</p>
-      </div>
-      <div class="beat approach">
-        <span class="beat-label">Approach</span>
-        <p>The constraint shaped everything: no data warehouse, no engineering support, no budget for tooling. So the rule was <b>build inside the tools already on the desk, and make it inspectable</b>. Separate the work into ingest, clean, and consolidate, then encode the cleaning rules that until then lived only in one head.</p>
-      </div>
-      <div class="beat">
-        <span class="beat-label">System</span>
-        <p>A <b>Power Query pipeline</b> that ingests each platform export, standardises naming and formats, applies the documented cleaning rules, and lands everything in a <b>single source of truth</b> table feeding the client dashboard. Every transformation step is written down, so a colleague can inspect and run it.</p>
-      </div>
-      <div class="beat result">
-        <span class="beat-label">Result</span>
-        <p>Weekly manual preparation time down <b>over 90%</b>. Reconciliation errors near zero because the rules run identically every week. Monday mornings returned to analysis instead of assembly, and the process <b>survived a full handover test</b>: someone else ran it without me in the room.</p>
-      </div>
-      <div class="beat principle">
-        <span class="beat-label">Principle</span>
-        <p>Automation on top of an unexamined process just makes mistakes faster. Map and fix the workflow first, then automate the version that works.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="case">
-    <div class="case-top">
       <h3>The recurring task that became an assistant</h3>
-      <span class="sys-id">CASE-03 · DATA EXPANSION PIPELINE</span>
+      <span class="sys-id">CASE-02 · DATA EXPANSION PIPELINE</span>
     </div>
     <div class="case-body">
       <div class="beat">
@@ -173,6 +140,39 @@ LIVE:END-->
       <div class="beat principle">
         <span class="beat-label">Principle</span>
         <p>Build it, make it checkable, then scale what works. The markers are what make the multiplier safe: a process only earns the right to grow once every stage can be checked.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="case">
+    <div class="case-top">
+      <h3>The report that ate Mondays</h3>
+      <span class="sys-id">CASE-03 · REPORTING PIPELINE</span>
+    </div>
+    <div class="case-body">
+      <div class="beat">
+        <span class="beat-label">Context</span>
+        <p>A weekly performance report for a US-based client pulled <b>20+ metrics from five source platforms</b> (paid channels and CRM). The audience was the client's commercial leadership, who needed it reliably every week to steer spend.</p>
+      </div>
+      <div class="beat">
+        <span class="beat-label">Problem</span>
+        <p>Every Monday, hours went into exporting, reconciling, and reformatting the same numbers by hand. The report was accurate, but <b>the person producing it was the pipeline</b>, and that is a single point of failure.</p>
+      </div>
+      <div class="beat approach">
+        <span class="beat-label">Approach</span>
+        <p>The constraint shaped everything: no data warehouse, no engineering support, no budget for tooling. So the rule was <b>build inside the tools already on the desk, and make it inspectable</b>. Separate the work into ingest, clean, and consolidate, then encode the cleaning rules that until then lived only in one head.</p>
+      </div>
+      <div class="beat">
+        <span class="beat-label">System</span>
+        <p>A <b>Power Query pipeline</b> that ingests each platform export, standardises naming and formats, applies the documented cleaning rules, and lands everything in a <b>single source of truth</b> table feeding the client dashboard. Every transformation step is written down, so a colleague can inspect and run it.</p>
+      </div>
+      <div class="beat result">
+        <span class="beat-label">Result</span>
+        <p>Weekly manual preparation time down <b>over 90%</b>. Reconciliation errors near zero because the rules run identically every week. Monday mornings returned to analysis instead of assembly, and the process <b>survived a full handover test</b>: someone else ran it without me in the room.</p>
+      </div>
+      <div class="beat principle">
+        <span class="beat-label">Principle</span>
+        <p>Automation on top of an unexamined process just makes mistakes faster. Map and fix the workflow first, then automate the version that works.</p>
       </div>
     </div>
   </div>
