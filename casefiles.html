@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css">
 <title>Case Files | Megat Jazly</title>
-<meta name="description" content="Client case files by Megat Jazly: real systems told from constraint to running solution to measured impact, with public analysis projects added as they ship.">
+<meta name="description" content="Client case files by Megat Jazly: systems from real delivery, each told from the constraint to the running solution to the measured result.">
 </head>
 <body>
 <nav class="top"><div class="wrap">
@@ -18,9 +18,9 @@
 <div class="wrap">
 
 <header class="hero">
-  <div class="eyebrow">Case Files <span class="dot">·</span> Live Projects and Systems, Told Properly</div>
+  <div class="eyebrow">Case Files <span class="dot">·</span> Client Systems, Told End to End</div>
   <h1>Proof, with the story intact</h1>
-  <p class="thesis">Systems from client work, told with the arc intact: context, problem, approach, system, result, principle. Client-identifying details are omitted by design. Public projects, with the queries, the model, and the review trail in the open, are added here as they ship.</p>
+  <p class="thesis">Three systems from client delivery, each told the same way: the context, the problem, the approach, the system that was built, the measured result, and the principle it left behind. Client-identifying details are omitted by design.</p>
 </header>
 
 <!--LIVE:SECTION-OPEN hidden
@@ -80,41 +80,8 @@ LIVE:END-->
 
   <div class="case">
     <div class="case-top">
-      <h3>The report that ate Mondays</h3>
-      <span class="sys-id">CASE-01 · REPORTING PIPELINE</span>
-    </div>
-    <div class="case-body">
-      <div class="beat">
-        <span class="beat-label">Context</span>
-        <p>A weekly performance report for a US-based client pulled <b>20+ metrics from five source platforms</b> (paid channels and CRM). The audience was the client's commercial leadership, who needed it reliably every week to steer spend.</p>
-      </div>
-      <div class="beat">
-        <span class="beat-label">Problem</span>
-        <p>Every Monday, hours went into exporting, reconciling, and reformatting the same numbers by hand. The report was accurate, but <b>the person producing it was the pipeline</b>, and that is a single point of failure, not a process.</p>
-      </div>
-      <div class="beat approach">
-        <span class="beat-label">Approach</span>
-        <p>The constraint shaped everything: no data warehouse, no engineering support, no budget for tooling. So the rule was <b>build inside the tools already on the desk, and make it inspectable</b>, not magical. Separate the work into ingest, clean, and consolidate, then encode the cleaning rules that until then lived only in one head.</p>
-      </div>
-      <div class="beat">
-        <span class="beat-label">System</span>
-        <p>A <b>Power Query pipeline</b> that ingests each platform export, standardises naming and formats, applies the documented cleaning rules, and lands everything in a <b>single source of truth</b> table feeding the client dashboard. Every transformation step is written down, so a colleague can inspect and run it.</p>
-      </div>
-      <div class="beat result">
-        <span class="beat-label">Result</span>
-        <p>Weekly manual preparation time down <b>over 90%</b>. Reconciliation errors near zero because the rules run identically every week. Monday mornings returned to analysis instead of assembly, and the process <b>survived a full handover test</b>: someone else ran it without me in the room.</p>
-      </div>
-      <div class="beat principle">
-        <span class="beat-label">Principle</span>
-        <p>Automation on top of an unexamined process just makes mistakes faster. Map and fix the workflow first, then automate the version that works.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="case">
-    <div class="case-top">
       <h3>Teaching AI to be checkable</h3>
-      <span class="sys-id">CASE-02 · GENAI DELIVERY WORKFLOWS</span>
+      <span class="sys-id">CASE-01 · GENAI DELIVERY WORKFLOWS</span>
     </div>
     <div class="case-body">
       <div class="beat">
@@ -127,7 +94,7 @@ LIVE:END-->
       </div>
       <div class="beat approach">
         <span class="beat-label">Approach</span>
-        <p>I framed it as two separate problems, not one. <b>Consistency</b> is an input problem: fix it by standardising the prompts. <b>Correctness</b> is an output problem: fix it with a checkpoint before deployment. Treating them separately meant each could be solved properly instead of hoping a single clever prompt did both.</p>
+        <p>I framed it as two separate problems. <b>Consistency</b> is an input problem: fix it by standardising the prompts. <b>Correctness</b> is an output problem: fix it with a checkpoint before deployment. Treating them separately meant each could be solved properly instead of hoping a single clever prompt did both.</p>
       </div>
       <div class="beat">
         <span class="beat-label">System</span>
@@ -144,6 +111,39 @@ LIVE:END-->
     </div>
   </div>
 
+  <div class="case">
+    <div class="case-top">
+      <h3>The report that ate Mondays</h3>
+      <span class="sys-id">CASE-02 · REPORTING PIPELINE</span>
+    </div>
+    <div class="case-body">
+      <div class="beat">
+        <span class="beat-label">Context</span>
+        <p>A weekly performance report for a US-based client pulled <b>20+ metrics from five source platforms</b> (paid channels and CRM). The audience was the client's commercial leadership, who needed it reliably every week to steer spend.</p>
+      </div>
+      <div class="beat">
+        <span class="beat-label">Problem</span>
+        <p>Every Monday, hours went into exporting, reconciling, and reformatting the same numbers by hand. The report was accurate, but <b>the person producing it was the pipeline</b>, and that is a single point of failure.</p>
+      </div>
+      <div class="beat approach">
+        <span class="beat-label">Approach</span>
+        <p>The constraint shaped everything: no data warehouse, no engineering support, no budget for tooling. So the rule was <b>build inside the tools already on the desk, and make it inspectable</b>. Separate the work into ingest, clean, and consolidate, then encode the cleaning rules that until then lived only in one head.</p>
+      </div>
+      <div class="beat">
+        <span class="beat-label">System</span>
+        <p>A <b>Power Query pipeline</b> that ingests each platform export, standardises naming and formats, applies the documented cleaning rules, and lands everything in a <b>single source of truth</b> table feeding the client dashboard. Every transformation step is written down, so a colleague can inspect and run it.</p>
+      </div>
+      <div class="beat result">
+        <span class="beat-label">Result</span>
+        <p>Weekly manual preparation time down <b>over 90%</b>. Reconciliation errors near zero because the rules run identically every week. Monday mornings returned to analysis instead of assembly, and the process <b>survived a full handover test</b>: someone else ran it without me in the room.</p>
+      </div>
+      <div class="beat principle">
+        <span class="beat-label">Principle</span>
+        <p>Automation on top of an unexamined process just makes mistakes faster. Map and fix the workflow first, then automate the version that works.</p>
+      </div>
+    </div>
+  </div>
+
   <div class="slot">
     <span class="sys-id">CASE-03 · DATA QUALITY PIPELINE</span>
     <h3>The list that had to be right before it was fast</h3>
@@ -154,7 +154,7 @@ LIVE:END-->
 
 <footer>
   <div class="eyebrow">Contact</div>
-  <p>New trail pages and case files are added as work is documented for public reading. If a project or case is relevant to a role you are hiring for, I am happy to walk through the unabridged version in conversation.</p>
+  <p>New case files are added as work is documented for public reading. If a case is relevant to a role you are hiring for, I am happy to walk through the unabridged version in conversation.</p>
   <div class="foot-links">
     <a href="mailto:megatjazly@gmail.com">Email</a>
     <a href="https://linkedin.com/in/megatjazly" rel="me">LinkedIn</a>
