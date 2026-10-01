@@ -1,7 +1,7 @@
 # mjazzly.github.io, working rules for Claude Code
 
 This is Megat Jazly's portfolio site (GitHub Pages, branch `main`, no build step: the HTML files are the site).
-Positioning is fixed: **data analyst as the door, AI as the layer**. Every edit must keep it.
+Positioning (re-led 1 Oct 2026): **data analyst as the door, AI workflows as the headline**. The eyebrow reads "Data Analyst · AI Workflows · Kuala Lumpur"; SQL appears only in the stack list, the certs and the hidden live blocks; never in the title, eyebrow, thesis, meta descriptions or any sentence that calls it a foundation, specialism or current focus (Megat is still learning SQL and has paused it to focus on AI). The word "enablement" stays off the site. The AI toolkit is Megat's own practice; never write it as team adoption at a client or employer. Every edit must keep all of this.
 
 ## Files
 - `index.html` Systems page and homepage (hero, hidden Live projects block, principles, systems, stack, certs)
