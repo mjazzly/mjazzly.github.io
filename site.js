@@ -18,8 +18,25 @@ document.documentElement.classList.add("js");
   var name = brand && brand.querySelector(".brand-name");
   if (!name) return;
   function measure() { brand.style.setProperty("--w", name.offsetWidth + "px"); }
-  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(measure); }
   measure(); window.addEventListener("resize", measure);
+
+  // On the Systems page the seams open together, then part, once per visit
+  var home = document.querySelector('nav.top .links a.active[href="index.html"]');
+  var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (home && !calm) {
+    brand.classList.add("no-anim", "is-joined");
+  }
+  var ready = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  ready.then(function () {
+    measure();
+    if (!brand.classList.contains("is-joined")) return;
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        brand.classList.remove("no-anim");
+        setTimeout(function () { brand.classList.remove("is-joined"); }, 900);
+      });
+    });
+  });
 })();
 
 (function () {
@@ -32,7 +49,9 @@ document.documentElement.classList.add("js");
   // Plays a drawing once; a request while it is still playing is ignored, so it never stutters or repeats
   function play(fig) {
     var now = Date.now();
-    if (fig.startedAt && now - fig.startedAt < ROUND) return;
+    var round = +fig.getAttribute("data-round") || ROUND;
+    if (fig.startedAt && now - fig.startedAt < round) return;
+    fig.classList.toggle("is-replay", !!fig.startedAt);  // a second play starts at once
     fig.startedAt = now;
     fig.classList.remove("is-playing");
     void fig.offsetWidth; // lets the browser notice the switch was off
@@ -57,7 +76,7 @@ document.documentElement.classList.add("js");
 
   // Focus: the card under the pointer plays its drawing once
   figures.forEach(function (fig) {
-    var card = fig.closest(".model, .case, .deep, .panel");
+    var card = fig.closest(".model, .case, .deep, .panel, .hero-map");
     if (!card) return;
     var grid = card.closest(".models");
 
@@ -72,6 +91,10 @@ document.documentElement.classList.add("js");
       if (grid) grid.classList.remove("has-focus");
     });
   });
+
+  // Remember whether the last press came from a finger, so a touch screen's phantom "pointer leaves" never undoes a tap
+  var lastTouch = false;
+  document.addEventListener("pointerdown", function (e) { lastTouch = e.pointerType === "touch"; }, true);
 
   // Step by step: resting the pointer on a column lights that step
   Array.prototype.forEach.call(document.querySelectorAll(".diagram"), function (svg) {
@@ -90,7 +113,22 @@ document.documentElement.classList.add("js");
       hit.addEventListener("mouseenter", function () { light(hit.getAttribute("data-step")); });
       hit.addEventListener("click", function () { light(hit.getAttribute("data-step")); });
     });
-    svg.addEventListener("mouseleave", clear);
+    svg.addEventListener("mouseleave", function () { if (!lastTouch) clear(); });
+    // A tap or click anywhere outside the drawing returns it to normal (a touch screen has no "pointer leaves")
+    document.addEventListener("pointerdown", function (e) {
+      if (svg.classList.contains("has-hot") && !svg.contains(e.target)) clear();
+    });
+  });
+
+  // The same for a focused card: a tap elsewhere lets it go
+  document.addEventListener("pointerdown", function (e) {
+    Array.prototype.forEach.call(document.querySelectorAll(".is-focus"), function (card) {
+      if (!card.contains(e.target)) {
+        card.classList.remove("is-focus");
+        var grid = card.closest(".models");
+        if (grid) grid.classList.remove("has-focus");
+      }
+    });
   });
 
   // The fold: each case opens on its button; without JavaScript every case stays open

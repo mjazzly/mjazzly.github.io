@@ -90,6 +90,37 @@
 .diagram.has-hot .hit.is-hot{fill:var(--marine-tint);opacity:.9}
 .diagram.has-hot .d-pop.is-hot .node{stroke-width:1.8}
 
+/* ---------- The constellation beside the hero text (Systems page) ---------- */
+header.hero.has-map{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:center}
+.hero-map{margin:0}
+.constellation{width:100%;height:auto;display:block;overflow:visible}
+.constellation .bg-star{fill:var(--ink-faint);opacity:.35}
+.constellation .spoke{stroke:var(--marine);stroke-width:1;opacity:.35}
+.constellation .thread{stroke:var(--amber);stroke-width:1.4;fill:none;stroke-linejoin:round;opacity:.85}
+.constellation .orbit{fill:none;stroke:var(--line);stroke-width:1}
+.constellation .star{fill:var(--marine)}
+.constellation .star-halo{fill:var(--marine);opacity:.12}
+.constellation .star-halo.lead{fill:var(--amber);opacity:.2}
+.constellation .core{fill:var(--paper);stroke:var(--amber);stroke-width:1.4}
+.constellation .star-label,.constellation .core-label,.constellation .stage{paint-order:stroke;stroke:var(--paper);stroke-width:5px;stroke-linejoin:round}
+.constellation .star-label{font-family:var(--sans);font-size:10.5px;font-weight:600;fill:var(--ink-soft)}
+.constellation .star-label.lead{font-weight:800;fill:var(--ink)}
+.constellation .core-label{font-family:var(--sans);font-size:11px;font-weight:800;fill:var(--ink);stroke:none}
+.constellation .stage{font-family:var(--sans);font-size:10px;font-weight:700;fill:var(--amber)}
+/* the map is read while the hero text is read: it waits for the seams to part, then unfolds slowly;
+   a replay on hover starts at once */
+.hero-map{--t0:1.6s}
+.hero-map.is-replay{--t0:0s}
+.is-playing .constellation .d-pop{animation-duration:.9s;animation-delay:calc(var(--delay,0s) + var(--t0,0s))}
+.is-playing .constellation .d-fade{animation-duration:1.2s;animation-delay:calc(var(--delay,0s) + var(--t0,0s))}
+.is-playing .constellation .d-draw{animation-duration:1.1s;animation-delay:calc(var(--delay,0s) + var(--t0,0s))}
+.is-playing .constellation .thread.d-draw{animation-duration:3s;animation-timing-function:ease-in-out}
+@media(max-width:900px){
+  header.hero.has-map{grid-template-columns:1fr}
+  .hero-map{max-width:300px;margin:8px auto 0}
+}
+@media(max-width:600px){ .hero-map{display:none} }
+
 /* ---------- Built page ---------- */
 
 /* Five numbers: five panels, a pictogram on each */
