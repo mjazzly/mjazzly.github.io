@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
+<title>Knowledge | Megat Jazly</title>
+<meta name="description" content="A growing library of ideas Megat Jazly has learned from other people, from Taleb and Meadows to James Clear and Matt Pocock, each with one way to try it yourself.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=20261028b"><link rel="stylesheet" href="motion.css?v=20261028b">
+</head>
+<body>
+<!--ICONS-->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+<symbol id="ic-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></symbol>
+<symbol id="ic-briefcase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1.5 1.5 0 011.5-1.5h3A1.5 1.5 0 0115 5v2"/><path d="M3 12h18"/></symbol>
+<symbol id="ic-circle-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></symbol>
+<symbol id="ic-hash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h14M5 15h14M10 4l-2 16M16 4l-2 16"/></symbol>
+<symbol id="ic-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></symbol>
+<symbol id="ic-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="ic-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a1 1 0 00-1 1v16a1 1 0 001 1h10a1 1 0 001-1V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></symbol>
+<symbol id="ic-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l8 4-8 4-8-4z"/><path d="M4 12l8 4 8-4"/><path d="M4 16l8 4 8-4"/></symbol>
+<symbol id="ic-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6l-5 9a1.5 1.5 0 001.3 2.2h11.4A1.5 1.5 0 0019 18l-5-9V3"/><path d="M7.5 15h9"/></symbol>
+<symbol id="ic-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5"/><path d="M12 12v9"/></symbol>
+<symbol id="ic-funnel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16l-6 7v6l-4 2v-8z"/></symbol>
+<symbol id="ic-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M7 16v-5M12 16V7M17 16v-9"/></symbol>
+<symbol id="ic-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 10h4v4h-4z"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4M7 4v3M17 4v3M7 17v3M17 17v3"/></symbol>
+<symbol id="ic-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/></symbol>
+<symbol id="ic-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></symbol>
+<symbol id="ic-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.5"/><path d="M8.5 13.5L7 21l5-2.5 5 2.5-1.5-7.5"/></symbol>
+<symbol id="ic-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></symbol>
+<symbol id="ic-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
+<symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+<symbol id="ic-puzzle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4a2 2 0 014 0v1h3a1 1 0 011 1v3h1a2 2 0 010 4h-1v3a1 1 0 01-1 1h-3v1a2 2 0 01-4 0v-1H7a1 1 0 01-1-1v-3H5a2 2 0 010-4h1V6a1 1 0 011-1h3z"/></symbol>
+<symbol id="ic-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1 1 0 011-1h5l2 2h9a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1z"/></symbol>
+<symbol id="ic-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4.5a5 5 0 00-5.5 6.8L4 16.3V20h3.7l5-5a5 5 0 006.8-5.5l-3 3-3-3z"/></symbol>
+<symbol id="ic-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+<symbol id="ic-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="12" height="16" rx="1.5"/><path d="M9 5a1.5 1.5 0 013 0h0a1.5 1.5 0 013 0"/><path d="M9 14l2 2 4-4"/></symbol>
+<symbol id="ic-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H9l-5 4z"/></symbol>
+<symbol id="ic-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></symbol>
+<symbol id="ic-server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="6" rx="1.5"/><rect x="4" y="14" width="16" height="6" rx="1.5"/><path d="M8 7h.01M8 17h.01"/></symbol>
+<symbol id="ic-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 17h2"/></symbol>
+<symbol id="ic-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V6a1.5 1.5 0 013 0v6M11 11V4.5a1.5 1.5 0 013 0V11M14 11V6a1.5 1.5 0 013 0v8a6 6 0 01-6 6h-1a6 6 0 01-5.4-3.4L3.3 12a1.5 1.5 0 012.5-1.6L8 13"/></symbol>
+<symbol id="ic-stop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></symbol>
+<symbol id="ic-table" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3 10h18M9 10v9M15 10v9"/></symbol>
+<symbol id="ic-ticket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 002 2 2 2 0 010 4 2 2 0 00-2 2v2h16v-2a2 2 0 01-2-2 2 2 0 010-4 2 2 0 002-2V6H4z"/><path d="M12 6v12"/></symbol>
+<symbol id="ic-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M8 13a5 5 0 118 0c-1 1-1.5 2-1.5 3h-5c0-1-.5-2-1.5-3z"/></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7h11M9 12h11M9 17h11"/><path d="M4 7l1 1 2-2M4 12l1 1 2-2M4 17l1 1 2-2"/></symbol>
+<symbol id="ic-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 012-2h5v17H6a2 2 0 01-2-2z"/><path d="M20 5a2 2 0 00-2-2h-5v17h5a2 2 0 002-2z"/></symbol>
+<symbol id="ic-stairs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4v-4h4v-4h4V8h4"/></symbol>
+<symbol id="ic-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></symbol>
+<symbol id="ic-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9L3.5 9.7l5.9-.8z"/></symbol>
+<symbol id="ic-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 010 7M21.5 20c0-3-2-4.8-4.5-5.3"/></symbol>
+<symbol id="ic-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/></symbol>
+<symbol id="ic-wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/></symbol>
+<symbol id="ic-sprout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9"/><path d="M12 12c0-4-3-6-7-6 0 4 3 6 7 6z"/><path d="M12 10c0-3.5 2.5-5.5 6.5-5.5 0 3.5-2.5 5.5-6.5 5.5z"/></symbol>
+<symbol id="ic-repeat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l3 3-3 3"/><path d="M20 6H8a4 4 0 00-4 4v1"/><path d="M7 21l-3-3 3-3"/><path d="M4 18h12a4 4 0 004-4v-1"/></symbol>
+</svg>
+<!--/ICONS-->
+<nav class="top"><div class="wrap">
+  <a class="brand" href="index.html"><span class="seam silver" aria-hidden="true"></span><span class="brand-name">Megat Jazly</span><span class="seam" aria-hidden="true"></span></a>
+  <div class="links">
+    <a href="built.html">Built</a>
+    <a href="casefiles.html">Case Files</a>
+    <a href="index.html">Systems</a>
+    <a href="operator.html">Operator</a>
+    <a href="models.html">Models</a>
+    <a href="knowledge.html" class="active">Knowledge</a>
+  </div>
+</div></nav>
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">Knowledge <span class="dot">·</span> Learned From Others</div>
+  <h1>Ideas worth keeping</h1>
+  <p class="thesis">A growing library of ideas I have taken from other people: authors, builders and a few good stories. Each card gives <b>what the idea says, where it comes from, and one way to try it</b>, so it works for your life as much as mine.</p>
+</header>
+
+<section>
+  <div class="panel shelf-panel">
+    <div class="figure shelf-fig">
+        <svg class="diagram shelf" viewBox="0 0 523 166" role="img" aria-label="A bookshelf with one book for each idea on this page, grouped as Change, Direction, Thinking and Practice, and an empty slot at the end for the next one">
+          <line class="k-line k-shelf" x1="10" y1="133" x2="513" y2="133"/>
+          
+<a href="#antifragile"><title>Antifragile</title><g class="d-rise" style="--delay:0.0s"><rect class="spine dark " x="24" y="28" width="22" height="104" rx="2.5"/><path class="band-l" d="M27 37 H43 M27 41 H43 M27 121 H43"/></g></a>          <a href="#cheese"><title>Who moved my cheese</title><g class="d-rise" style="--delay:0.07s"><rect class="spine  " x="49" y="46" width="17" height="86" rx="2.5"/><path class="band" d="M52 55 H63 M52 59 H63 M52 121 H63"/></g></a>          <a href="#peaks"><title>Peaks and valleys</title><g class="d-rise" style="--delay:0.14s"><rect class="spine  " x="69" y="36" width="20" height="96" rx="2.5"/><path class="band" d="M72 45 H86 M72 49 H86 M72 121 H86"/></g></a>          <a href="#ikigai"><title>Ikigai</title><g class="d-rise" style="--delay:0.21s"><rect class="spine  " x="126" y="22" width="24" height="110" rx="2.5"/><path class="band" d="M129 31 H147 M129 35 H147 M129 121 H147"/></g></a>          <a href="#unfair"><title>Unfair advantage</title><g class="d-rise" style="--delay:0.28s"><rect class="spine  " x="153" y="42" width="18" height="90" rx="2.5"/><path class="band" d="M156 51 H168 M156 55 H168 M156 121 H168"/></g></a>          <a href="#gapgain"><title>The gap and the gain</title><g class="d-rise" style="--delay:0.35s"><rect class="spine dark " x="174" y="32" width="21" height="100" rx="2.5"/><path class="band-l" d="M177 41 H192 M177 45 H192 M177 121 H192"/></g></a>          <a href="#helm"><title>The makings of greatness</title><g transform="rotate(9 198 132)"><g class="d-rise" style="--delay:0.42s"><rect class="spine  " x="198" y="50" width="16" height="82" rx="2.5"/><path class="band" d="M201 59 H211 M201 63 H211 M201 121 H211"/></g></g></a>          <a href="#hood"><title>Under the hood</title><g class="d-rise" style="--delay:0.49s"><rect class="spine  " x="264" y="34" width="20" height="98" rx="2.5"/><path class="band" d="M267 43 H281 M267 47 H281 M267 121 H281"/></g></a>          <a href="#systems"><title>Thinking in systems</title><g class="d-rise" style="--delay:0.56s"><rect class="spine dark " x="287" y="20" width="25" height="112" rx="2.5"/><path class="band-l" d="M290 29 H309 M290 33 H309 M290 121 H309"/></g></a>          <a href="#pocock"><title>Grill me, PR and retro</title><g transform="rotate(9 315 132)"><g class="d-rise" style="--delay:0.63s"><rect class="spine  " x="315" y="44" width="18" height="88" rx="2.5"/><path class="band" d="M318 53 H330 M318 57 H330 M318 121 H330"/></g></g></a>          <a href="#twomin"><title>The two-minute rule</title><g class="d-rise" style="--delay:0.7s"><rect class="spine  " x="384" y="48" width="17" height="84" rx="2.5"/><path class="band" d="M387 57 H398 M387 61 H398 M387 121 H398"/></g></a>          <a href="#ichigo"><title>Ichigo ichie</title><g class="d-rise" style="--delay:0.77s"><rect class="spine dark " x="404" y="30" width="22" height="102" rx="2.5"/><path class="band-l" d="M407 39 H423 M407 43 H423 M407 121 H423"/></g></a>          <a href="#swim"><title>Ideas come away from the desk</title><g class="d-rise" style="--delay:0.84s"><rect class="spine  " x="429" y="40" width="19" height="92" rx="2.5"/><path class="band" d="M432 49 H445 M432 53 H445 M432 121 H445"/></g></a>
+          <rect class="k-gold k-dash d-fade" x="479" y="40" width="20" height="92" rx="2.5" style="--delay:1.1s"/>
+          <text class="k-text gold d-fade" x="489" y="154" text-anchor="middle" style="--delay:1.2s">Next</text>
+          
+<text class="k-text m d-fade" x="56.5" y="154" text-anchor="middle" style="--delay:0.21s">Change</text>          <text class="k-text m d-fade" x="176.5" y="154" text-anchor="middle" style="--delay:0.49s">Direction</text>          <text class="k-text m d-fade" x="305.5" y="154" text-anchor="middle" style="--delay:0.7s">Thinking</text>          <text class="k-text m d-fade" x="416.0" y="154" text-anchor="middle" style="--delay:0.91s">Practice</text>
+        </svg>
+    </div>
+    <p class="shelf-note"><b>One spine for each idea</b> on this page. The empty slot at the end is for the next one.</p>
+  </div>
+</section>
+
+<section id="change">
+  <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-wave"/></svg></span>When life changes</h2>
+  <div class="models">
+
+    <div class="model wide" id="antifragile">
+      <div class="viz figure">
+        <svg class="diagram kdraw" viewBox="0 0 200 96" role="img" aria-label="A line that dips at each shock and climbs higher after every one">
+<line class="k-faint" x1="12" y1="84" x2="188" y2="84"/>
+<path class="k-line d-draw long" pathLength="1" d="M14 70 L46 62 L54 74 L86 50 L94 62 L128 36 L136 48 L182 20" style="--delay:0s"/>
+<circle class="k-dot gold d-pop" cx="54" cy="74" r="3.4" style="--delay:0.35s"/>
+<circle class="k-dot gold d-pop" cx="94" cy="62" r="3.4" style="--delay:0.65s"/>
+<circle class="k-dot gold d-pop" cx="136" cy="48" r="3.4" style="--delay:0.95s"/>
+<circle class="k-dot d-pop" cx="182" cy="20" r="3.8" style="--delay:1.2s"/>
+<text class="k-text gold d-fade" x="54" y="94" text-anchor="middle" style="--delay:0.4s">shock</text>
+<text class="k-text m d-fade" x="178" y="10" text-anchor="end" style="--delay:1.3s">stronger</text>
+        </svg>
+      </div>
+      <h3>Antifragile</h3>
+      <p class="src">From <b>Nassim Nicholas Taleb</b>, <i>Antifragile</i></p>
+      <p class="def">Some things break under stress, some survive it, and some <b>grow stronger because of it</b>: muscles, immune systems, a team after a hard quarter. Taleb calls that third kind <b>antifragile</b>.</p>
+      <div class="practice"><span class="lab">Try it</span><span class="txt">After a setback, ask what it just made stronger, and lean on that.</span></div>
+    </div>
+
+    <div class="model" id="cheese">
+      <div class="viz figure">
+        <svg class="diagram kdraw" viewBox="0 0 200 96" role="img" aria-label="A route through a maze from an empty old station to a new one">
+<line class="k-faint" x1="93" y1="36" x2="93" y2="92"/>
+<line class="k-faint" x1="130" y1="4" x2="130" y2="60"/>
+<circle class="k-faint k-dash" cx="30" cy="48" r="12"/>
+<path class="k-gold d-draw long" pathLength="1" d="M44 48 H68 Q74 48 74 42 V28 Q74 22 80 22 H106 Q112 22 112 28 V68 Q112 74 118 74 H140 Q146 74 146 68 V54 Q146 48 152 48 H157" style="--delay:0.1s"/>
+<path class="k-gold d-fade" d="M153 43.5 L158 48 L153 52.5" style="--delay:1.1s"/>
+<circle class="k-fill d-pop" cx="172" cy="48" r="12" style="--delay:1.2s"/>
+<text class="k-text" x="30" y="76" text-anchor="middle">old</text>
+<text class="k-text m d-fade" x="172" y="76" text-anchor="middle" style="--delay:1.3s">new</text>
+        </svg>
+      </div>
+      <h3>Who moved my cheese</h3>
+      <p class="src">From <b>Spencer Johnson</b>, <i>Who Moved My Cheese?</i></p>
+      <p class="def">In a maze, the cheese keeps moving. Two mice notice early and go looking; one of the little people waits for it to come back. <b>Change comes either way, and the sooner you move with it, the less it costs.</b></p>
+      <div class="practice"><span class="lab">Try it</span><span class="txt">When something you rely on changes, picture what its new version looks like, and start looking today.</span></div>
+    </div>
+
+    <div class="model" id="peaks">
+      <div class="viz figure">
+        <svg class="diagram kdraw" viewBox="0 0 200 96" role="img" aria-label="A wave through a peak, a valley and the next peak">
+<line class="k-faint" x1="10" y1="86" x2="190" y2="86"/>
+<path class="k-line d-draw long" pathLength="1" d="M10 70 C30 70 34 24 56 24 C78 24 82 76 104 76 C126 76 130 22 152 22 C172 22 176 50 192 50" style="--delay:0s"/>
+<circle class="k-dot d-pop" cx="56" cy="24" r="3.4" style="--delay:0.3s"/>
+<circle class="k-dot gold d-pop" cx="104" cy="76" r="3.6" style="--delay:0.6s"/>
+<circle class="k-dot d-pop" cx="152" cy="22" r="3.4" style="--delay:0.9s"/>
+<text class="k-text m d-fade" x="56" y="14" text-anchor="middle" style="--delay:0.35s">peak</text>
+<text class="k-text gold d-fade" x="104" y="94" text-anchor="middle" style="--delay:0.65s">valley</text>
+<text class="k-text m d-fade" x="152" y="12" text-anchor="middle" style="--delay:0.95s">next peak</text>
+        </svg>
+      </div>
+      <h3>Peaks and valleys</h3>
+      <p class="src">From <b>Spencer Johnson</b>, <i>Peaks and Valleys</i></p>
+      <p class="def">Good times and hard times are connected. <b>Between two peaks there is always a valley</b>, and how you handle the valley decides how soon the next peak comes. Careless choices on a peak often build the next valley.</p>
+      <div class="practice"><span class="lab">Try it</span><span class="txt">In a hard stretch, try seeing it differently, or try the opposite of what led you there. In a good one, keep the habits that got you up.</span></div>
+    </div>
+
+  </div>
+</section>
+
+<section id="direction">
+  <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-compass"/></svg></span>Finding your direction</h2>
+  <div class="models">
+
+    <div class="model" id="ikigai">
+      <div class="viz figure">
+        <svg class="diagram kdraw" viewBox="0 0 200 96" role="img" aria-label="A sun rising over the horizon">
+<line class="k-line" x1="20" y1="70" x2="180" y2="70"/>
+<path class="k-gold d-draw" pathLength="1" d="M74 70 A26 26 0 0 1 126 70" style="--delay:0.1s"/>
+<g class="d-fade" style="--delay:0.6s"><path class="k-gold" d="M100 34 V26 M77 44 L71 38 M123 44 L129 38 M66 60 L58 58 M134 60 L142 58"/></g>
+<text class="k-text d-fade" x="100" y="90" text-anchor="middle" style="--delay:0.8s">a reason to get up</text>
+        </svg>
+      </div>
+      <h3>Ikigai</h3>
+      <p class="src">From <b>Héctor García and Francesc Miralles</b>, <i>Ikigai</i></p>
+      <p class="def">The Japanese word for <b>a reason to get up in the morning</b>. The book draws on Okinawa, where many people live past a hundred and keep a purpose, a circle of friends and daily movement well into old age.</p>
+      <div class="practice"><span class="lab">Try it</span><span class="txt">Write down what made you lose track of time this month. Your ikigai is usually hiding in that list.</span></div>
+    </div>
+
+    <div class="model" id="unfair">
+      <div class="viz figure">
+        <svg class="diagram kdraw" viewBox="0 0 200 96" role="img" aria-label="Five bars for Money, Intelligence, Location, Education and Status, with the tallest picked out">
+<line class="k-faint" x1="22" y1="76" x2="178" y2="76"/>
+<rect class="k-fill d-rise" x="31" y="48" width="18" height="28" rx="3" style="--delay:0.0s"/>
+<rect class="k-fill d-rise" x="61" y="36" width="18" height="40" rx="3" style="--delay:0.12s"/>
+<rect class="k-fill d-rise" x="91" y="54" width="18" height="22" rx="3" style="--delay:0.24s"/>
+<rect class="k-fill gold d-rise" x="121" y="28" width="18" height="48" rx="3" style="--delay:0.36s"/>
+<rect class="k-fill d-rise" x="151" y="42" width="18" height="34" rx="3" style="--delay:0.48s"/>
+<text class="k-text m" x="40" y="91" text-anchor="middle">M</text>
+<text class="k-text m" x="70" y="91" text-anchor="middle">I</text>
+<text class="k-text m" x="100" y="91" text-anchor="middle">L</text>
+<text class="k-text m gold" x="130" y="91" text-anchor="middle">E</text>
+<text class="k-text m" x="160" y="91" text-anchor="middle">S</text>
+        </svg>
+      </div>
+      <h3>Unfair advantage</h3>
+      <p class="src">From <b>Ash Ali and Hasan Kubba</b>, <i>The Unfair Advantage</i></p>
+      <p class="def">Nobody starts from the same place. Ali and Kubba group the head starts into five, <b>MILES</b>: money, intelligence and insight, location and luck, education and expertise, and status. <b>Everyone holds some of them</b>; success comes from knowing yours and using them.</p>
+      <div class="practice"><span class="lab">Try it</span><span class="txt">Score yourself on each of the five, then build on your strongest one first.</span></div>
+    </div>
+
+    <div class="model" id="gapgain">
+      <div class="viz figure">
+        <svg class="diagram kdraw" viewBox="0 0 200 96" role="img" aria-label="Start, now and an ideal on one line; the gain arcs back to the start, the gap reaches toward the ideal">
+<line class="k-faint" x1="20" y1="48" x2="180" y2="48"/>
+<path class="k-faint k-dash" d="M110 56 Q143 84 176 56"/>
+<circle class="k-faint k-dash" cx="176" cy="48" r="6"/>
+<path class="k-gold d-draw" pathLength="1" d="M24 40 Q67 4 110 40" style="--delay:0.4s"/>
+<circle class="k-dot d-pop" cx="24" cy="48" r="3.6" style="--delay:0s"/>
+<circle class="k-dot d-pop" cx="110" cy="48" r="4.4" style="--delay:0.2s"/>
+<text class="k-text" x="24" y="68" text-anchor="middle">start</text>
+<text class="k-text m" x="110" y="68" text-anchor="middle">now</text>
+<text class="k-text" x="176" y="34" text-anchor="middle">ideal</text>
+<text class="k-text gold d-fade" x="67" y="13" text-anchor="middle" style="--delay:0.8s">the gain</text>
+<text class="k-text" x="143" y="90" text-anchor="middle">the gap</text>
+        </svg>
+      </div>
+      <h3>The gap and the gain</h3>
+      <p class="src">From <b>Dan Sullivan and Benjamin Hardy</b>, <i>The Gap and The Gain</i></p>
+      <p class="def">Measured against an ideal, you always fall short: that is <b>the gap</b>. Measured against where you started, you see how far you came: that is <b>the gain</b>. Ambitious people tend to live in the gap, and it drains them.</p>
+      <div class="practice"><span class="lab">Try it</span><span class="txt">At the end of a hard day, write down three gains, measured against where you were a year ago.</span></div>
+    </div>
+
+    <div class="model" id="helm">
+      <div class="viz figure">
+        <svg class="diagram kdraw" viewBox="0 0 200 96" role="img" aria-label="A ship's helm with an amber hub">
+<g class="d-pop" style="--delay:0s">
+<circle class="k-line" cx="100" cy="46" r="22"/>
+<path class="k-line" d="M100.0 39.0 L100.0 16.0 M104.9 41.1 L121.2 24.8 M107.0 46.0 L130.0 46.0 M104.9 50.9 L121.2 67.2 M100.0 53.0 L100.0 76.0 M95.1 50.9 L78.8 67.2 M93.0 46.0 L70.0 46.0 M95.1 41.1 L78.8 24.8"/>
+<circle class="k-dot" cx="100.0" cy="16.0" r="2.6"/><circle class="k-dot" cx="121.2" cy="24.8" r="2.6"/><circle class="k-dot" cx="130.0" cy="46.0" r="2.6"/><circle class="k-dot" cx="121.2" cy="67.2" r="2.6"/><circle class="k-dot" cx="100.0" cy="76.0" r="2.6"/><circle class="k-dot" cx="78.8" cy="67.2" r="2.6"/><circle class="k-dot" cx="70.0" cy="46.0" r="2.6"/><circle class="k-dot" cx="78.8" cy="24.8" r="2.6"/>
+<circle class="k-dot gold" cx="100" cy="46" r="6"/>
+</g>
+<text class="k-text gold d-fade" x="100" y="93" text-anchor="middle" style="--delay:0.5s">take the helm</text>
+        </svg>
+      </div>
+      <h3>The makings of greatness</h3>
+      <p class="src">From <b>Jim Hawkins</b>, <i>Treasure Planet</i></p>
+      <p class="def">Jim starts as a kid few people expect much from. Long John Silver tells him he has <b>&ldquo;the makings of greatness&rdquo;</b>, if he takes the helm and charts his own course. <b>Greatness comes from what you do with the conditions you are handed.</b></p>
+      <div class="practice"><span class="lab">Try it</span><span class="txt">Name one condition you did not choose, then pick one course you can steer anyway.</span></div>
+    </div>
+
+  </div>
+</section>
+
+<section id="thinking">
+  <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-bulb"/></svg></span>How to think and learn</h2>
+  <div class="models">
+
+    <div class="model wide" id="hood">
+      <div class="viz figure">
+        <svg class="diagram kdraw" viewBox="0 0 200 96" role="img" aria-label="A car bonnet lifted to show the gears underneath">
+<rect class="k-fill" x="46" y="38" width="108" height="42" rx="6"/>
+<path class="k-line d-draw" pathLength="1" d="M46 36 L146 6" style="--delay:0s"/>
+<circle class="k-dot" cx="46" cy="36" r="2.6"/>
+<g class="d-pop" style="--delay:0.4s"><circle class="k-line" cx="86" cy="59" r="10"/><circle class="k-line k-teeth" cx="86" cy="59" r="14"/><circle class="k-dot" cx="86" cy="59" r="2.4"/></g>
+<g class="d-pop" style="--delay:0.7s"><circle class="k-gold" cx="117" cy="56" r="7"/><circle class="k-gold k-teeth" cx="117" cy="56" r="10.5"/><circle class="k-dot gold" cx="117" cy="56" r="2"/></g>
+<text class="k-text d-fade" x="100" y="93" text-anchor="middle" style="--delay:0.9s">the basics</text>
+        </svg>
+      </div>
+      <h3>Under the hood</h3>
+      <p class="src">From <b>Naval Ravikant</b>, <i>The Almanack of Naval Ravikant</i>, compiled by Eric Jorgenson</p>
+      <p class="def">Know how the engine works before you trust the car. Naval puts <b>foundations above advanced material</b>: understand the basics well enough to rebuild an idea from them, and explain it simply enough for a child to follow.</p>
+      <div class="practice"><span class="lab">Try it</span><span class="txt">Pick a tool you use every day and learn how one part of it works underneath.</span></div>
+    </div>
+
+    <div class="model" id="systems">
+      <div class="viz figure">
+        <svg class="diagram kdraw" viewBox="0 0 200 96" role="img" aria-label="A stock filled by an inflow and drained by an outflow, with a feedback loop back to the inflow">
+<path class="k-line d-draw" pathLength="1" d="M14 48 H56" style="--delay:0s"/>
+<path class="k-line d-fade" d="M51.5 43.5 L56 48 L51.5 52.5" style="--delay:0.3s"/>
+<rect class="k-fill d-pop" x="60" y="28" width="80" height="40" rx="6" style="--delay:0.2s"/>
+<path class="k-line d-draw" pathLength="1" d="M140 48 H182" style="--delay:0.5s"/>
+<path class="k-line d-fade" d="M177.5 43.5 L182 48 L177.5 52.5" style="--delay:0.8s"/>
+<path class="k-gold d-draw" pathLength="1" d="M100 28 C100 6 36 6 36 41" style="--delay:0.9s"/>
+<path class="k-gold d-fade" d="M31.5 37 L36 42 L40.5 37" style="--delay:1.3s"/>
+<text class="k-text m" x="100" y="52" text-anchor="middle">stock</text>
+<text class="k-text" x="30" y="66" text-anchor="middle">in</text>
+<text class="k-text" x="162" y="66" text-anchor="middle">out</text>
+<text class="k-text gold d-fade" x="108" y="13" text-anchor="start" style="--delay:1.2s">feedback</text>
+        </svg>
+      </div>
+      <h3>Thinking in systems</h3>
+      <p class="src">From <b>Donella H. Meadows</b>, <i>Thinking in Systems</i></p>
+      <p class="def">Most outcomes come from a structure: <b>stocks</b> that build up, <b>flows</b> that fill and drain them, and <b>feedback loops</b> that speed them up or hold them steady. Change the structure and the behaviour changes with it.</p>
+      <div class="practice"><span class="lab">Try it</span><span class="txt">For a problem that keeps coming back, draw what fills it, what drains it, and what loops back.</span></div>
+    </div>
+
+    <div class="model" id="pocock">
+      <div class="viz figure">
+        <svg class="diagram kdraw" viewBox="0 0 200 96" role="img" aria-label="Three steps, grill me, PR and retro, with the retro looping back to the start">
+<rect class="k-fill d-rise" x="12" y="30" width="54" height="26" rx="6" style="--delay:0s"/>
+<rect class="k-fill d-rise" x="73" y="30" width="54" height="26" rx="6" style="--delay:0.3s"/>
+<rect class="k-fill d-rise" x="134" y="30" width="54" height="26" rx="6" style="--delay:0.6s"/>
+<text class="k-text m" x="39" y="47" text-anchor="middle">grill me</text>
+<text class="k-text m" x="100" y="47" text-anchor="middle">PR</text>
+<text class="k-text m" x="161" y="47" text-anchor="middle">retro</text>
+<path class="k-gold d-draw" pathLength="1" d="M161 56 V70 Q161 78 153 78 H47 Q39 78 39 70 V62" style="--delay:0.9s"/>
+<path class="k-gold d-fade" d="M34.5 65.5 L39 61 L43.5 65.5" style="--delay:1.3s"/>
+        </svg>
+      </div>
+      <h3>Grill me, PR and retro</h3>
+      <p class="src">From <b>Matt Pocock</b>, his skills for working with AI</p>
+      <p class="def">Three habits for working with AI. <b>Grill me</b>: before building, the AI questions you until every decision is made. <b>PR</b>: the change is written up so a reviewer sees the risk first, then the evidence. <b>Retro</b>: after the work, review the session and turn repeated mistakes into checks.</p>
+      <div class="practice"><span class="lab">Try it</span><span class="txt">Before your next big decision, ask someone, or an AI, to question you until nothing is left undecided.</span></div>
+    </div>
+
+  </div>
+</section>
+
+<section id="practice">
+  <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-sprout"/></svg></span>Everyday practice</h2>
+  <div class="models">
+
+    <div class="model wide" id="twomin">
+      <div class="viz figure">
+        <svg class="diagram kdraw" viewBox="0 0 200 96" role="img" aria-label="A clock face with the first two minutes marked in amber">
+<circle class="k-line" cx="100" cy="46" r="30"/>
+<path class="k-faint" d="M100.0 20.0 L100.0 16.0 M113.0 23.5 L115.0 20.0 M122.5 33.0 L126.0 31.0 M126.0 46.0 L130.0 46.0 M122.5 59.0 L126.0 61.0 M113.0 68.5 L115.0 72.0 M100.0 72.0 L100.0 76.0 M87.0 68.5 L85.0 72.0 M77.5 59.0 L74.0 61.0 M74.0 46.0 L70.0 46.0 M77.5 33.0 L74.0 31.0 M87.0 23.5 L85.0 20.0"/>
+<path class="k-gold k-thick d-draw" pathLength="1" d="M100 22 A24 24 0 0 1 109.8 24.1" style="--delay:0.2s"/>
+<path class="k-line" d="M100 46 V28 M100 46 L112 52"/>
+<circle class="k-dot" cx="100" cy="46" r="2.6"/>
+<text class="k-text gold d-fade" x="100" y="93" text-anchor="middle" style="--delay:0.6s">under two minutes</text>
+        </svg>
+      </div>
+      <h3>The two-minute rule</h3>
+      <p class="src">From <b>James Clear</b>, <i>Atomic Habits</i></p>
+      <p class="def"><b>A new habit should take less than two minutes to start.</b> &ldquo;Read every night&rdquo; becomes &ldquo;read one page&rdquo;. Showing up comes first; getting better follows once the habit exists.</p>
+      <div class="practice"><span class="lab">Try it</span><span class="txt">Shrink the habit you keep putting off until it fits inside two minutes, and do that version today.</span></div>
+    </div>
+
+    <div class="model" id="ichigo">
+      <div class="viz figure">
+        <svg class="diagram kdraw" viewBox="0 0 200 96" role="img" aria-label="A row of faint moments with one bright moment in the middle">
+<line class="k-faint" x1="14" y1="48" x2="186" y2="48"/>
+<circle class="k-faint-dot d-pop" cx="20" cy="48" r="2.2" style="--delay:0.0s"/>
+<circle class="k-faint-dot d-pop" cx="36" cy="48" r="2.2" style="--delay:0.04s"/>
+<circle class="k-faint-dot d-pop" cx="52" cy="48" r="2.2" style="--delay:0.08s"/>
+<circle class="k-faint-dot d-pop" cx="68" cy="48" r="2.2" style="--delay:0.12s"/>
+<circle class="k-faint-dot d-pop" cx="132" cy="48" r="2.2" style="--delay:0.16s"/>
+<circle class="k-faint-dot d-pop" cx="148" cy="48" r="2.2" style="--delay:0.2s"/>
+<circle class="k-faint-dot d-pop" cx="164" cy="48" r="2.2" style="--delay:0.24s"/>
+<circle class="k-faint-dot d-pop" cx="180" cy="48" r="2.2" style="--delay:0.28s"/>
+<circle class="k-gold d-pop" cx="100" cy="48" r="12" style="--delay:0.45s"/>
+<circle class="k-dot gold d-pop" cx="100" cy="48" r="5.5" style="--delay:0.35s"/>
+<text class="k-text gold d-fade" x="100" y="80" text-anchor="middle" style="--delay:0.6s">this moment</text>
+<text class="k-text" x="36" y="72" text-anchor="middle">before</text>
+<text class="k-text" x="164" y="72" text-anchor="middle">after</text>
+        </svg>
+      </div>
+      <h3>Ichigo ichie</h3>
+      <p class="src">From <b>Héctor García and Francesc Miralles</b>, <i>The Book of Ichigo Ichie</i></p>
+      <p class="def">A saying from the Japanese tea ceremony: <b>one time, one meeting</b>. This moment, with these people, will never happen in quite the same way again, so it deserves your full attention.</p>
+      <div class="practice"><span class="lab">Try it</span><span class="txt">In your next conversation, put the phone away and treat it as the only time you will have it.</span></div>
+    </div>
+
+    <div class="model" id="swim">
+      <div class="viz figure">
+        <svg class="diagram kdraw" viewBox="0 0 200 96" role="img" aria-label="A light bulb rising out of water">
+<path class="k-line d-draw" pathLength="1" d="M30 64 q10 -6 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0" style="--delay:0s"/>
+<path class="k-line d-draw" pathLength="1" d="M30 74 q10 -6 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0" style="--delay:0.15s"/>
+<path class="k-faint d-draw" pathLength="1" d="M30 84 q10 -6 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0" style="--delay:0.3s"/>
+<g class="d-rise" style="--delay:0.6s"><circle class="k-gold" cx="100" cy="24" r="12"/><path class="k-gold" d="M95 40 H105 M96.5 45 H103.5"/></g>
+<g class="d-fade" style="--delay:1s"><path class="k-gold" d="M100 4 V0.5 M82 10 L79 7 M118 10 L121 7"/></g>
+        </svg>
+      </div>
+      <h3>Ideas come away from the desk</h3>
+      <p class="src">From <b>Yoshiro Nakamatsu</b> and <b>Marc Benioff</b></p>
+      <p class="def">Dr. NakaMats, the Japanese inventor, did his deepest thinking <b>in water</b> and wrote ideas on a waterproof pad. Marc Benioff came up with Salesforce on <b>a six-month sabbatical</b> in India and Hawaii. <b>A change of place gives the mind room.</b></p>
+      <div class="practice"><span class="lab">Try it</span><span class="txt">When you are stuck, move: swim, walk, or work somewhere new, and keep something to write on.</span></div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="end">
+    <p>Thanks for reading. Say hello anytime.</p>
+    <ul class="icon-links">
+      <li><a href="mailto:megatjazly@gmail.com" aria-label="Email" title="Email"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg></a></li>
+      <li><a href="https://linkedin.com/in/megatjazly" rel="me" aria-label="LinkedIn" title="LinkedIn"><span class="mark mark-linkedin" aria-hidden="true"></span></a></li>
+      <li><a href="https://github.com/mjazzly" rel="me" aria-label="GitHub" title="GitHub"><span class="mark mark-github" aria-hidden="true"></span></a></li>
+    </ul>
+  </div>
+</footer>
+
+</div>
+<script src="site.js?v=20261028b"></script>
+</body>
+</html>

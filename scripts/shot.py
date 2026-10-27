@@ -8,7 +8,7 @@ from playwright.sync_api import sync_playwright
 
 root = pathlib.Path(__file__).resolve().parent.parent
 out = pathlib.Path(sys.argv[1]); out.mkdir(parents=True, exist_ok=True)
-pages = sys.argv[2:] or ["index.html", "built.html", "casefiles.html", "operator.html", "models.html"]
+pages = sys.argv[2:] or ["index.html", "built.html", "casefiles.html", "operator.html", "models.html", "knowledge.html"]
 with sync_playwright() as p:
     b = p.chromium.launch()
     for page in pages:

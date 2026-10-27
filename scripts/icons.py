@@ -52,6 +52,9 @@ ICONS = {
     "star":      '<path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9L3.5 9.7l5.9-.8z"/>',
     "users":     '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 010 7M21.5 20c0-3-2-4.8-4.5-5.3"/>',
     "link":      '<path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/>',
+    # knowledge page
+    "wave":      '<path d="M3 9c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>',
+    "sprout":    '<path d="M12 21v-9"/><path d="M12 12c0-4-3-6-7-6 0 4 3 6 7 6z"/><path d="M12 10c0-3.5 2.5-5.5 6.5-5.5 0 3.5-2.5 5.5-6.5 5.5z"/>',
     "repeat":    '<path d="M17 3l3 3-3 3"/><path d="M20 6H8a4 4 0 00-4 4v1"/><path d="M7 21l-3-3 3-3"/><path d="M4 18h12a4 4 0 004-4v-1"/>',
 }
 
@@ -65,7 +68,7 @@ def sprite():
 def use(name, cls="ic"):
     return f'<svg class="{cls}" aria-hidden="true"><use href="#ic-{name}"/></svg>'
 
-PAGES = ["index.html", "built.html", "casefiles.html", "operator.html", "models.html"]
+PAGES = ["index.html", "built.html", "casefiles.html", "operator.html", "models.html", "knowledge.html"]
 
 if __name__ == "__main__":
     root = pathlib.Path(__file__).resolve().parent.parent

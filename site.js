@@ -45,6 +45,7 @@ document.documentElement.classList.add("js");
 
   var figures = Array.prototype.slice.call(document.querySelectorAll(".figure"));
   var stairs = document.querySelector(".stairs");
+  var traits = document.querySelector(".traits");
 
   // Plays a drawing once; a request while it is still playing is ignored, so it never stutters or repeats
   function play(fig) {
@@ -60,6 +61,7 @@ document.documentElement.classList.add("js");
 
   if (calm.matches || !("IntersectionObserver" in window)) {
     if (stairs) stairs.classList.add("is-in");
+    if (traits) traits.classList.add("is-in");
     return;
   }
 
@@ -147,6 +149,28 @@ document.documentElement.classList.add("js");
       setOpen(button.getAttribute("aria-expanded") !== "true");
     });
   });
+
+  // The INFJ-A bars fill once, and each percentage counts up beside its bar
+  if (traits) {
+    var fillIn = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      fillIn.disconnect();
+      traits.classList.add("is-in");
+      Array.prototype.forEach.call(traits.querySelectorAll(".pct[data-to]"), function (pct, k) {
+        var to = +pct.getAttribute("data-to"), start = null, wait = 150 * k, span = 1400;
+        pct.textContent = "0%";
+        function step(t) {
+          if (start === null) start = t + wait;
+          var x = Math.min(Math.max((t - start) / span, 0), 1);
+          var eased = 1 - Math.pow(1 - x, 3);
+          pct.textContent = Math.round(to * eased) + "%";
+          if (x < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.4 });
+    fillIn.observe(traits);
+  }
 
   if (stairs) {
     var rise = new IntersectionObserver(function (entries) {

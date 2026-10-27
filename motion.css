@@ -223,3 +223,45 @@ html.js .is-in .stair:nth-child(5){transition-delay:.48s}
   .diagram *{animation:none!important}
   .models.has-focus .model:not(.is-focus){opacity:1}
 }
+
+/* ---------- Operator page: the INFJ-A bars fill once as they arrive ---------- */
+.js .traits .bar .fill{transform:scaleX(0);transform-origin:left center}
+.traits.is-in .bar .fill{transform:scaleX(1);transition:transform 1.4s cubic-bezier(.2,.7,.2,1)}
+.traits.is-in .trait:nth-child(2) .fill{transition-delay:.15s}
+.traits.is-in .trait:nth-child(3) .fill{transition-delay:.3s}
+.traits.is-in .trait:nth-child(4) .fill{transition-delay:.45s}
+.traits.is-in .trait:nth-child(5) .fill{transition-delay:.6s}
+@media (prefers-reduced-motion:reduce){.js .traits .bar .fill{transform:none;transition:none}}
+
+/* ---------- Knowledge page: the shelf and the idea drawings ---------- */
+.kdraw{width:100%;max-width:300px;height:100%}
+.diagram .k-line{fill:none;stroke:var(--marine);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.diagram .k-gold{fill:none;stroke:var(--amber);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.diagram .k-thick{stroke-width:4.5}
+.diagram .k-faint{fill:none;stroke:var(--line);stroke-width:1.4;stroke-linecap:round}
+.diagram .k-faint-dot{fill:#C9D1D8}
+.diagram .k-dash{stroke-dasharray:3 3}
+.diagram .k-teeth{stroke-dasharray:2.4 2.6;stroke-width:3}
+.diagram .k-fill{fill:var(--marine-tint);stroke:var(--marine);stroke-width:1.6}
+.diagram .k-fill.gold{fill:var(--amber-tint);stroke:var(--amber)}
+.diagram .k-dot{fill:var(--marine)}
+.diagram .k-dot.gold{fill:var(--amber)}
+.diagram .k-text{font-family:var(--sans);font-size:10px;font-weight:600;fill:var(--ink-soft)}
+.diagram .k-text.m{fill:var(--marine)}
+.diagram .k-text.gold{fill:var(--amber);font-weight:700}
+.model .src{font-size:13.5px;color:var(--ink-faint);margin:-4px 0 12px;line-height:1.5}
+.model .src b{color:var(--ink-soft);font-weight:700}
+.model[id]{scroll-margin-top:90px}
+.shelf-panel{padding:26px 28px 22px}
+.shelf{width:100%;height:auto;display:block}
+.shelf .k-shelf{stroke-width:3}
+.shelf .spine{fill:var(--marine-tint);stroke:var(--marine);stroke-width:1.4;transition:fill .2s ease,stroke .2s ease}
+.shelf .spine.dark{fill:var(--marine)}
+.shelf a,.shelf a .spine{pointer-events:all;cursor:pointer}
+.shelf a:hover .spine,.shelf a:focus-visible .spine{fill:var(--amber-tint);stroke:var(--amber)}
+.shelf-note{margin-top:14px;font-size:14.5px;color:var(--ink-soft)}
+.shelf-note b{color:var(--ink)}
+.shelf .band{fill:none;stroke:var(--marine);stroke-width:1;opacity:.55}
+.shelf .band-l{fill:none;stroke:var(--marine-tint);stroke-width:1;opacity:.7}
+.shelf a:hover .band,.shelf a:hover .band-l{stroke:var(--amber);opacity:.8}
+@media(max-width:600px){.shelf .k-text{font-size:17px}.shelf-panel{padding:20px 18px 18px}}
