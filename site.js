@@ -5,7 +5,7 @@
       scrolling back plays it once more.
    2. Resting the pointer on a card that holds a drawing (a model, a case,
       the tracker, the harness) marks it "is-focus" and plays the drawing
-      three rounds with a rest between; on the Models page the other cards
+      once; on the Models page the other cards
       step back while one is in focus. Leaving the card ends it.
    3. The five-depths staircase gets "is-in" when it scrolls into view.
    Without JavaScript nothing is hidden: the "js" class below is what
@@ -26,7 +26,7 @@ document.documentElement.classList.add("js");
 (function () {
   var calm = window.matchMedia("(prefers-reduced-motion: reduce)");
   var ROUND = 3400;  // one round of a drawing with its rest, in milliseconds
-  var ROUNDS = 3;    // rounds played while the pointer rests on a card
+  var ROUNDS = 1;    // rounds played while the pointer rests on a card
 
   var figures = Array.prototype.slice.call(document.querySelectorAll(".figure"));
   var stairs = document.querySelector(".stairs");

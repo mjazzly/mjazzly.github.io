@@ -24,10 +24,11 @@ def esc(s):
 def node_text(x, y, lines, stop_note=None, light=False):
     out = []
     n = len(lines) + (1 if stop_note else 0)
-    lh = 11.5
-    y0 = y - (n - 1) * lh / 2 + 3.5
+    lh = 12.5
+    y0 = y - (n - 1) * lh / 2 + 3.4
     for i, ln in enumerate(lines):
         cls = "node-text light" if light else "node-text"
+        if "_" in ln: cls += " code"
         out.append(f'<text class="{cls}" x="{x}" y="{y0 + i*lh:.1f}" text-anchor="middle">{esc(ln)}</text>')
     if stop_note:
         out.append(f'<text class="stop-text" x="{x}" y="{y0 + len(lines)*lh:.1f}" text-anchor="middle">{esc(stop_note)}</text>')
@@ -39,7 +40,7 @@ def draw(spec):
     n = len(steps); CW = (W - LW) / n
     H = H0 + len(lanes) * LH + PAD_B
     step_delay = spec.get("step_delay", 0.3)
-    g = [f'<svg class="diagram" viewBox="0 0 {W} {H:.0f}" role="img" aria-label="{esc(spec["alt"])}">']
+    g = [f'<svg class="diagram cols-{n}" viewBox="0 0 {W} {H:.0f}" role="img" aria-label="{esc(spec["alt"])}">']
 
     # lanes
     for li, lane in enumerate(lanes):
@@ -68,10 +69,10 @@ def draw(spec):
 
     # geometry of each node, keyed by (lane index, step index)
     geo = {}
-    NW = CW - 14; NH = LH - 18
+    NW = CW - 12; NH = LH - 18
     for nd in nodes:
         li, si = nd["at"]
-        x = LW + si * CW + 7; y = H0 + li * LH + 9
+        x = LW + si * CW + 6; y = H0 + li * LH + 9
         geo[(li, si)] = (x, y, NW, NH)
 
     # links first, so nodes sit on top
@@ -95,6 +96,14 @@ def draw(spec):
                 y1 = ay; y2 = by + bh
                 g.append(f'<line class="link d-draw{amber}"{ds} pathLength="1" x1="{x:.1f}" y1="{y1:.1f}" x2="{x:.1f}" y2="{y2+4:.1f}" style="--delay:{d:.2f}s"/>')
                 g.append(f'<polygon class="head d-fade{amber}"{ds} points="{x-3.5:.1f},{y2+6:.1f} {x:.1f},{y2:.1f} {x+3.5:.1f},{y2+6:.1f}" style="--delay:{d+0.3:.2f}s"/>')
+        elif any((a[0], s_) in geo for s_ in range(a[1] + 1, b[1] + 1)):
+            # the run across would pass behind a box: leave from the top or bottom, then cross into the side
+            x1 = ax + aw / 2
+            y2 = by + bh / 2; x2 = bx
+            y1 = ay + ah if by > ay else ay
+            path = f'M{x1:.1f} {y1:.1f} V{y2:.1f} H{x2-4:.1f}'
+            g.append(f'<path class="link d-draw{amber}"{ds} pathLength="1" d="{path}" style="--delay:{d:.2f}s"/>')
+            g.append(f'<polygon class="head d-fade{amber}"{ds} points="{x2-6:.1f},{y2-3.5:.1f} {x2:.1f},{y2:.1f} {x2-6:.1f},{y2+3.5:.1f}" style="--delay:{d+0.3:.2f}s"/>')
         else:                       # elbow: out of the right edge, across the gap, into the top or bottom
             x1 = ax + aw; y1 = ay + ah / 2
             x2 = bx + bw / 2
@@ -115,9 +124,9 @@ def draw(spec):
         d = si * step_delay + 0.08
         kind = nd.get("kind", "")
         cls = "node" + (" soft" if kind == "soft" else "") + (" ink" if kind == "ink" else "")
-        stroke = ' style="stroke:var(--amber)"' if nd.get("stop") else ""
+        if nd.get("stop"): cls += " stopbox"
         g.append(f'<g class="d-pop" data-step="{si}" style="--delay:{d:.2f}s">')
-        g.append(f'<rect class="{cls}" x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{h:.1f}" rx="5"{stroke}/>')
+        g.append(f'<rect class="{cls}" x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{h:.1f}" rx="5"/>')
         g.append(node_text(x + w / 2, y + h / 2, nd["lines"], nd.get("stop"), light=(kind == "ink")))
         g.append('</g>')
         if nd.get("stop"):
@@ -145,10 +154,10 @@ DIAGRAMS["case-01"] = dict(
         dict(at=(0, 0), lines=["names the", "task"]),
         dict(at=(0, 1), lines=["designs the", "prompt"]),
         dict(at=(1, 2), lines=["runs it on", "real cases"]),
-        dict(at=(0, 2), lines=["compares with", "known answers"], stop="pass first"),
-        dict(at=(2, 3), lines=["prompt, tests,", "version", "written down"], kind="soft"),
+        dict(at=(0, 2), lines=["checks against", "known answers"], stop="pass first"),
+        dict(at=(2, 3), lines=["prompt, tests", "and version", "written down"], kind="soft"),
         dict(at=(1, 4), lines=["runs the task", "the same way"]),
-        dict(at=(0, 5), lines=["checks against", "the rules"], stop="pass first"),
+        dict(at=(0, 5), lines=["checks output", "against rules"], stop="pass first"),
         dict(at=(2, 5), lines=["the checkpoint", "rules"], kind="soft"),
         dict(at=(0, 6), lines=["enters the", "deliverable"], kind="ink"),
     ],
@@ -161,13 +170,13 @@ DIAGRAMS["case-02"] = dict(
     lanes=["Me", "Claude with|the skill", "Validation|tool"],
     nodes=[
         dict(at=(0, 0), lines=["drops the", "export in"]),
-        dict(at=(1, 0), lines=["rows, columns,", "country spread"], stop="count confirmed"),
-        dict(at=(1, 1), lines=["geo cut and", "dedupe"], stop="count confirmed"),
-        dict(at=(1, 2), lines=["emails out;", "contact columns", "dropped first"], stop="count confirmed"),
+        dict(at=(1, 0), lines=["rows, columns", "and countries"], stop="count confirmed"),
+        dict(at=(1, 1), lines=["cut to scope,", "duplicates out"], stop="count confirmed"),
+        dict(at=(1, 2), lines=["emails sent out;", "names held back"], stop="count confirmed"),
         dict(at=(2, 2), lines=["checks every", "address"], kind="soft"),
-        dict(at=(1, 3), lines=["verdicts merged;", "invalid out,", "columns back"], stop="count confirmed"),
-        dict(at=(1, 4), lines=["16 columns,", "a status on", "every record"], stop="count confirmed"),
-        dict(at=(1, 5), lines=["file, email,", "slide copy,", "ledger line"], kind="ink"),
+        dict(at=(1, 3), lines=["results merged;", "invalid removed"], stop="count confirmed"),
+        dict(at=(1, 4), lines=["16 columns, a", "status per record"], stop="count confirmed"),
+        dict(at=(1, 5), lines=["file, email,", "slides and log"], kind="ink"),
         dict(at=(0, 5), lines=["sends the", "pack"]),
     ],
     links=[((0,0),(1,0)), ((1,0),(1,1)), ((1,1),(1,2)), ((1,2),(2,2)), ((2,2),(1,3)), ((1,3),(1,4)), ((1,4),(1,5)), ((1,5),(0,5))],
@@ -203,8 +212,8 @@ DIAGRAMS["tracker"] = dict(
         dict(at=(3, 2), lines=["one", "transcript"], kind="soft"),
         dict(at=(1, 3), lines=["picks actions,", "owners, dates"], kind="ink"),
         dict(at=(1, 4), lines=["asks who", "each name is"]),
-        dict(at=(2, 4), lines=["tracker_lookup"], stop="2 matches: ask"),
-        dict(at=(3, 4), lines=["contacts table", "(stands in for", "a CRM)"], kind="soft"),
+        dict(at=(2, 4), lines=["tracker_lookup"], stop="two people: ask"),
+        dict(at=(3, 4), lines=["contacts table", "(stands in", "for a CRM)"], kind="soft"),
         dict(at=(0, 4), lines=["answers if", "it stops"]),
         dict(at=(1, 5), lines=["asks to add", "the rows"]),
         dict(at=(2, 5), lines=["tracker_append"], stop="no actions: ask"),
