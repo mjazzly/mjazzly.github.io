@@ -112,11 +112,11 @@ footer .end p{font-weight:600;font-size:17px;color:var(--ink);letter-spacing:-.0
 .icon-links{display:flex;gap:10px;list-style:none}
 .icon-links a{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;background:var(--marine-tint);color:var(--marine);border:none;transition:background-color .15s,color .15s}
 .icon-links a:hover,.icon-links a:focus-visible{background:var(--marine);color:#fff}
-.icon-links svg,.icon-links img{width:18px;height:18px;display:block}
-.icon-links a:hover img{filter:brightness(0) invert(1)}
-.icon-links .label{display:none}
-.icon-links a.no-icon{width:auto;padding:0 14px}
-.icon-links a.no-icon .label{display:inline;font-weight:600;font-size:13.5px}
+.icon-links svg{width:18px;height:18px;display:block}
+/* LinkedIn and GitHub marks from Bootstrap Icons, painted in the link colour so they turn white on hover */
+.icon-links .mark{display:block;width:17px;height:17px;background:currentColor;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+.icon-links .mark-linkedin{--m:url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/linkedin.svg")}
+.icon-links .mark-github{--m:url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/github.svg")}
 .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* ---------- Operator ---------- */

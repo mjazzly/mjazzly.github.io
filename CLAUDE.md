@@ -17,7 +17,7 @@ The Built page (added 27 Oct 2026) is the record of what Megat has built with Cl
 - `site.js` plays a drawing when it scrolls into view, replays it three rounds while the pointer rests on its card (the other Models cards step back), lights one step of a swimlane when the pointer rests on its column (the rest dim, the drawing sits complete), and reveals the staircase. Without it nothing is hidden.
 - `scripts/diagrams.py` draws every swimlane diagram (casefiles.html CASE-01 to CASE-03, built.html tracker and harness) from the specs inside it, between `<!--DIAGRAM:name-->` markers: a solid line closes the lane-label column, every part carries `data-step`, and an invisible column per step takes the pointer. Edit the spec, run it, never hand-edit the SVG.
 - `scripts/shot.py` renders every page to PNG (desktop and phone) for review before a commit.
-- The footer is identical on every page: one panel, "Hiring, or just curious? Get in touch." and three icon links (an envelope drawn inline; the LinkedIn and GitHub marks loaded from cdn.simpleicons.org, falling back to the word if the mark does not load). Never add page-specific footer copy; the main event is the top of the page.
+- The footer is identical on every page: one panel, "Hiring, or just curious? Get in touch." and three icon links (an envelope drawn inline; the LinkedIn and GitHub marks from Bootstrap Icons 1.11.3 on cdn.jsdelivr.net, painted in the link colour through a CSS mask; Simple Icons no longer carries LinkedIn). Never add page-specific footer copy; the main event is the top of the page.
 - `scripts/check.py` pre-publish checks (run before every commit)
 - `scripts/ship.py` flips a hidden live-project block to SHIPPED
 
