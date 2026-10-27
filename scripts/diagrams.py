@@ -36,7 +36,7 @@ def node_text(x, y, lines, stop_note=None, light=False):
 
 def draw(spec):
     steps = spec["steps"]; lanes = spec["lanes"]; nodes = spec["nodes"]
-    LH = spec.get("lane_h", 64)
+    LH = spec.get("lane_h", 72)
     n = len(steps); CW = (W - LW) / n
     H = H0 + len(lanes) * LH + PAD_B
     step_delay = spec.get("step_delay", 0.3)
@@ -201,7 +201,7 @@ DIAGRAMS["tracker"] = dict(
     alt="Seven steps of the meeting tracker across four lanes: me, Claude with the skill, the tool server, and the files on disk; the tool server stops the run when a transcript is confidential, when a name matches two people, when a meeting has no actions, or when a date falls before its meeting",
     steps=["Start", "Find new", "Read", "Decide", "Look up", "Record", "Report"],
     lanes=["Me", "Claude with|the skill", "The tool|server", "Files on|disk"],
-    lane_h=66,
+    lane_h=72,
     nodes=[
         dict(at=(0, 0), lines=['"Run the', 'tracker"']),
         dict(at=(1, 1), lines=["asks for new", "transcripts"]),
@@ -239,7 +239,7 @@ DIAGRAMS["harness"] = dict(
         dict(at=(1, 1), lines=["test transcripts", "and contacts", "copied in, only"]),
         dict(at=(1, 2), lines=["the skill and", "'run the tracker';", "gate answers fixed"]),
         dict(at=(2, 2), lines=["runs every case", "on any model tier"], kind="ink"),
-        dict(at=(1, 3), lines=["compares each", "result with the", "expected one"], stop="pass, or named"),
+        dict(at=(1, 3), lines=["compares each result", "with the expected one"], stop="pass, or named"),
         dict(at=(1, 4), lines=["result and cost", "saved; the page", "rebuilt"], kind="soft"),
     ],
     links=[((0,0),(1,1)), ((1,1),(1,2)), ((1,2),(2,2)), ((2,2),(1,3)), ((1,3),(1,4))],
