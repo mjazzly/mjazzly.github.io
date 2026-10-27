@@ -34,6 +34,7 @@ The Built page (added 27 Oct 2026) is the record of what Megat has built with Cl
 10. Run `python3 scripts/check.py` before every commit. Fix failures, do not bypass them. After any diagram spec change, run `python3 scripts/diagrams.py` first; after any visual change, `python3 scripts/shot.py <folder>` and look at the renders.
 
 ## Commit and push
+- When `style.css`, `motion.css` or `site.js` changes, bump the `?v=` date on their links in all five pages (e.g. `?v=20261027` to `?v=20261103`), so visitors' browsers fetch the new file instead of a cached one.
 - Commit messages: imperative, one line, what changed and where. Example: `Ship Project A: unhide LIVE-A on index and casefiles`.
 - Push to `origin main`. GitHub Pages redeploys in about a minute; the live URL is https://mjazzly.github.io.
 - Never force-push. Never rewrite history. If `git pull` conflicts, stop and show the user the conflict.
