@@ -26,4 +26,4 @@
 - The day the Power BI dashboard is public:
   `/ship-project B https://app.powerbi.com/view?r=...`
 
-`scripts/check.py` runs before every commit and blocks dashes, the word marketing, broken tags, and a SHIPPED pill inside a hidden block. If it fails, Claude Code fixes the issue and reruns it; it will not bypass it.
+`scripts/check.py` runs before every commit and blocks dashes, the words marketing, enablement, agentic and real users, broken tags, a wrong nav order, and a SHIPPED pill inside a hidden block. If it fails, Claude Code fixes the issue and reruns it; it will not bypass it.

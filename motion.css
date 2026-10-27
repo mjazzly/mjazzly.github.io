@@ -1,0 +1,180 @@
+/* ==========================================================================
+   mjazzly.github.io, motion, drawings and the Built page
+   Loaded after style.css on every page.
+
+   The rule: nothing moves on its own. A drawing plays when the reader
+   scrolls to it, and plays again, three rounds, when the reader rests the
+   pointer on it; while it plays, the cards beside it step back so the one
+   being read stands alone. Without JavaScript, or for readers who reduce
+   motion, every drawing sits complete. site.js adds "js" to <html>,
+   "is-in" to the staircase, "is-playing" to a figure, and "is-focus" to a
+   card under the pointer.
+   ========================================================================== */
+
+/* ---------- Focus: the card under the pointer stands alone ---------- */
+.models.has-focus .model:not(.is-focus){opacity:.42}
+.model.is-focus{box-shadow:0 0 0 2px var(--marine)}
+.case.is-focus,.deep.is-focus,.panel.is-focus{box-shadow:0 0 0 2px var(--marine)}
+
+/* ---------- Drawings ----------
+   A drawing is an inline SVG with class "diagram". Each moving part carries
+   a class below and its own start time in --delay. At rest every part is in
+   place; while the figure carries "is-playing" the parts arrive in order. */
+
+.figure{margin:0}
+.case .figure{padding:14px 28px 2px;border-top:1px solid var(--line)}
+.figure .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.diagram{overflow:visible}
+.scroll .diagram{width:100%;height:auto;display:block;min-width:600px}
+.figure .fig-note{font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);margin:10px 0 14px}
+.figure .fig-note b{color:var(--amber);font-weight:500}
+
+.diagram .lane{fill:var(--panel);stroke:var(--line);stroke-width:1}
+.diagram .lane.alt{fill:var(--paper)}
+.diagram .lane-label{font-family:var(--mono);font-size:10px;fill:var(--ink-soft)}
+.diagram .step-no{font-family:var(--mono);font-size:10px;fill:var(--amber)}
+.diagram .step-name{font-family:var(--sans);font-size:11px;font-weight:700;fill:var(--ink)}
+.diagram .guide{stroke:var(--line);stroke-width:1;stroke-dasharray:2 3}
+.diagram .guide.solid{stroke-dasharray:none;stroke:#C9D3D0}
+.diagram .node{fill:var(--panel);stroke:var(--marine);stroke-width:1.3}
+.diagram .node.soft{fill:var(--marine-tint)}
+.diagram .node.ink{fill:var(--marine)}
+.diagram .node-text{font-family:var(--mono);font-size:9px;fill:var(--ink)}
+.diagram .node-text.light{fill:#FBFCFB}
+.diagram .link{stroke:var(--marine);stroke-width:1.3;fill:none}
+.diagram .head{fill:var(--marine)}
+.diagram .stop{fill:none;stroke:var(--amber);stroke-width:1.8}
+.diagram .stop-core{fill:var(--amber)}
+.diagram .stop-text{font-family:var(--mono);font-size:8.6px;fill:var(--amber);font-weight:500}
+.diagram .ring{fill:none;stroke:var(--amber);stroke-width:1.5;opacity:0}
+.diagram .traveller{fill:var(--amber);opacity:0}
+
+.diagram .d-pop,.diagram .d-rise,.diagram .d-fade,.diagram .d-tilt,.diagram .ring{transform-box:fill-box;transform-origin:center}
+
+.is-playing .diagram .d-pop{animation:d-pop .4s ease-out var(--delay,0s) backwards}
+@keyframes d-pop{from{opacity:0;transform:scale(0)}70%{opacity:1;transform:scale(1.18)}to{opacity:1;transform:scale(1)}}
+.is-playing .diagram .d-rise{animation:d-rise .45s ease-out var(--delay,0s) backwards}
+@keyframes d-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.is-playing .diagram .d-fade{animation:d-fade .4s ease-out var(--delay,0s) backwards}
+@keyframes d-fade{from{opacity:0}to{opacity:1}}
+.is-playing .diagram .d-draw{stroke-dasharray:1;animation:d-draw .5s ease-out var(--delay,0s) backwards}
+.diagram .d-draw.long{animation-duration:1.1s}
+@keyframes d-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.is-playing .diagram .ring{animation:d-ring 1s ease-out var(--delay,0s)}
+@keyframes d-ring{from{opacity:.8;transform:scale(1)}to{opacity:0;transform:scale(2.1)}}
+.diagram .d-orbit{transform-box:view-box;transform-origin:60px 48px}
+.is-playing .diagram .d-orbit{animation:d-orbit 2s linear var(--delay,0s)}
+@keyframes d-orbit{from{opacity:1;transform:rotate(0deg)}88%{opacity:1;transform:rotate(300deg)}to{opacity:0;transform:rotate(300deg)}}
+.is-playing .diagram .d-tilt{animation:d-tilt .6s ease-out var(--delay,0s) backwards}
+@keyframes d-tilt{from{opacity:0;transform:rotate(-30deg) translateY(-8px)}to{opacity:1;transform:rotate(0) translateY(0)}}
+
+/* Step by step: resting the pointer on a column lights that step and quiets the rest */
+.diagram *{pointer-events:none}
+.diagram .hit{fill:transparent;cursor:default;pointer-events:all}
+.diagram [data-step]{transition:opacity .2s ease}
+.diagram.has-hot [data-step]:not(.is-hot):not(.hit){opacity:.22}
+.diagram.has-hot .hit.is-hot{fill:var(--marine-tint);opacity:.9}
+.diagram.has-hot .d-pop.is-hot .node{stroke-width:1.8}
+
+/* ---------- Built page ---------- */
+
+/* Five numbers: five panels, a pictogram on each */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.stat{background:var(--panel);border-radius:var(--radius);padding:18px 16px 18px}
+.stat .badge{margin-bottom:14px}
+.stat .n{font-weight:800;font-size:40px;line-height:1;color:var(--ink);letter-spacing:-.03em;margin-bottom:10px}
+.stat .what{font-size:14px;font-weight:700;line-height:1.3;color:var(--ink);margin-bottom:12px}
+.stat .basis{font-size:12.5px;line-height:1.5;color:var(--ink-soft)}
+.stat .basis b{color:var(--ink)}
+
+/* Five depths: equal panels, a riser that grows one step per shape */
+.stairs{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;align-items:stretch}
+.stair{background:var(--panel);border-radius:var(--radius);padding:16px 14px 14px}
+.stair::before{content:"";display:block;height:6px;border-radius:3px;background:var(--marine-tint);margin-bottom:14px}
+.stair:nth-child(2)::before{background:#BFD2DE;height:28px}
+.stair:nth-child(3)::before{background:#8FB0C4;height:50px}
+.stair:nth-child(4)::before{background:#5C88A3;height:72px}
+.stair:nth-child(5)::before{background:var(--marine);height:94px}
+.stair .shape{display:flex;align-items:center;gap:7px;font-weight:700;font-size:12.5px;color:var(--amber);margin-bottom:6px}
+.stair .shape .ic{width:16px;height:16px;color:var(--marine)}
+.stair h3{font-size:16px;margin-bottom:10px}
+.stair ul{list-style:none}
+.stair li{font-size:13px;line-height:1.4;padding:6px 0;border-top:1px solid var(--line)}
+.stair li b{color:var(--ink);font-weight:700;display:block}
+.stair li span{color:var(--ink-soft);font-size:12.5px}
+html.js .stair{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+html.js .is-in .stair{opacity:1;transform:none}
+html.js .is-in .stair:nth-child(2){transition-delay:.12s}
+html.js .is-in .stair:nth-child(3){transition-delay:.24s}
+html.js .is-in .stair:nth-child(4){transition-delay:.36s}
+html.js .is-in .stair:nth-child(5){transition-delay:.48s}
+
+/* The deepest one */
+.deep{background:var(--panel);border-radius:var(--radius);padding:24px 28px}
+.deep .goal{font-weight:600;font-size:17px;line-height:1.5;color:var(--ink);max-width:640px;margin-bottom:18px}
+.deep .goal b{color:var(--marine)}
+.deep .figure{padding:0;margin:0 0 6px}
+.gates{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+.gate{background:var(--amber-tint);border-radius:var(--radius-s);padding:14px 16px;font-size:13.5px;line-height:1.45;color:var(--ink-soft)}
+.gate .g{display:flex;align-items:center;gap:8px;font-weight:700;font-size:12.5px;color:var(--amber);margin-bottom:6px}
+.gate .g .ic{width:16px;height:16px}
+.gate b{color:var(--ink)}
+.deep .how{margin-top:18px;font-size:15px;color:var(--ink-soft)}
+.deep .how b{color:var(--ink)}
+
+/* The test record: one row per model tier, one mark per case */
+.record{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.record .rec-head{font-size:15px;color:var(--ink);margin-bottom:12px}
+.record .rec-head b{color:var(--marine)}
+.record .row{display:grid;grid-template-columns:130px auto 1fr;gap:16px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.record .row .tier{font-family:var(--mono);font-size:12.5px;color:var(--ink-soft)}
+.record .marks{display:flex;gap:6px}
+.record .marks i{display:block;width:14px;height:14px;border-radius:50%;background:var(--marine);border:1.5px solid var(--marine)}
+.record .marks i.miss{background:transparent;border-color:var(--amber)}
+.record .marks i.decline{background:var(--amber);border-color:var(--amber)}
+.record .row .score{font-size:14px;color:var(--ink)}
+.record .key{font-family:var(--mono);font-size:12px;color:var(--ink-faint);margin-top:10px;display:flex;gap:18px;flex-wrap:wrap}
+.record .key i{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:-1px;margin-right:6px;background:var(--marine);border:1.5px solid var(--marine)}
+.record .key i.miss{background:transparent;border-color:var(--amber)}
+.record .key i.decline{background:var(--amber);border-color:var(--amber)}
+
+/* The harness drawing in a panel of its own */
+.panel .figure{padding:0}
+
+/* Three more counts */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tile{background:var(--panel);border-radius:var(--radius);padding:18px 20px}
+.tile .badge{margin-bottom:14px}
+.tile .n{font-weight:800;font-size:34px;line-height:1;color:var(--ink);letter-spacing:-.03em;margin-bottom:8px}
+.tile .what{font-size:14.5px;font-weight:700;margin-bottom:10px}
+.tile .basis{font-size:13.5px;color:var(--ink-soft);line-height:1.5}
+.tile .basis b{color:var(--ink)}
+
+.strip{display:flex;flex-wrap:wrap;gap:8px}
+.strip span{font-family:var(--mono);font-size:13px;color:var(--marine);background:var(--panel);border-radius:999px;padding:7px 14px}
+.words{list-style:none;columns:2;column-gap:14px}
+.words li{break-inside:avoid;background:var(--panel);border-radius:var(--radius-s);padding:12px 16px;margin-bottom:10px;font-size:14px;line-height:1.5;color:var(--ink-soft)}
+.words li b{color:var(--ink);font-weight:700}
+
+@media(max-width:860px){
+  .stats{grid-template-columns:repeat(3,1fr)}
+  .stairs{grid-template-columns:repeat(2,1fr)}
+  .stair:nth-child(n)::before{height:6px}
+  .gates{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+  .stats{grid-template-columns:1fr 1fr}
+  .stairs,.tiles,.gates{grid-template-columns:1fr}
+  .words{columns:1}
+  .case .figure{padding:14px 16px 4px}
+  .figure .fig-note::after{content:" On a phone, the drawing scrolls sideways."}
+  .record .row{grid-template-columns:1fr;gap:6px}
+}
+
+/* ---------- Reduced motion: everything complete, nothing moves ---------- */
+@media (prefers-reduced-motion: reduce){
+  html.js .stair{opacity:1;transform:none;transition:none}
+  .diagram .ring,.diagram .traveller{opacity:0!important}
+  .diagram *{animation:none!important}
+  .models.has-focus .model:not(.is-focus){opacity:1}
+}
