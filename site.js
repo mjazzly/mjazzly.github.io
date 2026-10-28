@@ -78,6 +78,7 @@ document.documentElement.classList.add("js");
 
   // Focus: the card under the pointer plays its drawing once
   figures.forEach(function (fig) {
+    if (fig.classList.contains("shelf-fig")) return;  // the shelf and the timeline are pointed at, so they never replay under the pointer
     var card = fig.closest(".model, .case, .deep, .panel, .hero-map");
     if (!card) return;
     var grid = card.closest(".models");
@@ -180,4 +181,32 @@ document.documentElement.classList.add("js");
     }, { threshold: 0.2 });
     rise.observe(stairs);
   }
+})();
+
+// Works with or without motion, so it sits outside the drawings' block
+(function () {
+  // A name over a pointed-at book or note: any link in a drawing with data-tip shows its name above it
+  Array.prototype.forEach.call(document.querySelectorAll("svg.has-tips"), function (svg) {
+    var ns = "http://www.w3.org/2000/svg";
+    var tip = document.createElementNS(ns, "g"), box = document.createElementNS(ns, "rect"), label = document.createElementNS(ns, "text");
+    tip.setAttribute("class", "tip"); box.setAttribute("rx", "6"); label.setAttribute("text-anchor", "middle");
+    tip.appendChild(box); tip.appendChild(label); svg.appendChild(tip);
+    var vb = svg.viewBox.baseVal;
+    function show(a) {
+      label.textContent = a.getAttribute("data-tip");
+      var b = a.getBBox(), w = label.getComputedTextLength() + 18, h = 21;
+      var x = Math.min(Math.max(b.x + b.width / 2 - w / 2, vb.x + 2), vb.x + vb.width - w - 2);
+      var y = Math.max(b.y - h - 6, vb.y + 1);
+      box.setAttribute("x", x); box.setAttribute("y", y); box.setAttribute("width", w); box.setAttribute("height", h);
+      label.setAttribute("x", x + w / 2); label.setAttribute("y", y + 14.5);
+      tip.classList.add("is-on");
+    }
+    function hide() { tip.classList.remove("is-on"); }
+    Array.prototype.forEach.call(svg.querySelectorAll("a[data-tip]"), function (a) {
+      a.addEventListener("mouseenter", function () { show(a); });
+      a.addEventListener("focus", function () { show(a); });
+      a.addEventListener("mouseleave", hide);
+      a.addEventListener("blur", hide);
+    });
+  });
 })();

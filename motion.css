@@ -265,3 +265,28 @@ html.js .is-in .stair:nth-child(5){transition-delay:.48s}
 .shelf .band-l{fill:none;stroke:var(--marine-tint);stroke-width:1;opacity:.7}
 .shelf a:hover .band,.shelf a:hover .band-l{stroke:var(--amber);opacity:.8}
 @media(max-width:600px){.shelf .k-text{font-size:17px}.shelf-panel{padding:20px 18px 18px}}
+
+/* the name that appears over a pointed-at book or note */
+.diagram .tip{opacity:0;transition:opacity .15s ease;pointer-events:none}
+.diagram .tip.is-on{opacity:1}
+.diagram .tip rect{fill:var(--ink)}
+.diagram .tip text{font-family:var(--sans);font-size:11.5px;font-weight:700;fill:#fff}
+
+/* ---------- Chapters page: the timeline of notes and the note drawings ---------- */
+.diagram .k-thick2{stroke-width:3}
+.diagram .k-wave{stroke-width:2.4}
+.diagram .k-soft{fill-opacity:.55}
+.diagram .k-sand{fill:var(--amber);opacity:.85}
+.diagram .k-faint-fill{fill:#E3E7EB}
+.diagram .k-big{font-family:var(--sans);font-size:26px;font-weight:800;fill:#AEB7BF}
+.model .saying{font-size:16.5px;line-height:1.55;color:var(--ink);font-weight:500;margin-bottom:20px}
+.model .saying b{font-weight:800}
+.model .src .dot{color:var(--amber)}
+.timeline{width:100%;height:auto;display:block}
+.timeline .k-axis{stroke-width:2.4}
+.timeline .note{fill:var(--marine);transition:fill .2s ease}
+.timeline .note.undated{fill:var(--panel);stroke:var(--amber);stroke-width:1.8}
+.timeline .hit-dot{fill:transparent}
+.timeline a,.timeline a *{pointer-events:all;cursor:pointer}
+.timeline a:hover .note,.timeline a:focus-visible .note{fill:var(--amber)}
+@media(max-width:600px){.timeline .k-text{font-size:17px}}
