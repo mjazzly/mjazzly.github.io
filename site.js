@@ -203,10 +203,12 @@ document.documentElement.classList.add("js");
     }
     function hide() { tip.classList.remove("is-on"); }
     Array.prototype.forEach.call(svg.querySelectorAll("a[data-tip]"), function (a) {
-      a.addEventListener("mouseenter", function () { show(a); });
-      a.addEventListener("focus", function () { show(a); });
-      a.addEventListener("mouseleave", hide);
+      // only a mouse or the keyboard shows the name; a finger goes straight to the card, so nothing is left lit behind
+      a.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") show(a); });
+      a.addEventListener("pointerleave", hide);
+      a.addEventListener("focus", function () { if (a.matches(":focus-visible")) show(a); });
       a.addEventListener("blur", hide);
+      a.addEventListener("click", function () { hide(); a.blur(); });
     });
   });
 })();
