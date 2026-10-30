@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261030"><link rel="stylesheet" href="motion.css?v=20261030"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
+<title>AI Work | Megat Jazly</title>
+<meta name="description" content="AI systems Megat Jazly built to take over a real task, each with what it replaces, how it was tested, the numbers from every recorded run, and the code on GitHub.">
+</head>
+<body>
+<!--ICONS-->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+<symbol id="ic-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></symbol>
+<symbol id="ic-briefcase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1.5 1.5 0 011.5-1.5h3A1.5 1.5 0 0115 5v2"/><path d="M3 12h18"/></symbol>
+<symbol id="ic-circle-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></symbol>
+<symbol id="ic-hash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h14M5 15h14M10 4l-2 16M16 4l-2 16"/></symbol>
+<symbol id="ic-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></symbol>
+<symbol id="ic-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="ic-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a1 1 0 00-1 1v16a1 1 0 001 1h10a1 1 0 001-1V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></symbol>
+<symbol id="ic-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l8 4-8 4-8-4z"/><path d="M4 12l8 4 8-4"/><path d="M4 16l8 4 8-4"/></symbol>
+<symbol id="ic-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6l-5 9a1.5 1.5 0 001.3 2.2h11.4A1.5 1.5 0 0019 18l-5-9V3"/><path d="M7.5 15h9"/></symbol>
+<symbol id="ic-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5"/><path d="M12 12v9"/></symbol>
+<symbol id="ic-funnel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16l-6 7v6l-4 2v-8z"/></symbol>
+<symbol id="ic-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M7 16v-5M12 16V7M17 16v-9"/></symbol>
+<symbol id="ic-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 10h4v4h-4z"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4M7 4v3M17 4v3M7 17v3M17 17v3"/></symbol>
+<symbol id="ic-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/></symbol>
+<symbol id="ic-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></symbol>
+<symbol id="ic-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.5"/><path d="M8.5 13.5L7 21l5-2.5 5 2.5-1.5-7.5"/></symbol>
+<symbol id="ic-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></symbol>
+<symbol id="ic-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
+<symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+<symbol id="ic-puzzle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4a2 2 0 014 0v1h3a1 1 0 011 1v3h1a2 2 0 010 4h-1v3a1 1 0 01-1 1h-3v1a2 2 0 01-4 0v-1H7a1 1 0 01-1-1v-3H5a2 2 0 010-4h1V6a1 1 0 011-1h3z"/></symbol>
+<symbol id="ic-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1 1 0 011-1h5l2 2h9a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1z"/></symbol>
+<symbol id="ic-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4.5a5 5 0 00-5.5 6.8L4 16.3V20h3.7l5-5a5 5 0 006.8-5.5l-3 3-3-3z"/></symbol>
+<symbol id="ic-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+<symbol id="ic-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="12" height="16" rx="1.5"/><path d="M9 5a1.5 1.5 0 013 0h0a1.5 1.5 0 013 0"/><path d="M9 14l2 2 4-4"/></symbol>
+<symbol id="ic-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H9l-5 4z"/></symbol>
+<symbol id="ic-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></symbol>
+<symbol id="ic-server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="6" rx="1.5"/><rect x="4" y="14" width="16" height="6" rx="1.5"/><path d="M8 7h.01M8 17h.01"/></symbol>
+<symbol id="ic-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 17h2"/></symbol>
+<symbol id="ic-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V6a1.5 1.5 0 013 0v6M11 11V4.5a1.5 1.5 0 013 0V11M14 11V6a1.5 1.5 0 013 0v8a6 6 0 01-6 6h-1a6 6 0 01-5.4-3.4L3.3 12a1.5 1.5 0 012.5-1.6L8 13"/></symbol>
+<symbol id="ic-stop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></symbol>
+<symbol id="ic-table" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3 10h18M9 10v9M15 10v9"/></symbol>
+<symbol id="ic-ticket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 002 2 2 2 0 010 4 2 2 0 00-2 2v2h16v-2a2 2 0 01-2-2 2 2 0 010-4 2 2 0 002-2V6H4z"/><path d="M12 6v12"/></symbol>
+<symbol id="ic-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M8 13a5 5 0 118 0c-1 1-1.5 2-1.5 3h-5c0-1-.5-2-1.5-3z"/></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7h11M9 12h11M9 17h11"/><path d="M4 7l1 1 2-2M4 12l1 1 2-2M4 17l1 1 2-2"/></symbol>
+<symbol id="ic-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 012-2h5v17H6a2 2 0 01-2-2z"/><path d="M20 5a2 2 0 00-2-2h-5v17h5a2 2 0 002-2z"/></symbol>
+<symbol id="ic-stairs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4v-4h4v-4h4V8h4"/></symbol>
+<symbol id="ic-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></symbol>
+<symbol id="ic-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9L3.5 9.7l5.9-.8z"/></symbol>
+<symbol id="ic-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 010 7M21.5 20c0-3-2-4.8-4.5-5.3"/></symbol>
+<symbol id="ic-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/></symbol>
+<symbol id="ic-wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/></symbol>
+<symbol id="ic-sprout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9"/><path d="M12 12c0-4-3-6-7-6 0 4 3 6 7 6z"/><path d="M12 10c0-3.5 2.5-5.5 6.5-5.5 0 3.5-2.5 5.5-6.5 5.5z"/></symbol>
+<symbol id="ic-repeat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l3 3-3 3"/><path d="M20 6H8a4 4 0 00-4 4v1"/><path d="M7 21l-3-3 3-3"/><path d="M4 18h12a4 4 0 004-4v-1"/></symbol>
+</svg>
+<!--/ICONS-->
+<nav class="top"><div class="wrap">
+  <a class="brand" href="index.html"><span class="seam silver" aria-hidden="true"></span><span class="brand-name">Megat Jazly</span><span class="seam" aria-hidden="true"></span></a>
+  <div class="links">
+    <a href="built.html">Built</a>
+    <a href="aiwork.html" class="active">AI Work</a>
+    <a href="casefiles.html">Case Files</a>
+    <a href="index.html">Systems</a>
+    <a href="operator.html">Operator</a>
+    <a href="models.html">Models</a>
+    <a href="knowledge.html">Knowledge</a>
+    <a href="chapters.html">Chapters</a>
+  </div>
+</div></nav>
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">AI Work <span class="dot">·</span> Tested <span class="dot">·</span> Code on GitHub</div>
+  <h1>AI work</h1>
+  <p class="thesis">AI systems built to <b>take over a real task</b>, with the numbers to check them. Each entry says <b>what it replaces</b>, how it was tested, what every recorded run scored, and <b>where the code is</b>. A term is explained where it first appears, and the words are collected at the foot of the page.</p>
+</header>
+
+<section id="reading">
+  <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-compass"/></svg></span>What every entry carries</h2>
+  <div class="tiles four">
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-repeat"/></svg></span><div class="what">What it replaces</div><div class="basis">The task a person did by hand before, named plainly, so <b>the point of the build is clear before the build is</b>.</div></div>
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-flask"/></svg></span><div class="what">How it was tested</div><div class="basis">A set of test cases with <b>the expected result written before the first run</b>, then every run checked against it, blind.</div></div>
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-hash"/></svg></span><div class="what">The numbers</div><div class="basis">Cases matched, the miss named by its line, and <b>what one full run costs</b>, from the recorded runs and nowhere else.</div></div>
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-code"/></svg></span><div class="what">The code</div><div class="basis">A public repository on GitHub: the code, the test cases, every recorded run, and <b>the history of each version</b>.</div></div>
+  </div>
+</section>
+
+<section id="work-01">
+  <div class="work">
+    <div class="work-head">
+      <span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-list"/></svg></span>
+      <div class="sys-head"><span class="sys-id">WORK-01 / Meeting tracker</span><span class="sys-status"><svg class="ic" aria-hidden="true"><use href="#ic-check"/></svg>Tested · v2.0</span></div>
+    </div>
+    <h3>Meeting transcripts become a tracked list of who does what, by when</h3>
+    <p>A folder of meeting transcripts in, a running action tracker out. The model reads each new transcript, picks out every action agreed with its owner and due date, looks every name up in a contacts table, and appends to the tracker. <b>The rules sit in code it cannot skip</b>: four points where it must stop and ask, and one where it must decline.</p>
+    <p class="replaces"><b>Replaces:</b> the hour after each meeting spent pulling actions out of the notes and chasing who owns them. Every action lands with its owner and due date, <b>none is invented</b>, and where the transcript is unclear the run stops and asks.</p>
+
+    <div class="stats four">
+      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><div class="n">5 of 5</div><div class="what">cases matched, largest model</div><div class="basis">Five test cases plus one it must decline, checked blind against <b>answers written before the first run</b>. The decline held.</div></div>
+      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-target"/></svg></span><div class="n">4 of 5</div><div class="what">cases matched, smallest model</div><div class="basis">The same miss on both runs, so <b>it is named by its line</b> rather than rounded up: two due dates written without the word "by".</div></div>
+      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-hand"/></svg></span><div class="n">4</div><div class="what">stop gates in code</div><div class="basis">A name that matches two people, a meeting with no actions, a date before its own meeting, a confidential transcript. <b>The code halts the run</b>; the model cannot talk its way past.</div></div>
+      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-chart"/></svg></span><div class="n">US$0.48</div><div class="what">one full run, largest model</div><div class="basis">Eight transcripts end to end, with repeated context cached. <b>US$2.38 without the cache</b>; US$0.02 on the smallest model. Every run records its own cost.</div></div>
+    </div>
+
+    <div class="record">
+      <p class="rec-head"><b>The versions:</b> every counted run is blind, the expected results were written first, and a miss is named with its line. The first run read its own answer key by mistake, so it is on the record and left uncounted.</p>
+      <div class="row"><span class="tier">v1.1 · by hand</span><span class="marks"><i></i><i></i><i></i><i></i><i class="miss"></i><i class="decline"></i></span><span class="score"><b>four of five</b>: in the test meeting, a line describing how a step would be done (line 6 of transcript 3) was taken as an action. The rule that followed: <b>an action ends in something someone could check was done</b>.</span></div>
+      <div class="row"><span class="tier">v2.0 · by hand</span><span class="marks"><i></i><i></i><i></i><i></i><i></i><i class="decline"></i></span><span class="score"><b>five of five</b> on connected tools: the model called the tool server for every step, and no file was carried by hand.</span></div>
+      <div class="row"><span class="tier">v2.0 · harness, largest</span><span class="marks"><i></i><i></i><i></i><i></i><i></i><i class="decline"></i></span><span class="score"><b>five of five</b>, twice, one command each time. The run on the record.</span></div>
+      <div class="row"><span class="tier">v2.0 · harness, smallest</span><span class="marks"><i></i><i></i><i></i><i></i><i class="miss"></i><i class="decline"></i></span><span class="score"><b>four of five</b>, twice, the same two lines each time. Named, and the reason recorded.</span></div>
+      <p class="key"><span><i></i>case passed</span><span><i class="miss"></i>the named miss</span><span><i class="decline"></i>the decline held</span></p>
+    </div>
+
+    <figure class="figure">
+<!--DIAGRAM:versions-->
+<div class="scroll">
+<svg class="diagram cols-6" viewBox="0 0 720 252" role="img" aria-label="How a version is earned, in six steps across three lanes: the expected results are written first, the harness runs the case set blind and checks every case, a miss is named with its line, one rule in the skill changes and the version number moves, and the same cases are run again and recorded">
+<rect class="lane" x="0" y="30" width="720" height="72" rx="4"/>
+<text class="lane-label" x="10" y="70.0">Me</text>
+<rect class="lane alt" x="0" y="102" width="720" height="72" rx="4"/>
+<text class="lane-label" x="10" y="136.0">The harness</text>
+<text class="lane-label" x="10" y="148.0">(a script)</text>
+<rect class="lane" x="0" y="174" width="720" height="72" rx="4"/>
+<text class="lane-label" x="10" y="208.0">The skill</text>
+<text class="lane-label" x="10" y="220.0">(the rules)</text>
+<rect class="hit" data-step="0" x="98.0" y="0" width="103.7" height="246" rx="6"><title>Step 1: Expected</title></rect>
+<rect class="hit" data-step="1" x="201.7" y="0" width="103.7" height="246" rx="6"><title>Step 2: Run blind</title></rect>
+<rect class="hit" data-step="2" x="305.3" y="0" width="103.7" height="246" rx="6"><title>Step 3: Check</title></rect>
+<rect class="hit" data-step="3" x="409.0" y="0" width="103.7" height="246" rx="6"><title>Step 4: Name the miss</title></rect>
+<rect class="hit" data-step="4" x="512.7" y="0" width="103.7" height="246" rx="6"><title>Step 5: Fix the rule</title></rect>
+<rect class="hit" data-step="5" x="616.3" y="0" width="103.7" height="246" rx="6"><title>Step 6: Rerun</title></rect>
+<line class="guide solid" x1="98" y1="30" x2="98" y2="246"/>
+<g class="d-fade" data-step="0" style="--delay:0.00s"><text class="step-no" x="149.8" y="11" text-anchor="middle">01</text><text class="step-name" x="149.8" y="24" text-anchor="middle">Expected</text></g>
+<line class="guide" x1="201.7" y1="30" x2="201.7" y2="246"/>
+<g class="d-fade" data-step="1" style="--delay:0.30s"><text class="step-no" x="253.5" y="11" text-anchor="middle">02</text><text class="step-name" x="253.5" y="24" text-anchor="middle">Run blind</text></g>
+<line class="guide" x1="305.3" y1="30" x2="305.3" y2="246"/>
+<g class="d-fade" data-step="2" style="--delay:0.60s"><text class="step-no" x="357.2" y="11" text-anchor="middle">03</text><text class="step-name" x="357.2" y="24" text-anchor="middle">Check</text></g>
+<line class="guide" x1="409.0" y1="30" x2="409.0" y2="246"/>
+<g class="d-fade" data-step="3" style="--delay:0.90s"><text class="step-no" x="460.8" y="11" text-anchor="middle">04</text><text class="step-name" x="460.8" y="24" text-anchor="middle">Name the miss</text></g>
+<line class="guide" x1="512.7" y1="30" x2="512.7" y2="246"/>
+<g class="d-fade" data-step="4" style="--delay:1.20s"><text class="step-no" x="564.5" y="11" text-anchor="middle">05</text><text class="step-name" x="564.5" y="24" text-anchor="middle">Fix the rule</text></g>
+<line class="guide" x1="616.3" y1="30" x2="616.3" y2="246"/>
+<g class="d-fade" data-step="5" style="--delay:1.50s"><text class="step-no" x="668.2" y="11" text-anchor="middle">06</text><text class="step-name" x="668.2" y="24" text-anchor="middle">Rerun</text></g>
+<path class="link d-draw" data-step="1" pathLength="1" d="M195.7 66.0 H253.5 V107.0" style="--delay:0.48s"/>
+<polygon class="head d-fade" data-step="1" points="250.0,105.0 253.5,111.0 257.0,105.0" style="--delay:0.78s"/>
+<line class="link d-draw" data-step="2" pathLength="1" x1="299.3" y1="138.0" x2="307.3" y2="138.0" style="--delay:0.78s"/>
+<polygon class="head d-fade" data-step="2" points="305.3,134.5 311.3,138.0 305.3,141.5" style="--delay:1.08s"/>
+<path class="link d-draw" data-step="3" pathLength="1" d="M403.0 138.0 H460.8 V97.0" style="--delay:1.08s"/>
+<polygon class="head d-fade" data-step="3" points="457.3,99.0 460.8,93.0 464.3,99.0" style="--delay:1.38s"/>
+<path class="link d-draw" data-step="4" pathLength="1" d="M506.7 66.0 H564.5 V179.0" style="--delay:1.38s"/>
+<polygon class="head d-fade" data-step="4" points="561.0,177.0 564.5,183.0 568.0,177.0" style="--delay:1.68s"/>
+<path class="link d-draw" data-step="5" pathLength="1" d="M610.3 210.0 H668.2 V169.0" style="--delay:1.68s"/>
+<polygon class="head d-fade" data-step="5" points="664.7,171.0 668.2,165.0 671.7,171.0" style="--delay:1.98s"/>
+<g class="d-pop" data-step="0" style="--delay:0.08s">
+<rect class="node" x="104.0" y="39.0" width="91.7" height="54.0" rx="5"/>
+<text class="node-text" x="149.83333333333334" y="56.9" text-anchor="middle">writes the</text>
+<text class="node-text" x="149.83333333333334" y="69.4" text-anchor="middle">expected result</text>
+<text class="node-text" x="149.83333333333334" y="81.9" text-anchor="middle">for every case</text>
+</g>
+<g class="d-pop" data-step="1" style="--delay:0.38s">
+<rect class="node" x="207.7" y="111.0" width="91.7" height="54.0" rx="5"/>
+<text class="node-text" x="253.50000000000003" y="128.9" text-anchor="middle">runs the case set</text>
+<text class="node-text" x="253.50000000000003" y="141.4" text-anchor="middle">on a chosen</text>
+<text class="node-text" x="253.50000000000003" y="153.9" text-anchor="middle">model tier</text>
+</g>
+<g class="d-pop" data-step="2" style="--delay:0.68s">
+<rect class="node stopbox" x="311.3" y="111.0" width="91.7" height="54.0" rx="5"/>
+<text class="node-text" x="357.1666666666667" y="122.7" text-anchor="middle">compares each</text>
+<text class="node-text" x="357.1666666666667" y="135.2" text-anchor="middle">result with the</text>
+<text class="node-text" x="357.1666666666667" y="147.7" text-anchor="middle">expected one</text>
+<text class="stop-text" x="357.1666666666667" y="160.2" text-anchor="middle">pass, or named</text>
+</g>
+<circle class="ring" data-step="2" cx="401.0" cy="113.0" r="6" style="--delay:1.13s"/>
+<g class="d-pop" data-step="2" style="--delay:0.98s"><circle class="stop" cx="401.0" cy="113.0" r="6" style="fill:var(--panel)"/><circle class="stop-core" cx="401.0" cy="113.0" r="2.4"/></g>
+<g class="d-pop" data-step="3" style="--delay:0.98s">
+<rect class="node ink" x="415.0" y="39.0" width="91.7" height="54.0" rx="5"/>
+<text class="node-text light" x="460.8333333333333" y="63.1" text-anchor="middle">reads the miss</text>
+<text class="node-text light" x="460.8333333333333" y="75.7" text-anchor="middle">by its line</text>
+</g>
+<g class="d-pop" data-step="4" style="--delay:1.28s">
+<rect class="node soft" x="518.7" y="183.0" width="91.7" height="54.0" rx="5"/>
+<text class="node-text" x="564.5000000000001" y="200.9" text-anchor="middle">one rule changes;</text>
+<text class="node-text" x="564.5000000000001" y="213.4" text-anchor="middle">the version</text>
+<text class="node-text" x="564.5000000000001" y="225.9" text-anchor="middle">number moves</text>
+</g>
+<g class="d-pop" data-step="5" style="--delay:1.58s">
+<rect class="node" x="622.3" y="111.0" width="91.7" height="54.0" rx="5"/>
+<text class="node-text" x="668.1666666666667" y="128.9" text-anchor="middle">same cases, same</text>
+<text class="node-text" x="668.1666666666667" y="141.4" text-anchor="middle">answers; the run</text>
+<text class="node-text" x="668.1666666666667" y="153.9" text-anchor="middle">and cost recorded</text>
+</g>
+</svg>
+</div>
+<!--/DIAGRAM:versions-->
+      <figcaption class="fig-note">How a version is earned. Steps across, who or what does each step down. <b>Amber</b> marks the check: every case passes, or the miss is named with its line and one rule changes.</figcaption>
+    </figure>
+
+    <p class="how"><b>How it runs:</b> a small Node.js tool server on my machine holds the ten tools; the Claude desktop app starts it and calls the tools as it works. The tracker and the run log live in files on disk, so next week it reads only the new transcripts and never rewrites an old row. The contacts table stands in for a CRM, and the data is synthetic.</p>
+
+    <h4><svg class="ic" aria-hidden="true"><use href="#ic-link"/></svg>Where to look in the code</h4>
+    <ul class="words checks">
+      <li><a href="https://github.com/mjazzly/meeting-tracker-assistant"><b>README</b></a> How it runs, how to connect it, and the one command that reruns every case.</li>
+      <li><a href="https://github.com/mjazzly/meeting-tracker-assistant/blob/main/lib/store.js"><b>lib/store.js</b></a> The four stop gates, written as code the model cannot skip.</li>
+      <li><a href="https://github.com/mjazzly/meeting-tracker-assistant/tree/main/eval/expected"><b>eval/expected</b></a> The expected result for every case, written before the first run.</li>
+      <li><a href="https://github.com/mjazzly/meeting-tracker-assistant/tree/main/eval/results"><b>eval/results</b></a> Every recorded run: the model, the cases, the tokens and the cost.</li>
+      <li><a href="https://github.com/mjazzly/meeting-tracker-assistant/blob/main/eval/EXEMPLAR.md"><b>eval/EXEMPLAR.md</b></a> The run history as one page, rebuilt from the results after every run.</li>
+      <li><a href="https://github.com/mjazzly/meeting-tracker-assistant/blob/main/skill/SKILL.md"><b>skill/SKILL.md</b></a> The instructions the model is given, and nothing else.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="work-02">
+  <div class="work">
+    <div class="work-head">
+      <span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-table"/></svg></span>
+      <div class="sys-head"><span class="sys-id">WORK-02 / Spreadsheet normaliser</span><span class="sys-status"><svg class="ic" aria-hidden="true"><use href="#ic-check"/></svg>Tested · v1.0</span></div>
+    </div>
+    <h3>Hundreds of spreadsheets with different columns become one table</h3>
+    <p>A folder of spreadsheets in, one clean table and a decision log out. The files should all hold the same data, but each arrives with its own column names and order, a title row here, a totals row there, dates written as text, two columns that mean one. The model reads each file and <b>proposes how its columns map onto the agreed schema, with a reason per column</b>; the code applies the mapping, parses every value against its type, and writes the table. <b>The rules sit in code it cannot skip</b>: three points where it must stop and ask, one where it must decline, and a count that must reconcile or the run fails.</p>
+    <p class="replaces"><b>Replaces:</b> the days spent opening each file, lining its columns up against the template by eye and pasting rows across, with no record of why a column went where it went. Every column lands with its reason logged, <b>nothing is dropped silently</b>, and where a column could mean two fields the run stops and asks.</p>
+
+    <div class="stats four">
+      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><div class="n">5 of 5</div><div class="what">cases matched, largest model</div><div class="basis">Five test cases plus one it must decline and two that test a second run, checked blind against <b>results generated from a seed before the first run</b>. All eight matched; 242 rows merged, every count reconciled.</div></div>
+      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-target"/></svg></span><div class="n">5 of 5</div><div class="what">cases matched, smallest model</div><div class="basis">The same eight of eight on the smallest tier, at a twenty-seventh of the cost. <b>The rules sit in code</b>, so the tier changes the price of a run and not its result.</div></div>
+      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-hand"/></svg></span><div class="n">4</div><div class="what">stop gates in code</div><div class="basis">A column with two plausible targets, a file whose row count changes after cleaning, a value that fails its type (held, never coerced), a file marked confidential (declined). <b>The code halts the run</b>; the model cannot talk its way past.</div></div>
+      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-chart"/></svg></span><div class="n">US$0.85</div><div class="what">one full run, largest model</div><div class="basis">Twenty-one files in two passes, with repeated context cached. <b>US$5.30 without the cache</b>; US$0.03 on the smallest model. Every run records its own cost.</div></div>
+    </div>
+
+    <div class="record">
+      <p class="rec-head"><b>The versions:</b> every counted run is blind, the expected results were generated first, and a miss is named by its file, row and field. Both runs so far passed clean, so <b>v1.0 has not moved</b>; the first miss will be named here with the rule that followed it.</p>
+      <div class="row"><span class="tier">v1.0 · harness, smallest</span><span class="marks"><i></i><i></i><i></i><i></i><i></i><i class="decline"></i></span><span class="score"><b>five of five</b>, the decline held, both second-run cases matched. The model named the second candidate for a bare "Date" column itself, and the code refused one proposal that listed a header twice; the next call corrected it.</span></div>
+      <div class="row"><span class="tier">v1.0 · harness, largest</span><span class="marks"><i></i><i></i><i></i><i></i><i></i><i class="decline"></i></span><span class="score"><b>five of five</b>, the decline held, both second-run cases matched, in two fewer model calls. It read a whole file before choosing a date style, and noticed that the repeated row in the last file sits where a missing record id would fall, which is how the file was built.</span></div>
+      <p class="key"><span><i></i>case passed</span><span><i class="miss"></i>the named miss</span><span><i class="decline"></i>the decline held</span></p>
+    </div>
+
+    <figure class="figure">
+<!--DIAGRAM:normaliser-->
+<div class="scroll">
+<svg class="diagram cols-7" viewBox="0 0 720 324" role="img" aria-label="Seven steps of the spreadsheet normaliser across four lanes: me, Claude with the skill, the tool server, and the files on disk; the tool server declines a confidential file, stops when a column has two plausible targets, holds a value that fails its type, and stops when cleaning changes the row count">
+<rect class="lane" x="0" y="30" width="720" height="72" rx="4"/>
+<text class="lane-label" x="10" y="70.0">Me</text>
+<rect class="lane alt" x="0" y="102" width="720" height="72" rx="4"/>
+<text class="lane-label" x="10" y="136.0">Claude with</text>
+<text class="lane-label" x="10" y="148.0">the skill</text>
+<rect class="lane" x="0" y="174" width="720" height="72" rx="4"/>
+<text class="lane-label" x="10" y="208.0">The tool</text>
+<text class="lane-label" x="10" y="220.0">server</text>
+<rect class="lane alt" x="0" y="246" width="720" height="72" rx="4"/>
+<text class="lane-label" x="10" y="280.0">Files on</text>
+<text class="lane-label" x="10" y="292.0">disk</text>
+<rect class="hit" data-step="0" x="98.0" y="0" width="88.9" height="318" rx="6"><title>Step 1: Start</title></rect>
+<rect class="hit" data-step="1" x="186.9" y="0" width="88.9" height="318" rx="6"><title>Step 2: Scan</title></rect>
+<rect class="hit" data-step="2" x="275.7" y="0" width="88.9" height="318" rx="6"><title>Step 3: Propose</title></rect>
+<rect class="hit" data-step="3" x="364.6" y="0" width="88.9" height="318" rx="6"><title>Step 4: Check</title></rect>
+<rect class="hit" data-step="4" x="453.4" y="0" width="88.9" height="318" rx="6"><title>Step 5: Parse</title></rect>
+<rect class="hit" data-step="5" x="542.3" y="0" width="88.9" height="318" rx="6"><title>Step 6: Append</title></rect>
+<rect class="hit" data-step="6" x="631.1" y="0" width="88.9" height="318" rx="6"><title>Step 7: Report</title></rect>
+<line class="guide solid" x1="98" y1="30" x2="98" y2="318"/>
+<g class="d-fade" data-step="0" style="--delay:0.00s"><text class="step-no" x="142.4" y="11" text-anchor="middle">01</text><text class="step-name" x="142.4" y="24" text-anchor="middle">Start</text></g>
+<line class="guide" x1="186.9" y1="30" x2="186.9" y2="318"/>
+<g class="d-fade" data-step="1" style="--delay:0.30s"><text class="step-no" x="231.3" y="11" text-anchor="middle">02</text><text class="step-name" x="231.3" y="24" text-anchor="middle">Scan</text></g>
+<line class="guide" x1="275.7" y1="30" x2="275.7" y2="318"/>
+<g class="d-fade" data-step="2" style="--delay:0.60s"><text class="step-no" x="320.1" y="11" text-anchor="middle">03</text><text class="step-name" x="320.1" y="24" text-anchor="middle">Propose</text></g>
+<line class="guide" x1="364.6" y1="30" x2="364.6" y2="318"/>
+<g class="d-fade" data-step="3" style="--delay:0.90s"><text class="step-no" x="409.0" y="11" text-anchor="middle">04</text><text class="step-name" x="409.0" y="24" text-anchor="middle">Check</text></g>
+<line class="guide" x1="453.4" y1="30" x2="453.4" y2="318"/>
+<g class="d-fade" data-step="4" style="--delay:1.20s"><text class="step-no" x="497.9" y="11" text-anchor="middle">05</text><text class="step-name" x="497.9" y="24" text-anchor="middle">Parse</text></g>
+<line class="guide" x1="542.3" y1="30" x2="542.3" y2="318"/>
+<g class="d-fade" data-step="5" style="--delay:1.50s"><text class="step-no" x="586.7" y="11" text-anchor="middle">06</text><text class="step-name" x="586.7" y="24" text-anchor="middle">Append</text></g>
+<line class="guide" x1="631.1" y1="30" x2="631.1" y2="318"/>
+<g class="d-fade" data-step="6" style="--delay:1.80s"><text class="step-no" x="675.6" y="11" text-anchor="middle">07</text><text class="step-name" x="675.6" y="24" text-anchor="middle">Report</text></g>
+<path class="link d-draw" data-step="1" pathLength="1" d="M180.9 66.0 H231.3 V107.0" style="--delay:0.48s"/>
+<polygon class="head d-fade" data-step="1" points="227.8,105.0 231.3,111.0 234.8,105.0" style="--delay:0.78s"/>
+<line class="link d-draw" data-step="1" pathLength="1" x1="231.3" y1="165.0" x2="231.3" y2="179.0" style="--delay:0.48s"/>
+<polygon class="head d-fade" data-step="1" points="227.8,177.0 231.3,183.0 234.8,177.0" style="--delay:0.78s"/>
+<line class="link d-draw" data-step="1" pathLength="1" x1="231.3" y1="237.0" x2="231.3" y2="251.0" style="--delay:0.48s"/>
+<polygon class="head d-fade" data-step="1" points="227.8,249.0 231.3,255.0 234.8,249.0" style="--delay:0.78s"/>
+<line class="link d-draw" data-step="2" pathLength="1" x1="269.7" y1="138.0" x2="277.7" y2="138.0" style="--delay:0.78s"/>
+<polygon class="head d-fade" data-step="2" points="275.7,134.5 281.7,138.0 275.7,141.5" style="--delay:1.08s"/>
+<path class="link d-draw" data-step="3" pathLength="1" d="M358.6 138.0 H409.0 V179.0" style="--delay:1.08s"/>
+<polygon class="head d-fade" data-step="3" points="405.5,177.0 409.0,183.0 412.5,177.0" style="--delay:1.38s"/>
+<line class="link d-draw" data-step="4" pathLength="1" x1="447.4" y1="210.0" x2="455.4" y2="210.0" style="--delay:1.38s"/>
+<polygon class="head d-fade" data-step="4" points="453.4,206.5 459.4,210.0 453.4,213.5" style="--delay:1.68s"/>
+<line class="link d-draw" data-step="4" pathLength="1" x1="497.9" y1="237.0" x2="497.9" y2="251.0" style="--delay:1.38s"/>
+<polygon class="head d-fade" data-step="4" points="494.4,249.0 497.9,255.0 501.4,249.0" style="--delay:1.68s"/>
+<line class="link d-draw" data-step="5" pathLength="1" x1="536.3" y1="210.0" x2="544.3" y2="210.0" style="--delay:1.68s"/>
+<polygon class="head d-fade" data-step="5" points="542.3,206.5 548.3,210.0 542.3,213.5" style="--delay:1.98s"/>
+<line class="link d-draw" data-step="5" pathLength="1" x1="586.7" y1="237.0" x2="586.7" y2="251.0" style="--delay:1.68s"/>
+<polygon class="head d-fade" data-step="5" points="583.2,249.0 586.7,255.0 590.2,249.0" style="--delay:1.98s"/>
+<path class="link d-draw" data-step="6" pathLength="1" d="M586.7 183.0 V138.0 H633.1" style="--delay:1.98s"/>
+<polygon class="head d-fade" data-step="6" points="631.1,134.5 637.1,138.0 631.1,141.5" style="--delay:2.28s"/>
+<line class="link d-draw" data-step="6" pathLength="1" x1="675.6" y1="165.0" x2="675.6" y2="179.0" style="--delay:1.98s"/>
+<polygon class="head d-fade" data-step="6" points="672.1,177.0 675.6,183.0 679.1,177.0" style="--delay:2.28s"/>
+<line class="link d-draw" data-step="6" pathLength="1" x1="675.6" y1="237.0" x2="675.6" y2="251.0" style="--delay:1.98s"/>
+<polygon class="head d-fade" data-step="6" points="672.1,249.0 675.6,255.0 679.1,249.0" style="--delay:2.28s"/>
+<line class="link d-draw" data-step="6" pathLength="1" x1="675.6" y1="111.0" x2="675.6" y2="97.0" style="--delay:1.98s"/>
+<polygon class="head d-fade" data-step="6" points="672.1,99.0 675.6,93.0 679.1,99.0" style="--delay:2.28s"/>
+<g class="d-pop" data-step="0" style="--delay:0.08s">
+<rect class="node" x="104.0" y="39.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text" x="142.42857142857144" y="63.1" text-anchor="middle">"Normalise</text>
+<text class="node-text" x="142.42857142857144" y="75.7" text-anchor="middle">the folder"</text>
+</g>
+<g class="d-pop" data-step="1" style="--delay:0.38s">
+<rect class="node" x="192.9" y="111.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text" x="231.28571428571428" y="135.2" text-anchor="middle">asks what</text>
+<text class="node-text" x="231.28571428571428" y="147.7" text-anchor="middle">is new</text>
+</g>
+<g class="d-pop" data-step="1" style="--delay:0.38s">
+<rect class="node stopbox" x="192.9" y="183.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text code" x="231.28571428571428" y="207.2" text-anchor="middle">norm_scan</text>
+<text class="stop-text" x="231.28571428571428" y="219.7" text-anchor="middle">confidential</text>
+</g>
+<circle class="ring" data-step="1" cx="267.7" cy="185.0" r="6" style="--delay:0.83s"/>
+<g class="d-pop" data-step="1" style="--delay:0.68s"><circle class="stop" cx="267.7" cy="185.0" r="6" style="fill:var(--panel)"/><circle class="stop-core" cx="267.7" cy="185.0" r="2.4"/></g>
+<g class="d-pop" data-step="1" style="--delay:0.38s">
+<rect class="node soft" x="192.9" y="255.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text" x="231.28571428571428" y="279.1" text-anchor="middle">the files</text>
+<text class="node-text" x="231.28571428571428" y="291.6" text-anchor="middle">folder</text>
+</g>
+<g class="d-pop" data-step="2" style="--delay:0.68s">
+<rect class="node ink" x="281.7" y="111.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text light" x="320.14285714285717" y="128.9" text-anchor="middle">a field per</text>
+<text class="node-text light" x="320.14285714285717" y="141.4" text-anchor="middle">header, with</text>
+<text class="node-text light" x="320.14285714285717" y="153.9" text-anchor="middle">a reason</text>
+</g>
+<g class="d-pop" data-step="3" style="--delay:0.98s">
+<rect class="node stopbox" x="370.6" y="183.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text code" x="409.0" y="207.2" text-anchor="middle">norm_propose</text>
+<text class="stop-text" x="409.0" y="219.7" text-anchor="middle">two targets: ask</text>
+</g>
+<circle class="ring" data-step="3" cx="445.4" cy="185.0" r="6" style="--delay:1.43s"/>
+<g class="d-pop" data-step="3" style="--delay:1.28s"><circle class="stop" cx="445.4" cy="185.0" r="6" style="fill:var(--panel)"/><circle class="stop-core" cx="445.4" cy="185.0" r="2.4"/></g>
+<g class="d-pop" data-step="3" style="--delay:0.98s">
+<rect class="node" x="370.6" y="39.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text" x="409.0" y="63.1" text-anchor="middle">answers if</text>
+<text class="node-text" x="409.0" y="75.7" text-anchor="middle">it stops</text>
+</g>
+<g class="d-pop" data-step="4" style="--delay:1.28s">
+<rect class="node stopbox" x="459.4" y="183.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text" x="497.8571428571429" y="200.9" text-anchor="middle">every value</text>
+<text class="node-text" x="497.8571428571429" y="213.4" text-anchor="middle">against its type</text>
+<text class="stop-text" x="497.8571428571429" y="225.9" text-anchor="middle">fails: held</text>
+</g>
+<circle class="ring" data-step="4" cx="534.3" cy="185.0" r="6" style="--delay:1.73s"/>
+<g class="d-pop" data-step="4" style="--delay:1.58s"><circle class="stop" cx="534.3" cy="185.0" r="6" style="fill:var(--panel)"/><circle class="stop-core" cx="534.3" cy="185.0" r="2.4"/></g>
+<g class="d-pop" data-step="4" style="--delay:1.28s">
+<rect class="node soft" x="459.4" y="255.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text" x="497.8571428571429" y="279.1" text-anchor="middle">held rows</text>
+<text class="node-text" x="497.8571428571429" y="291.6" text-anchor="middle">and columns</text>
+</g>
+<g class="d-pop" data-step="5" style="--delay:1.58s">
+<rect class="node stopbox" x="548.3" y="183.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text" x="586.7142857142858" y="200.9" text-anchor="middle">counts</text>
+<text class="node-text" x="586.7142857142858" y="213.4" text-anchor="middle">reconciled</text>
+<text class="stop-text" x="586.7142857142858" y="225.9" text-anchor="middle">rows lost: ask</text>
+</g>
+<circle class="ring" data-step="5" cx="623.1" cy="185.0" r="6" style="--delay:2.03s"/>
+<g class="d-pop" data-step="5" style="--delay:1.88s"><circle class="stop" cx="623.1" cy="185.0" r="6" style="fill:var(--panel)"/><circle class="stop-core" cx="623.1" cy="185.0" r="2.4"/></g>
+<g class="d-pop" data-step="5" style="--delay:1.58s">
+<rect class="node soft" x="548.3" y="255.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text" x="586.7142857142858" y="279.1" text-anchor="middle">merged table,</text>
+<text class="node-text" x="586.7142857142858" y="291.6" text-anchor="middle">append only</text>
+</g>
+<g class="d-pop" data-step="5" style="--delay:1.58s">
+<rect class="node" x="548.3" y="39.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text" x="586.7142857142858" y="63.1" text-anchor="middle">answers if</text>
+<text class="node-text" x="586.7142857142858" y="75.7" text-anchor="middle">it stops</text>
+</g>
+<g class="d-pop" data-step="6" style="--delay:1.88s">
+<rect class="node" x="637.1" y="111.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text" x="675.5714285714286" y="135.2" text-anchor="middle">writes the</text>
+<text class="node-text" x="675.5714285714286" y="147.7" text-anchor="middle">summary</text>
+</g>
+<g class="d-pop" data-step="6" style="--delay:1.88s">
+<rect class="node" x="637.1" y="183.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text code" x="675.5714285714286" y="207.2" text-anchor="middle">norm_</text>
+<text class="node-text" x="675.5714285714286" y="219.7" text-anchor="middle">summary</text>
+</g>
+<g class="d-pop" data-step="6" style="--delay:1.88s">
+<rect class="node soft" x="637.1" y="255.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text" x="675.5714285714286" y="279.1" text-anchor="middle">summary and</text>
+<text class="node-text" x="675.5714285714286" y="291.6" text-anchor="middle">decision log</text>
+</g>
+<g class="d-pop" data-step="6" style="--delay:1.88s">
+<rect class="node ink" x="637.1" y="39.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text light" x="675.5714285714286" y="63.1" text-anchor="middle">reads the</text>
+<text class="node-text light" x="675.5714285714286" y="75.7" text-anchor="middle">summary</text>
+</g>
+</svg>
+</div>
+<!--/DIAGRAM:normaliser-->
+      <figcaption class="fig-note">One run of the normaliser. Steps across, who or what does each step down. <b>Amber</b> marks where the code halts: a confidential file is declined, a column with two plausible targets waits for an answer, a value that fails its type is held, and a row count that changes after cleaning waits for an answer.</figcaption>
+    </figure>
+
+    <p class="how"><b>How it runs:</b> a small Node.js tool server on my machine holds the nine tools; the Claude desktop app starts it and calls the tools as it works. The merged table, the decision log and the held rows live in files on disk, so a later batch of files is appended and never rewrites an earlier row. Every file is synthetic, written by a seeded generator together with its expected result, so <b>every expected cell is exact</b> and nothing is checked by eye.</p>
+
+    <h4><svg class="ic" aria-hidden="true"><use href="#ic-link"/></svg>Where to look in the code</h4>
+    <ul class="words checks">
+      <li><a href="https://github.com/mjazzly/spreadsheet-normaliser"><b>README</b></a> How it runs, how to connect it, and the one command that reruns every case.</li>
+      <li><a href="https://github.com/mjazzly/spreadsheet-normaliser/blob/main/lib/store.js"><b>lib/store.js</b></a> The four gates, the append-only table and the reconciliation, written as code the model cannot skip.</li>
+      <li><a href="https://github.com/mjazzly/spreadsheet-normaliser/blob/main/scripts/make_cases.js"><b>scripts/make_cases.js</b></a> The seeded generator that writes every test file and its expected result in one pass.</li>
+      <li><a href="https://github.com/mjazzly/spreadsheet-normaliser/tree/main/eval/results"><b>eval/results</b></a> Every recorded run: the model, the cases, the tokens and the cost.</li>
+      <li><a href="https://github.com/mjazzly/spreadsheet-normaliser/blob/main/eval/EXEMPLAR.md"><b>eval/EXEMPLAR.md</b></a> The run history as one page, rebuilt from the results after every run.</li>
+      <li><a href="https://github.com/mjazzly/spreadsheet-normaliser/blob/main/skill/SKILL.md"><b>skill/SKILL.md</b></a> The instructions the model is given, and nothing else.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="words">
+  <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-book"/></svg></span>The words on this page</h2>
+  <ul class="words">
+    <li><b>Test case.</b> One input with a known right answer. Each entry has eight: five ordinary, one it must decline, two that test what it remembers between runs.</li>
+    <li><b>Expected result.</b> The right answer for a case, written down before the first run, so the run is marked against it and never the other way round.</li>
+    <li><b>Blind run.</b> A test where the model cannot see the expected answers.</li>
+    <li><b>Test harness.</b> A script that runs every test case the same way, checks the results against the expected ones, and records the run with its cost.</li>
+    <li><b>Stop gate.</b> A rule in code that halts the run until a person answers, or declines the task outright.</li>
+    <li><b>Tool.</b> A function in code the model calls by itself to act. A tool server is the program that holds the tools.</li>
+    <li><b>Model tier.</b> The size of model, from the largest to the smallest and cheapest. A build that passes on a smaller tier costs less to run.</li>
+    <li><b>Cache.</b> Context the model has already read, kept so the next call does not pay for reading it again.</li>
+    <li><b>Version.</b> One numbered state of the rules. A version changes only after a run, and the run that earned it is on the record.</li>
+    <li><b>Repository.</b> A project's code and its full history, kept on GitHub where anyone can read it, run it, and see how it changed.</li>
+  </ul>
+</section>
+
+<footer>
+  <div class="end">
+    <p>Thanks for reading. Say hello anytime.</p>
+    <ul class="icon-links">
+      <li><a href="mailto:megatjazly@gmail.com" aria-label="Email" title="Email"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg></a></li>
+      <li><a href="https://linkedin.com/in/megatjazly" rel="me" aria-label="LinkedIn" title="LinkedIn"><span class="mark mark-linkedin" aria-hidden="true"></span></a></li>
+      <li><a href="https://github.com/mjazzly" rel="me" aria-label="GitHub" title="GitHub"><span class="mark mark-github" aria-hidden="true"></span></a></li>
+    </ul>
+  </div>
+</footer>
+
+</div>
+<script src="site.js?v=20261030"></script>
+</body>
+</html>

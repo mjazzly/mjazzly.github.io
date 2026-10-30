@@ -295,3 +295,44 @@ html.js .is-in .stair:nth-child(5){transition-delay:.48s}
 /* a tapped link in a drawing never keeps a focus ring or a lit state on touch screens */
 .shelf a,.timeline a{-webkit-tap-highlight-color:transparent;outline:none}
 .shelf a:focus-visible,.timeline a:focus-visible{outline:none}
+
+/* ---------- AI Work page ---------- */
+/* Four tiles across for the reading guide, four numbers across for an entry */
+.tiles.four{grid-template-columns:repeat(4,1fr)}
+.tiles.four .tile .what{margin-top:2px}
+.stats.four{grid-template-columns:repeat(4,1fr);margin-top:22px}
+.stats.four .stat{background:var(--paper)}
+
+/* One entry: a panel with the head row, the task, what it replaces, the numbers, the record, the drawing, and the code */
+.work{background:var(--panel);border-radius:var(--radius);padding:24px 28px 26px}
+.work-head{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+.work-head .sys-head{flex:1}
+.work h3{font-size:22px;line-height:1.25;margin-bottom:10px;max-width:720px}
+.work > p{font-size:15.5px;color:var(--ink-soft);max-width:760px}
+.work > p b{color:var(--ink)}
+.work .replaces{margin-top:14px;padding:14px 18px;border-radius:var(--radius-s);background:var(--amber-tint);color:var(--ink-soft);font-size:15px;max-width:none}
+.work .replaces b{color:var(--ink)}
+.work .replaces b:first-child{color:var(--amber)}
+.work .record{margin-top:22px}
+.work .record .row{grid-template-columns:190px auto 1fr}
+.work .figure{padding:0;margin:22px 0 6px}
+.work .how{margin-top:18px;font-size:15px;color:var(--ink-soft);max-width:none}
+.work .how b{color:var(--ink)}
+.work h4{display:flex;align-items:center;gap:8px;font-size:15px;margin:22px 0 12px;color:var(--ink)}
+.work h4 .ic{width:18px;height:18px;color:var(--marine)}
+.checks{columns:2}
+.checks li{background:var(--paper)}
+.checks li a{text-decoration:none;color:var(--marine)}
+.checks li a b{color:var(--marine);font-family:var(--mono);font-weight:500;font-size:13px}
+.checks li a:hover b{text-decoration:underline}
+
+
+@media(max-width:860px){
+  .tiles.four,.stats.four{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+  .tiles.four,.stats.four{grid-template-columns:1fr}
+  .work{padding:20px 18px}
+  .work .record .row{grid-template-columns:1fr}
+  .checks{columns:1}
+}

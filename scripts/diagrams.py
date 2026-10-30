@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Draws the workflow diagrams on casefiles.html and built.html as inline SVG.
+"""Draws the workflow diagrams on casefiles.html, built.html and aiwork.html as inline SVG.
 
 Each diagram is a swimlane: steps across the top, who or what does each step
 down the side, stop points marked in amber. The drawing is written from a
@@ -245,7 +245,50 @@ DIAGRAMS["harness"] = dict(
     links=[((0,0),(1,1)), ((1,1),(1,2)), ((1,2),(2,2)), ((2,2),(1,3)), ((1,3),(1,4))],
 )
 
-FILES = {"casefiles.html": ["case-01", "case-02", "case-03"], "built.html": ["tracker", "harness"]}
+DIAGRAMS["versions"] = dict(
+    alt="How a version is earned, in six steps across three lanes: the expected results are written first, the harness runs the case set blind and checks every case, a miss is named with its line, one rule in the skill changes and the version number moves, and the same cases are run again and recorded",
+    steps=["Expected", "Run blind", "Check", "Name the miss", "Fix the rule", "Rerun"],
+    lanes=["Me", "The harness|(a script)", "The skill|(the rules)"],
+    nodes=[
+        dict(at=(0, 0), lines=["writes the", "expected result", "for every case"]),
+        dict(at=(1, 1), lines=["runs the case set", "on a chosen", "model tier"]),
+        dict(at=(1, 2), lines=["compares each", "result with the", "expected one"], stop="pass, or named"),
+        dict(at=(0, 3), lines=["reads the miss", "by its line"], kind="ink"),
+        dict(at=(2, 4), lines=["one rule changes;", "the version", "number moves"], kind="soft"),
+        dict(at=(1, 5), lines=["same cases, same", "answers; the run", "and cost recorded"]),
+    ],
+    links=[((0,0),(1,1)), ((1,1),(1,2)), ((1,2),(0,3)), ((0,3),(2,4)), ((2,4),(1,5))],
+)
+
+DIAGRAMS["normaliser"] = dict(
+    alt="Seven steps of the spreadsheet normaliser across four lanes: me, Claude with the skill, the tool server, and the files on disk; the tool server declines a confidential file, stops when a column has two plausible targets, holds a value that fails its type, and stops when cleaning changes the row count",
+    steps=["Start", "Scan", "Propose", "Check", "Parse", "Append", "Report"],
+    lanes=["Me", "Claude with|the skill", "The tool|server", "Files on|disk"],
+    lane_h=72,
+    nodes=[
+        dict(at=(0, 0), lines=['"Normalise', 'the folder"']),
+        dict(at=(1, 1), lines=["asks what", "is new"]),
+        dict(at=(2, 1), lines=["norm_scan"], stop="confidential"),
+        dict(at=(3, 1), lines=["the files", "folder"], kind="soft"),
+        dict(at=(1, 2), lines=["a field per", "header, with", "a reason"], kind="ink"),
+        dict(at=(2, 3), lines=["norm_propose"], stop="two targets: ask"),
+        dict(at=(0, 3), lines=["answers if", "it stops"]),
+        dict(at=(2, 4), lines=["every value", "against its type"], stop="fails: held"),
+        dict(at=(3, 4), lines=["held rows", "and columns"], kind="soft"),
+        dict(at=(2, 5), lines=["counts", "reconciled"], stop="rows lost: ask"),
+        dict(at=(3, 5), lines=["merged table,", "append only"], kind="soft"),
+        dict(at=(0, 5), lines=["answers if", "it stops"]),
+        dict(at=(1, 6), lines=["writes the", "summary"]),
+        dict(at=(2, 6), lines=["norm_", "summary"]),
+        dict(at=(3, 6), lines=["summary and", "decision log"], kind="soft"),
+        dict(at=(0, 6), lines=["reads the", "summary"], kind="ink"),
+    ],
+    links=[((0,0),(1,1)), ((1,1),(2,1)), ((2,1),(3,1)), ((1,1),(1,2)), ((1,2),(2,3)),
+           ((2,3),(2,4)), ((2,4),(3,4)), ((2,4),(2,5)), ((2,5),(3,5)),
+           ((2,5),(1,6)), ((1,6),(2,6)), ((2,6),(3,6)), ((1,6),(0,6))],
+)
+
+FILES = {"casefiles.html": ["case-01", "case-02", "case-03"], "built.html": ["tracker", "harness"], "aiwork.html": ["versions", "normaliser"]}
 
 if __name__ == "__main__":
     root = pathlib.Path(__file__).resolve().parent.parent
