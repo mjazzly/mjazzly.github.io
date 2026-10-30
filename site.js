@@ -235,3 +235,33 @@ document.documentElement.classList.add("js");
     });
   });
 })();
+
+// The output pages: items that share a data-src light together when the pointer rests on one, a finger taps one, or the keyboard reaches one; a press anywhere else clears them
+(function () {
+  Array.prototype.forEach.call(document.querySelectorAll(".linked"), function (box) {
+    var items = Array.prototype.slice.call(box.querySelectorAll("[data-src]"));
+    // an item may carry more than one id (an answer names its question and its metric); it lights whatever shares any of them
+    function ids(el) { return (el.getAttribute("data-src") || "").split(/\s+/).filter(Boolean); }
+    function light(id) {
+      var want = id.split(/\s+/);
+      box.classList.add("has-lit");
+      items.forEach(function (el) {
+        el.classList.toggle("is-lit", ids(el).some(function (x) { return want.indexOf(x) > -1; }));
+      });
+    }
+    function clear() {
+      box.classList.remove("has-lit");
+      items.forEach(function (el) { el.classList.remove("is-lit"); });
+    }
+    items.forEach(function (el) {
+      el.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") light(el.getAttribute("data-src")); });
+      el.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") clear(); });
+      el.addEventListener("click", function () { light(el.getAttribute("data-src")); });
+      el.addEventListener("focus", function () { light(el.getAttribute("data-src")); });
+      el.addEventListener("blur", clear);
+    });
+    document.addEventListener("pointerdown", function (e) {
+      if (box.classList.contains("has-lit") && !(e.target.closest && e.target.closest(".linked [data-src]"))) clear();
+    });
+  });
+})();

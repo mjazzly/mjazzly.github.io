@@ -1,0 +1,67 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Where the week's commitments stand</title><style>
+  @page { size: A4 landscape; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: "Carlito", "Calibri", sans-serif; color: #1E2D4A; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { width: 297mm; height: 210mm; padding: 9mm 14mm 0 14mm; position: relative; overflow: hidden; }
+  h1 { font-size: 19pt; margin: 0 0 1mm 0; letter-spacing: -0.1pt; }
+  .sub { font-size: 9.4pt; color: #4B5563; margin: 0 0 3.4mm 0; line-height: 1.3; max-width: 262mm; }
+  .k { font-size: 6.2pt; letter-spacing: .9pt; text-transform: uppercase; color: #6B7280; }
+  .muted { color: #6B7280; }
+  .sig { text-align: right; margin-top: 2mm; font-size: 7pt; color: #6B7280; line-height: 1; }
+  .tiles { display: flex; gap: 2mm; margin-bottom: 3mm; }
+  .tile { flex: 1 1 0; min-width: 0; background: #F7F8FB; border: 0.25mm solid #DCE2EC; border-radius: 1mm; padding: 1.8mm 2.6mm 1.7mm 2.6mm; position: relative; height: 17mm; }
+  .tile .v { font-size: 17pt; font-weight: 700; line-height: 1.05; margin: .6mm 0 .3mm 0; }
+  .tile .d { font-size: 7.1pt; color: #4B5563; line-height: 1.22; }
+  .st { position: absolute; right: 2.2mm; top: 1.8mm; width: 2.3mm; height: 2.3mm; border-radius: 50%; }
+  .st.g { background: #3E8E63; } .st.a { background: #D39B36; } .st.r { background: #C8603F; } .st.n { background: #5F7DA6; }
+  .panel { border: 0.3mm solid #D6DCE6; border-radius: 1.4mm; background: #F7F8FB; padding: 2.2mm 2.8mm 2.4mm 2.8mm; }
+  .panel h2 { font-size: 10.5pt; margin: 0 0 .4mm 0; }
+  .panel .lead { font-size: 7.2pt; color: #6B7280; margin: 0 0 1.8mm 0; line-height: 1.25; }
+
+  .grid { display: flex; gap: 3mm; }
+  .main { flex: 1 1 0; min-width: 0; }
+  .side { width: 84mm; flex: none; display: flex; flex-direction: column; gap: 2.4mm; }
+  .colhead { display: flex; font-size: 6.2pt; letter-spacing: .9pt; text-transform: uppercase; color: #6B7280; padding: 0 2.4mm 1mm 2.4mm; }
+  .colhead span:nth-child(1), .row .who { width: 33mm; flex: none; }
+  .colhead span:nth-child(2), .row .act { flex: 1 1 0; min-width: 0; }
+  .colhead span:nth-child(3), .row .due, .row .due { width: 19mm; flex: none; }
+  .colhead span:nth-child(4), .row .src { width: 36mm; flex: none; }
+  .acct { border: 0.25mm solid #DCE2EC; border-radius: 1mm; overflow: hidden; margin-bottom: 2mm; background: #fff; }
+  .ah { display: flex; justify-content: space-between; align-items: center; color: #fff; padding: 0 2.4mm; height: 5.6mm; font-size: 8.4pt; }
+  .ah span { font-size: 6.6pt; letter-spacing: .6pt; text-transform: uppercase; opacity: .9; }
+  .ah.t0 { background: #1E2D4A; } .ah.t1 { background: #3D5A8A; } .ah.t2 { background: #5F7DA6; }
+  .row { display: flex; align-items: center; min-height: 7.5mm; padding: 1mm 2.4mm; border-top: 0.22mm solid #EEF1F6; font-size: 7.8pt; line-height: 1.2; }
+  .acct .row:first-of-type { border-top: 0; }
+  .row.unrow { background: #FCF6EA; }
+  .who { font-weight: 700; } .who small { display: block; font-weight: 400; font-size: 6.4pt; color: #6B7280; }
+  .who.un { color: #A9711A; }
+  .act { padding-right: 2mm; }
+  .tg { font-style: normal; font-size: 5.8pt; letter-spacing: .5pt; text-transform: uppercase; border-radius: .7mm; padding: .2mm 1.1mm; margin-left: 1.4mm; vertical-align: .2mm; white-space: nowrap; }
+  .tg.over { color: #fff; background: #C8603F; } .tg.conf { color: #3D5A8A; border: 0.22mm solid #9DB0CC; }
+  .due { font-weight: 700; } .due.over { color: #C8603F; } .due.conf { color: #3D5A8A; font-weight: 400; font-style: italic; } .due.none { color: #6B7280; font-weight: 400; }
+  .src { font-size: 6.6pt; color: #6B7280; }
+  .q { display: flex; gap: 1.8mm; margin-bottom: 1.8mm; } .q:last-child { margin-bottom: 0; }
+  .qn { flex: none; width: 4.2mm; height: 4.2mm; border-radius: 50%; background: #1E2D4A; color: #fff; font-size: 6.6pt; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: .3mm; }
+  .qw { font-size: 6.2pt; letter-spacing: .6pt; text-transform: uppercase; color: #6B7280; }
+  .qq { font-size: 7.6pt; line-height: 1.22; } .qa { font-size: 7.4pt; color: #2F6B4B; font-weight: 700; line-height: 1.22; margin-top: .3mm; } .qa.open { color: #A9711A; }
+  .li { font-size: 7.4pt; line-height: 1.25; margin-bottom: 1.2mm; } .li:last-child { margin-bottom: 0; }
+  .foot { display: flex; gap: 3mm; align-items: stretch; margin-top: .6mm; }
+  .how { flex: 1; background: #F4F6FA; border-radius: 1mm; padding: 1.6mm 2.6mm; font-size: 6.9pt; color: #4B5563; line-height: 1.3; }
+  .how b { color: #1E2D4A; }
+  </style></head><body><div class="page">
+  <h1>Where the week's commitments stand</h1>
+  <p class="sub">Eight meeting transcripts, read on 30 October 2026. <b>Every action shows the meeting line it came from</b>, and where a transcript <b>names no owner or no date</b>, the page <b>shows the gap</b> as it stands.</p>
+  <div class="tiles"><div class="tile"><span class="st n"></span><div class="k">Open actions</div><div class="v">12</div><div class="d">across three client accounts</div></div><div class="tile"><span class="st n"></span><div class="k">Due in the next seven days</div><div class="v">3</div><div class="d">30 Oct to 6 Nov</div></div><div class="tile"><span class="st r"></span><div class="k">Overdue</div><div class="v">5</div><div class="d">Aiden, 27 Oct; not, 28 Oct; Priya, 29 Oct; Hannah, 15 Oct; Mei, 29 Oct</div></div><div class="tile"><span class="st a"></span><div class="k">No owner named</div><div class="v">3</div><div class="d">nobody took these on in the meeting</div></div><div class="tile"><span class="st g"></span><div class="k">Closed by a later meeting</div><div class="v">2</div><div class="d">a later transcript says it happened</div></div></div>
+  <div class="grid">
+    <div class="main"><div class="colhead"><span>Owner</span><span>Action</span><span>Due</span><span>From</span></div><div class="acct"><div class="ah t0"><b>Halden Logistics</b><span>six open</span></div><div class="row unrow"><span class="who un">No owner named</span><span class="act">Send the first cut of the mapping once Priya Nair's file is in</span><span class="due none">No date given</span><span class="src">Finance data walkthrough, 22 Oct, line 6</span></div><div class="row"><span class="who">Aiden Brooks<small>Consultant</small></span><span class="act">Send the draft category taxonomy to Sofia Lindqvist<i class="tg over">Overdue</i></span><span class="due over">27 Oct</span><span class="src">Procurement diagnostic kickoff, 20 Oct, line 5</span></div><div class="row"><span class="who">Priya Nair<small>Finance Director</small></span><span class="act">Send the cost centre mapping<i class="tg over">Overdue</i></span><span class="due over">29 Oct</span><span class="src">Finance data walkthrough, 22 Oct, line 3</span></div><div class="row"><span class="who">Daniel Okafor<small>Chief Operating Officer</small></span><span class="act">Confirm with the board secretary that the diagnostic is on the November agenda</span><span class="due">30 Oct</span><span class="src">Finance data walkthrough, 22 Oct, line 5</span></div><div class="row"><span class="who">Daniel Okafor<small>Chief Operating Officer</small></span><span class="act">Set up the introductions to Halden's three logistics partners</span><span class="due">31 Oct</span><span class="src">Procurement diagnostic kickoff, 20 Oct, line 6</span></div><div class="row"><span class="who">Aiden Brooks<small>Consultant</small></span><span class="act">Book the category workshop with Sofia Lindqvist's team</span><span class="due">6 Nov</span><span class="src">Procurement diagnostic check-in, 23 Oct, line 6</span></div></div><div class="acct"><div class="ah t1"><b>Meridian Foods</b><span>four open</span></div><div class="row unrow"><span class="who un">No owner named</span><span class="act">Send the revised price list to the distributors<i class="tg over">Overdue</i></span><span class="due over">28 Oct</span><span class="src">Pricing review, 21 Oct, line 3</span></div><div class="row unrow"><span class="who un">No owner named</span><span class="act">Brief the sales team before the price list goes out</span><span class="due none">No date given</span><span class="src">Pricing review, 21 Oct, line 6</span></div><div class="row"><span class="who">Hannah Cole<small>Operations Manager</small></span><span class="act">Send the distributor contract list<i class="tg over">Overdue</i></span><span class="due over">15 Oct</span><span class="src">Distributor contracts, 22 Oct, line 2</span></div><div class="row"><span class="who">Mei Ling Chong<small>Consultant</small></span><span class="act">Mark the agreements with a price-change clause and send the marked list to Tom Reyes<i class="tg over">Overdue</i></span><span class="due over">29 Oct</span><span class="src">Distributor contracts, 22 Oct, line 3</span></div></div><div class="acct"><div class="ah t2"><b>Northgate Insurance</b><span>two open</span></div><div class="row"><span class="who">Grace Tan<small>Transformation Lead</small></span><span class="act">Share the current process maps<i class="tg conf">Date to confirm</i></span><span class="due conf">by Wednesday</span><span class="src">Claims process working session, line 5</span></div><div class="row"><span class="who">Yusuf Rahman<small>Head of Claims</small></span><span class="act">Get the claims handler interview list to Lena Marsh<i class="tg conf">Date to confirm</i></span><span class="due conf">by next Friday</span><span class="src">Claims process working session, line 3</span></div></div></div>
+    <div class="side">
+      <div class="panel"><h2>Asked before writing</h2><p class="lead">A <b>gate</b> is a point where the assistant <b>must stop and ask a person</b>. <b>Nothing from that transcript is written</b> until the question is answered.</p><div class="q"><span class="qn">1</span><div><div class="qw">Halden Logistics, finance data walkthrough</div><div class="qq">Priya Nair matches two people in the contacts table.</div><div class="qa">Answered: Halden Logistics, Finance Director.</div></div></div><div class="q"><span class="qn">2</span><div><div class="qw">Meridian Foods, weekly status update</div><div class="qq">The meeting held no new actions. Asked to confirm before writing nothing.</div><div class="qa">Confirmed. It closed one earlier action instead.</div></div></div><div class="q"><span class="qn">3</span><div><div class="qw">Meridian Foods, distributor contracts</div><div class="qq">A due date of 15 Oct was set in a meeting held on 22 Oct.</div><div class="qa">Answered: recorded as said, and shown as overdue.</div></div></div></div>
+      <div class="panel"><h2>Declined</h2><div class="li"><b>Northgate Insurance, board pre-read discussion</b>: <b>marked confidential</b> in its header. Its text was <b>never read</b> and nothing from it appears here.</div></div>
+      <div class="panel"><h2>Waiting on a date</h2><div class="li"><b>Northgate Insurance, claims process working session</b>: the transcript carries <b>no meeting date</b>, so two due dates are <b>kept as said</b> ("by next Friday", "by Wednesday") until the date is given.</div></div>
+      <div class="panel"><h2>Closed this run</h2><div class="li">Send the spend export for the last twelve months <span class="muted">(Sofia Lindqvist)</span>: closed by Procurement diagnostic check-in, 23 Oct.</div><div class="li">Update the scenario B model with the distributor volumes and send it to Hannah Cole <span class="muted">(Mei Ling Chong)</span>: closed by Weekly status update, 22 Oct.</div></div>
+    </div>
+  </div>
+  <div class="foot"><div class="how"><b>How this page was made.</b> An AI assistant read each transcript and <b>decided what counts as an action and who committed to it</b>. It then used <b>connected tools</b> to look every named person up in the <b>contacts table</b>, which stands in for a client CRM, and to write each action to a tracker that <b>cannot be overwritten</b>. It stops at <b>four gates</b>: a name that matches two people, a meeting with no actions, a due date before the meeting it was set in, and a transcript marked confidential. <b>All names and companies are invented for testing.</b></div></div>
+  <div class="sig">Megat Jazly</div>
+  </div></body></html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261030b"><link rel="stylesheet" href="motion.css?v=20261030b"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261030c"><link rel="stylesheet" href="motion.css?v=20261030c"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
 <title>AI Work | Megat Jazly</title>
 <meta name="description" content="AI systems Megat Jazly built to take over a real task, each with what it replaces, how it was tested, the numbers from every recorded run, and the code on GitHub.">
 </head>
@@ -211,6 +211,8 @@
 
     <p class="how"><b>How it runs:</b> a small Node.js tool server on my machine holds the ten tools; the Claude desktop app starts it and calls the tools as it works. The tracker and the run log live in files on disk, so next week it reads only the new transcripts and never rewrites an old row. The contacts table stands in for a CRM, and the data is synthetic.</p>
 
+    <p class="score-open"><a href="output-01.html"><svg class="ic" aria-hidden="true"><use href="#ic-file"/></svg>See the output</a><span>one run, the input beside what came out</span></p>
+
     <h4><svg class="ic" aria-hidden="true"><use href="#ic-link"/></svg>Where to look in the code</h4>
     <ul class="words checks">
       <li><a target="_blank" href="https://github.com/mjazzly/meeting-tracker-assistant" rel="noopener"><b>README</b></a> How it runs, how to connect it, and the one command that reruns every case.</li>
@@ -239,15 +241,17 @@
 
     <div class="stats four">
       <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><div class="n">5 of 5</div><div class="what">cases matched, largest model</div><div class="basis">Five test cases plus one it must decline and two that test a second run, checked blind against <b>results generated from a seed before the first run</b>. All eight matched; 242 rows merged, every count reconciled.</div></div>
-      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-target"/></svg></span><div class="n">5 of 5</div><div class="what">cases matched, smallest model</div><div class="basis">The same eight of eight on the smallest tier, at a twenty-seventh of the cost. <b>The rules sit in code</b>, so the tier changes the price of a run and not its result.</div></div>
+      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-target"/></svg></span><div class="n">5 of 5</div><div class="what">cases matched, smallest model</div><div class="basis">The same eight of eight on the smallest tier, at a thirty-first of the cost. <b>The rules sit in code</b>, so the tier changes the price of a run and not its result.</div></div>
       <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-hand"/></svg></span><div class="n">4</div><div class="what">stop gates in code</div><div class="basis">A column with two plausible targets, a file whose row count changes after cleaning, a value that fails its type (held, never coerced), a file marked confidential (declined). <b>The code halts the run</b>; the model cannot talk its way past.</div></div>
-      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-chart"/></svg></span><div class="n">US$0.85</div><div class="what">one full run, largest model</div><div class="basis">Twenty-one files in two passes, with repeated context cached. <b>US$5.30 without the cache</b>; US$0.03 on the smallest model. Every run records its own cost.</div></div>
+      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-chart"/></svg></span><div class="n">US$0.89</div><div class="what">one full run, largest model</div><div class="basis">Twenty-one files in two passes, with repeated context cached. <b>US$5.64 without the cache</b>; US$0.03 on the smallest model. Every run records its own cost.</div></div>
     </div>
 
     <div class="record">
-      <p class="rec-head"><b>The versions:</b> every counted run is blind, the expected results were generated first, and a miss is named by its file, row and field. Both runs so far passed clean, so <b>v1.0 has not moved</b>; the first miss will be named here with the rule that followed it.</p>
+      <p class="rec-head"><b>The versions:</b> every counted run is blind, the expected results were generated first, and a miss is named by its file, row and field. All four runs so far passed clean, the last two on test files regenerated from the same seed with general branch and person names and no currency marks, so <b>v1.0 has not moved</b>; the first miss will be named here with the rule that followed it.</p>
       <div class="row"><span class="tier">v1.0 · harness, smallest</span><span class="marks"><i></i><i></i><i></i><i></i><i></i><i class="decline"></i></span><span class="score"><b>five of five</b>, the decline held, both second-run cases matched. The model named the second candidate for a bare "Date" column itself, and the code refused one proposal that listed a header twice; the next call corrected it.</span></div>
       <div class="row"><span class="tier">v1.0 · harness, largest</span><span class="marks"><i></i><i></i><i></i><i></i><i></i><i class="decline"></i></span><span class="score"><b>five of five</b>, the decline held, both second-run cases matched, in two fewer model calls. It read a whole file before choosing a date style, and noticed that the repeated row in the last file sits where a missing record id would fall, which is how the file was built.</span></div>
+      <div class="row"><span class="tier">v1.0 · harness, smallest</span><span class="marks"><i></i><i></i><i></i><i></i><i></i><i class="decline"></i></span><span class="score"><b>five of five</b>, the decline held, both second-run cases matched, on the regenerated test files: every value unchanged, every name and label new.</span></div>
+      <div class="row"><span class="tier">v1.0 · harness, largest</span><span class="marks"><i></i><i></i><i></i><i></i><i></i><i class="decline"></i></span><span class="score"><b>five of five</b>, the decline held, both second-run cases matched, on the regenerated test files.</span></div>
       <p class="key"><span><i></i>case passed</span><span><i class="miss"></i>the named miss</span><span><i class="decline"></i>the decline held</span></p>
     </div>
 
@@ -411,6 +415,8 @@
     </figure>
 
     <p class="how"><b>How it runs:</b> a small Node.js tool server on my machine holds the nine tools; the Claude desktop app starts it and calls the tools as it works. The merged table, the decision log and the held rows live in files on disk, so a later batch of files is appended and never rewrites an earlier row. Every file is synthetic, written by a seeded generator together with its expected result, so <b>every expected cell is exact</b> and nothing is checked by eye.</p>
+
+    <p class="score-open"><a href="output-02.html"><svg class="ic" aria-hidden="true"><use href="#ic-file"/></svg>See the output</a><span>one run, the input beside what came out</span></p>
 
     <h4><svg class="ic" aria-hidden="true"><use href="#ic-link"/></svg>Where to look in the code</h4>
     <ul class="words checks">
@@ -598,6 +604,8 @@
 
     <p class="how"><b>How it runs:</b> a small Node.js tool server on my machine holds the seven tools; the Claude desktop app starts it and calls the tools as it works. The table sits in a DuckDB file on disk with its data version, and every answer is appended to a log with its run id, which is how a repeated question finds the first answer and how <b>a change in the data is noticed</b>. The table is synthetic, written by a seeded generator together with every expected answer, so <b>every expected number is exact</b> and nothing is checked by eye.</p>
 
+    <p class="score-open"><a href="output-03.html"><svg class="ic" aria-hidden="true"><use href="#ic-file"/></svg>See the output</a><span>one run, the input beside what came out</span></p>
+
     <h4><svg class="ic" aria-hidden="true"><use href="#ic-link"/></svg>Where to look in the code</h4>
     <ul class="words checks">
       <li><a target="_blank" href="https://github.com/mjazzly/data-answers" rel="noopener"><b>README</b></a> How it runs, how to connect it, and the one command that reruns every question.</li>
@@ -777,6 +785,8 @@
 
     <p class="how"><b>How it runs:</b> a small Node.js tool server on my machine holds the five tools; the Claude desktop app starts it and calls the tools as it works. The model reads the week's sources and submits its draft once; the code checks each claim against the file and the line it names, writes the released page, the list of removed sentences with their reasons, and every claim checked. The test weeks are synthetic, written by a seeded generator together with <b>every fact each page must carry</b>, so nothing is checked by eye.</p>
 
+    <p class="score-open"><a href="output-04.html"><svg class="ic" aria-hidden="true"><use href="#ic-file"/></svg>See the output</a><span>one run, the input beside what came out</span></p>
+
     <h4><svg class="ic" aria-hidden="true"><use href="#ic-link"/></svg>Where to look in the code</h4>
     <ul class="words checks">
       <li><a target="_blank" href="https://github.com/mjazzly/sourced-brief" rel="noopener"><b>README</b></a> How it runs, how to connect it, and the one command that rewrites every test week.</li>
@@ -805,7 +815,7 @@
 
     <div class="stats four">
       <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-layers"/></svg></span><div class="n">4</div><div class="what">builds rerun by one command, on both models</div><div class="basis">The meeting tracker, the spreadsheet normaliser, data answers and the sourced brief, each through <b>its own harness and its own checker</b> in a fresh copy. A fifth build joins by its small file alone; a test proves it with a copy.</div></div>
-      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><div class="n">25</div><div class="what">counted runs on the record</div><div class="basis">Ten from three sweeps and fifteen brought in from the builds' own earlier records, marked as brought in. <b>None was refused</b>; a refused run stays on the record and is never counted.</div></div>
+      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><div class="n">27</div><div class="what">counted runs on the record</div><div class="basis">Ten from three sweeps and seventeen brought in from the builds' own earlier records, marked as brought in. <b>None was refused</b>; a refused run stays on the record and is never counted.</div></div>
       <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-target"/></svg></span><div class="n">2 of 2</div><div class="what">planted regressions named by their case</div><div class="basis">One planted in a recorded tracker run, and one live: the tracker's instructions with the owner rule removed, run on the smallest model, turned a case red and <b>the comparison named it</b>. On the first real sweep it caught <b>a sourced brief case that had passed before</b>, traced to the brief's own check and fixed in its v1.3.</div></div>
       <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-chart"/></svg></span><div class="n">US$1.75</div><div class="what">one full sweep, smallest passing models</div><div class="basis">Three builds pass on the smallest model for <b>US$0.09 together</b>; the sourced brief passes only on the largest, US$1.67 of the total. Every build on both models: US$4.75.</div></div>
     </div>
@@ -817,7 +827,7 @@
     <thead><tr><th scope="col">Build</th><th scope="col">Smallest model</th><th scope="col">Largest model</th></tr></thead>
     <tbody>
       <tr><th scope="row"><b>Meeting tracker</b><span class="ver">v2.0</span></th><td class="met smallest"><b>7 of 8</b> cases<br>gates <b>1 of 1</b><br>US$0.017<span class="verdict">bar met · smallest passing</span></td><td class="met"><b>8 of 8</b> cases<br>gates <b>1 of 1</b><br>US$0.507<span class="verdict">bar met</span></td></tr>
-      <tr><th scope="row"><b>Spreadsheet normaliser</b><span class="ver">v1.0</span></th><td class="met smallest"><b>8 of 8</b> cases<br>gates <b>1 of 1</b><br>US$0.029<span class="verdict">bar met · smallest passing</span></td><td class="met"><b>8 of 8</b> cases<br>gates <b>1 of 1</b><br>US$0.907<span class="verdict">bar met</span></td></tr>
+      <tr><th scope="row"><b>Spreadsheet normaliser</b><span class="ver">v1.0</span></th><td class="met smallest"><b>8 of 8</b> cases<br>gates <b>1 of 1</b><br>US$0.029<span class="verdict">bar met · smallest passing</span></td><td class="met"><b>8 of 8</b> cases<br>gates <b>1 of 1</b><br>US$0.891<span class="verdict">bar met</span></td></tr>
       <tr><th scope="row"><b>Data answers</b><span class="ver">v1.1</span></th><td class="met smallest"><b>28 of 28</b> cases<br>gates <b>6 of 6</b><br>US$0.040<span class="verdict">bar met · smallest passing</span></td><td class="met"><b>28 of 28</b> cases<br>gates <b>6 of 6</b><br>US$1.512<span class="verdict">bar met</span></td></tr>
       <tr><th scope="row"><b>Sourced brief</b><span class="ver">v1.3</span></th><td class="notmet"><b>7 of 8</b> cases<br>gates <b>4 of 4</b><br>US$0.066<span class="verdict">bar not met</span></td><td class="met smallest"><b>8 of 8</b> cases<br>gates <b>4 of 4</b><br>US$1.667<span class="verdict">bar met · smallest passing</span></td></tr>
     </tbody>
@@ -1005,6 +1015,6 @@
 </footer>
 
 </div>
-<script src="site.js?v=20261030b"></script>
+<script src="site.js?v=20261030c"></script>
 </body>
 </html>
