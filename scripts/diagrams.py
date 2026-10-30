@@ -314,7 +314,30 @@ DIAGRAMS["answers"] = dict(
            ((2,6),(1,6)), ((1,6),(0,6))],
 )
 
-FILES = {"casefiles.html": ["case-01", "case-02", "case-03"], "built.html": ["tracker", "harness"], "aiwork.html": ["versions", "normaliser", "answers"]}
+DIAGRAMS["brief"] = dict(
+    alt="Seven steps of the sourced brief across four lanes: me, Claude with the skill, the tool server, and the week folder on disk; the tool server declines a confidential source, Claude stops when two sources disagree, and the code takes off the page any sentence whose claims fail their source",
+    steps=["Ask", "Read", "Compare", "Draft", "Check", "Release", "Report"],
+    lanes=["Me", "Claude with|the skill", "The tool|server", "Week|folder"],
+    lane_h=72,
+    nodes=[
+        dict(at=(0, 0), lines=['"Write this', "week's brief\""]),
+        dict(at=(1, 1), lines=["reads every", "source"]),
+        dict(at=(2, 1), lines=["read_source"], stop="confidential"),
+        dict(at=(3, 1), lines=["six sources", "for the week"], kind="soft"),
+        dict(at=(1, 2), lines=["two sources,", "one fact"], stop="disagree: ask"),
+        dict(at=(0, 2), lines=["answers if", "it stops"]),
+        dict(at=(1, 3), lines=["five sections,", "a claim per", "fact"], kind="ink"),
+        dict(at=(2, 4), lines=["checks each", "claim"], stop="fails: removed"),
+        dict(at=(2, 5), lines=["releases what", "passed"]),
+        dict(at=(3, 5), lines=["page, removed", "list, claims"], kind="soft"),
+        dict(at=(1, 6), lines=["reads the", "result back"]),
+        dict(at=(0, 6), lines=["a page with", "every source"], kind="ink"),
+    ],
+    links=[((0,0),(1,1)), ((1,1),(2,1)), ((2,1),(3,1)), ((1,1),(1,2)), ((1,2),(1,3)),
+           ((1,3),(2,4)), ((2,4),(2,5)), ((2,5),(3,5)), ((2,5),(1,6)), ((1,6),(0,6))],
+)
+
+FILES = {"casefiles.html": ["case-01", "case-02", "case-03"], "built.html": ["tracker", "harness"], "aiwork.html": ["versions", "normaliser", "answers", "brief"]}
 
 if __name__ == "__main__":
     root = pathlib.Path(__file__).resolve().parent.parent
