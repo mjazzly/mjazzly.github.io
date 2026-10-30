@@ -337,7 +337,28 @@ DIAGRAMS["brief"] = dict(
            ((1,3),(2,4)), ((2,4),(2,5)), ((2,5),(3,5)), ((2,5),(1,6)), ((1,6),(0,6))],
 )
 
-FILES = {"casefiles.html": ["case-01", "case-02", "case-03"], "built.html": ["tracker", "harness"], "aiwork.html": ["versions", "normaliser", "answers", "brief"]}
+DIAGRAMS["scorecard"] = dict(
+    alt="Seven steps of the scorecard across four lanes: me, the scorecard script, each build's own harness, and the results on disk; the scorecard refuses a build whose file has a field missing, refuses a run whose copy holds the expected answers, and counts a run that returns no verdict as a fail",
+    steps=["Start", "Read", "Copy", "Guard", "Run", "Verdict", "Compare"],
+    lanes=["Me", "The scorecard|(a script)", "Each build's|own harness", "Results|on disk"],
+    lane_h=72,
+    nodes=[
+        dict(at=(0, 0), lines=["one command,", "every build"]),
+        dict(at=(1, 1), lines=["reads the file", "in each build"], stop="missing: refuse"),
+        dict(at=(3, 1), lines=["four builds,", "a file each"], kind="soft"),
+        dict(at=(1, 2), lines=["a fresh copy", "per build", "and model"]),
+        dict(at=(1, 3), lines=["scans for the", "answer files"], stop="found: refuse"),
+        dict(at=(2, 4), lines=["its own cases", "on each model"], kind="ink"),
+        dict(at=(1, 5), lines=["takes the", "verdict"], stop="none: a fail"),
+        dict(at=(1, 6), lines=["records it,", "compares with", "the last run"]),
+        dict(at=(3, 6), lines=["one record per", "run; scorecard", "rebuilt"], kind="soft"),
+        dict(at=(0, 6), lines=["what changed,", "the cheapest", "passing model"], kind="ink"),
+    ],
+    links=[((0,0),(1,1)), ((1,1),(3,1)), ((1,1),(1,2)), ((1,2),(1,3)), ((1,3),(2,4)), ((2,4),(1,5)),
+           ((1,5),(1,6)), ((1,6),(3,6)), ((1,6),(0,6))],
+)
+
+FILES = {"casefiles.html": ["case-01", "case-02", "case-03"], "built.html": ["tracker", "harness"], "aiwork.html": ["versions", "normaliser", "answers", "brief", "scorecard"]}
 
 if __name__ == "__main__":
     root = pathlib.Path(__file__).resolve().parent.parent

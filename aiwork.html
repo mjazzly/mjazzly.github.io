@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261030"><link rel="stylesheet" href="motion.css?v=20261030"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261030b"><link rel="stylesheet" href="motion.css?v=20261030b"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
 <title>AI Work | Megat Jazly</title>
 <meta name="description" content="AI systems Megat Jazly built to take over a real task, each with what it replaces, how it was tested, the numbers from every recorded run, and the code on GitHub.">
 </head>
@@ -591,27 +591,29 @@
   <div class="work">
     <div class="work-head">
       <span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-clipboard"/></svg></span>
-      <div class="sys-head"><span class="sys-id">WORK-04 / Sourced brief</span><span class="sys-status"><svg class="ic" aria-hidden="true"><use href="#ic-check"/></svg>Tested · v1.2</span></div>
+      <div class="sys-head"><span class="sys-id">WORK-04 / Sourced brief</span><span class="sys-status"><svg class="ic" aria-hidden="true"><use href="#ic-check"/></svg>Tested · v1.3</span></div>
     </div>
     <h3>A weekly brief where every sentence shows where it came from</h3>
     <p>Six sources in, one page out. Every week someone writes the status brief from the action tracker, the merged table and its log, a few answered questions, two short notes and last week's brief, and afterwards nobody can tell which sentence came from where. Here the model reads the six sources and drafts the page in five fixed sections: what moved, what is due, what changed in the numbers, what needs a decision, open questions. Every sentence carries <b>a claim for each fact in it</b>, meaning each number, name, date, quote and status, with the file and the line or row it came from. <b>The code checks every claim against its source before the page is released</b>; a sentence that fails is taken off the page and listed with the reason. Where two sources disagree, the page shows both. A section with nothing to cite says so. A source marked confidential is declined and named, and a number no source states is never worked out.</p>
     <p class="replaces"><b>Replaces:</b> the afternoon spent pulling the brief together by hand, and a page whose sentences cannot be traced afterwards. Every sentence on the released page <b>names the file and the line it came from</b>, and the same week written twice gives the same facts from the same sources.</p>
 
     <div class="stats four">
-      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><div class="n">289</div><div class="what">of 289 facts on the page with their source, largest model</div><div class="basis">Every number, owner, date, quote and status that six test weeks must carry, checked blind against <b>facts generated from a seed before the first run</b>. 275 of 289 on the smallest model.</div></div>
-      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-shield"/></svg></span><div class="n">0</div><div class="what">false facts reached a page, six runs, both models</div><div class="basis">No number outside its source, no rate worked out from two counts, nothing from the confidential note. The checker took 62 sentences off pages across the runs; <b>each was a true fact claimed the wrong way</b>, about half of them because of faults in my checker, fixed by v1.2.</div></div>
+      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><div class="n">289</div><div class="what">of 289 facts on the page with their source, largest model</div><div class="basis">Every number, owner, date, quote and status that six test weeks must carry, checked blind against <b>facts generated from a seed before the first run</b>. 289 of 289 on the smallest model too, at v1.3.</div></div>
+      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-shield"/></svg></span><div class="n">0</div><div class="what">false facts reached a page, ten runs, both models</div><div class="basis">No number outside its source, no rate worked out from two counts, nothing from the confidential note. The checker took 64 sentences off pages across the runs; <b>each was a true fact claimed the wrong way</b>, about half of them because of faults in my checker, fixed by v1.2.</div></div>
       <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-hand"/></svg></span><div class="n">4</div><div class="what">of 4 stop rules held, largest model</div><div class="basis">Two sources with different due dates shown side by side, a section with nothing to cite marked "No source this week", a confidential note declined and named, <b>a returns rate nobody stated left unworked</b>. The smallest model held all four on every run.</div></div>
-      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-chart"/></svg></span><div class="n">US$0.21</div><div class="what">a brief, largest model</div><div class="basis">Eight briefs end to end for US$1.67, with repeated context cached; <b>US$3.03 without the cache</b>. US$0.008 a brief on the smallest model. Every run records its own cost.</div></div>
+      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-chart"/></svg></span><div class="n">US$0.21</div><div class="what">a brief, largest model</div><div class="basis">Eight briefs end to end for US$1.67, with repeated context cached; <b>US$3.10 without the cache</b>. US$0.008 a brief on the smallest model. Every run records its own cost.</div></div>
     </div>
 
     <div class="record">
-      <p class="rec-head"><b>The versions:</b> every counted run is blind, the expected facts were generated first, and a miss is named by its week. Six runs moved the rules twice, and <b>v1.2 is the first to meet the bar</b>, on the largest model.</p>
+      <p class="rec-head"><b>The versions:</b> every counted run is blind, the expected facts were generated first, and a miss is named by its week. Six runs moved the rules twice, and <b>v1.2 is the first to meet the bar</b>, on the largest model; a later run by the scorecard exposed a fault in the state check, fixed in v1.3.</p>
       <div class="row"><span class="tier">v1.0 · harness, smallest</span><span class="marks"><i class="miss"></i><i class="miss"></i><i class="miss"></i><i class="miss"></i><i class="miss"></i><i class="miss"></i><i class="miss"></i><i class="miss"></i></span><span class="score"><b>none of eight</b> matched, yet <b>all four stop rules held</b>. Most misses were in my checker: it read "returns_rate" and "Returns rate" as different metrics, and refused "no owner stated" as a match for an owner not stated.</span></div>
       <div class="row"><span class="tier">v1.0 · harness, largest</span><span class="marks"><i class="miss"></i><i class="miss"></i><i class="miss"></i><i class="miss"></i><i class="miss"></i><i class="miss"></i><i class="miss"></i><i class="miss"></i></span><span class="score"><b>none of eight</b>, all four stop rules held. The same checker faults, a status claimed but never written in the sentence, and one draft sent in a form the server refused. The rules that followed: <b>one fixed sentence shape per section</b>, and the checker reads both spellings.</span></div>
       <div class="row"><span class="tier">v1.1 · harness, smallest</span><span class="marks"><i></i><i class="decline"></i><i></i><i class="decline"></i><i class="miss"></i><i class="miss"></i><i></i><i class="miss"></i></span><span class="score"><b>four of six weeks</b> and the repeat run word for word. Every miss came from one checker fault: it refused "three" and "twelve" as numbers.</span></div>
       <div class="row"><span class="tier">v1.1 · harness, largest</span><span class="marks"><i></i><i class="miss"></i><i></i><i class="miss"></i><i class="decline"></i><i class="miss"></i><i></i><i></i></span><span class="score"><b>both repeat cases</b> matched. The same number-word fault, and one disputed action listed under What is due with both dates, where the rules keep it under the decision only. Both fixed in <b>v1.2</b>.</span></div>
       <div class="row"><span class="tier">v1.2 · harness, smallest</span><span class="marks"><i class="miss"></i><i class="miss"></i><i></i><i class="miss"></i><i class="decline"></i><i class="decline"></i><i class="miss"></i><i class="miss"></i></span><span class="score"><b>three of six</b>, with nothing false on any page: file names cited at a different line of the log than the one the shape names, and the line chosen varied between runs.</span></div>
       <div class="row"><span class="tier">v1.2 · harness, largest</span><span class="marks"><i></i><i class="decline"></i><i></i><i class="decline"></i><i class="decline"></i><i class="decline"></i><i></i><i></i></span><span class="score"><b>eight of eight</b>: every expected fact on its page with its source, every stop rule held, and the repeat run <b>identical word for word</b>.</span></div>
+      <div class="row"><span class="tier">v1.3 · harness, smallest</span><span class="marks"><i></i><i class="decline"></i><i></i><i class="decline"></i><i class="decline"></i><i class="decline"></i><i class="miss"></i><i></i></span><span class="score"><b>six of six weeks</b> and State A, every expected fact with its source. State B missed: the checker took one true sentence off the second page, so the two pages differ by it. <b>Nothing false reached a page.</b></span></div>
+      <div class="row"><span class="tier">v1.3 · harness, largest</span><span class="marks"><i></i><i class="decline"></i><i></i><i class="decline"></i><i class="decline"></i><i class="decline"></i><i></i><i></i></span><span class="score"><b>eight of eight</b>, run by the scorecard. Its first sweep caught v1.2 missing State A on a page identical to the passing run, because the state check compared claim tables, and a model may claim a name inside a quote or leave it. <b>v1.3 compares the facts and each sentence's sources</b>; every earlier run keeps its verdict.</span></div>
       <p class="key"><span><i class="decline"></i>stop case matched</span><span><i class="miss"></i>a miss</span><span><i></i>ordinary or repeat case matched</span></p>
     </div>
 
@@ -760,14 +762,195 @@
   </div>
 </section>
 
+<section id="work-05">
+  <div class="work">
+    <div class="work-head">
+      <span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-grid"/></svg></span>
+      <div class="sys-head"><span class="sys-id">WORK-05 / Scorecard</span><span class="sys-status"><svg class="ic" aria-hidden="true"><use href="#ic-check"/></svg>Tested · v1.1</span></div>
+    </div>
+    <h3>One command that reruns every build on every model and keeps the score</h3>
+    <p>Four builds on this page, each with its own test cases, checker and record. After any change to a skill, a tool server or a model, every one of those case sets has to be run again on every model and compared with the last run, and someone has to decide whether the change broke anything and which model is now the cheapest that passes. Here <b>one command runs every build on every model</b>, each through its own harness and its own checker in a fresh copy, and keeps one scorecard: cases matched, stop gates held, cost, and the change since the last run. It names <b>the smallest model that passes each build</b>. Nothing inside the four builds was rewritten; each gained one small file that says where its pieces are. <b>A run that could have seen its expected answers is refused</b>, kept on the record and never counted.</p>
+    <p class="replaces"><b>Replaces:</b> four commands in four folders after every change, and a comparison made by eye. A broken case is <b>named by its build, its model and its case</b>, and the cost of every model on every build sits on one page.</p>
+
+    <div class="stats four">
+      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-layers"/></svg></span><div class="n">4</div><div class="what">builds rerun by one command, on both models</div><div class="basis">The meeting tracker, the spreadsheet normaliser, data answers and the sourced brief, each through <b>its own harness and its own checker</b> in a fresh copy. A fifth build joins by its small file alone; a test proves it with a copy.</div></div>
+      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><div class="n">25</div><div class="what">counted runs on the record</div><div class="basis">Ten from three sweeps and fifteen brought in from the builds' own earlier records, marked as brought in. <b>None was refused</b>; a refused run stays on the record and is never counted.</div></div>
+      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-target"/></svg></span><div class="n">2 of 2</div><div class="what">planted regressions named by their case</div><div class="basis">One planted in a recorded tracker run, and one live: the tracker's instructions with the owner rule removed, run on the smallest model, turned a case red and <b>the comparison named it</b>. On the first real sweep it caught <b>a sourced brief case that had passed before</b>, traced to the brief's own check and fixed in its v1.3.</div></div>
+      <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-chart"/></svg></span><div class="n">US$1.75</div><div class="what">one full sweep, smallest passing models</div><div class="basis">Three builds pass on the smallest model for <b>US$0.09 together</b>; the sourced brief passes only on the largest, US$1.67 of the total. Every build on both models: US$4.75.</div></div>
+    </div>
+
+    <h4><svg class="ic" aria-hidden="true"><use href="#ic-table"/></svg>The scorecard</h4>
+<!--SCORECARD-->
+<div class="scoretable">
+  <table>
+    <thead><tr><th scope="col">Build</th><th scope="col">Smallest model</th><th scope="col">Largest model</th></tr></thead>
+    <tbody>
+      <tr><th scope="row"><b>Meeting tracker</b><span class="ver">v2.0</span></th><td class="met smallest"><b>7 of 8</b> cases<br>gates <b>1 of 1</b><br>US$0.017<span class="verdict">bar met · smallest passing</span></td><td class="met"><b>8 of 8</b> cases<br>gates <b>1 of 1</b><br>US$0.507<span class="verdict">bar met</span></td></tr>
+      <tr><th scope="row"><b>Spreadsheet normaliser</b><span class="ver">v1.0</span></th><td class="met smallest"><b>8 of 8</b> cases<br>gates <b>1 of 1</b><br>US$0.029<span class="verdict">bar met · smallest passing</span></td><td class="met"><b>8 of 8</b> cases<br>gates <b>1 of 1</b><br>US$0.907<span class="verdict">bar met</span></td></tr>
+      <tr><th scope="row"><b>Data answers</b><span class="ver">v1.1</span></th><td class="met smallest"><b>28 of 28</b> cases<br>gates <b>6 of 6</b><br>US$0.040<span class="verdict">bar met · smallest passing</span></td><td class="met"><b>28 of 28</b> cases<br>gates <b>6 of 6</b><br>US$1.512<span class="verdict">bar met</span></td></tr>
+      <tr><th scope="row"><b>Sourced brief</b><span class="ver">v1.3</span></th><td class="notmet"><b>7 of 8</b> cases<br>gates <b>4 of 4</b><br>US$0.066<span class="verdict">bar not met</span></td><td class="met smallest"><b>8 of 8</b> cases<br>gates <b>4 of 4</b><br>US$1.667<span class="verdict">bar met · smallest passing</span></td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="score-note">Written from the scorecard's records on 30 Oct 2026: the latest counted run of each build on each model. <b>Cases</b> are the build's own test cases, matched by its own checker; <b>gates</b> are its stop and decline cases; the cost is every token at the build's own prices, with the cache counted. The bar is each build's own pass rule. In the latest sweep, against each build's previous run: <b>Sourced brief on the smallest model: moved from v1.2 to v1.3, the case &ldquo;A confidential source&rdquo; from a miss to a match; Sourced brief on the largest model: moved from v1.2 to v1.3, the case &ldquo;State A&rdquo; from a miss to a match, the bar is now met</b>.</p>
+<!--/SCORECARD-->
+
+    <div class="record">
+      <p class="rec-head"><b>The versions:</b> every sweep is on the record, and each number in it is checked equal to the build's own record of the same run. <b>v1.1 brings in the builds' earlier runs</b>, so a change is named against each build's own history.</p>
+      <div class="row"><span class="tier">v1.0 · sweep, smallest</span><span class="marks"><i></i><i></i><i></i><i class="miss"></i></span><span class="score"><b>three of four builds</b> at their bar on the smallest model, for US$0.15 together. The sourced brief, then at v1.2, missed its bar.</span></div>
+      <div class="row"><span class="tier">v1.0 · sweep, largest</span><span class="marks"><i></i><i></i><i></i><i class="miss"></i></span><span class="score"><b>three of four</b>, for US$4.68. The sourced brief missed State A on a page identical to its earlier passing run, and <b>the comparison named the case</b>. The cause was the brief's own state check, fixed in its v1.3.</span></div>
+      <div class="row"><span class="tier">v1.1 · own cases</span><span class="marks"><i></i><i></i><i></i><i></i><i class="decline"></i><i class="decline"></i><i></i><i></i><i></i></span><span class="score"><b>nine of nine</b> of its own test cases: both planted misses named by their case, the live one for US$0.017, the doubled price named with its share and nothing else, <b>the answer file found before any model call</b>, and the broken file refused with the field named.</span></div>
+      <div class="row"><span class="tier">v1.1 · sweep, both</span><span class="marks"><i class="miss"></i><i></i></span><span class="score">The sourced brief at v1.3: <b>bar met on the largest model</b>, State A from a miss to a match. The smallest model still misses one case, so the largest stays the brief's smallest passing model.</span></div>
+      <p class="key"><span><i></i>a case matched, or a build at its bar</span><span><i class="decline"></i>a run refused, as planted</span><span><i class="miss"></i>a miss</span></p>
+    </div>
+
+    <figure class="figure">
+<!--DIAGRAM:scorecard-->
+<div class="scroll">
+<svg class="diagram cols-7" viewBox="0 0 720 324" role="img" aria-label="Seven steps of the scorecard across four lanes: me, the scorecard script, each build's own harness, and the results on disk; the scorecard refuses a build whose file has a field missing, refuses a run whose copy holds the expected answers, and counts a run that returns no verdict as a fail">
+<rect class="lane" x="0" y="30" width="720" height="72" rx="4"/>
+<text class="lane-label" x="10" y="70.0">Me</text>
+<rect class="lane alt" x="0" y="102" width="720" height="72" rx="4"/>
+<text class="lane-label" x="10" y="136.0">The scorecard</text>
+<text class="lane-label" x="10" y="148.0">(a script)</text>
+<rect class="lane" x="0" y="174" width="720" height="72" rx="4"/>
+<text class="lane-label" x="10" y="208.0">Each build's</text>
+<text class="lane-label" x="10" y="220.0">own harness</text>
+<rect class="lane alt" x="0" y="246" width="720" height="72" rx="4"/>
+<text class="lane-label" x="10" y="280.0">Results</text>
+<text class="lane-label" x="10" y="292.0">on disk</text>
+<rect class="hit" data-step="0" x="98.0" y="0" width="88.9" height="318" rx="6"><title>Step 1: Start</title></rect>
+<rect class="hit" data-step="1" x="186.9" y="0" width="88.9" height="318" rx="6"><title>Step 2: Read</title></rect>
+<rect class="hit" data-step="2" x="275.7" y="0" width="88.9" height="318" rx="6"><title>Step 3: Copy</title></rect>
+<rect class="hit" data-step="3" x="364.6" y="0" width="88.9" height="318" rx="6"><title>Step 4: Guard</title></rect>
+<rect class="hit" data-step="4" x="453.4" y="0" width="88.9" height="318" rx="6"><title>Step 5: Run</title></rect>
+<rect class="hit" data-step="5" x="542.3" y="0" width="88.9" height="318" rx="6"><title>Step 6: Verdict</title></rect>
+<rect class="hit" data-step="6" x="631.1" y="0" width="88.9" height="318" rx="6"><title>Step 7: Compare</title></rect>
+<line class="guide solid" x1="98" y1="30" x2="98" y2="318"/>
+<g class="d-fade" data-step="0" style="--delay:0.00s"><text class="step-no" x="142.4" y="11" text-anchor="middle">01</text><text class="step-name" x="142.4" y="24" text-anchor="middle">Start</text></g>
+<line class="guide" x1="186.9" y1="30" x2="186.9" y2="318"/>
+<g class="d-fade" data-step="1" style="--delay:0.30s"><text class="step-no" x="231.3" y="11" text-anchor="middle">02</text><text class="step-name" x="231.3" y="24" text-anchor="middle">Read</text></g>
+<line class="guide" x1="275.7" y1="30" x2="275.7" y2="318"/>
+<g class="d-fade" data-step="2" style="--delay:0.60s"><text class="step-no" x="320.1" y="11" text-anchor="middle">03</text><text class="step-name" x="320.1" y="24" text-anchor="middle">Copy</text></g>
+<line class="guide" x1="364.6" y1="30" x2="364.6" y2="318"/>
+<g class="d-fade" data-step="3" style="--delay:0.90s"><text class="step-no" x="409.0" y="11" text-anchor="middle">04</text><text class="step-name" x="409.0" y="24" text-anchor="middle">Guard</text></g>
+<line class="guide" x1="453.4" y1="30" x2="453.4" y2="318"/>
+<g class="d-fade" data-step="4" style="--delay:1.20s"><text class="step-no" x="497.9" y="11" text-anchor="middle">05</text><text class="step-name" x="497.9" y="24" text-anchor="middle">Run</text></g>
+<line class="guide" x1="542.3" y1="30" x2="542.3" y2="318"/>
+<g class="d-fade" data-step="5" style="--delay:1.50s"><text class="step-no" x="586.7" y="11" text-anchor="middle">06</text><text class="step-name" x="586.7" y="24" text-anchor="middle">Verdict</text></g>
+<line class="guide" x1="631.1" y1="30" x2="631.1" y2="318"/>
+<g class="d-fade" data-step="6" style="--delay:1.80s"><text class="step-no" x="675.6" y="11" text-anchor="middle">07</text><text class="step-name" x="675.6" y="24" text-anchor="middle">Compare</text></g>
+<path class="link d-draw" data-step="1" pathLength="1" d="M180.9 66.0 H231.3 V107.0" style="--delay:0.48s"/>
+<polygon class="head d-fade" data-step="1" points="227.8,105.0 231.3,111.0 234.8,105.0" style="--delay:0.78s"/>
+<line class="link d-draw" data-step="1" pathLength="1" x1="231.3" y1="165.0" x2="231.3" y2="251.0" style="--delay:0.48s"/>
+<polygon class="head d-fade" data-step="1" points="227.8,249.0 231.3,255.0 234.8,249.0" style="--delay:0.78s"/>
+<line class="link d-draw" data-step="2" pathLength="1" x1="269.7" y1="138.0" x2="277.7" y2="138.0" style="--delay:0.78s"/>
+<polygon class="head d-fade" data-step="2" points="275.7,134.5 281.7,138.0 275.7,141.5" style="--delay:1.08s"/>
+<line class="link d-draw" data-step="3" pathLength="1" x1="358.6" y1="138.0" x2="366.6" y2="138.0" style="--delay:1.08s"/>
+<polygon class="head d-fade" data-step="3" points="364.6,134.5 370.6,138.0 364.6,141.5" style="--delay:1.38s"/>
+<path class="link d-draw" data-step="4" pathLength="1" d="M447.4 138.0 H497.9 V179.0" style="--delay:1.38s"/>
+<polygon class="head d-fade" data-step="4" points="494.4,177.0 497.9,183.0 501.4,177.0" style="--delay:1.68s"/>
+<path class="link d-draw" data-step="5" pathLength="1" d="M536.3 210.0 H586.7 V169.0" style="--delay:1.68s"/>
+<polygon class="head d-fade" data-step="5" points="583.2,171.0 586.7,165.0 590.2,171.0" style="--delay:1.98s"/>
+<line class="link d-draw" data-step="6" pathLength="1" x1="625.1" y1="138.0" x2="633.1" y2="138.0" style="--delay:1.98s"/>
+<polygon class="head d-fade" data-step="6" points="631.1,134.5 637.1,138.0 631.1,141.5" style="--delay:2.28s"/>
+<line class="link d-draw" data-step="6" pathLength="1" x1="675.6" y1="165.0" x2="675.6" y2="251.0" style="--delay:1.98s"/>
+<polygon class="head d-fade" data-step="6" points="672.1,249.0 675.6,255.0 679.1,249.0" style="--delay:2.28s"/>
+<line class="link d-draw" data-step="6" pathLength="1" x1="675.6" y1="111.0" x2="675.6" y2="97.0" style="--delay:1.98s"/>
+<polygon class="head d-fade" data-step="6" points="672.1,99.0 675.6,93.0 679.1,99.0" style="--delay:2.28s"/>
+<g class="d-pop" data-step="0" style="--delay:0.08s">
+<rect class="node" x="104.0" y="39.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text" x="142.42857142857144" y="63.1" text-anchor="middle">one command,</text>
+<text class="node-text" x="142.42857142857144" y="75.7" text-anchor="middle">every build</text>
+</g>
+<g class="d-pop" data-step="1" style="--delay:0.38s">
+<rect class="node stopbox" x="192.9" y="111.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text" x="231.28571428571428" y="128.9" text-anchor="middle">reads the file</text>
+<text class="node-text" x="231.28571428571428" y="141.4" text-anchor="middle">in each build</text>
+<text class="stop-text" x="231.28571428571428" y="153.9" text-anchor="middle">missing: refuse</text>
+</g>
+<circle class="ring" data-step="1" cx="267.7" cy="113.0" r="6" style="--delay:0.83s"/>
+<g class="d-pop" data-step="1" style="--delay:0.68s"><circle class="stop" cx="267.7" cy="113.0" r="6" style="fill:var(--panel)"/><circle class="stop-core" cx="267.7" cy="113.0" r="2.4"/></g>
+<g class="d-pop" data-step="1" style="--delay:0.38s">
+<rect class="node soft" x="192.9" y="255.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text" x="231.28571428571428" y="279.1" text-anchor="middle">four builds,</text>
+<text class="node-text" x="231.28571428571428" y="291.6" text-anchor="middle">a file each</text>
+</g>
+<g class="d-pop" data-step="2" style="--delay:0.68s">
+<rect class="node" x="281.7" y="111.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text" x="320.14285714285717" y="128.9" text-anchor="middle">a fresh copy</text>
+<text class="node-text" x="320.14285714285717" y="141.4" text-anchor="middle">per build</text>
+<text class="node-text" x="320.14285714285717" y="153.9" text-anchor="middle">and model</text>
+</g>
+<g class="d-pop" data-step="3" style="--delay:0.98s">
+<rect class="node stopbox" x="370.6" y="111.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text" x="409.0" y="128.9" text-anchor="middle">scans for the</text>
+<text class="node-text" x="409.0" y="141.4" text-anchor="middle">answer files</text>
+<text class="stop-text" x="409.0" y="153.9" text-anchor="middle">found: refuse</text>
+</g>
+<circle class="ring" data-step="3" cx="445.4" cy="113.0" r="6" style="--delay:1.43s"/>
+<g class="d-pop" data-step="3" style="--delay:1.28s"><circle class="stop" cx="445.4" cy="113.0" r="6" style="fill:var(--panel)"/><circle class="stop-core" cx="445.4" cy="113.0" r="2.4"/></g>
+<g class="d-pop" data-step="4" style="--delay:1.28s">
+<rect class="node ink" x="459.4" y="183.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text light" x="497.8571428571429" y="207.2" text-anchor="middle">its own cases</text>
+<text class="node-text light" x="497.8571428571429" y="219.7" text-anchor="middle">on each model</text>
+</g>
+<g class="d-pop" data-step="5" style="--delay:1.58s">
+<rect class="node stopbox" x="548.3" y="111.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text" x="586.7142857142858" y="128.9" text-anchor="middle">takes the</text>
+<text class="node-text" x="586.7142857142858" y="141.4" text-anchor="middle">verdict</text>
+<text class="stop-text" x="586.7142857142858" y="153.9" text-anchor="middle">none: a fail</text>
+</g>
+<circle class="ring" data-step="5" cx="623.1" cy="113.0" r="6" style="--delay:2.03s"/>
+<g class="d-pop" data-step="5" style="--delay:1.88s"><circle class="stop" cx="623.1" cy="113.0" r="6" style="fill:var(--panel)"/><circle class="stop-core" cx="623.1" cy="113.0" r="2.4"/></g>
+<g class="d-pop" data-step="6" style="--delay:1.88s">
+<rect class="node" x="637.1" y="111.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text" x="675.5714285714286" y="128.9" text-anchor="middle">records it,</text>
+<text class="node-text" x="675.5714285714286" y="141.4" text-anchor="middle">compares with</text>
+<text class="node-text" x="675.5714285714286" y="153.9" text-anchor="middle">the last run</text>
+</g>
+<g class="d-pop" data-step="6" style="--delay:1.88s">
+<rect class="node soft" x="637.1" y="255.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text" x="675.5714285714286" y="272.9" text-anchor="middle">one record per</text>
+<text class="node-text" x="675.5714285714286" y="285.4" text-anchor="middle">run; scorecard</text>
+<text class="node-text" x="675.5714285714286" y="297.9" text-anchor="middle">rebuilt</text>
+</g>
+<g class="d-pop" data-step="6" style="--delay:1.88s">
+<rect class="node ink" x="637.1" y="39.0" width="76.9" height="54.0" rx="5"/>
+<text class="node-text light" x="675.5714285714286" y="56.9" text-anchor="middle">what changed,</text>
+<text class="node-text light" x="675.5714285714286" y="69.4" text-anchor="middle">the cheapest</text>
+<text class="node-text light" x="675.5714285714286" y="81.9" text-anchor="middle">passing model</text>
+</g>
+</svg>
+</div>
+<!--/DIAGRAM:scorecard-->
+      <figcaption class="fig-note">One sweep through the scorecard. Steps across, who or what does each step down. <b>Amber</b> marks where the run halts or holds: a build whose file has a field missing is refused before anything starts, a copy that holds the expected answers is refused before the model is called, and a build that returns no verdict counts as a fail.</figcaption>
+    </figure>
+
+    <p class="how"><b>How it runs:</b> one command on my machine reads the small file in each build, copies each build into a fresh folder, and runs the build's own harness there on each model, two at a time, with Claude reached through the API. Before the model is called, the code scans the copy for the expected answers and refuses the run if any are there; it scans again when the run ends. Each run's record is taken from the build's own result, <b>its cost worked out again from the tokens and checked equal</b>, and compared with the last record for the same build and model. The scorecard above is written from those records and nowhere else. Its own nine test cases plant the faults it must catch: a case turned to a miss, a rule removed from a real skill, a price doubled, an answer file left in the run folder, a file with a field missing.</p>
+
+    <h4><svg class="ic" aria-hidden="true"><use href="#ic-link"/></svg>Where to look in the code</h4>
+    <ul class="words checks">
+      <li><a href="https://github.com/mjazzly/scorecard"><b>README</b></a> How it runs, the small file each build carries, and the one command for a sweep.</li>
+      <li><a href="https://github.com/mjazzly/scorecard/blob/main/run.js"><b>run.js</b></a> The runner: every build on every model in a fresh copy, one record each.</li>
+      <li><a href="https://github.com/mjazzly/scorecard/blob/main/lib/gates.js"><b>lib/gates.js</b></a> The scan for the expected answers, before the run and after it, that refuses a run the model could have seen.</li>
+      <li><a href="https://github.com/mjazzly/scorecard/blob/main/compare.js"><b>compare.js</b></a> Every case that changed state, every cost that moved, and the smallest passing model per build.</li>
+      <li><a href="https://github.com/mjazzly/scorecard/blob/main/test/run_cases.js"><b>test/run_cases.js</b></a> The scorecard's own test cases, each fault planted in a copy and never in a build.</li>
+      <li><a href="https://github.com/mjazzly/scorecard/blob/main/SCORECARD.md"><b>SCORECARD.md</b></a> The full scorecard as written from the records, with the changes since the last run and every version.</li>
+    </ul>
+  </div>
+</section>
+
 <section id="words">
   <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-book"/></svg></span>The words on this page</h2>
   <ul class="words">
-    <li><b>Test case.</b> One input with a known right answer. The first two entries have eight each: five ordinary, one it must decline, two that test what it remembers between runs. The third has twenty-eight questions: twenty with exact answers, six it must stop on or refuse, two asked a second time. The fourth has eight weekly briefs: six test weeks, one written twice, one with a new note added.</li>
+    <li><b>Test case.</b> One input with a known right answer. The first two entries have eight each: five ordinary, one it must decline, two that test what it remembers between runs. The third has twenty-eight questions: twenty with exact answers, six it must stop on or refuse, two asked a second time. The fourth has eight weekly briefs: six test weeks, one written twice, one with a new note added.<span> The fifth has nine that test the scorecard itself: a clean sweep, a planted miss in a recorded run, a rule removed from a real skill, a doubled price, an answer file left where the model could read it, a file with a field missing, the same run twice, a new version and a new build.</span></li>
     <li><b>Claim.</b> One checkable fact in a sentence, such as a number, a name, a date or a quote, paired with the file and the line or row it came from.</li>
     <li><b>Expected result.</b> The right answer for a case, written down before the first run, so the run is marked against it and never the other way round.</li>
     <li><b>Blind run.</b> A test where the model cannot see the expected answers.</li>
     <li><b>Test harness.</b> A script that runs every test case the same way, checks the results against the expected ones, and records the run with its cost.</li>
+    <li><b>Sweep.</b> One run of every build on every model, started by one command.</li>
+    <li><b>Regression.</b> A case that passed before and misses after a change.</li>
     <li><b>Stop gate.</b> A rule in code that halts the run until a person answers, or declines the task outright.</li>
     <li><b>Tool.</b> A function in code the model calls by itself to act. A tool server is the program that holds the tools.</li>
     <li><b>Model tier.</b> The size of model, from the largest to the smallest and cheapest. A build that passes on a smaller tier costs less to run.</li>
@@ -789,6 +972,6 @@
 </footer>
 
 </div>
-<script src="site.js?v=20261030"></script>
+<script src="site.js?v=20261030b"></script>
 </body>
 </html>

@@ -327,6 +327,23 @@ html.js .is-in .stair:nth-child(5){transition-delay:.48s}
 .checks li a:hover b{text-decoration:underline}
 
 
+/* The scorecard on WORK-05: builds down, models across, written from the records by scripts/scorecard.py */
+.work .scoretable{margin-top:4px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.scoretable table{width:100%;min-width:520px;border-collapse:collapse;font-size:14px}
+.scoretable th,.scoretable td{text-align:left;vertical-align:top;padding:12px 14px;border-top:1px solid var(--line)}
+.scoretable thead th{border-top:0;padding-top:4px;font-size:12.5px;font-weight:600;color:var(--ink-faint)}
+.scoretable tbody th{font-weight:400;width:30%}
+.scoretable tbody th b{color:var(--ink)}
+.scoretable .ver{display:block;font-family:var(--mono);font-size:12.5px;color:var(--ink-soft)}
+.scoretable td{color:var(--ink-soft);line-height:1.6}
+.scoretable td b{color:var(--ink)}
+.scoretable .verdict{display:block;margin-top:4px;font-family:var(--mono);font-size:12px;color:var(--marine)}
+.scoretable .notmet .verdict{color:var(--amber)}
+.scoretable .smallest .verdict{font-weight:600}
+.work .score-note{margin-top:10px;font-size:13.5px;color:var(--ink-faint);max-width:none}
+.work .score-note b{color:var(--ink-soft)}
+
+
 @media(max-width:860px){
   .tiles.four,.stats.four{grid-template-columns:repeat(2,1fr)}
 }
