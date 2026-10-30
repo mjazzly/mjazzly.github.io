@@ -549,3 +549,30 @@ html.js .work .case-body{animation:case-open .25s ease}
 .why-t th,.why-t td{vertical-align:top}
 .why-t td:nth-child(n+2):not(:last-child),.why-t th.mono{white-space:nowrap}
 .why-t td:last-child{min-width:300px;font-size:12px;color:var(--ink-faint)}
+/* The peek: a copy of whatever lit up off screen, in a tray at the bottom (or top) of the screen */
+.peek{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:50;width:min(880px,calc(100vw - 24px));max-height:42vh;overflow:auto;background:var(--panel);border-radius:var(--radius);padding:12px 16px 14px;box-shadow:0 0 0 2px var(--marine)}
+.peek.at-top{bottom:auto;top:16px}
+.peek[hidden]{display:none}
+.peek-head{font-size:12px;font-weight:700;color:var(--marine);margin-bottom:6px}
+.peek-item+.peek-item{margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.peek-k{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);margin-bottom:4px}
+.peek-scroll{overflow-x:auto}
+.peek .sheet-t td,.peek .sheet-t th{color:var(--ink)}
+.peek .sheet-t tr:last-child td{background:var(--marine-tint)}
+.peek-chip{display:inline-block;padding:2px 10px;border-radius:999px;background:var(--marine-tint);color:var(--marine);font-weight:700;font-size:13px}
+.peek ul,.peek ol{list-style:none}
+.peek li,.peek .doc-s,.peek .ans{background:var(--marine-tint);border-radius:8px;border-top:0;color:var(--ink)}
+.peek .doc-s{padding:8px 10px}
+.peek .ans{padding:12px 14px;box-shadow:none}
+/* The released board's own page: the board scaled to the full width it is given */
+.boardview .board-head{padding-bottom:8px}
+.boardview .board-head h1{font-size:clamp(28px,4vw,40px)}
+.boardview .wrap,.board-wide{max-width:1240px}
+.board-wide{margin:0 auto;padding:0 28px 40px}
+.board-wide .out-run{margin:0 0 14px}
+.board-stage{background:var(--panel);border-radius:var(--radius);overflow:auto;position:relative}
+.board-stage iframe{display:block;border:0;background:#fff}
+.board-stage.is-fit{overflow:hidden}
+.board-stage.is-fit iframe{position:absolute;top:0;left:0;transform-origin:0 0}
+.ic.back{transform:rotate(90deg)}
+@media(max-width:600px){.board-wide{padding:0 12px 28px}}

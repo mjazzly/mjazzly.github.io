@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261030c"><link rel="stylesheet" href="motion.css?v=20261030c"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261030d"><link rel="stylesheet" href="motion.css?v=20261030d"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
 <title>Meeting tracker, the output | Megat Jazly</title>
 <meta name="description" content="One recorded run of the meeting tracker: a transcript beside the tracker rows it became, the point where the code stopped and asked, and the page it released.">
 </head>
@@ -85,7 +85,7 @@
   <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-message"/></svg></span>One transcript, and the rows it became</h2>
   <p class="lead"><b>Point at a line</b> to light the row it became, or at a row to light the line it came from. A line with no row was read as no action, and the run's note says why.</p>
   <div class="pair linked">
-    <div class="panel side">
+    <div class="panel side" data-peek="The transcript, 04_halden_finance.txt">
       <p class="side-head"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-file"/></svg></span>The transcript<span class="mono">04_halden_finance.txt</span></p>
       <p class="meta"><b>Halden Logistics, finance data walkthrough</b><br>2026-10-22 · Priya Nair, Daniel Okafor, Lena Marsh, Aiden Brooks</p>
       <ol class="lines">
@@ -97,7 +97,7 @@
         <li class="lit" data-src="l6" tabindex="0"><span class="ln">6</span><span class="said"><b>Lena Marsh</b> Thank you both. We will send the first cut of the mapping once Priya&#x27;s file is in.<span class="aid">A012</span></span></li>
       </ol>
     </div>
-    <div class="panel side">
+    <div class="panel side" data-peek="The tracker">
       <p class="side-head"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-table"/></svg></span>The tracker<span class="mono">tracker.csv</span></p>
       <ol class="rows">
         <li class="row lit" data-src="l3" tabindex="0"><p class="row-top"><span class="mono">A010</span><span class="st open">open</span><span class="mono src">line 3</span></p><p class="act">Send the cost centre mapping</p><div class="row-cols"><p><span class="k">Owner</span>Priya Nair<span class="sub">Finance Director, Halden Logistics</span></p><p><span class="k">Due</span><b>2026-10-29</b><span class="sub">&#x27;by 29 October&#x27;, meeting date 2026-10-22</span></p></div></li>
@@ -123,8 +123,8 @@
 <section id="board">
   <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-grid"/></svg></span>The page it released</h2>
   <p class="lead">The action board the run wrote once every answer was in. <b>Transcripts read: 7. Declined: 1. Stopped at a gate: 0. New actions: 14. Closed: 2. Waiting on a date: 2.</b></p>
-  <a class="board-shot" href="outputs/E202610301552-board.html"><img src="outputs/E202610301552-board.png" width="1123" height="760" loading="lazy" alt="The action board from the run: where the week's commitments stand, with every open action by owner and due date."></a>
-  <p class="note"><a href="outputs/E202610301552-board.html">Open the board at full size</a></p>
+  <a class="board-shot" href="output-01-board.html"><img src="outputs/E202610301552-board.png" width="1123" height="760" loading="lazy" alt="The action board from the run: where the week's commitments stand, with every open action by owner and due date."></a>
+  <p class="note"><a href="output-01-board.html">Open the board at full size</a></p>
 </section>
 <!--/OUTPUT-->
 
@@ -154,6 +154,6 @@
 </footer>
 
 </div>
-<script src="site.js?v=20261030c"></script>
+<script src="site.js?v=20261030d"></script>
 </body>
 </html>

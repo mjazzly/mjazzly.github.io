@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261030c"><link rel="stylesheet" href="motion.css?v=20261030c"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261030d"><link rel="stylesheet" href="motion.css?v=20261030d"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
 <title>Data answers, the output | Megat Jazly</title>
 <meta name="description" content="One recorded run of data answers: questions as asked beside the answers the code built, each naming its metric, filters, period and the rows it was computed over, and one refusal with the nearest defined metric.">
 </head>
@@ -86,7 +86,7 @@
   <p class="lead"><b>Point at an answer</b> to light the question it answers and the metric definition it used. Every figure comes from a metric defined in code; <b>the model chooses the metric, the code computes it</b> and returns the block shown here.</p>
   <div class="pair linked">
     <div class="stack-side">
-      <div class="panel side">
+      <div class="panel side" data-peek="The questions">
         <p class="side-head"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-message"/></svg></span>The questions</p>
         <ol class="lines">
         <li class="lit" data-src="A02" tabindex="0"><span class="ln">A02</span><span class="said">What was revenue in March 2025?</span></li>
@@ -96,7 +96,7 @@
         <li class="lit" data-src="R01" tabindex="0"><span class="ln">R01</span><span class="said">What was the profit margin by branch in 2025?</span></li>
         </ol>
       </div>
-      <div class="panel side">
+      <div class="panel side" data-peek="The metrics">
         <p class="side-head"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-book"/></svg></span>The metrics<span class="mono">metrics.json</span></p>
         <ul class="metrics">
         <li class="lit" data-src="m-orders" tabindex="0"><b class="mono">orders</b>Count of orders placed in the period, returned or not.</li>
@@ -114,7 +114,7 @@
         </ul>
       </div>
     </div>
-    <div class="answers">
+    <div class="answers" data-peek="The answers">
       <div class="ans panel lit" data-src="A02 m-revenue" tabindex="0">
         <p class="ans-top"><span class="mono">D202610301552-A02</span><span class="st">run_metric</span></p>
         <p class="figure-n">97694.60</p>
@@ -202,6 +202,6 @@
 </footer>
 
 </div>
-<script src="site.js?v=20261030c"></script>
+<script src="site.js?v=20261030d"></script>
 </body>
 </html>

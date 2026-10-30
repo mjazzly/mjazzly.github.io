@@ -253,15 +253,101 @@ document.documentElement.classList.add("js");
       box.classList.remove("has-lit");
       items.forEach(function (el) { el.classList.remove("is-lit"); });
     }
+    // The peek: whatever lit up outside the screen is copied into a tray at the edge of the screen,
+    // labelled with where it sits, so the match can be read without scrolling or zooming
+    var tray = document.createElement("div");
+    tray.className = "peek";
+    tray.hidden = true;
+    document.body.appendChild(tray);
+    var current = null;
+    function bare(n) {
+      n.classList.remove("lit", "is-lit");
+      [n].concat(Array.prototype.slice.call(n.querySelectorAll("*"))).forEach(function (c) {
+        c.removeAttribute("data-src"); c.removeAttribute("tabindex"); c.removeAttribute("id");
+      });
+      return n;
+    }
+    function copyOf(el) {
+      if (el.tagName === "TR") {
+        var table = el.closest("table"), head = table.querySelector("thead tr, tr.head");
+        var t = document.createElement("table");
+        t.className = table.className;
+        if (head && head !== el) t.appendChild(bare(head.cloneNode(true)));
+        t.appendChild(bare(el.cloneNode(true)));
+        var wrap = document.createElement("div");
+        wrap.className = "peek-scroll";
+        wrap.appendChild(t);
+        return wrap;
+      }
+      if (el.tagName === "TH") {
+        var chip = document.createElement("span");
+        chip.className = "peek-chip";
+        chip.textContent = el.textContent;
+        return chip;
+      }
+      if (el.tagName === "LI") {   // a list item keeps its list around it, so it keeps its look
+        var list = el.parentNode.cloneNode(false);
+        list.removeAttribute("data-peek");
+        list.appendChild(bare(el.cloneNode(true)));
+        return list;
+      }
+      return bare(el.cloneNode(true));
+    }
+    function peek(from) {
+      var away = items.filter(function (el) {
+        if (el === from || !el.classList.contains("is-lit")) return false;
+        var r = el.getBoundingClientRect();
+        return r.top < 0 || r.bottom > window.innerHeight;
+      });
+      tray.innerHTML = "";
+      if (!away.length) { tray.hidden = true; return; }
+      var head = document.createElement("p");
+      head.className = "peek-head";
+      head.textContent = "Lit elsewhere on the page";
+      tray.appendChild(head);
+      away.slice(0, 6).forEach(function (el) {
+        var item = document.createElement("div"), where = el.closest("[data-peek]"), k = document.createElement("p");
+        item.className = "peek-item";
+        k.className = "peek-k";
+        k.textContent = where ? where.getAttribute("data-peek") : "";
+        item.appendChild(k);
+        item.appendChild(copyOf(el));
+        tray.appendChild(item);
+      });
+      var r = from.getBoundingClientRect();
+      tray.classList.toggle("at-top", r.top + r.height / 2 > window.innerHeight * 0.55);
+      tray.hidden = false;
+    }
+    function point(el) { current = el; light(el.getAttribute("data-src")); peek(el); }
+    function letGo() { current = null; clear(); tray.hidden = true; }
+    window.addEventListener("scroll", function () { if (current) peek(current); }, { passive: true });
+
     items.forEach(function (el) {
-      el.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") light(el.getAttribute("data-src")); });
-      el.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") clear(); });
-      el.addEventListener("click", function () { light(el.getAttribute("data-src")); });
-      el.addEventListener("focus", function () { light(el.getAttribute("data-src")); });
-      el.addEventListener("blur", clear);
+      el.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") point(el); });
+      el.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") letGo(); });
+      el.addEventListener("click", function () { point(el); });
+      el.addEventListener("focus", function () { point(el); });
+      el.addEventListener("blur", letGo);
     });
     document.addEventListener("pointerdown", function (e) {
-      if (box.classList.contains("has-lit") && !(e.target.closest && e.target.closest(".linked [data-src]"))) clear();
+      if (box.classList.contains("has-lit") && !(e.target.closest && e.target.closest(".linked [data-src]"))) letGo();
     });
+  });
+})();
+
+// The released board at full size: scaled to the width it is given, so it fills the page on any screen
+(function () {
+  Array.prototype.forEach.call(document.querySelectorAll(".board-stage"), function (stage) {
+    var frame = stage.querySelector("iframe");
+    var w = +stage.getAttribute("data-w"), h = +stage.getAttribute("data-h");
+    if (!frame || !w || !h) return;
+    function fit() {
+      var k = stage.clientWidth / w;
+      frame.style.transform = "scale(" + k + ")";
+      stage.style.height = Math.ceil(h * k) + "px";
+    }
+    stage.classList.add("is-fit");
+    fit();
+    window.addEventListener("resize", fit);
   });
 })();

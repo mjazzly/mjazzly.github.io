@@ -215,14 +215,14 @@ def tracker(wanted):
         f'  <h2><span class="badge">{ic("message")}</span>One transcript, and the rows it became</h2>',
         '  <p class="lead"><b>Point at a line</b> to light the row it became, or at a row to light the line it came from. A line with no row was read as no action, and the run\'s note says why.</p>',
         '  <div class="pair linked">',
-        '    <div class="panel side">',
+        f'    <div class="panel side" data-peek="The transcript, {esc(TRACKER_TRANSCRIPT)}">',
         f'      <p class="side-head"><span class="badge badge-s">{ic("file")}</span>The transcript<span class="mono">{esc(TRACKER_TRANSCRIPT)}</span></p>',
         f'      <p class="meta"><b>{esc(head.get("Meeting", ""))}</b><br>{esc(head.get("Date", "date not stated"))} · {esc(head.get("Attendees", ""))}</p>',
         '      <ol class="lines">',
         *line_html,
         "      </ol>",
         "    </div>",
-        '    <div class="panel side">',
+        '    <div class="panel side" data-peek="The tracker">',
         f'      <p class="side-head"><span class="badge badge-s">{ic("table")}</span>The tracker<span class="mono">tracker.csv</span></p>',
         '      <ol class="rows">',
         *row_html,
@@ -246,11 +246,16 @@ def tracker(wanted):
         '<section id="board">',
         f'  <h2><span class="badge">{ic("grid")}</span>The page it released</h2>',
         f'  <p class="lead">The action board the run wrote once every answer was in. <b>{esc(counts.group(0)) if counts else ""}</b></p>',
-        f'  <a class="board-shot" href="outputs/{board.name}"><img src="outputs/{shot.name}" width="1123" height="{shot_h}" loading="lazy" alt="The action board from the run: where the week\'s commitments stand, with every open action by owner and due date."></a>',
-        f'  <p class="note"><a href="outputs/{board.name}">Open the board at full size</a></p>',
+        f'  <a class="board-shot" href="output-01-board.html"><img src="outputs/{shot.name}" width="1123" height="{shot_h}" loading="lazy" alt="The action board from the run: where the week\'s commitments stand, with every open action by owner and due date."></a>',
+        f'  <p class="note"><a href="output-01-board.html">Open the board at full size</a></p>',
         "</section>",
     ])
     write("output-01.html", block)
+    view = "\n".join([
+        record_line(run),
+        f'<div class="board-stage" data-w="1123" data-h="{shot_h}"><iframe src="outputs/{board.name}" width="1123" height="{shot_h}" title="The action board as the run released it"></iframe></div>',
+    ])
+    write("output-01-board.html", view)
     print(f"output-01.html: run {rid} ({run['model']}), {len(lines)} lines, {len(rows)} rows, gate {TRACKER_GATE}")
 
 # ---------------------------------------------------------------- output-03, data answers
@@ -338,20 +343,20 @@ def answers(wanted):
         '  <p class="lead"><b>Point at an answer</b> to light the question it answers and the metric definition it used. Every figure comes from a metric defined in code; <b>the model chooses the metric, the code computes it</b> and returns the block shown here.</p>',
         '  <div class="pair linked">',
         '    <div class="stack-side">',
-        '      <div class="panel side">',
+        '      <div class="panel side" data-peek="The questions">',
         f'        <p class="side-head"><span class="badge badge-s">{ic("message")}</span>The questions</p>',
         '        <ol class="lines">',
         *q_html,
         "        </ol>",
         "      </div>",
-        '      <div class="panel side">',
+        '      <div class="panel side" data-peek="The metrics">',
         f'        <p class="side-head"><span class="badge badge-s">{ic("book")}</span>The metrics<span class="mono">metrics.json</span></p>',
         '        <ul class="metrics">',
         *m_html,
         "        </ul>",
         "      </div>",
         "    </div>",
-        '    <div class="answers">',
+        '    <div class="answers" data-peek="The answers">',
         *a_html,
         "    </div>",
         "  </div>",
@@ -441,7 +446,7 @@ def brief(wanted):
                     text = " · ".join(x for x in (rec.get("file"), rec.get("step"), rec.get("detail")) if x)
                 items.append(item(f"{f} line {i}", f'<span class="ln">{i}</span><span class="said">{esc(text)}</span>'))
         src_html += [f'        <p class="src-file">{ic("file")}<span class="mono">{esc(f)}</span></p>', note,
-                     '        <ul class="lines src">', *items, "        </ul>"]
+                     f'        <ul class="lines src" data-peek="{esc(f)}">', *items, "        </ul>"]
     uncited = [f for f in files if f not in by_file]
 
     # what was removed, and every claim checked
@@ -466,7 +471,7 @@ def brief(wanted):
         *[h for h in src_html if h],
         (f'        <p class="src-note">Also read, cited by no sentence: {esc(", ".join(uncited))}.</p>' if uncited else ""),
         "    </div>",
-        '    <div class="panel side doc">',
+        '    <div class="panel side doc" data-peek="The page as released">',
         f'      <p class="side-head"><span class="badge badge-s">{ic("clipboard")}</span>The page as released</p>',
         '      <div class="doc-body">',
         *page_html,
@@ -560,7 +565,7 @@ def normaliser(wanted):
             rows_html.append(f'<tr class="gap"><td class="rn"></td><td colspan="{width}">{len(grid) - last} more rows</td></tr>')
         note_html = "".join(f"<li>{esc(swap(x))}</li>" for x in notes.get(f, []))
         file_html.append("\n".join(x for x in [
-            '      <div class="panel side sheet">',
+            f'      <div class="panel side sheet" data-peek="{esc(f)}">',
             f'        <p class="side-head"><span class="badge badge-s">{ic("table")}</span><span class="mono">{esc(f)}</span></p>',
             f'        <div class="grid-wrap"><table class="sheet-t">{"".join(rows_html)}</table></div>',
             (f'        <ul class="sheet-notes">{note_html}</ul>' if note_html else ""),
@@ -596,12 +601,12 @@ def normaliser(wanted):
         *file_html,
         "  </div>",
         f'  <h2 class="after"><span class="badge">{ic("layers")}</span>One table out</h2>',
-        '  <div class="panel side">',
+        '  <div class="panel side" data-peek="The merged table">',
         f'    <p class="side-head"><span class="badge badge-s">{ic("database")}</span>The merged table<span class="mono">merged.csv</span></p>',
         f'    <div class="grid-wrap"><table class="sheet-t merged"><thead><tr>{mth}</tr></thead><tbody>{mtd}</tbody></table></div>',
         f'    <p class="src-note">{len(merged)} rows in all; shown here, the first {NORM_ROWS} from each file above.</p>',
         "  </div>",
-        '  <div class="panel side why">',
+        '  <div class="panel side why" data-peek="Why each header went where it did">',
         f'    <p class="side-head"><span class="badge badge-s">{ic("list")}</span>Why each header went where it did<span class="mono">decision_log.csv</span></p>',
         f'    <div class="grid-wrap"><table class="sheet-t why-t"><thead>{why_head}</thead><tbody>{"".join(why)}</tbody></table></div>',
         "  </div>",
