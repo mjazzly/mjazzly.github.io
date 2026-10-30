@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261030c"><link rel="stylesheet" href="motion.css?v=20261030c"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261030b"><link rel="stylesheet" href="motion.css?v=20261030b"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
 <title>Built | Megat Jazly</title>
 <meta name="description" content="What Megat Jazly has built with Claude, at five depths: prompts in Projects, packaged skills, skills with scripts, a tool server the model calls, and apps that run on their own. Each with what it is, how it runs and what it was tested on.">
 </head>
@@ -79,9 +79,9 @@
   <div class="stats">
     <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-puzzle"/></svg></span><div class="n">13</div><div class="what">reusable skills</div><div class="basis">A skill is <b>a packaged set of instructions</b> Claude loads for a specific task. Thirteen written by me, in use.</div></div>
     <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-folder"/></svg></span><div class="n">30</div><div class="what">Claude Projects</div><div class="basis">A Project is <b>a workspace with its own standing instructions and files</b>, so the same context is in place every time.</div></div>
-    <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-wrench"/></svg></span><div class="n">13</div><div class="what">tools the model calls by itself</div><div class="basis">A tool is <b>a function in code the model calls to act</b>: look a name up, record a row, search an index. <b>Ten run the Meeting Tracker Assistant</b>, three search the library index.</div></div>
+    <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-wrench"/></svg></span><div class="n">34</div><div class="what">tools the model calls by itself</div><div class="basis">A tool is <b>a function in code the model calls to act</b>: look a name up, record a row, run a defined metric. <b>Across four tool servers</b>: the meeting tracker and its library index, the spreadsheet normaliser, data answers and the sourced brief.</div></div>
     <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-calendar"/></svg></span><div class="n">10</div><div class="what">weekly reviews from a scheduled task</div><div class="basis">Every Monday morning Claude checks what is new from each AI lab and <b>what it changes for my library</b>, delivered as one page.</div></div>
-    <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><div class="n">3</div><div class="what">assistants tested against answers written first</div><div class="basis"><b>The expected result for every test case was written before the first run</b>, then the run was checked against it.</div></div>
+    <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><div class="n">7</div><div class="what">assistants tested against answers written first</div><div class="basis"><b>The expected result for every test case was written before the first run</b>, then the run was checked against it, blind. The five on AI Work, the conversation brief and the library check.</div></div>
   </div>
 </section>
 
@@ -120,6 +120,10 @@
       <h3>A tool server the model calls</h3>
       <ul>
         <li><b>Meeting Tracker Assistant</b><span>ten tools, four stop gates, a test harness</span></li>
+        <li><b>Spreadsheet normaliser</b><span>nine tools, four stop gates, one table out</span></li>
+        <li><b>Data answers</b><span>seven tools, every number from a defined metric</span></li>
+        <li><b>Sourced brief</b><span>five tools, every sentence checked against its source</span></li>
+        <li><b>Scorecard</b><span>one command, every build on every model</span></li>
       </ul>
     </div>
     <div class="stair">
@@ -329,6 +333,7 @@
       <div class="gate"><span class="g"><svg class="ic" aria-hidden="true"><use href="#ic-stop"/></svg>Declines</span><b>A transcript marked confidential</b> is left unread and reported as declined.</div>
     </div>
     <p class="how"><b>How it runs:</b> a small Node.js tool server on my machine, connected through MCP, holding the ten tools; the Claude desktop app starts it and calls the tools as it works. The tracker and the run log live in files on disk, so next week it reads only the new transcripts and <b>never rewrites an old row</b>. The contacts table stands in for a CRM; the data is synthetic.</p>
+    <p class="how">The tracker and four more builds in the same shape, each with its record and its code, are on <a href="aiwork.html"><b>AI Work</b></a>.</p>
     <div class="record">
       <p class="rec-head"><b>Tested:</b> five cases plus one it must decline, the expected results written before the first run, rerun blind on two model tiers.</p>
       <div class="row"><span class="tier">largest model</span><span class="marks"><i></i><i></i><i></i><i></i><i></i><i class="decline"></i></span><span class="score"><b>five of five</b>, and the decline holds</span></div>
@@ -467,13 +472,13 @@
     <p>Thanks for reading. Say hello anytime.</p>
     <ul class="icon-links">
       <li><a href="mailto:megatjazly@gmail.com" aria-label="Email" title="Email"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg></a></li>
-      <li><a href="https://linkedin.com/in/megatjazly" rel="me" aria-label="LinkedIn" title="LinkedIn"><span class="mark mark-linkedin" aria-hidden="true"></span></a></li>
-      <li><a href="https://github.com/mjazzly" rel="me" aria-label="GitHub" title="GitHub"><span class="mark mark-github" aria-hidden="true"></span></a></li>
+      <li><a target="_blank" href="https://linkedin.com/in/megatjazly" rel="me noopener" aria-label="LinkedIn" title="LinkedIn"><span class="mark mark-linkedin" aria-hidden="true"></span></a></li>
+      <li><a target="_blank" href="https://github.com/mjazzly" rel="me noopener" aria-label="GitHub" title="GitHub"><span class="mark mark-github" aria-hidden="true"></span></a></li>
     </ul>
   </div>
 </footer>
 
 </div>
-<script src="site.js?v=20261030c"></script>
+<script src="site.js?v=20261030b"></script>
 </body>
 </html>

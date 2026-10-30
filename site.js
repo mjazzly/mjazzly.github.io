@@ -136,21 +136,33 @@ document.documentElement.classList.add("js");
   });
 
   // The fold: each case opens on its button; without JavaScript every case stays open
-  Array.prototype.forEach.call(document.querySelectorAll(".case"), function (card) {
+  Array.prototype.forEach.call(document.querySelectorAll(".case, .work"), function (card) {
     var button = card.querySelector(".case-toggle");
     var body = card.querySelector(".case-body");
     if (!button || !body) return;
+    var openLabel = button.getAttribute("data-open") || "Read the case";
     function setOpen(open) {
       button.setAttribute("aria-expanded", open ? "true" : "false");
-      button.querySelector(".case-toggle-label").textContent = open ? "Close" : "Read the case";
+      button.querySelector(".case-toggle-label").textContent = open ? "Close" : openLabel;
       body.hidden = !open;
     }
+    card.openFold = function () { setOpen(true); };
     button.hidden = false;
     setOpen(false);
     button.addEventListener("click", function () {
       setOpen(button.getAttribute("aria-expanded") !== "true");
     });
   });
+  // A link to a folded entry (the tiles at the top, or a shared address) opens it on arrival
+  function openHash() {
+    if (!location.hash) return;
+    var target = document.getElementById(location.hash.slice(1));
+    if (!target) return;
+    var card = target.classList.contains("work") || target.classList.contains("case") ? target : target.querySelector(".work, .case");
+    if (card && card.openFold) card.openFold();
+  }
+  openHash();
+  window.addEventListener("hashchange", openHash);
 
   // The INFJ-A bars fill once, and each percentage counts up beside its bar
   if (traits) {

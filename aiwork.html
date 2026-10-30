@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261030c"><link rel="stylesheet" href="motion.css?v=20261030c"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261030b"><link rel="stylesheet" href="motion.css?v=20261030b"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
 <title>AI Work | Megat Jazly</title>
 <meta name="description" content="AI systems Megat Jazly built to take over a real task, each with what it replaces, how it was tested, the numbers from every recorded run, and the code on GitHub.">
 </head>
@@ -74,6 +74,18 @@
   <p class="thesis">AI systems built to <b>take over a real task</b>, with the numbers to check them. Each entry says <b>what it replaces</b>, how it was tested, what every recorded run scored, and <b>where the code is</b>. A term is explained where it first appears, and the words are collected at the foot of the page.</p>
 </header>
 
+<section id="entries">
+  <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-layers"/></svg></span>Five entries, at a glance</h2>
+  <p class="lead">Each one is folded below: <b>the task and what it replaces</b> show, and a button opens the numbers, the record, the drawing and the code. Pick one here to go straight to it.</p>
+  <div class="tiles entries">
+    <a class="tile entry" href="#work-01"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-list"/></svg></span><span class="sys-id">WORK-01</span><div class="what">Meeting tracker</div><div class="basis">Transcripts become a tracked list of who does what, by when.</div><div class="k">5 of 5 cases, decline held</div></a>
+    <a class="tile entry" href="#work-02"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-table"/></svg></span><span class="sys-id">WORK-02</span><div class="what">Spreadsheet normaliser</div><div class="basis">Hundreds of spreadsheets with different columns become one table.</div><div class="k">5 of 5 cases, both models</div></a>
+    <a class="tile entry" href="#work-03"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-database"/></svg></span><span class="sys-id">WORK-03</span><div class="what">Data answers</div><div class="basis">A question in the chat, a number with its definition back.</div><div class="k">20 of 20 answered exactly</div></a>
+    <a class="tile entry" href="#work-04"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-clipboard"/></svg></span><span class="sys-id">WORK-04</span><div class="what">Sourced brief</div><div class="basis">A weekly brief where every sentence shows where it came from.</div><div class="k">289 of 289 facts sourced</div></a>
+    <a class="tile entry" href="#work-05"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-grid"/></svg></span><span class="sys-id">WORK-05</span><div class="what">Scorecard</div><div class="basis">One command reruns every build on every model and keeps the score.</div><div class="k">4 builds, 25 runs on the record</div></a>
+  </div>
+</section>
+
 <section id="reading">
   <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-compass"/></svg></span>What every entry carries</h2>
   <div class="tiles four">
@@ -93,6 +105,9 @@
     <h3>Meeting transcripts become a tracked list of who does what, by when</h3>
     <p>A folder of meeting transcripts in, a running action tracker out. The model reads each new transcript, picks out every action agreed with its owner and due date, looks every name up in a contacts table, and appends to the tracker. <b>The rules sit in code it cannot skip</b>: four points where it must stop and ask, and one where it must decline.</p>
     <p class="replaces"><b>Replaces:</b> the hour after each meeting spent pulling actions out of the notes and chasing who owns them. Every action lands with its owner and due date, <b>none is invented</b>, and where the transcript is unclear the run stops and asks.</p>
+
+    <div class="case-foot"><button type="button" class="case-toggle" data-open="Read the entry" aria-expanded="true" aria-controls="work-01-body" hidden><span class="case-toggle-label">Read the entry</span><svg class="ic" aria-hidden="true"><use href="#ic-chevron"/></svg></button></div>
+    <div class="case-body" id="work-01-body">
 
     <div class="stats four">
       <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><div class="n">5 of 5</div><div class="what">cases matched, largest model</div><div class="basis">Five test cases plus one it must decline, checked blind against <b>answers written before the first run</b>. The decline held.</div></div>
@@ -198,13 +213,14 @@
 
     <h4><svg class="ic" aria-hidden="true"><use href="#ic-link"/></svg>Where to look in the code</h4>
     <ul class="words checks">
-      <li><a href="https://github.com/mjazzly/meeting-tracker-assistant"><b>README</b></a> How it runs, how to connect it, and the one command that reruns every case.</li>
-      <li><a href="https://github.com/mjazzly/meeting-tracker-assistant/blob/main/lib/store.js"><b>lib/store.js</b></a> The four stop gates, written as code the model cannot skip.</li>
-      <li><a href="https://github.com/mjazzly/meeting-tracker-assistant/tree/main/eval/expected"><b>eval/expected</b></a> The expected result for every case, written before the first run.</li>
-      <li><a href="https://github.com/mjazzly/meeting-tracker-assistant/tree/main/eval/results"><b>eval/results</b></a> Every recorded run: the model, the cases, the tokens and the cost.</li>
-      <li><a href="https://github.com/mjazzly/meeting-tracker-assistant/blob/main/eval/EXEMPLAR.md"><b>eval/EXEMPLAR.md</b></a> The run history as one page, rebuilt from the results after every run.</li>
-      <li><a href="https://github.com/mjazzly/meeting-tracker-assistant/blob/main/skill/SKILL.md"><b>skill/SKILL.md</b></a> The instructions the model is given, and nothing else.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/meeting-tracker-assistant" rel="noopener"><b>README</b></a> How it runs, how to connect it, and the one command that reruns every case.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/meeting-tracker-assistant/blob/main/lib/store.js" rel="noopener"><b>lib/store.js</b></a> The four stop gates, written as code the model cannot skip.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/meeting-tracker-assistant/tree/main/eval/expected" rel="noopener"><b>eval/expected</b></a> The expected result for every case, written before the first run.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/meeting-tracker-assistant/tree/main/eval/results" rel="noopener"><b>eval/results</b></a> Every recorded run: the model, the cases, the tokens and the cost.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/meeting-tracker-assistant/blob/main/eval/EXEMPLAR.md" rel="noopener"><b>eval/EXEMPLAR.md</b></a> The run history as one page, rebuilt from the results after every run.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/meeting-tracker-assistant/blob/main/skill/SKILL.md" rel="noopener"><b>skill/SKILL.md</b></a> The instructions the model is given, and nothing else.</li>
     </ul>
+    </div>
   </div>
 </section>
 
@@ -217,6 +233,9 @@
     <h3>Hundreds of spreadsheets with different columns become one table</h3>
     <p>A folder of spreadsheets in, one clean table and a decision log out. The files should all hold the same data, but each arrives with its own column names and order, a title row here, a totals row there, dates written as text, two columns that mean one. The model reads each file and <b>proposes how its columns map onto the agreed schema, with a reason per column</b>; the code applies the mapping, parses every value against its type, and writes the table. <b>The rules sit in code it cannot skip</b>: three points where it must stop and ask, one where it must decline, and a count that must reconcile or the run fails.</p>
     <p class="replaces"><b>Replaces:</b> the days spent opening each file, lining its columns up against the template by eye and pasting rows across, with no record of why a column went where it went. Every column lands with its reason logged, <b>nothing is dropped silently</b>, and where a column could mean two fields the run stops and asks.</p>
+
+    <div class="case-foot"><button type="button" class="case-toggle" data-open="Read the entry" aria-expanded="true" aria-controls="work-02-body" hidden><span class="case-toggle-label">Read the entry</span><svg class="ic" aria-hidden="true"><use href="#ic-chevron"/></svg></button></div>
+    <div class="case-body" id="work-02-body">
 
     <div class="stats four">
       <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><div class="n">5 of 5</div><div class="what">cases matched, largest model</div><div class="basis">Five test cases plus one it must decline and two that test a second run, checked blind against <b>results generated from a seed before the first run</b>. All eight matched; 242 rows merged, every count reconciled.</div></div>
@@ -395,13 +414,14 @@
 
     <h4><svg class="ic" aria-hidden="true"><use href="#ic-link"/></svg>Where to look in the code</h4>
     <ul class="words checks">
-      <li><a href="https://github.com/mjazzly/spreadsheet-normaliser"><b>README</b></a> How it runs, how to connect it, and the one command that reruns every case.</li>
-      <li><a href="https://github.com/mjazzly/spreadsheet-normaliser/blob/main/lib/store.js"><b>lib/store.js</b></a> The four gates, the append-only table and the reconciliation, written as code the model cannot skip.</li>
-      <li><a href="https://github.com/mjazzly/spreadsheet-normaliser/blob/main/scripts/make_cases.js"><b>scripts/make_cases.js</b></a> The seeded generator that writes every test file and its expected result in one pass.</li>
-      <li><a href="https://github.com/mjazzly/spreadsheet-normaliser/tree/main/eval/results"><b>eval/results</b></a> Every recorded run: the model, the cases, the tokens and the cost.</li>
-      <li><a href="https://github.com/mjazzly/spreadsheet-normaliser/blob/main/eval/EXEMPLAR.md"><b>eval/EXEMPLAR.md</b></a> The run history as one page, rebuilt from the results after every run.</li>
-      <li><a href="https://github.com/mjazzly/spreadsheet-normaliser/blob/main/skill/SKILL.md"><b>skill/SKILL.md</b></a> The instructions the model is given, and nothing else.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/spreadsheet-normaliser" rel="noopener"><b>README</b></a> How it runs, how to connect it, and the one command that reruns every case.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/spreadsheet-normaliser/blob/main/lib/store.js" rel="noopener"><b>lib/store.js</b></a> The four gates, the append-only table and the reconciliation, written as code the model cannot skip.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/spreadsheet-normaliser/blob/main/scripts/make_cases.js" rel="noopener"><b>scripts/make_cases.js</b></a> The seeded generator that writes every test file and its expected result in one pass.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/spreadsheet-normaliser/tree/main/eval/results" rel="noopener"><b>eval/results</b></a> Every recorded run: the model, the cases, the tokens and the cost.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/spreadsheet-normaliser/blob/main/eval/EXEMPLAR.md" rel="noopener"><b>eval/EXEMPLAR.md</b></a> The run history as one page, rebuilt from the results after every run.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/spreadsheet-normaliser/blob/main/skill/SKILL.md" rel="noopener"><b>skill/SKILL.md</b></a> The instructions the model is given, and nothing else.</li>
     </ul>
+    </div>
   </div>
 </section>
 
@@ -414,6 +434,9 @@
     <h3>A question in the chat, a number with its definition back</h3>
     <p>A question about a business table in, a number out. The table holds a year of orders and returns by branch, month, category and channel, and people ask about it all day: returns rate by branch last quarter, which branch grew most, average order value in March. The model chooses <b>which of twelve metrics defined in code</b> answers the question, and which filters and period apply; the code runs the query and returns the number with <b>the metric's definition, the filters applied, the rows it was computed over</b>, the data version and a run id. The model never writes a query and never sees a row. <b>The rules sit in code it cannot skip</b>: a metric nobody has defined is refused with the nearest defined one named, and a period or a branch the data cannot settle stops and asks.</p>
     <p class="replaces"><b>Replaces:</b> the message to an analyst for every number, the query written and checked by hand, and a figure that comes back with no definition attached. Every answer carries its definition and its filters, <b>the same question asked twice gives the same number and says so</b>, and an answer given after new rows arrive says the data changed.</p>
+
+    <div class="case-foot"><button type="button" class="case-toggle" data-open="Read the entry" aria-expanded="true" aria-controls="work-03-body" hidden><span class="case-toggle-label">Read the entry</span><svg class="ic" aria-hidden="true"><use href="#ic-chevron"/></svg></button></div>
+    <div class="case-body" id="work-03-body">
 
     <div class="stats four">
       <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><div class="n">20</div><div class="what">of 20 questions answered exactly, both models</div><div class="basis">Twenty questions across the twelve metrics, two of them comparisons and two with a misspelt branch name, checked blind against <b>answers generated from a seed before the first run</b>. Every value matched to the cent and the percentage point.</div></div>
@@ -577,13 +600,14 @@
 
     <h4><svg class="ic" aria-hidden="true"><use href="#ic-link"/></svg>Where to look in the code</h4>
     <ul class="words checks">
-      <li><a href="https://github.com/mjazzly/data-answers"><b>README</b></a> How it runs, how to connect it, and the one command that reruns every question.</li>
-      <li><a href="https://github.com/mjazzly/data-answers/blob/main/metrics.json"><b>metrics.json</b></a> The twelve metrics, each with its definition, its query template, its unit and the dimensions it allows.</li>
-      <li><a href="https://github.com/mjazzly/data-answers/blob/main/lib/store.js"><b>lib/store.js</b></a> The six gates, the answer block and the run log, written as code the model cannot skip.</li>
-      <li><a href="https://github.com/mjazzly/data-answers/blob/main/scripts/make_data.js"><b>scripts/make_data.js</b></a> The seeded generator that writes the table and every expected answer in one pass.</li>
-      <li><a href="https://github.com/mjazzly/data-answers/blob/main/eval/EXEMPLAR.md"><b>eval/EXEMPLAR.md</b></a> Every recorded run as one page: the model, each question, the tokens and the cost.</li>
-      <li><a href="https://github.com/mjazzly/data-answers/blob/main/skill/SKILL.md"><b>skill/SKILL.md</b></a> The instructions the model is given, and nothing else.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/data-answers" rel="noopener"><b>README</b></a> How it runs, how to connect it, and the one command that reruns every question.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/data-answers/blob/main/metrics.json" rel="noopener"><b>metrics.json</b></a> The twelve metrics, each with its definition, its query template, its unit and the dimensions it allows.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/data-answers/blob/main/lib/store.js" rel="noopener"><b>lib/store.js</b></a> The six gates, the answer block and the run log, written as code the model cannot skip.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/data-answers/blob/main/scripts/make_data.js" rel="noopener"><b>scripts/make_data.js</b></a> The seeded generator that writes the table and every expected answer in one pass.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/data-answers/blob/main/eval/EXEMPLAR.md" rel="noopener"><b>eval/EXEMPLAR.md</b></a> Every recorded run as one page: the model, each question, the tokens and the cost.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/data-answers/blob/main/skill/SKILL.md" rel="noopener"><b>skill/SKILL.md</b></a> The instructions the model is given, and nothing else.</li>
     </ul>
+    </div>
   </div>
 </section>
 
@@ -596,6 +620,9 @@
     <h3>A weekly brief where every sentence shows where it came from</h3>
     <p>Six sources in, one page out. Every week someone writes the status brief from the action tracker, the merged table and its log, a few answered questions, two short notes and last week's brief, and afterwards nobody can tell which sentence came from where. Here the model reads the six sources and drafts the page in five fixed sections: what moved, what is due, what changed in the numbers, what needs a decision, open questions. Every sentence carries <b>a claim for each fact in it</b>, meaning each number, name, date, quote and status, with the file and the line or row it came from. <b>The code checks every claim against its source before the page is released</b>; a sentence that fails is taken off the page and listed with the reason. Where two sources disagree, the page shows both. A section with nothing to cite says so. A source marked confidential is declined and named, and a number no source states is never worked out.</p>
     <p class="replaces"><b>Replaces:</b> the afternoon spent pulling the brief together by hand, and a page whose sentences cannot be traced afterwards. Every sentence on the released page <b>names the file and the line it came from</b>, and the same week written twice gives the same facts from the same sources.</p>
+
+    <div class="case-foot"><button type="button" class="case-toggle" data-open="Read the entry" aria-expanded="true" aria-controls="work-04-body" hidden><span class="case-toggle-label">Read the entry</span><svg class="ic" aria-hidden="true"><use href="#ic-chevron"/></svg></button></div>
+    <div class="case-body" id="work-04-body">
 
     <div class="stats four">
       <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><div class="n">289</div><div class="what">of 289 facts on the page with their source, largest model</div><div class="basis">Every number, owner, date, quote and status that six test weeks must carry, checked blind against <b>facts generated from a seed before the first run</b>. 289 of 289 on the smallest model too, at v1.3.</div></div>
@@ -752,13 +779,14 @@
 
     <h4><svg class="ic" aria-hidden="true"><use href="#ic-link"/></svg>Where to look in the code</h4>
     <ul class="words checks">
-      <li><a href="https://github.com/mjazzly/sourced-brief"><b>README</b></a> How it runs, how to connect it, and the one command that rewrites every test week.</li>
-      <li><a href="https://github.com/mjazzly/sourced-brief/blob/main/lib/check.js"><b>lib/check.js</b></a> The claim checker: each claim against its source, and every number, name and date in a sentence matched to a claim.</li>
-      <li><a href="https://github.com/mjazzly/sourced-brief/blob/main/lib/store.js"><b>lib/store.js</b></a> The stop rules, the release and the record of every claim, written as code the model cannot skip.</li>
-      <li><a href="https://github.com/mjazzly/sourced-brief/blob/main/scripts/make_week.js"><b>scripts/make_week.js</b></a> The seeded generator that writes every test week and the facts its page must carry in one pass.</li>
-      <li><a href="https://github.com/mjazzly/sourced-brief/blob/main/eval/EXEMPLAR.md"><b>eval/EXEMPLAR.md</b></a> Every recorded run as one page: the model, each week, the tokens and the cost.</li>
-      <li><a href="https://github.com/mjazzly/sourced-brief/blob/main/skill/SKILL.md"><b>skill/SKILL.md</b></a> The instructions the model is given, and nothing else.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/sourced-brief" rel="noopener"><b>README</b></a> How it runs, how to connect it, and the one command that rewrites every test week.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/sourced-brief/blob/main/lib/check.js" rel="noopener"><b>lib/check.js</b></a> The claim checker: each claim against its source, and every number, name and date in a sentence matched to a claim.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/sourced-brief/blob/main/lib/store.js" rel="noopener"><b>lib/store.js</b></a> The stop rules, the release and the record of every claim, written as code the model cannot skip.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/sourced-brief/blob/main/scripts/make_week.js" rel="noopener"><b>scripts/make_week.js</b></a> The seeded generator that writes every test week and the facts its page must carry in one pass.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/sourced-brief/blob/main/eval/EXEMPLAR.md" rel="noopener"><b>eval/EXEMPLAR.md</b></a> Every recorded run as one page: the model, each week, the tokens and the cost.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/sourced-brief/blob/main/skill/SKILL.md" rel="noopener"><b>skill/SKILL.md</b></a> The instructions the model is given, and nothing else.</li>
     </ul>
+    </div>
   </div>
 </section>
 
@@ -771,6 +799,9 @@
     <h3>One command that reruns every build on every model and keeps the score</h3>
     <p>Four builds on this page, each with its own test cases, checker and record. After any change to a skill, a tool server or a model, every one of those case sets has to be run again on every model and compared with the last run, and someone has to decide whether the change broke anything and which model is now the cheapest that passes. Here <b>one command runs every build on every model</b>, each through its own harness and its own checker in a fresh copy, and keeps one scorecard: cases matched, stop gates held, cost, and the change since the last run. It names <b>the smallest model that passes each build</b>. Nothing inside the four builds was rewritten; each gained one small file that says where its pieces are. <b>A run that could have seen its expected answers is refused</b>, kept on the record and never counted.</p>
     <p class="replaces"><b>Replaces:</b> four commands in four folders after every change, and a comparison made by eye. A broken case is <b>named by its build, its model and its case</b>, and the cost of every model on every build sits on one page.</p>
+
+    <div class="case-foot"><button type="button" class="case-toggle" data-open="Read the entry" aria-expanded="true" aria-controls="work-05-body" hidden><span class="case-toggle-label">Read the entry</span><svg class="ic" aria-hidden="true"><use href="#ic-chevron"/></svg></button></div>
+    <div class="case-body" id="work-05-body">
 
     <div class="stats four">
       <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-layers"/></svg></span><div class="n">4</div><div class="what">builds rerun by one command, on both models</div><div class="basis">The meeting tracker, the spreadsheet normaliser, data answers and the sourced brief, each through <b>its own harness and its own checker</b> in a fresh copy. A fifth build joins by its small file alone; a test proves it with a copy.</div></div>
@@ -932,13 +963,14 @@
 
     <h4><svg class="ic" aria-hidden="true"><use href="#ic-link"/></svg>Where to look in the code</h4>
     <ul class="words checks">
-      <li><a href="https://github.com/mjazzly/scorecard"><b>README</b></a> How it runs, the small file each build carries, and the one command for a sweep.</li>
-      <li><a href="https://github.com/mjazzly/scorecard/blob/main/run.js"><b>run.js</b></a> The runner: every build on every model in a fresh copy, one record each.</li>
-      <li><a href="https://github.com/mjazzly/scorecard/blob/main/lib/gates.js"><b>lib/gates.js</b></a> The scan for the expected answers, before the run and after it, that refuses a run the model could have seen.</li>
-      <li><a href="https://github.com/mjazzly/scorecard/blob/main/compare.js"><b>compare.js</b></a> Every case that changed state, every cost that moved, and the smallest passing model per build.</li>
-      <li><a href="https://github.com/mjazzly/scorecard/blob/main/test/run_cases.js"><b>test/run_cases.js</b></a> The scorecard's own test cases, each fault planted in a copy and never in a build.</li>
-      <li><a href="https://github.com/mjazzly/scorecard/blob/main/page.js"><b>page.js</b></a> Writes the scorecard from the records and nowhere else: the table, the changes since the last sweep, every version.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/scorecard" rel="noopener"><b>README</b></a> How it runs, the small file each build carries, and the one command for a sweep.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/scorecard/blob/main/run.js" rel="noopener"><b>run.js</b></a> The runner: every build on every model in a fresh copy, one record each.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/scorecard/blob/main/lib/gates.js" rel="noopener"><b>lib/gates.js</b></a> The scan for the expected answers, before the run and after it, that refuses a run the model could have seen.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/scorecard/blob/main/compare.js" rel="noopener"><b>compare.js</b></a> Every case that changed state, every cost that moved, and the smallest passing model per build.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/scorecard/blob/main/test/run_cases.js" rel="noopener"><b>test/run_cases.js</b></a> The scorecard's own test cases, each fault planted in a copy and never in a build.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/scorecard/blob/main/page.js" rel="noopener"><b>page.js</b></a> Writes the scorecard from the records and nowhere else: the table, the changes since the last sweep, every version.</li>
     </ul>
+    </div>
   </div>
 </section>
 
@@ -966,13 +998,13 @@
     <p>Thanks for reading. Say hello anytime.</p>
     <ul class="icon-links">
       <li><a href="mailto:megatjazly@gmail.com" aria-label="Email" title="Email"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg></a></li>
-      <li><a href="https://linkedin.com/in/megatjazly" rel="me" aria-label="LinkedIn" title="LinkedIn"><span class="mark mark-linkedin" aria-hidden="true"></span></a></li>
-      <li><a href="https://github.com/mjazzly" rel="me" aria-label="GitHub" title="GitHub"><span class="mark mark-github" aria-hidden="true"></span></a></li>
+      <li><a target="_blank" href="https://linkedin.com/in/megatjazly" rel="me noopener" aria-label="LinkedIn" title="LinkedIn"><span class="mark mark-linkedin" aria-hidden="true"></span></a></li>
+      <li><a target="_blank" href="https://github.com/mjazzly" rel="me noopener" aria-label="GitHub" title="GitHub"><span class="mark mark-github" aria-hidden="true"></span></a></li>
     </ul>
   </div>
 </footer>
 
 </div>
-<script src="site.js?v=20261030c"></script>
+<script src="site.js?v=20261030b"></script>
 </body>
 </html>

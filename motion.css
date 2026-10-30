@@ -406,3 +406,20 @@ html.js .is-in .stair:nth-child(5){transition-delay:.48s}
   .work .record .row{grid-template-columns:1fr}
   .checks{columns:1}
 }
+
+/* AI Work: the index tiles, and the fold on an entry */
+.tiles.entries{grid-template-columns:repeat(5,1fr)}
+.tile.entry{display:block;color:inherit;border-bottom:none;padding:16px 16px 14px}
+.tile.entry .badge{margin-bottom:12px}
+.tile.entry .sys-id{display:block;margin-bottom:4px}
+.tile.entry .what{font-size:15px;margin-bottom:8px}
+.tile.entry .basis{font-size:13px;margin-bottom:10px}
+.tile.entry .k{font-family:var(--mono);font-size:12.5px;color:var(--marine);font-weight:500}
+.tile.entry:hover .badge{background:var(--marine);color:#fff}
+.tile.entry:hover .what{color:var(--marine)}
+.work .case-foot{padding:16px 0 0}
+.work .case-body{margin-top:18px;padding-top:4px;border-top:1px solid var(--line)}
+.work .case-body[hidden]{display:none}
+html.js .work .case-body{animation:case-open .25s ease}
+@media(max-width:860px){ .tiles.entries{grid-template-columns:repeat(2,1fr)} }
+@media(max-width:600px){ .tiles.entries{grid-template-columns:1fr} }
