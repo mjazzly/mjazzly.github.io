@@ -68,7 +68,7 @@ def sprite():
 def use(name, cls="ic"):
     return f'<svg class="{cls}" aria-hidden="true"><use href="#ic-{name}"/></svg>'
 
-PAGES = ["index.html", "built.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
+PAGES = ["index.html", "built.html", "aiwork.html", "scorecard.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
 
 if __name__ == "__main__":
     root = pathlib.Path(__file__).resolve().parent.parent

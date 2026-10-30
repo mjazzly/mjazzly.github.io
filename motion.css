@@ -344,6 +344,59 @@ html.js .is-in .stair:nth-child(5){transition-delay:.48s}
 .work .score-note b{color:var(--ink-soft)}
 
 
+/* The scorecard page (scorecard.html): the numbers, builds by model with cost bars on one scale, the changes and the version record.
+   Written from the records by scripts/scorecard.py; the frame is hand-written, the tables are not. */
+.scorepage .hero-links a{border-bottom:none}
+.scorepage section{padding:28px 0}
+.scorepage #numbers{padding-top:0}
+.scorepage .lead{max-width:760px}
+.scorepage .panel.table{padding:6px 22px 10px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.scorepage .note{margin-top:12px;font-size:13.5px;color:var(--ink-faint);max-width:760px}
+.scorepage .note b{color:var(--ink-soft)}
+.scorepage .mono{font-family:var(--mono);font-size:12.5px}
+.scorepage .faint{color:var(--ink-faint)}
+.costs{width:100%;min-width:620px;border-collapse:collapse;font-size:14px}
+.costs th,.costs td{text-align:left;vertical-align:top;padding:16px 12px;border-top:1px solid var(--line)}
+.costs thead th{border-top:0;padding:12px 12px 10px;font-size:12.5px;font-weight:700;color:var(--ink-soft)}
+.costs thead th .model-id{display:block;font-family:var(--mono);font-weight:400;font-size:11.5px;color:var(--ink-faint);margin-top:2px}
+.costs tbody th{font-weight:400;width:24%;padding-right:18px}
+.costs tbody th b{display:block;font-size:15px;color:var(--ink)}
+.costs tbody th .ver{display:block;font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);margin-top:4px}
+.costs tbody th .ver.faint{color:var(--ink-faint);margin-top:0}
+.costs td.empty{color:var(--ink-faint);font-size:13.5px}
+.costs td .cases{font-weight:800;font-size:24px;line-height:1.1;letter-spacing:-.02em;color:var(--ink)}
+.costs td .cases small{font-weight:600;font-size:13px;letter-spacing:0;color:var(--ink-soft);margin-left:6px}
+.costs td .held{font-size:13.5px;color:var(--ink-soft);margin-top:6px}
+.costs td .held b{color:var(--ink)}
+.costs td .cost{display:flex;align-items:center;gap:10px;margin-top:12px;font-family:var(--mono);font-size:12.5px;color:var(--ink-soft)}
+.costbar{width:120px;height:6px;flex:none;display:block;overflow:visible}
+.costbar .track{fill:var(--marine-tint)}
+.costbar .fill{fill:var(--marine);transform-box:fill-box;transform-origin:0 50%}
+.js .costs .costbar .fill{transform:scaleX(0)}
+.costs.is-in .costbar .fill{transform:scaleX(1);transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.costs.is-in tr:nth-child(2) .costbar .fill{transition-delay:.12s}
+.costs.is-in tr:nth-child(3) .costbar .fill{transition-delay:.24s}
+.costs.is-in tr:nth-child(4) .costbar .fill{transition-delay:.36s}
+.costs.is-in tr:nth-child(5) .costbar .fill{transition-delay:.48s}
+@media (prefers-reduced-motion:reduce){.js .costs .costbar .fill{transform:none;transition:none}}
+.costs td .verdict{display:inline-flex;align-items:center;gap:5px;margin-top:12px;font-weight:700;font-size:12px;color:var(--marine);background:var(--marine-tint);padding:4px 10px 4px 8px;border-radius:999px}
+.costs td .verdict .ic{width:13px;height:13px;stroke-width:2.6;color:var(--amber)}
+.costs td.notmet .verdict{color:var(--amber);background:var(--amber-tint);padding-left:10px}
+.scorepage .plain{width:100%;min-width:720px;border-collapse:collapse;font-size:14px}
+.scorepage .plain th,.scorepage .plain td{text-align:left;vertical-align:top;padding:12px 12px;border-top:1px solid var(--line);color:var(--ink-soft)}
+.scorepage .plain thead th{border-top:0;padding:12px 12px 8px;font-size:12.5px;font-weight:700;color:var(--ink-soft)}
+.scorepage .plain td b{color:var(--ink)}
+/* The link from WORK-05 to the page */
+.work .score-open{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;font-size:13.5px;color:var(--ink-faint);max-width:none}
+.work .score-open a{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;background:var(--marine);color:#fff;font-weight:700;font-size:14px;border-bottom:none;transition:background-color .15s}
+.work .score-open a:hover{background:var(--marine-deep)}
+.work .score-open a .ic{width:17px;height:17px}
+@media(max-width:600px){
+  .costs tbody th{width:auto}
+  .scorepage .panel.table{padding:6px 14px 10px}
+}
+
+
 @media(max-width:860px){
   .tiles.four,.stats.four{grid-template-columns:repeat(2,1fr)}
 }

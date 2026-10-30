@@ -62,6 +62,7 @@ document.documentElement.classList.add("js");
   if (calm.matches || !("IntersectionObserver" in window)) {
     if (stairs) stairs.classList.add("is-in");
     if (traits) traits.classList.add("is-in");
+    Array.prototype.forEach.call(document.querySelectorAll(".costs"), function (t) { t.classList.add("is-in"); });
     return;
   }
 
@@ -172,6 +173,16 @@ document.documentElement.classList.add("js");
     }, { threshold: 0.4 });
     fillIn.observe(traits);
   }
+
+  // The scorecard's cost bars fill once, the first time the table scrolls into view
+  Array.prototype.forEach.call(document.querySelectorAll(".costs"), function (table) {
+    var fillBars = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      fillBars.disconnect();
+      table.classList.add("is-in");
+    }, { threshold: 0.2 });
+    fillBars.observe(table);
+  });
 
   if (stairs) {
     var rise = new IntersectionObserver(function (entries) {
