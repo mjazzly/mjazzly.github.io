@@ -288,7 +288,33 @@ DIAGRAMS["normaliser"] = dict(
            ((2,5),(1,6)), ((1,6),(2,6)), ((2,6),(3,6)), ((1,6),(0,6))],
 )
 
-FILES = {"casefiles.html": ["case-01", "case-02", "case-03"], "built.html": ["tracker", "harness"], "aiwork.html": ["versions", "normaliser"]}
+DIAGRAMS["answers"] = dict(
+    alt="Seven steps of data answers across four lanes: me, Claude with the skill, the tool server, and the table and logs on disk; Claude refuses a question about one person, the tool server refuses a metric or dimension nobody has defined, and stops to ask when a period or a branch cannot be matched to the data",
+    steps=["Ask", "List", "Choose", "Check", "Match", "Compute", "Answer"],
+    lanes=["Me", "Claude with|the skill", "The tool|server", "Table and|logs"],
+    lane_h=72,
+    nodes=[
+        dict(at=(0, 0), lines=['"Returns rate', 'by branch, Q3"']),
+        dict(at=(1, 1), lines=["reads the", "metric list"]),
+        dict(at=(2, 1), lines=["list_metrics"]),
+        dict(at=(3, 1), lines=["twelve metrics", "in code"], kind="soft"),
+        dict(at=(1, 2), lines=["picks metric,", "filters, period"], stop="a person: refuse"),
+        dict(at=(2, 3), lines=["run_metric"], stop="unknown: refuse"),
+        dict(at=(2, 4), lines=["period and", "branch names"], stop="unclear: ask"),
+        dict(at=(0, 4), lines=["answers if", "it stops"]),
+        dict(at=(2, 5), lines=["the query,", "run in code"]),
+        dict(at=(3, 5), lines=["orders table,", "rows counted"], kind="soft"),
+        dict(at=(2, 6), lines=["builds the", "answer block"]),
+        dict(at=(3, 6), lines=["answer log", "and run id"], kind="soft"),
+        dict(at=(1, 6), lines=["adds one", "plain sentence"]),
+        dict(at=(0, 6), lines=["number with", "its definition"], kind="ink"),
+    ],
+    links=[((0,0),(1,1)), ((1,1),(2,1)), ((2,1),(3,1)), ((1,1),(1,2)), ((1,2),(2,3)),
+           ((2,3),(2,4)), ((2,4),(2,5)), ((2,5),(3,5)), ((2,5),(2,6)), ((2,6),(3,6)),
+           ((2,6),(1,6)), ((1,6),(0,6))],
+)
+
+FILES = {"casefiles.html": ["case-01", "case-02", "case-03"], "built.html": ["tracker", "harness"], "aiwork.html": ["versions", "normaliser", "answers"]}
 
 if __name__ == "__main__":
     root = pathlib.Path(__file__).resolve().parent.parent
