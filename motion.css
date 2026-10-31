@@ -107,8 +107,8 @@ header.hero.has-map{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:1
 .constellation .star-label.lead{font-weight:800;fill:var(--ink)}
 .constellation .core-label{font-family:var(--sans);font-size:11px;font-weight:800;fill:var(--ink);stroke:none}
 .constellation .stage{font-family:var(--sans);font-size:10px;font-weight:700;fill:var(--amber)}
-/* the map is read while the hero text is read: it waits for the seams to part, then unfolds over about six seconds,
-   unhurried but complete before most readers scroll; the stars settle on a soft ease rather than snap; a replay on hover starts at once */
+/* the map is read while the hero text is read: it waits for the seams to part, then unfolds over about seven seconds:
+   hub, spokes and stars, the lead star last and alone, a pause, then the orbit and the stage words; the stars settle on a soft ease rather than snap; a replay on hover starts at once */
 .hero-map{--t0:.9s}
 .hero-map.is-replay{--t0:0s}
 .is-playing .constellation .d-pop{animation-duration:1.1s;animation-timing-function:cubic-bezier(.22,.8,.32,1);animation-delay:calc(var(--delay,0s) + var(--t0,0s))}
@@ -319,12 +319,16 @@ html.js .is-in .stair:nth-child(5){transition-delay:.48s}
 .work .replaces{margin-top:14px;padding:14px 18px;border-radius:var(--radius-s);background:var(--amber-tint);color:var(--ink-soft);font-size:15px;max-width:none}
 .work .replaces b{color:var(--ink)}
 .work .replaces b:first-child{color:var(--amber)}
-/* who the entry is for, and what changes for them: two plain lines under what it replaces */
-.work .fit{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+/* who the entry is for (one line), then the record read three ways: time given back, trust held, cost per run */
+.work .fit{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
 .work .fit p{font-size:14.5px;line-height:1.6;color:var(--ink-soft);max-width:none}
 .work .fit b{color:var(--ink)}
 .work .fit b:first-child{color:var(--amber)}
-@media(max-width:600px){ .work .fit{grid-template-columns:1fr} }
+.work .measure{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.work .measure div{background:var(--paper);border-radius:var(--radius-s);padding:12px 14px}
+.work .measure dt{font-size:12px;font-weight:700;color:var(--amber);margin-bottom:4px}
+.work .measure dd{font-size:14px;line-height:1.5;font-weight:600;color:var(--ink)}
+@media(max-width:600px){ .work .measure{grid-template-columns:1fr} }
 .tile.entry .for{font-size:12.5px;line-height:1.5;color:var(--ink-soft);margin-bottom:10px}
 .tile.entry .for b{color:var(--amber)}
 .work .record{margin-top:22px}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261031b"><link rel="stylesheet" href="motion.css?v=20261031b"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261031c"><link rel="stylesheet" href="motion.css?v=20261031c"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
 <title>Data answers, the output | Megat Jazly</title>
 <meta name="description" content="One recorded run of data answers: questions as asked beside the answers the code built, each naming its metric, filters, period and the rows it was computed over, and one refusal with the nearest defined metric."><meta property="og:type" content="website"><meta property="og:site_name" content="Megat Jazly"><meta property="og:title" content="Data answers, the output | Megat Jazly"><meta property="og:description" content="One recorded run of data answers: questions as asked beside the answers the code built, each naming its metric, filters, period and the rows it was computed over, and one refusal with the nearest defined metric."><meta property="og:url" content="https://mjazzly.github.io/output-03.html"><meta property="og:image" content="https://mjazzly.github.io/preview.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
 </head>
@@ -117,12 +117,12 @@
     <div class="answers" data-peek="The answers">
       <div class="ans panel lit" data-src="A02 m-revenue" tabindex="0">
         <p class="ans-top"><span class="mono">D202610301552-A02</span><span class="st">run_metric</span></p>
-        <p class="figure-n">97694.60</p>
+        <p class="figure-n">97,694.60</p>
         <dl class="facts">
           <div><dt>Metric</dt><dd><b class="mono">revenue</b> Sum of the order value of every order placed in the period, before returns.</dd></div>
           <div><dt>Period</dt><dd>2025-03</dd></div>
           <div><dt>Filters</dt><dd>none</dd></div>
-          <div><dt>Computed over</dt><dd>374 of 4948 rows, data version 1</dd></div>
+          <div><dt>Computed over</dt><dd>374 of 4,948 rows, data version 1</dd></div>
           <div><dt>Lineage</dt><dd>first answer to this question</dd></div>
         </dl>
         <p class="sql">SELECT CAST(SUM(order_value) * 100 AS BIGINT) AS value_cents, COUNT(*) AS rows_over FROM orders WHERE month IN (&#x27;2025-03&#x27;)</p>
@@ -134,7 +134,7 @@
           <div><dt>Metric</dt><dd><b class="mono">orders</b> Count of orders placed in the period, returned or not.</dd></div>
           <div><dt>Period</dt><dd>2025-Q2</dd></div>
           <div><dt>Filters</dt><dd>none</dd></div>
-          <div><dt>Computed over</dt><dd>1173 of 4948 rows, data version 1</dd></div>
+          <div><dt>Computed over</dt><dd>1,173 of 4,948 rows, data version 1</dd></div>
           <div><dt>Lineage</dt><dd>first answer to this question</dd></div>
         </dl>
         <p class="sql">SELECT branch, COUNT(*) AS value_count, COUNT(*) AS rows_over FROM orders WHERE month IN (&#x27;2025-04&#x27;, &#x27;2025-05&#x27;, &#x27;2025-06&#x27;) GROUP BY branch</p>
@@ -146,7 +146,7 @@
           <div><dt>Metric</dt><dd><b class="mono">returns_rate</b> Returns divided by orders, as a percent: the share of orders placed in the period that were later returned.</dd></div>
           <div><dt>Period</dt><dd>2025</dd></div>
           <div><dt>Filters</dt><dd>channel is Online</dd></div>
-          <div><dt>Computed over</dt><dd>1460 of 4948 rows, data version 1</dd></div>
+          <div><dt>Computed over</dt><dd>1,460 of 4,948 rows, data version 1</dd></div>
           <div><dt>Lineage</dt><dd>first answer to this question</dd></div>
         </dl>
         <p class="sql">SELECT SUM(CASE WHEN returned THEN 1 ELSE 0 END) AS numerator, COUNT(*) AS denominator, COUNT(*) AS rows_over FROM orders WHERE month IN (&#x27;2025-01&#x27;, &#x27;2025-02&#x27;, &#x27;2025-03&#x27;, &#x27;2025-04&#x27;, &#x27;2025-05&#x27;, &#x27;2025-06&#x27;, &#x27;2025-07&#x27;, &#x27;2025-08&#x27;, &#x27;2025-09&#x27;, &#x27;2025-10&#x27;, &#x27;2025-11&#x27;, &#x27;2025-12&#x27;) AND channel IN (&#x27;Online&#x27;)</p>
@@ -158,7 +158,7 @@
           <div><dt>Metric</dt><dd><b class="mono">mom_growth</b> Revenue in the month minus revenue in the month before, divided by the month before, as a percent. The period must be one month, and January has no month before it in the data.</dd></div>
           <div><dt>Period</dt><dd>2025-06, against 2025-05</dd></div>
           <div><dt>Filters</dt><dd>none</dd></div>
-          <div><dt>Computed over</dt><dd>803 of 4948 rows, data version 1</dd></div>
+          <div><dt>Computed over</dt><dd>803 of 4,948 rows, data version 1</dd></div>
           <div><dt>Lineage</dt><dd>first answer to this question</dd></div>
         </dl>
         <p class="sql">SELECT month, CAST(SUM(order_value) * 100 AS BIGINT) AS value_cents, COUNT(*) AS rows_over FROM orders WHERE month IN (&#x27;2025-06&#x27;, &#x27;2025-05&#x27;) GROUP BY month ORDER BY month</p>

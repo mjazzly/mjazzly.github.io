@@ -286,6 +286,14 @@ def answers(wanted):
 
     def unit(u):
         return "" if u in ("amount", "orders") else f'<small>{esc(u)}</small>'
+    def shown(v, u=None):
+        """A number as a reader expects it: thousands separated, amounts to two places, counts whole; anything else as written."""
+        try:
+            n = float(v)
+        except (TypeError, ValueError):
+            return esc(str(v))
+        if u == "orders" or (n == int(n) and u != "amount"): return f"{int(n):,}"
+        return f"{n:,.2f}"
     def filters(f):
         return ", ".join(f'{esc(k)} is {esc(" or ".join(v))}' for k, v in f.items()) or "none"
 
@@ -297,10 +305,10 @@ def answers(wanted):
     for qid in ANSWER_QUESTIONS:
         r = built[qid]
         if r.get("rows"):
-            groups = "".join(f'<tr><td>{esc(g["group"])}</td><td class="num">{esc(g["value"])}{unit(r["unit"])}</td></tr>' for g in r["rows"])
+            groups = "".join(f'<tr><td>{esc(g["group"])}</td><td class="num">{shown(g["value"], r["unit"])}{unit(r["unit"])}</td></tr>' for g in r["rows"])
             figure = f'<table class="groups"><thead><tr><th scope="col">{esc(", ".join(r["dimensions"]))}</th><th scope="col" class="num">{esc(r["metric"])}</th></tr></thead><tbody>{groups}</tbody></table>'
         else:
-            figure = f'<p class="figure-n">{esc(r["value"])}{unit(r["unit"])}</p>'
+            figure = f'<p class="figure-n">{shown(r["value"], r["unit"])}{unit(r["unit"])}</p>'
         period = esc(r["period"]) + (f', against {esc(r["previous_period"])}' if r.get("previous_period") else "") \
                  + (f' against {esc(r["period_b"])}' if r.get("period_b") else "")
         a_html.append("\n".join([
@@ -311,7 +319,7 @@ def answers(wanted):
             f'          <div><dt>Metric</dt><dd><b class="mono">{esc(r["metric"])}</b> {esc(r["definition"])}</dd></div>',
             f'          <div><dt>Period</dt><dd>{period}</dd></div>',
             f'          <div><dt>Filters</dt><dd>{filters(r["filters"])}</dd></div>',
-            f'          <div><dt>Computed over</dt><dd>{r["rows_over"]} of {r["data_rows"]} rows, data version {r["data_version"]}</dd></div>',
+            f'          <div><dt>Computed over</dt><dd>{shown(r["rows_over"])} of {shown(r["data_rows"])} rows, data version {r["data_version"]}</dd></div>',
             f'          <div><dt>Lineage</dt><dd>{esc(r["lineage"])}</dd></div>',
             "        </dl>",
             f'        <p class="sql">{esc(r["sql"])}</p>',
@@ -428,7 +436,7 @@ def brief(wanted):
             for r in csv.DictReader(open(path, encoding="utf-8")):
                 ref = f"answers.csv {r['answer_id']}"
                 unit = "%" if r["unit"] == "%" else ""
-                items.append(item(ref, f'<span class="ln">{esc(r["question_id"])}</span><span class="said"><b class="mono">{esc(r["metric"])}</b> {esc(r["period"])}: <b>{esc(r["value"])}{unit}</b><span class="sub mono">{esc(r["answer_id"])}</span></span>'))
+                items.append(item(ref, f'<span class="ln">{esc(r["question_id"])}</span><span class="said"><b class="mono">{esc(r["metric"])}</b> {esc(r["period"])}: <b>{shown(r["value"], r.get("unit"))}{unit}</b><span class="sub mono">{esc(r["answer_id"])}</span></span>'))
         else:
             lines = path.read_text(encoding="utf-8").splitlines()
             rows = list(csv.reader(lines)) if f.endswith(".csv") else None
