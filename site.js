@@ -351,3 +351,15 @@ document.documentElement.classList.add("js");
     window.addEventListener("resize", fit);
   });
 })();
+
+// A link to a live demo carries today's question count from the demo itself, once, when the page opens.
+// Without the script, or when the demo cannot be reached, the link reads as it is written.
+(function () {
+  Array.prototype.forEach.call(document.querySelectorAll("a[data-live]"), function (a) {
+    var out = a.querySelector(".live-n");
+    if (!out || !window.fetch) return;
+    fetch(a.getAttribute("data-live")).then(function (r) { return r.ok ? r.json() : null; }).then(function (s) {
+      if (s && typeof s.questions === "number" && s.daily_cap) out.textContent = "· " + s.questions + " of " + s.daily_cap + " asked today";
+    }).catch(function () {});
+  });
+})();

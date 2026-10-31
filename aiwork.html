@@ -71,7 +71,7 @@
 <header class="hero">
   <div class="eyebrow">AI Work <span class="dot">·</span> Tested <span class="dot">·</span> Code on GitHub</div>
   <h1>AI work</h1>
-  <p class="thesis">AI systems built to <b>take over a real task</b>, with the numbers to check them. Each entry says <b>what it replaces</b> and who it is for, how it was tested, what every recorded run scored, and <b>where the code is</b>. All five run on synthetic data on my machine, so no client record is on this page; <b>the systems other people have run on client work are on <a href="casefiles.html">Case Files</a></b>. A term is explained where it first appears, and the words are collected at the foot of the page.</p>
+  <p class="thesis">AI systems built to <b>take over a real task</b>, with the numbers to check them. Each entry says <b>what it replaces</b> and who it is for, how it was tested, what every recorded run scored, and <b>where the code is</b>. All five run on synthetic data, on my machine and, for data answers, in a public demo, so no client record is on this page; <b>the systems other people have run on client work are on <a href="casefiles.html">Case Files</a></b>. A term is explained where it first appears, and the words are collected at the foot of the page.</p>
 </header>
 
 <section id="entries">
@@ -437,12 +437,13 @@
   <div class="work">
     <div class="work-head">
       <span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-database"/></svg></span>
-      <div class="sys-head"><span class="sys-id">WORK-03 / Data answers</span><span class="sys-status"><svg class="ic" aria-hidden="true"><use href="#ic-check"/></svg>Tested · v1.1</span></div>
+      <div class="sys-head"><span class="sys-id">WORK-03 / Data answers</span><span class="sys-status"><svg class="ic" aria-hidden="true"><use href="#ic-check"/></svg>Deployed · v1.1</span></div>
     </div>
     <h3>A question in the chat, a number with its definition back</h3>
     <p>A question about a business table in, a number out. The table holds a year of orders and returns by branch, month, category and channel, and people ask about it all day: returns rate by branch last quarter, which branch grew most, average order value in March. The model chooses <b>which of twelve metrics defined in code</b> answers the question, and which filters and period apply; the code runs the query and returns the number with <b>the metric's definition, the filters applied, the rows it was computed over</b>, the data version and a run id. The model never writes a query and never sees a row. <b>The rules sit in code it cannot skip</b>: a metric nobody has defined is refused with the nearest defined one named, and a period or a branch the data cannot settle stops and asks.</p>
     <p class="replaces"><b>Replaces:</b> the message to an analyst for every number, the query written and checked by hand, and a figure that comes back with no definition attached. Every answer carries its definition and its filters, <b>the same question asked twice gives the same number and says so</b>, and an answer given after new rows arrive says the data changed.</p>
     <div class="fit"><p><b>For:</b> the people who message an analyst for a number: a business lead, a manager, anyone who needs a figure they can quote.</p><dl class="measure"><div><dt>Time</dt><dd>a number in the chat, with no ticket to an analyst</dd></div><div><dt>Trust</dt><dd>same question, same number; undefined metrics refused</dd></div><div><dt>Cost</dt><dd>US$0.05 a question; US$0.0014 on the smallest model</dd></div></dl></div>
+    <p class="score-open"><a target="_blank" href="https://data-answers.vercel.app" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#ic-message"/></svg>Try it</a><span>ask your own question on the smallest model, <b>up to 150 a day across every visitor and 10 from any one</b>; the eight preset questions answer at once from a recorded run</span></p>
 
     <div class="case-foot"><button type="button" class="case-toggle" data-open="Read the entry" aria-expanded="true" aria-controls="work-03-body" hidden><span class="case-toggle-label">Read the entry</span><svg class="ic" aria-hidden="true"><use href="#ic-chevron"/></svg></button></div>
     <div class="case-body" id="work-03-body">
@@ -1020,6 +1021,6 @@
 </footer>
 
 </div>
-<script src="site.js?v=20261031e"></script>
+<script src="site.js?v=20261031f"></script>
 </body>
 </html>
