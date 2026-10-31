@@ -33,7 +33,7 @@ document.documentElement.classList.add("js");
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
         brand.classList.remove("no-anim");
-        setTimeout(function () { brand.classList.remove("is-joined"); }, 80);  // part at once; the join is seen for a frame, the parting is the motion
+        setTimeout(function () { brand.classList.remove("is-joined"); }, 450);  // seen together first, then they part; the map starts as the parting ends
       });
     });
   });
