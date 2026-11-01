@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261031e"><link rel="stylesheet" href="motion.css?v=20261101"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
+<title>Clarity | Megat Jazly</title>
+<meta name="description" content="Two short exercises on using an AI assistant well: how a request becomes a workflow with its stop point, and which container the work belongs in, from a one-off prompt to an app."><meta property="og:type" content="website"><meta property="og:site_name" content="Megat Jazly"><meta property="og:title" content="Clarity | Megat Jazly"><meta property="og:description" content="Two short exercises on using an AI assistant well: how a request becomes a workflow with its stop point, and which container the work belongs in, from a one-off prompt to an app."><meta property="og:url" content="https://mjazzly.github.io/clarity.html"><meta property="og:image" content="https://mjazzly.github.io/preview.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+<!--ICONS-->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+<symbol id="ic-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></symbol>
+<symbol id="ic-briefcase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1.5 1.5 0 011.5-1.5h3A1.5 1.5 0 0115 5v2"/><path d="M3 12h18"/></symbol>
+<symbol id="ic-circle-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></symbol>
+<symbol id="ic-hash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h14M5 15h14M10 4l-2 16M16 4l-2 16"/></symbol>
+<symbol id="ic-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></symbol>
+<symbol id="ic-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="ic-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a1 1 0 00-1 1v16a1 1 0 001 1h10a1 1 0 001-1V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></symbol>
+<symbol id="ic-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l8 4-8 4-8-4z"/><path d="M4 12l8 4 8-4"/><path d="M4 16l8 4 8-4"/></symbol>
+<symbol id="ic-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6l-5 9a1.5 1.5 0 001.3 2.2h11.4A1.5 1.5 0 0019 18l-5-9V3"/><path d="M7.5 15h9"/></symbol>
+<symbol id="ic-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5"/><path d="M12 12v9"/></symbol>
+<symbol id="ic-funnel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16l-6 7v6l-4 2v-8z"/></symbol>
+<symbol id="ic-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M7 16v-5M12 16V7M17 16v-9"/></symbol>
+<symbol id="ic-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 10h4v4h-4z"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4M7 4v3M17 4v3M7 17v3M17 17v3"/></symbol>
+<symbol id="ic-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/></symbol>
+<symbol id="ic-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></symbol>
+<symbol id="ic-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.5"/><path d="M8.5 13.5L7 21l5-2.5 5 2.5-1.5-7.5"/></symbol>
+<symbol id="ic-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></symbol>
+<symbol id="ic-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
+<symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+<symbol id="ic-puzzle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4a2 2 0 014 0v1h3a1 1 0 011 1v3h1a2 2 0 010 4h-1v3a1 1 0 01-1 1h-3v1a2 2 0 01-4 0v-1H7a1 1 0 01-1-1v-3H5a2 2 0 010-4h1V6a1 1 0 011-1h3z"/></symbol>
+<symbol id="ic-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1 1 0 011-1h5l2 2h9a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1z"/></symbol>
+<symbol id="ic-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4.5a5 5 0 00-5.5 6.8L4 16.3V20h3.7l5-5a5 5 0 006.8-5.5l-3 3-3-3z"/></symbol>
+<symbol id="ic-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+<symbol id="ic-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="12" height="16" rx="1.5"/><path d="M9 5a1.5 1.5 0 013 0h0a1.5 1.5 0 013 0"/><path d="M9 14l2 2 4-4"/></symbol>
+<symbol id="ic-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H9l-5 4z"/></symbol>
+<symbol id="ic-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></symbol>
+<symbol id="ic-server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="6" rx="1.5"/><rect x="4" y="14" width="16" height="6" rx="1.5"/><path d="M8 7h.01M8 17h.01"/></symbol>
+<symbol id="ic-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 17h2"/></symbol>
+<symbol id="ic-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V6a1.5 1.5 0 013 0v6M11 11V4.5a1.5 1.5 0 013 0V11M14 11V6a1.5 1.5 0 013 0v8a6 6 0 01-6 6h-1a6 6 0 01-5.4-3.4L3.3 12a1.5 1.5 0 012.5-1.6L8 13"/></symbol>
+<symbol id="ic-stop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></symbol>
+<symbol id="ic-table" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3 10h18M9 10v9M15 10v9"/></symbol>
+<symbol id="ic-ticket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 002 2 2 2 0 010 4 2 2 0 00-2 2v2h16v-2a2 2 0 01-2-2 2 2 0 010-4 2 2 0 002-2V6H4z"/><path d="M12 6v12"/></symbol>
+<symbol id="ic-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M8 13a5 5 0 118 0c-1 1-1.5 2-1.5 3h-5c0-1-.5-2-1.5-3z"/></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7h11M9 12h11M9 17h11"/><path d="M4 7l1 1 2-2M4 12l1 1 2-2M4 17l1 1 2-2"/></symbol>
+<symbol id="ic-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 012-2h5v17H6a2 2 0 01-2-2z"/><path d="M20 5a2 2 0 00-2-2h-5v17h5a2 2 0 002-2z"/></symbol>
+<symbol id="ic-stairs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4v-4h4v-4h4V8h4"/></symbol>
+<symbol id="ic-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></symbol>
+<symbol id="ic-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9L3.5 9.7l5.9-.8z"/></symbol>
+<symbol id="ic-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 010 7M21.5 20c0-3-2-4.8-4.5-5.3"/></symbol>
+<symbol id="ic-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/></symbol>
+<symbol id="ic-wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/></symbol>
+<symbol id="ic-sprout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9"/><path d="M12 12c0-4-3-6-7-6 0 4 3 6 7 6z"/><path d="M12 10c0-3.5 2.5-5.5 6.5-5.5 0 3.5-2.5 5.5-6.5 5.5z"/></symbol>
+<symbol id="ic-repeat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l3 3-3 3"/><path d="M20 6H8a4 4 0 00-4 4v1"/><path d="M7 21l-3-3 3-3"/><path d="M4 18h12a4 4 0 004-4v-1"/></symbol>
+<symbol id="ic-bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4a1 1 0 011-1h10a1 1 0 011 1v17l-6-4-6 4z"/></symbol>
+</svg>
+<!--/ICONS-->
+<nav class="top"><div class="wrap">
+  <a class="brand" href="index.html"><span class="seam silver" aria-hidden="true"></span><span class="brand-name">Megat Jazly</span><span class="seam" aria-hidden="true"></span></a>
+  <div class="links">
+    <a href="built.html">Built</a>
+    <a href="aiwork.html">AI Work</a>
+    <a href="clarity.html" class="active">Clarity</a>
+    <a href="casefiles.html">Case Files</a>
+    <a href="index.html">Systems</a>
+    <a href="operator.html">Operator</a>
+    <a href="models.html">Models</a>
+    <a href="knowledge.html">Knowledge</a>
+    <a href="chapters.html">Chapters</a>
+  </div>
+</div></nav>
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">Clarity <span class="dot">·</span> Two exercises <span class="dot">·</span> About ten minutes</div>
+  <h1>Clarity</h1>
+  <p class="thesis">A request arrives as one sentence and the work has to come out of it. These exercises are about the <b>decisions between the sentence and the work</b>: what is being asked, where the answer comes from, what should come back, where to stop and ask, and how to know it is right. Each one shows a request, asks you to decide, then shows the reasoning. <b>Nothing is scored against you</b>; the count at the end says how many you read on the first try, so the tells become easier to see next time. Written for anyone who works with an AI assistant, whichever one it is.</p>
+  <div class="hero-links">
+    <a href="#ex-01"><svg class="ic" aria-hidden="true"><use href="#ic-compass"/></svg>From a request to a workflow</a>
+    <a href="#ex-02"><svg class="ic" aria-hidden="true"><use href="#ic-layers"/></svg>Which container</a>
+  </div>
+</header>
+
+<section id="ex-01">
+  <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-compass"/></svg></span>From a request to a workflow</h2>
+  <p class="lead">Three requests, the kind that arrive by message or in a corridor. For each one you make <b>five decisions in order</b>, and at the end the five are drawn as one workflow, with <b>the stop point in amber</b>: the one place a person is asked before the work goes on. A term is explained where it first appears, and the words are collected at the foot of the page.</p>
+  <div class="ex" id="ex-01-panel">
+    <div class="ex-head"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-target"/></svg></span><div class="sys-head"><span class="sys-id">CLARITY-01 · Request to workflow</span></div></div>
+    <div class="stage" id="ex-01-stage">
+      <p class="nojs">This exercise needs JavaScript to run. The five decisions it walks through are <b>the ask</b> (what is actually wanted), <b>the source</b> (where the answer comes from), <b>the output</b> (what should come back), <b>the stop</b> (where a person is asked), and <b>the check</b> (how it is known to be right before it goes out).</p>
+    </div>
+  </div>
+</section>
+
+<section id="ex-02">
+  <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-layers"/></svg></span>Which container</h2>
+  <p class="lead">Work with an assistant lives in one of seven containers, from a question asked once to an app other people use. <b>The request usually says which one</b>, if you know the tell. The seven and their tells are below; then ten requests, one at a time, for you to place.</p>
+  <div class="tiles four rules">
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-message"/></svg></span><div class="what">One-off prompt</div><div class="basis">A request typed once, answered once, read once.</div><div class="tell"><b>Tell</b> no next time.</div></div>
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-bookmark"/></svg></span><div class="what">Saved prompt</div><div class="basis">A request you keep and reuse. The material changes each time and you read each answer.</div><div class="tell"><b>Tell</b> again next week, and I read it.</div></div>
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-folder"/></svg></span><div class="what">Project</div><div class="basis">A workspace holding one body of material, with standing instructions, that many different questions are asked against. In Claude this is a Project.</div><div class="tell"><b>Tell</b> the files stay, the questions change.</div></div>
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-puzzle"/></svg></span><div class="what">Skill</div><div class="basis">A method, with its steps and rules written down, that the assistant loads when the job matches. In Claude this is a Skill.</div><div class="tell"><b>Tell</b> the same way every time, by anyone.</div></div>
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-code"/></svg></span><div class="what">Script</div><div class="basis">Code that applies a fixed rule, exactly, with nobody reading each result. It can run on a schedule.</div><div class="tell"><b>Tell</b> without me, every time, exactly.</div></div>
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-users"/></svg></span><div class="what">App</div><div class="basis">A front door other people open on their own, with their own inputs, without the person who built it.</div><div class="tell"><b>Tell</b> other people, on their own.</div></div>
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-flask"/></svg></span><div class="what">Test harness</div><div class="basis">A script that runs a fixed set of test cases against a build or a prompt and counts the result, so a change can be checked.</div><div class="tell"><b>Tell</b> does it still work after the change?</div></div>
+  </div>
+  <div class="ex" id="ex-02-panel">
+    <div class="ex-head"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-box"/></svg></span><div class="sys-head"><span class="sys-id">CLARITY-02 · Which container</span></div></div>
+    <div class="stage" id="ex-02-stage">
+      <p class="nojs">This exercise needs JavaScript to run. It shows ten requests, one at a time, and asks which of the seven containers above each belongs in, with the tell revealed after each answer.</p>
+    </div>
+  </div>
+</section>
+
+<section id="words">
+  <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-book"/></svg></span>The words on this page</h2>
+  <ul class="words">
+    <li><b>Request.</b> The sentence the work starts from, as it arrived, before anyone has decided what it means.</li>
+    <li><b>Tell.</b> The word or phrase in a request that gives away what it needs: a date, a name, "every Monday", "without me".</li>
+    <li><b>Source.</b> The file, table or transcript an answer is made from, named so the reader can open the same one.</li>
+    <li><b>Stop point.</b> The one place in a workflow where the work halts and a person is asked, because a guess there would change the result.</li>
+    <li><b>Check.</b> A test done from outside the answer before it goes out: one number recounted by hand, one call read back against the table.</li>
+    <li><b>Container.</b> Where a piece of work with an assistant lives: a one-off prompt, a saved prompt, a project, a skill, a script, an app or a test harness.</li>
+    <li><b>Prompt.</b> The request as written to the assistant. A saved prompt is one kept and reused.</li>
+    <li><b>Project.</b> A workspace holding one body of material and standing instructions, asked against many times. In Claude, a Project.</li>
+    <li><b>Skill.</b> A written method, with steps and rules, that the assistant loads when the job matches, so anyone gets the same result. In Claude, a Skill.</li>
+    <li><b>Script.</b> Code that applies a fixed rule exactly, with nobody reading each result.</li>
+    <li><b>App.</b> A front door other people open and use on their own, with their own inputs.</li>
+    <li><b>Test harness.</b> A script that runs every test case the same way and counts the result, so a change can be checked against the run before it.</li>
+  </ul>
+</section>
+
+<footer>
+  <div class="end">
+    <p>Thanks for reading. Say hello anytime.</p>
+    <ul class="icon-links">
+      <li><a href="mailto:megatjazly@gmail.com" aria-label="Email" title="Email"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg></a></li>
+      <li><a target="_blank" href="https://linkedin.com/in/megatjazly" rel="me noopener" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/></svg></a></li>
+      <li><a target="_blank" href="https://github.com/mjazzly" rel="me noopener" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/></svg></a></li>
+    </ul>
+  </div>
+</footer>
+
+</div>
+<script src="site.js?v=20261031f"></script>
+<script src="clarity.js?v=20261101"></script>
+</body>
+</html>

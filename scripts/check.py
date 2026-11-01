@@ -4,7 +4,7 @@ Run from the repo root: python3 scripts/check.py
 """
 import re, sys, pathlib, html.parser
 
-PAGES = ["index.html", "built.html", "aiwork.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
+PAGES = ["index.html", "built.html", "aiwork.html", "clarity.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
 BANNED_WORDS = ["marketing", "enablement", "agentic", "FDE", "real users"]   # never on the site, in any case
 BANNED_CHARS = {"\u2014": "em dash", "\u2013": "en dash"}
 failures = []
@@ -51,8 +51,8 @@ for page in PAGES:
     nav = re.search(r'<div class="links">(.*?)</div>', src, re.S)
     if nav:
         order = re.findall(r'href="([^"]+)"', nav.group(1))
-        full = ["built.html", "aiwork.html", "casefiles.html", "index.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
-        before = [x for x in full if x != "aiwork.html"]   # until AI Work goes live, the other pages keep the shorter nav
+        full = ["built.html", "aiwork.html", "clarity.html", "casefiles.html", "index.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
+        before = [x for x in full if x not in ("aiwork.html", "clarity.html")]   # the older nav, kept only until every page carries the new one
         if order not in (full, before):
             failures.append(f"{page}: nav order is {order}")
 

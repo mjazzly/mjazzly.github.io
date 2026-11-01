@@ -596,3 +596,90 @@ html.js .work .case-body{animation:case-open .25s ease}
 .board-stage.is-fit iframe{position:absolute;top:0;left:0;transform-origin:0 0}
 .ic.back{transform:rotate(90deg)}
 @media(max-width:600px){.board-wide{padding:0 12px 28px}}
+
+
+/* ---------- Clarity page: two exercises the reader steps through ---------- */
+/* The rule holds: nothing moves on its own. A reveal opens on the reader's choice, the same way a case opens. */
+.ex{background:var(--panel);border-radius:var(--radius);padding:24px 28px 26px}
+.ex-head{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.ex-head .sys-head{flex:1}
+.ex .count{font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);margin-bottom:10px}
+.ex .request{background:var(--paper);border-radius:var(--radius-s);padding:16px 20px;font-size:17px;font-weight:600;line-height:1.5;color:var(--ink);margin-bottom:16px;display:grid;grid-template-columns:22px 1fr;gap:12px;align-items:start}
+.ex .request .req-ic{width:22px;height:22px;color:var(--marine);margin-top:3px}
+.ex .request .from{display:block;font-family:var(--mono);font-size:12.5px;font-weight:400;color:var(--ink-faint);margin-bottom:4px}
+.ex .steps{display:flex;gap:5px;margin-bottom:20px}
+.ex .steps span{flex:1;height:6px;border-radius:3px;background:var(--marine-tint)}
+.ex .steps span.done{background:var(--marine)}
+.ex .steps span.now{background:var(--amber)}
+.ex h3.q{display:flex;align-items:center;gap:10px;font-size:17px;margin-bottom:12px}
+.ex .options{list-style:none;display:grid;gap:8px}
+.ex .opt{display:block;width:100%;text-align:left;background:var(--paper);border:1.5px solid transparent;border-radius:var(--radius-s);padding:12px 16px;font:inherit;font-size:15px;line-height:1.5;color:var(--ink);cursor:pointer;transition:background-color .15s,border-color .15s}
+.ex .opt:hover,.ex .opt:focus-visible{background:var(--marine-tint)}
+.ex .opt:focus-visible{outline:2px solid var(--marine);outline-offset:2px}
+.ex .opt[disabled]{cursor:default}
+.ex .opt[disabled]:hover{background:var(--paper)}
+.ex .opt.sound,.ex .opt.sound[disabled]:hover{border-color:var(--marine);background:var(--marine-tint)}
+.ex .opt.picked:not(.sound),.ex .opt.picked:not(.sound)[disabled]:hover{border-color:var(--amber);background:var(--amber-tint)}
+.ex .reveal{margin-top:14px;padding:14px 18px;border-radius:var(--radius-s);background:var(--marine-tint);font-size:15px;line-height:1.55;color:var(--ink-soft)}
+.ex .reveal[hidden]{display:none}
+html.js .ex .reveal{animation:case-open .25s ease}
+.ex .reveal .lab{display:block;font-weight:700;font-size:12.5px;color:var(--amber);margin-bottom:4px}
+.ex .reveal b{color:var(--ink)}
+.ex .reveal .then{margin-top:8px;padding-top:8px;border-top:1px solid rgba(44,95,124,.18)}
+.ex .actions{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.ex .actions[hidden]{display:none}
+.ex .nojs{font-size:15px;color:var(--ink-soft)}
+.ex .nojs b{color:var(--ink)}
+html.js .ex .nojs{display:none}
+/* The workflow the five decisions make */
+.ex .flow-lead{font-size:15px;color:var(--ink-soft);margin-bottom:14px}
+.ex .flow-lead b{color:var(--ink)}
+.flow{list-style:none;display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.flow .fstep{background:var(--paper);border-radius:var(--radius-s);padding:12px 14px;font-size:13.5px;line-height:1.45;color:var(--ink)}
+.flow .fstep .fl{display:flex;align-items:center;gap:6px;font-weight:700;font-size:12.5px;color:var(--marine);margin-bottom:8px}
+.flow .fstep .fl .ic{width:16px;height:16px}
+.flow .fstep.stop{background:var(--amber-tint)}
+.flow .fstep.stop .fl{color:var(--amber)}
+.ex .tally-line{margin-top:16px;font-size:15px;color:var(--ink-soft)}
+.ex .tally-line b{color:var(--ink)}
+/* The seven containers and their tells */
+.tiles.rules{margin-bottom:14px}
+.tile .tell{font-size:12.5px;line-height:1.5;color:var(--ink-soft);margin-top:10px}
+.tile .tell b{color:var(--amber)}
+.buckets{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.bucket{width:100%;text-align:left;background:var(--paper);border:1.5px solid transparent;border-radius:var(--radius-s);padding:10px 12px;font:inherit;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background-color .15s,border-color .15s}
+.bucket .name{font-weight:700;font-size:14px;color:var(--ink)}
+.bucket:hover,.bucket:focus-visible{background:var(--marine-tint)}
+.bucket:focus-visible{outline:2px solid var(--marine);outline-offset:2px}
+.bucket:hover .badge{background:var(--marine);color:#fff}
+.bucket[disabled]{cursor:default}
+.bucket[disabled]:hover{background:var(--paper)}
+.bucket[disabled]:hover .badge{background:var(--marine-tint);color:var(--marine)}
+.bucket.sound,.bucket.sound[disabled]:hover{border-color:var(--marine);background:var(--marine-tint)}
+.bucket.sound .badge,.bucket.sound[disabled]:hover .badge{background:var(--marine);color:#fff}
+.bucket.picked:not(.sound),.bucket.picked:not(.sound)[disabled]:hover{border-color:var(--amber);background:var(--amber-tint)}
+.bucket.picked:not(.sound) .badge,.bucket.picked:not(.sound)[disabled]:hover .badge{background:var(--amber);color:#fff}
+/* The count at the end */
+.ex .tally{background:var(--paper);border-radius:var(--radius-s);padding:20px 22px;margin-bottom:12px}
+.ex .tally .n{font-weight:800;font-size:40px;line-height:1;color:var(--ink);letter-spacing:-.03em;margin-bottom:6px}
+.ex .tally .n small{font-weight:600;font-size:15px;letter-spacing:0;color:var(--ink-soft);margin-left:6px}
+.ex .tally .what{font-size:14.5px;font-weight:700;color:var(--ink);margin-bottom:10px}
+.ex .tally .basis{font-size:14px;line-height:1.5;color:var(--ink-soft)}
+.ex .tally .basis b{color:var(--ink)}
+.recap{list-style:none;display:grid;gap:6px}
+.recap li{display:grid;grid-template-columns:24px 1fr auto;gap:12px;align-items:center;padding:10px 14px;border-radius:var(--radius-s);background:var(--paper);font-size:14px;line-height:1.45;color:var(--ink-soft)}
+.recap li .mark{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:7px;background:var(--marine-tint);color:var(--marine)}
+.recap li .mark .ic{width:14px;height:14px;stroke-width:2.4}
+.recap li.hit .mark{color:var(--amber)}
+.recap li.miss .mark{background:var(--amber-tint);color:var(--amber)}
+.recap li .b{font-family:var(--mono);font-size:12.5px;color:var(--marine);white-space:nowrap}
+@media(max-width:860px){
+  .flow{grid-template-columns:repeat(2,1fr)}
+  .buckets{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+  .ex{padding:20px 18px 22px}
+  .flow{grid-template-columns:1fr}
+  .recap li{grid-template-columns:24px 1fr}
+  .recap li .b{grid-column:2}
+}

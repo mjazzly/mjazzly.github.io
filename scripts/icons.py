@@ -56,6 +56,8 @@ ICONS = {
     "wave":      '<path d="M3 9c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>',
     "sprout":    '<path d="M12 21v-9"/><path d="M12 12c0-4-3-6-7-6 0 4 3 6 7 6z"/><path d="M12 10c0-3.5 2.5-5.5 6.5-5.5 0 3.5-2.5 5.5-6.5 5.5z"/>',
     "repeat":    '<path d="M17 3l3 3-3 3"/><path d="M20 6H8a4 4 0 00-4 4v1"/><path d="M7 21l-3-3 3-3"/><path d="M4 18h12a4 4 0 004-4v-1"/>',
+    # clarity page
+    "bookmark":  '<path d="M6 4a1 1 0 011-1h10a1 1 0 011 1v17l-6-4-6 4z"/>',
 }
 
 def sprite():
@@ -68,7 +70,7 @@ def sprite():
 def use(name, cls="ic"):
     return f'<svg class="{cls}" aria-hidden="true"><use href="#ic-{name}"/></svg>'
 
-PAGES = ["index.html", "built.html", "aiwork.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
+PAGES = ["index.html", "built.html", "aiwork.html", "clarity.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
 
 if __name__ == "__main__":
     root = pathlib.Path(__file__).resolve().parent.parent
