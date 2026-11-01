@@ -104,7 +104,7 @@
       <ul>
         <li><b>Data expansion skill</b><span>weekly for a client, six stages, a stop at each</span></li>
         <li><b>Prompt Drill Coach</b><span>a skill and a custom GPT, grades a brief</span></li>
-        <li><b>Nine working skills</b><span>war rooms, playbooks, coaches</span></li>
+        <li><b>Nine working skills</b><span>interview preparation, playbooks, coaches</span></li>
       </ul>
     </div>
     <div class="stair">
@@ -131,6 +131,7 @@
       <h3>An app</h3>
       <ul>
         <li><b>Sustainability Self-Check</b><span>web app: sign-in, credits, payments</span></li>
+        <li><b>Data answers demo</b><span>live for anyone, with a cost ceiling</span></li>
         <li><b>Growth Radar</b><span>built in Claude Code in ten tickets</span></li>
         <li><b>SQL test simulator</b><span>a timed test in the browser</span></li>
         <li><b>Six app prototypes</b><span>Ikigai Tracker, Hats and four more</span></li>
@@ -333,7 +334,7 @@
       <div class="gate"><span class="g"><svg class="ic" aria-hidden="true"><use href="#ic-hand"/></svg>Stops to ask</span><b>A due date before its own meeting.</b> The record tool refuses the row.</div>
       <div class="gate"><span class="g"><svg class="ic" aria-hidden="true"><use href="#ic-stop"/></svg>Declines</span><b>A transcript marked confidential</b> is left unread and reported as declined.</div>
     </div>
-    <p class="how"><b>How it runs:</b> a small Node.js tool server on my machine, connected through MCP, holding the ten tools; the Claude desktop app starts it and calls the tools as it works. The tracker and the run log live in files on disk, so next week it reads only the new transcripts and <b>never rewrites an old row</b>. The contacts table stands in for a CRM; the data is synthetic.</p>
+    <p class="how"><b>How it runs:</b> a small Node.js tool server on my machine, connected through MCP, holding the ten tools; the Claude desktop app starts it and calls the tools as it works. It reads its transcripts from a Google Drive folder, and the tracker and the run log live in files on disk, so next week it reads only the new transcripts and <b>never rewrites an old row</b>. The contacts table stands in for a CRM; the data is synthetic.</p>
     <p class="how">The tracker and four more builds in the same shape, each with its record and its code, are on <a href="aiwork.html"><b>AI Work</b></a>.</p>
     <div class="record">
       <p class="rec-head"><b>Tested:</b> five cases plus one it must decline, the expected results written before the first run, rerun blind on two model tiers.</p>
@@ -442,7 +443,7 @@
 <section id="with">
   <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-cpu"/></svg></span>Built with</h2>
   <div class="strip">
-    <span>Claude API</span><span>Claude Code</span><span>Node.js</span><span>Next.js</span><span>Python</span><span>DuckDB</span><span>Supabase</span><span>Stripe</span><span>Vercel</span><span>pytest</span>
+    <span>Claude API</span><span>Claude Code</span><span>Node.js</span><span>Next.js</span><span>Python</span><span>DuckDB</span><span>Supabase</span><span>Stripe</span><span>Vercel</span><span>GitHub Actions</span><span>Upstash Redis</span><span>Google Drive API</span><span>pytest</span>
   </div>
 </section>
 

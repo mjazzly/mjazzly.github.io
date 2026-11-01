@@ -358,7 +358,7 @@ DIAGRAMS["scorecard"] = dict(
            ((1,5),(1,6)), ((1,6),(3,6)), ((1,6),(0,6))],
 )
 
-FILES = {"casefiles.html": ["case-01", "case-02", "case-03"], "built.html": ["tracker", "harness"], "aiwork.html": ["versions", "normaliser", "answers", "brief", "scorecard"]}
+FILES = {"casefiles.html": ["case-01", "case-02", "case-03"], "built.html": ["tracker", "harness"], "aiwork.html": ["tracker", "versions", "normaliser", "answers", "brief", "scorecard"]}
 
 if __name__ == "__main__":
     root = pathlib.Path(__file__).resolve().parent.parent
