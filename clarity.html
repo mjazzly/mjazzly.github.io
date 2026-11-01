@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261031e"><link rel="stylesheet" href="motion.css?v=20261101"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261031e"><link rel="stylesheet" href="motion.css?v=20261101b"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
 <title>Clarity | Megat Jazly</title>
-<meta name="description" content="Two short exercises on using an AI assistant well: how a request becomes a workflow with its stop point, and which container the work belongs in, from a one-off prompt to an app."><meta property="og:type" content="website"><meta property="og:site_name" content="Megat Jazly"><meta property="og:title" content="Clarity | Megat Jazly"><meta property="og:description" content="Two short exercises on using an AI assistant well: how a request becomes a workflow with its stop point, and which container the work belongs in, from a one-off prompt to an app."><meta property="og:url" content="https://mjazzly.github.io/clarity.html"><meta property="og:image" content="https://mjazzly.github.io/preview.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
+<meta name="description" content="Four short exercises on using an AI assistant well: how a request becomes a workflow, which container the work belongs in, when to start a new conversation, and which size of model fits the task."><meta property="og:type" content="website"><meta property="og:site_name" content="Megat Jazly"><meta property="og:title" content="Clarity | Megat Jazly"><meta property="og:description" content="Four short exercises on using an AI assistant well: how a request becomes a workflow, which container the work belongs in, when to start a new conversation, and which size of model fits the task."><meta property="og:url" content="https://mjazzly.github.io/clarity.html"><meta property="og:image" content="https://mjazzly.github.io/preview.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
 <!--ICONS-->
@@ -52,6 +52,9 @@
 <symbol id="ic-sprout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9"/><path d="M12 12c0-4-3-6-7-6 0 4 3 6 7 6z"/><path d="M12 10c0-3.5 2.5-5.5 6.5-5.5 0 3.5-2.5 5.5-6.5 5.5z"/></symbol>
 <symbol id="ic-repeat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l3 3-3 3"/><path d="M20 6H8a4 4 0 00-4 4v1"/><path d="M7 21l-3-3 3-3"/><path d="M4 18h12a4 4 0 004-4v-1"/></symbol>
 <symbol id="ic-bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4a1 1 0 011-1h10a1 1 0 011 1v17l-6-4-6 4z"/></symbol>
+<symbol id="ic-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8.5v7M8.5 12h7"/></symbol>
+<symbol id="ic-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/></symbol>
+<symbol id="ic-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
 </svg>
 <!--/ICONS-->
 <nav class="top"><div class="wrap">
@@ -71,12 +74,14 @@
 <div class="wrap">
 
 <header class="hero">
-  <div class="eyebrow">Clarity <span class="dot">·</span> Two exercises <span class="dot">·</span> About ten minutes</div>
+  <div class="eyebrow">Clarity <span class="dot">·</span> Four exercises <span class="dot">·</span> About twenty minutes</div>
   <h1>Clarity</h1>
   <p class="thesis">A request arrives as one sentence and the work has to come out of it. These exercises are about the <b>decisions between the sentence and the work</b>: what is being asked, where the answer comes from, what should come back, where to stop and ask, and how to know it is right. Each one shows a request, asks you to decide, then shows the reasoning. <b>Nothing is scored against you</b>; the count at the end says how many you read on the first try, so the tells become easier to see next time. Written for anyone who works with an AI assistant, whichever one it is.</p>
   <div class="hero-links">
     <a href="#ex-01"><svg class="ic" aria-hidden="true"><use href="#ic-compass"/></svg>From a request to a workflow</a>
     <a href="#ex-02"><svg class="ic" aria-hidden="true"><use href="#ic-layers"/></svg>Which container</a>
+    <a href="#ex-03"><svg class="ic" aria-hidden="true"><use href="#ic-repeat"/></svg>Same conversation or a new one</a>
+    <a href="#ex-04"><svg class="ic" aria-hidden="true"><use href="#ic-stairs"/></svg>Which model tier</a>
   </div>
 </header>
 
@@ -111,6 +116,38 @@
   </div>
 </section>
 
+<section id="ex-03">
+  <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-repeat"/></svg></span>Same conversation or a new one</h2>
+  <p class="lead">Everything said in a conversation stays in view of the assistant, which is <b>a help while the task holds and a drag once it turns</b>. There are three moves, and a request usually shows which one it needs. The three are below; then eight moments from a working day.</p>
+  <div class="tiles rules">
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-message"/></svg></span><div class="what">Stay in this conversation</div><div class="basis">The task is the same and everything said so far is still right, so <b>the history is doing work for you</b>.</div><div class="tell"><b>Tell</b> the next step of the same piece.</div></div>
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-plus"/></svg></span><div class="what">New conversation, fresh</div><div class="basis">A different task, or a second opinion that should <b>not be shaped by the first</b>.</div><div class="tell"><b>Tell</b> a new subject, or an outside view.</div></div>
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-clipboard"/></svg></span><div class="what">New conversation, carry a summary</div><div class="basis">The same task, but the conversation is long, repeats fixed mistakes, or rests on an early wrong turn. Write <b>a few lines of what is settled</b> and start over with them.</div><div class="tell"><b>Tell</b> it keeps forgetting, or keeps undoing a fix.</div></div>
+  </div>
+  <div class="ex" id="ex-03-panel">
+    <div class="ex-head"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-message"/></svg></span><div class="sys-head"><span class="sys-id">CLARITY-03 · Same conversation or a new one</span></div></div>
+    <div class="stage" id="ex-03-stage">
+      <p class="nojs">This exercise needs JavaScript to run. It shows eight moments, one at a time, and asks which of the three moves above each one needs, with the tell revealed after each answer.</p>
+    </div>
+  </div>
+</section>
+
+<section id="ex-04">
+  <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-stairs"/></svg></span>Which model tier</h2>
+  <p class="lead">Assistants come in sizes. A larger model reasons further, and takes longer and costs more for every request; a smaller one is quick, low cost and right on narrow work. <b>Model names change every few months, so this exercise works in tiers, which last.</b> The rule that holds: <b>start at the smallest tier that passes your test cases</b>, and move up only when one fails.</p>
+  <div class="tiles rules">
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-zap"/></svg></span><div class="what">Small and fast</div><div class="basis">The smallest models. Quick, low cost, and right on <b>narrow tasks with a fixed shape</b>: sort, extract, tidy.</div><div class="tell"><b>Tell</b> the same small job, many times.</div></div>
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-cpu"/></svg></span><div class="what">Standard</div><div class="basis">The middle tier. Reads and writes well and handles <b>tone and judgement in a single pass</b>.</div><div class="tell"><b>Tell</b> write, summarise, reply.</div></div>
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-search"/></svg></span><div class="what">Deep reasoning</div><div class="basis">The largest models, or a setting that lets a model think for longer. Slower and costlier, and worth it when <b>steps depend on each other</b>.</div><div class="tell"><b>Tell</b> work out why, or plan around many constraints.</div></div>
+  </div>
+  <div class="ex" id="ex-04-panel">
+    <div class="ex-head"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-chart"/></svg></span><div class="sys-head"><span class="sys-id">CLARITY-04 · Which model tier</span></div></div>
+    <div class="stage" id="ex-04-stage">
+      <p class="nojs">This exercise needs JavaScript to run. It shows eight requests, one at a time, and asks which of the three tiers above each one needs, with the tell revealed after each answer.</p>
+    </div>
+  </div>
+</section>
+
 <section id="words">
   <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-book"/></svg></span>The words on this page</h2>
   <ul class="words">
@@ -121,11 +158,15 @@
     <li><b>Check.</b> A test done from outside the answer before it goes out: one number recounted by hand, one call read back against the table.</li>
     <li><b>Container.</b> Where a piece of work with an assistant lives: a one-off prompt, a saved prompt, a project, a skill, a script, an app or a test harness.</li>
     <li><b>Prompt.</b> The request as written to the assistant. A saved prompt is one kept and reused.</li>
-    <li><b>Project.</b> A workspace holding one body of material and standing instructions, asked against many times. In Claude, a Project.</li>
-    <li><b>Skill.</b> A written method, with steps and rules, that the assistant loads when the job matches, so anyone gets the same result. In Claude, a Skill.</li>
+    <li><b>Project.</b> A workspace holding one body of material and standing instructions, asked against many times.</li>
+    <li><b>Skill.</b> A written method, with steps and rules, that the assistant loads when the job matches, so anyone gets the same result.</li>
     <li><b>Script.</b> Code that applies a fixed rule exactly, with nobody reading each result.</li>
     <li><b>App.</b> A front door other people open and use on their own, with their own inputs.</li>
     <li><b>Test harness.</b> A script that runs every test case the same way and counts the result, so a change can be checked against the run before it.</li>
+    <li><b>Conversation.</b> One thread with an assistant. Everything said in it stays in view for every answer that follows.</li>
+    <li><b>Carry-over summary.</b> A few lines of what is settled (the facts, the decisions, what was fixed and why), written to start a new conversation on the same task.</li>
+    <li><b>Model tier.</b> The size of model, from small and fast to deep reasoning. A larger tier reasons further, and costs more and takes longer per request.</li>
+    <li><b>Test case.</b> One input with a known right answer, used to check that a prompt or a model does what it should before it is trusted.</li>
   </ul>
 </section>
 
@@ -142,6 +183,6 @@
 
 </div>
 <script src="site.js?v=20261031f"></script>
-<script src="clarity.js?v=20261101"></script>
+<script src="clarity.js?v=20261101b"></script>
 </body>
 </html>

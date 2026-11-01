@@ -58,6 +58,9 @@ ICONS = {
     "repeat":    '<path d="M17 3l3 3-3 3"/><path d="M20 6H8a4 4 0 00-4 4v1"/><path d="M7 21l-3-3 3-3"/><path d="M4 18h12a4 4 0 004-4v-1"/>',
     # clarity page
     "bookmark":  '<path d="M6 4a1 1 0 011-1h10a1 1 0 011 1v17l-6-4-6 4z"/>',
+    "plus":      '<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8.5v7M8.5 12h7"/>',
+    "zap":       '<path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/>',
+    "search":    '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',
 }
 
 def sprite():

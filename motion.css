@@ -683,3 +683,6 @@ html.js .ex .nojs{display:none}
   .recap li{grid-template-columns:24px 1fr}
   .recap li .b{grid-column:2}
 }
+/* three choices sit in one row on the conversation and model tier exercises */
+.buckets.three{grid-template-columns:repeat(3,1fr)}
+@media(max-width:600px){ .buckets.three{grid-template-columns:1fr} }

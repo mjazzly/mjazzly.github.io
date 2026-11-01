@@ -1,6 +1,6 @@
 /* mjazzly.github.io, the Clarity page. Plain JavaScript, no libraries.
 
-   Two exercises. Each shows a request, asks the reader to decide, and then
+   Four exercises. Each shows a request, asks the reader to decide, and then
    shows the reasoning. Nothing is scored against the reader; the count at
    the end says how many were placed on the first try, so the tells can be
    seen. Every word of the exercises lives in this file.
@@ -8,7 +8,10 @@
    CLARITY-01  From a request to a workflow: five decisions, one request at
                a time, the chosen structure drawn at the end.
    CLARITY-02  Which container the work belongs in: a request, seven
-               containers, a reveal, a count at the end. */
+               containers, a reveal, a count at the end.
+   CLARITY-03  Same conversation or a new one: the same sorter, three
+               choices.
+   CLARITY-04  Which model tier: the same sorter, three tiers. */
 
 (function () {
   "use strict";
@@ -226,6 +229,114 @@
       close: "saved", closeWhy: "A saved prompt still needs someone to run it at six. The request wants it done with nobody there." }
   ];
 
+  /* ---------- CLARITY-03: same conversation or a new one ---------- */
+
+  var BUCKETS_03 = [
+    { key: "stay",  name: "Stay in this conversation",       icon: "message",
+      needs: "the same task, with everything said so far still right and still useful" },
+    { key: "fresh", name: "New conversation, fresh",           icon: "plus",
+      needs: "a different task, or an answer that should not lean on anything said before" },
+    { key: "carry", name: "New conversation, carry a summary", icon: "clipboard",
+      needs: "the same task, in a conversation that has grown long or taken a wrong turn" }
+  ];
+
+  var CASES_03 = [
+    { text: "I asked for a draft email to a supplier. Now I want it shorter and a little warmer.",
+      sound: "stay",
+      tell: "<b>The next step of the same piece.</b> The draft, the supplier and the tone are already in the conversation; a new one means explaining all three again.",
+      close: "fresh", closeWhy: "A new conversation needs the draft, the supplier and the tone explained again, and nothing in this one has gone wrong.",
+      other: "There is nothing to carry over yet: the conversation is short, and nothing in it has gone wrong." },
+    { text: "We have spent two hours on this script, and the assistant has started putting back a bug we fixed an hour ago.",
+      sound: "carry",
+      tell: "<b>Returning to what was fixed</b> is the sign of a long conversation: the early, broken version is still in it, competing with the current one. Start over with the current script and one line on what was fixed and why.",
+      close: "stay", closeWhy: "Staying keeps the broken version in view, and it will keep pulling the answers back to it.",
+      other: "Starting fresh throws away the hour that worked. Carry the current script and the fix, and leave the broken versions behind." },
+    { text: "The budget analysis is done. Next I want help planning a team offsite.",
+      sound: "fresh",
+      tell: "<b>A new subject.</b> Nothing from the budget helps the offsite, and an hour of numbers is noise for a plan about people and places.",
+      close: "carry", closeWhy: "A summary carries what matters to the same task. The offsite is a different task, so there is nothing to carry.",
+      other: "Staying keeps an hour of budget figures in view for a plan that needs none of them." },
+    { text: "Early on I said the dates were in US format. They are not, and every answer since has been built on that.",
+      sound: "carry",
+      tell: "<b>An early wrong turn.</b> Start over with the right format stated first, plus the conclusions that still hold.",
+      close: "stay", closeWhy: "A correction added at the end sits beside the original mistake, and both stay in view. A clean start with the right fact stated first removes the competition.",
+      other: "Starting fresh loses the conclusions that still hold. Carry those over, with the right date format stated first." },
+    { text: "We reviewed three sections of a report against a checklist. Now I want the fourth reviewed the same way.",
+      sound: "stay",
+      tell: "<b>The standard lives in the conversation.</b> Three sections in, the checklist and how strictly it applies are already agreed.",
+      close: "carry", closeWhy: "Carrying a summary is the fix for a conversation that has gone wrong. This one is working, and the three reviews are the best record of the standard.",
+      other: "A fresh conversation would review the fourth section without the checklist, and without the strictness the first three were held to." },
+    { text: "The assistant helped me write this plan. Now I want someone to find the holes in it.",
+      sound: "fresh",
+      tell: "<b>An outside view.</b> The conversation that helped write the plan holds every reason behind it and reads the plan the way it was meant. A fresh one reads it the way a stranger would.",
+      close: "stay", closeWhy: "The conversation that wrote the plan holds its reasoning, so it reads the plan as intended, which is the view you are trying to get past.",
+      other: "A summary of the plan carries its reasoning into the new conversation, and the review then inherits the reasoning it was meant to test." },
+    { text: "A long research session is finished. The next step is writing the final report from it.",
+      sound: "carry",
+      tell: "<b>Carry the findings, leave the dead ends.</b> The session holds every source tried and dropped. A summary of what held up, with its sources, is the cleaner start for the writing.",
+      close: "stay", closeWhy: "The session holds the dead ends as well as the findings, and a report written there can pick up a source that was already dropped.",
+      other: "Starting fresh leaves the findings behind along with the dead ends. The summary keeps what held up, with its sources." },
+    { text: "I am comparing two vendor proposals, and a third has just arrived.",
+      sound: "stay",
+      tell: "<b>The same comparison, one more input.</b> The criteria and the first two scores are in the conversation, so the third is read on the same scale.",
+      close: "fresh", closeWhy: "A fresh conversation would score the third proposal without the criteria the first two were held to.",
+      other: "Nothing here has gone wrong, so there is no reason to summarise and start over. The third proposal joins the comparison where it stands." }
+  ];
+
+  /* ---------- CLARITY-04: which model tier ---------- */
+
+  var BUCKETS_04 = [
+    { key: "small",    name: "Small and fast",  icon: "zap",
+      needs: "a narrow task with a fixed answer shape, often run many times" },
+    { key: "standard", name: "Standard",        icon: "cpu",
+      needs: "everyday reading and writing, where judgement matters and the reasoning is short" },
+    { key: "deep",     name: "Deep reasoning",  icon: "search",
+      needs: "many steps that depend on each other, where one wrong early step spoils the rest" }
+  ];
+
+  var CASES_04 = [
+    { text: "Sort 2,000 support tickets into five fixed categories.",
+      sound: "small",
+      tell: "<b>A fixed answer shape, many times over.</b> Five labels, two thousand times: the small tier does it well, and every extra cost per ticket is multiplied by two thousand.",
+      close: "standard", closeWhy: "The standard tier sorts five fixed labels no better, and costs more per ticket, two thousand times over.",
+      other: "The deep tier is the slowest and costliest per request, and five fixed labels give it nothing to reason through." },
+    { text: "Draft a reply to a customer who is upset about a late delivery.",
+      sound: "standard",
+      tell: "<b>Tone and judgement, in one pass.</b> The reply has to acknowledge, explain and offer something. That is everyday writing, and the middle tier is built for it.",
+      close: "small", closeWhy: "The small tier writes a correct reply that can read flat or slightly off, and in this reply the tone is the point.",
+      other: "The deep tier writes the same reply, slower and at more cost. The reply needs judgement on tone, which the middle tier already has." },
+    { text: "Two reports disagree on last quarter's revenue. Find out why, across three tables with different definitions.",
+      sound: "deep",
+      tell: "<b>Work out why, across steps that depend on each other.</b> Each table's definition changes what the next comparison means, so a wrong early step spoils every step after it.",
+      close: "standard", closeWhy: "The standard tier compares two numbers well. Tracing a difference through three definitions takes a chain of dependent steps, and that is where the deeper tier earns its cost.",
+      other: "The small tier is built for answers with a fixed shape. Finding why two numbers differ has no fixed shape." },
+    { text: "Pull the invoice number, date and total out of 500 invoices.",
+      sound: "small",
+      tell: "<b>Extraction with a fixed shape.</b> Run it on the small tier, check a sample by hand, and move up only if the sample shows a miss.",
+      close: "standard", closeWhy: "Three fixed fields do not need the middle tier, and the difference in cost is multiplied by five hundred.",
+      other: "Reading three fields off an invoice gives the deep tier nothing to reason through, and its extra cost is multiplied by five hundred." },
+    { text: "Fix the spelling and grammar in this paragraph.",
+      sound: "small",
+      tell: "<b>A narrow edit on a short text.</b> A larger model makes the same corrections, only slower and at more cost.",
+      close: "standard", closeWhy: "The standard tier makes the same corrections. It becomes the right tier if the paragraph needs rewriting, which is a different request.",
+      other: "The deep tier spends its extra time on reasoning, and a spelling fix needs none." },
+    { text: "Summarise a ten-page meeting transcript into the decisions made and who owns each one.",
+      sound: "standard",
+      tell: "<b>Reading and judgement, short reasoning.</b> Telling a decision from a discussion takes judgement. It does not take a long chain of steps.",
+      close: "small", closeWhy: "The small tier summarises, but it is more likely to list what was discussed as if it were decided, and the owners are the part that matters.",
+      other: "The deep tier does it too, slower and at more cost. Telling a decision from a discussion takes judgement, which the middle tier has." },
+    { text: "Plan a system migration with fourteen dependencies and two fixed deadlines.",
+      sound: "deep",
+      tell: "<b>Many constraints that move together.</b> Shifting one step shifts others, so the plan has to be reasoned through as a whole.",
+      close: "standard", closeWhy: "The standard tier writes a plan that reads well. With fourteen dependencies, a plan that reads well is exactly where the conflicts hide.",
+      other: "The small tier is built for narrow tasks with a fixed shape. A plan with fourteen dependencies has neither." },
+    { text: "Write this week's status update from five bullet points that are already agreed.",
+      sound: "standard",
+      tell: "<b>Everyday writing from settled material.</b> The thinking is done and the five bullets are the content.",
+      close: "deep", closeWhy: "The deep tier is built for problems whose steps depend on each other. Five settled bullets are not one, so it takes longer and costs more for the same update.",
+      other: "The small tier can join five bullets into sentences, but a status update is read for its tone too, and the middle tier writes it better." }
+  ];
+
   /* ---------- shared bits ---------- */
 
   function icon(name, cls) {
@@ -345,27 +456,28 @@
     renderStep();
   })();
 
-  /* ---------- CLARITY-02 ---------- */
+  /* ---------- CLARITY-02 to 04: place each request, then the count ---------- */
 
-  var ex2 = document.getElementById("ex-02-stage");
-  if (ex2) (function () {
-    var stage = ex2, order = [], n = 0, results = [];
+  function sorter(cfg) {
+    var stage = document.getElementById(cfg.stage);
+    if (!stage) return;
+    var buckets = cfg.buckets, cases = cfg.cases, order = [], n = 0, results = [];
 
-    function byKey(key) { for (var i = 0; i < BUCKETS.length; i++) if (BUCKETS[i].key === key) return BUCKETS[i]; return null; }
+    function byKey(key) { for (var i = 0; i < buckets.length; i++) if (buckets[i].key === key) return buckets[i]; return null; }
     function shuffle() {
-      order = CASES.map(function (_, i) { return i; });
+      order = cases.map(function (_, i) { return i; });
       for (var i = order.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = order[i]; order[i] = order[j]; order[j] = t; }
     }
 
     function renderCase() {
-      var c = CASES[order[n]];
+      var c = cases[order[n]];
       stage.innerHTML = "";
-      stage.appendChild(el("div", "count", "Request " + (n + 1) + " of " + CASES.length));
+      stage.appendChild(el("div", "count", "Request " + (n + 1) + " of " + cases.length));
       stage.appendChild(el("div", "request", icon("message", "ic req-ic") + "<div>" + c.text + "</div>"));
-      stage.appendChild(progress(CASES.length, n, n));
-      stage.appendChild(el("h3", "q", '<span class="badge badge-s">' + icon("box") + "</span>Which container does this belong in?"));
-      var list = el("ul", "buckets");
-      BUCKETS.forEach(function (b) {
+      stage.appendChild(progress(cases.length, n, n));
+      stage.appendChild(el("h3", "q", '<span class="badge badge-s">' + icon(cfg.qIcon) + "</span>" + cfg.q));
+      var list = el("ul", "buckets" + (buckets.length === 3 ? " three" : ""));
+      buckets.forEach(function (b) {
         var li = el("li");
         var btn = el("button", "bucket"); btn.type = "button"; btn.setAttribute("data-key", b.key);
         btn.innerHTML = '<span class="badge badge-s">' + icon(b.icon) + '</span><span class="name">' + b.name + "</span>";
@@ -380,7 +492,7 @@
     }
 
     function choose(key) {
-      var c = CASES[order[n]], sound = byKey(c.sound), picked = byKey(key);
+      var c = cases[order[n]], sound = byKey(c.sound), picked = byKey(key);
       Array.prototype.forEach.call(stage.querySelectorAll(".bucket"), function (b) {
         b.disabled = true;
         if (b.getAttribute("data-key") === key) b.classList.add("picked");
@@ -391,16 +503,18 @@
       if (hit) {
         reveal.innerHTML = '<span class="lab">Sound: ' + sound.name + "</span><p>" + c.tell + "</p>";
       } else if (key === c.close) {
-        reveal.innerHTML = '<span class="lab">Close. The sound one is ' + sound.name + "</span><p>" + c.closeWhy + "</p><p class=\"then\">" + c.tell + "</p>";
+        reveal.innerHTML = '<span class="lab">Close. The sound one is ' + sound.name + "</span><p>" + c.closeWhy + '</p><p class="then">' + c.tell + "</p>";
+      } else if (c.other) {
+        reveal.innerHTML = '<span class="lab">The sound one is ' + sound.name + "</span><p>" + c.other + '</p><p class="then">' + c.tell + "</p>";
       } else {
-        reveal.innerHTML = '<span class="lab">The sound one is ' + sound.name + "</span><p>A " + picked.name.toLowerCase() + " needs <b>" + picked.needs + "</b>, and this request does not say it.</p><p class=\"then\">" + c.tell + "</p>";
+        reveal.innerHTML = '<span class="lab">The sound one is ' + sound.name + "</span><p><b>" + picked.name + "</b> fits " + picked.needs + ". This request does not say that.</p><p class=\"then\">" + c.tell + "</p>";
       }
       reveal.hidden = false;
       results.push({ text: c.text, bucket: sound.name, hit: hit });
       var actions = stage.querySelector(".actions");
-      var next = button(n + 1 < CASES.length ? "Next request" : "See the count");
+      var next = button(n + 1 < cases.length ? "Next request" : "See the count");
       next.addEventListener("click", function () {
-        if (n + 1 < CASES.length) { n += 1; renderCase(); scrollTo(stage); }
+        if (n + 1 < cases.length) { n += 1; renderCase(); scrollTo(stage); }
         else renderTally();
       });
       actions.appendChild(next);
@@ -411,13 +525,13 @@
     function renderTally() {
       var hits = results.filter(function (x) { return x.hit; }).length;
       stage.innerHTML = "";
-      stage.appendChild(el("div", "count", "All " + CASES.length + " placed"));
-      stage.appendChild(progress(CASES.length, CASES.length, -1));
+      stage.appendChild(el("div", "count", "All " + cases.length + " placed"));
+      stage.appendChild(progress(cases.length, cases.length, -1));
       var tally = el("div", "tally");
-      tally.innerHTML = '<div class="n">' + hits + ' <small>of ' + CASES.length + "</small></div><div class=\"what\">placed on the first try</div><div class=\"basis\">" +
-        (hits === CASES.length ? "<b>Every tell was read.</b> The next step is noticing them in requests that arrive without a label." :
-         hits >= 7 ? "<b>Most tells were read.</b> The ones below marked amber are the containers that get confused most often, and the reason is in each line." :
-         "<b>The tells take a few rounds to see.</b> Go again with the reasons below in mind; the order changes each time.") + "</div>";
+      tally.innerHTML = '<div class="n">' + hits + ' <small>of ' + cases.length + "</small></div><div class=\"what\">placed on the first try</div><div class=\"basis\">" +
+        (hits === cases.length ? "<b>Every tell was read.</b> The next step is noticing them in requests that arrive without a label." :
+         hits >= Math.ceil(cases.length * 0.7) ? "<b>Most tells were read.</b> The requests marked amber below are the ones worth a second look." :
+         "<b>The tells take a few rounds to see.</b> Go again with the answers below in mind; the order changes each time.") + "</div>";
       stage.appendChild(tally);
       var recap = el("ul", "recap");
       results.forEach(function (x) {
@@ -436,5 +550,9 @@
 
     shuffle();
     renderCase();
-  })();
+  }
+
+  sorter({ stage: "ex-02-stage", buckets: BUCKETS, cases: CASES, q: "Which container does this belong in?", qIcon: "box" });
+  sorter({ stage: "ex-03-stage", buckets: BUCKETS_03, cases: CASES_03, q: "Stay, start fresh, or carry a summary over?", qIcon: "repeat" });
+  sorter({ stage: "ex-04-stage", buckets: BUCKETS_04, cases: CASES_04, q: "Which tier is the right size for this?", qIcon: "stairs" });
 })();
