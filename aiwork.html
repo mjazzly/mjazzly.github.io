@@ -210,7 +210,7 @@
       <figcaption class="fig-note">How a version is earned. Steps across, who or what does each step down. <b>Amber</b> marks the check: every case passes, or the miss is named with its line and one rule changes.</figcaption>
     </figure>
 
-    <p class="how"><b>How it runs:</b> a small Node.js tool server on my machine holds the ten tools; the Claude desktop app starts it and calls the tools as it works. The tracker and the run log live in files on disk, so next week it reads only the new transcripts and never rewrites an old row. The contacts table stands in for a CRM, and the data is synthetic.</p>
+    <p class="how"><b>How it runs:</b> a small Node.js tool server on my machine holds the ten tools; the Claude desktop app starts it and calls the tools as it works. The tracker and the run log live in files on disk, so next week it reads only the new transcripts and never rewrites an old row. It reads its transcripts from <b>a Google Drive folder through the Drive API</b>; the local folder remains for the blind harness. The contacts table stands in for a CRM, and the data is synthetic.</p>
 
     <p class="score-open"><a href="output-01.html"><svg class="ic" aria-hidden="true"><use href="#ic-file"/></svg>See the output</a><span>one run, the input beside what came out</span></p>
 

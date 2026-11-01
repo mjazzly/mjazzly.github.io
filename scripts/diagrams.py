@@ -198,15 +198,15 @@ DIAGRAMS["case-03"] = dict(
 )
 
 DIAGRAMS["tracker"] = dict(
-    alt="Seven steps of the meeting tracker across four lanes: me, Claude with the skill, the tool server, and the files on disk; the tool server stops the run when a transcript is confidential, when a name matches two people, when a meeting has no actions, or when a date falls before its meeting",
+    alt="Seven steps of the meeting tracker across four lanes: me, Claude with the skill, the tool server, and the files on disk and in a Google Drive folder; the tool server stops the run when a transcript is confidential, when a name matches two people, when a meeting has no actions, or when a date falls before its meeting",
     steps=["Start", "Find new", "Read", "Decide", "Look up", "Record", "Report"],
-    lanes=["Me", "Claude with|the skill", "The tool|server", "Files on|disk"],
+    lanes=["Me", "Claude with|the skill", "The tool|server", "Files on disk|and in Drive"],
     lane_h=72,
     nodes=[
         dict(at=(0, 0), lines=['"Run the', 'tracker"']),
         dict(at=(1, 1), lines=["asks for new", "transcripts"]),
         dict(at=(2, 1), lines=["tracker_scan"], stop="confidential"),
-        dict(at=(3, 1), lines=["transcripts", "folder"], kind="soft"),
+        dict(at=(3, 1), lines=["Drive folder;", "local folder", "for the harness"], kind="soft"),
         dict(at=(1, 2), lines=["asks for", "each one"]),
         dict(at=(2, 2), lines=["tracker_read_", "transcript"]),
         dict(at=(3, 2), lines=["one", "transcript"], kind="soft"),
