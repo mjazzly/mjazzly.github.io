@@ -2,7 +2,7 @@
 
    Four exercises. Each shows a request, asks the reader to decide, and then
    shows the reasoning. Nothing is scored against the reader; the count at
-   the end says how many were placed on the first try, so the tells can be
+   the end says how many were placed on the first try, so the clues can be
    seen. Every word of the exercises lives in this file.
 
    CLARITY-01  From a request to a workflow: five decisions, one request at
@@ -35,7 +35,7 @@
             { t: "Produce a full pipeline report with every metric in it.",
               why: "Too wide. <b>Look at</b> did not ask for a report. A report nobody asked for costs a day and answers a question nobody put." },
             { t: "Find what changed in the pipeline since the last review, and say whether anything needs a decision before Thursday.", sound: true,
-              why: "<b>Thursday is the tell</b>: there is a meeting. The reader wants to walk in knowing what moved and whether it matters." },
+              why: "<b>Thursday is the clue</b>: there is a meeting. The reader wants to walk in knowing what moved and whether it matters." },
             { t: "Ask what they mean before doing anything.",
               why: "A fair instinct at the wrong moment. One reading fits the facts (a date, a person who owns the pipeline). <b>State the reading, start, and confirm it at handover.</b> Save the question for a request where two readings fit equally." }
           ], flow: "What changed since the last review, and what Thursday needs" },
@@ -79,7 +79,7 @@
       steps: [
         { opts: [
             { t: "Write minutes for each call.",
-              why: "Minutes record everything that was said. <b>Agreed is the tell</b>: the reader wants the commitments, and only those." },
+              why: "Minutes record everything that was said. <b>Agreed is the clue</b>: the reader wants the commitments, and only those." },
             { t: "Summarise every call in a paragraph.",
               why: "A summary is read once and forgotten. The reader will have to go back and find who owes what." },
             { t: "A list of what was agreed: who does what, by when, from which call.", sound: true,
@@ -529,9 +529,9 @@
       stage.appendChild(progress(cases.length, cases.length, -1));
       var tally = el("div", "tally");
       tally.innerHTML = '<div class="n">' + hits + ' <small>of ' + cases.length + "</small></div><div class=\"what\">placed on the first try</div><div class=\"basis\">" +
-        (hits === cases.length ? "<b>Every tell was read.</b> The next step is noticing them in requests that arrive without a label." :
-         hits >= Math.ceil(cases.length * 0.7) ? "<b>Most tells were read.</b> The requests marked amber below are the ones worth a second look." :
-         "<b>The tells take a few rounds to see.</b> Go again with the answers below in mind; the order changes each time.") + "</div>";
+        (hits === cases.length ? "<b>You read every clue.</b> The next step is spotting them in requests that arrive without a label." :
+         hits >= Math.ceil(cases.length * 0.7) ? "<b>You read most of the clues.</b> The requests marked amber below are the ones worth a second look." :
+         "<b>The clues take a few rounds to spot.</b> Go again with the answers below in mind; the order changes each time.") + "</div>";
       stage.appendChild(tally);
       var recap = el("ul", "recap");
       results.forEach(function (x) {
