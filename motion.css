@@ -742,3 +742,9 @@ nav.top .go[aria-current="page"] .badge{background:var(--marine);color:#fff}
 .tiles.doors .rooms a:hover{background:var(--marine);color:#fff}
 .tiles.doors .tile:hover .badge{background:var(--marine);color:#fff}
 @media(max-width:860px){ .tiles.doors{grid-template-columns:1fr} }
+
+/* AI Work, lighter opening (2 Nov 2026): a short hero with one quiet note, and
+   each entry's long description opens the fold instead of preceding it */
+.hero-note{font-size:14px;color:var(--ink-faint);margin-top:10px;max-width:620px}
+.work .case-body > p.task{font-size:15.5px;line-height:1.65;color:var(--ink-soft);max-width:760px;margin:20px 0 22px}
+.work .case-body > p.task b{color:var(--ink)}
