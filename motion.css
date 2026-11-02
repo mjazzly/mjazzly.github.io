@@ -686,3 +686,7 @@ html.js .ex .nojs{display:none}
 /* three choices sit in one row on the conversation and model tier exercises */
 .buckets.three{grid-template-columns:repeat(3,1fr)}
 @media(max-width:600px){ .buckets.three{grid-template-columns:1fr} }
+/* the four games, picked from the top of the Clarity page */
+.tiles.entries.games{grid-template-columns:repeat(4,1fr);margin:-12px 0 8px}
+@media(max-width:860px){ .tiles.entries.games{grid-template-columns:repeat(2,1fr)} }
+@media(max-width:600px){ .tiles.entries.games{grid-template-columns:1fr} }
