@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261031e"><link rel="stylesheet" href="motion.css?v=20261102">
+<link rel="stylesheet" href="style.css?v=20261031e"><link rel="stylesheet" href="motion.css?v=20261102n">
 </head>
 <body>
 <!--ICONS-->
@@ -63,18 +63,42 @@
 <symbol id="ic-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
 </svg>
 <!--/ICONS-->
-<nav class="top"><div class="wrap">
+<nav class="top" aria-label="Site"><div class="wrap">
   <a class="brand" href="index.html"><span class="seam silver" aria-hidden="true"></span><span class="brand-name">Megat Jazly</span><span class="seam" aria-hidden="true"></span></a>
-  <div class="links">
-    <a href="built.html">Built</a>
-    <a href="aiwork.html">AI Work</a>
-    <a href="clarity.html">Clarity</a>
-    <a href="casefiles.html">Case Files</a>
-    <a href="index.html">Systems</a>
-    <a href="operator.html">Operator</a>
-    <a href="models.html" class="active">Models</a>
-    <a href="knowledge.html">Knowledge</a>
-    <a href="chapters.html">Chapters</a>
+  <div class="shelves">
+    <details class="shelf" data-shelf="craft">
+      <summary>Craft<svg class="ic chev" aria-hidden="true"><use href="#ic-chevron"/></svg></summary>
+      <div class="menu"><div class="wrap">
+        <div class="menu-head"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-wrench"/></svg></span><span><b>Craft</b><span class="menu-line">What I have made, and the test record behind each piece</span></span></div>
+        <div class="menu-items">
+          <a class="go" href="aiwork.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-cpu"/></svg></span><span><b>AI Work</b><span class="go-line">Five AI systems, each with its test record</span></span></a>
+          <a class="go" href="casefiles.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-folder"/></svg></span><span><b>Case Files</b><span class="go-line">Three client systems, told end to end</span></span></a>
+          <a class="go" href="built.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-puzzle"/></svg></span><span><b>Built</b><span class="go-line">Everything built with Claude, from prompt to app</span></span></a>
+          <a class="go" href="index.html#systems"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-layers"/></svg></span><span><b>Systems</b><span class="go-line">The systems I run in client work, and my stack</span></span></a>
+        </div>
+      </div></div>
+    </details>
+    <details class="shelf active" data-shelf="compass">
+      <summary>Compass<svg class="ic chev" aria-hidden="true"><use href="#ic-chevron"/></svg></summary>
+      <div class="menu"><div class="wrap">
+        <div class="menu-head"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-compass"/></svg></span><span><b>Compass</b><span class="menu-line">How I think, decide and work</span></span></div>
+        <div class="menu-items">
+          <a class="go" href="operator.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-user"/></svg></span><span><b>Operator</b><span class="go-line">How I work, read through three assessments</span></span></a>
+          <a class="go" href="models.html" aria-current="page"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-repeat"/></svg></span><span><b>Models</b><span class="go-line">The five models I build by</span></span></a>
+          <a class="go" href="clarity.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-zap"/></svg></span><span><b>Clarity</b><span class="go-line">Four short games on working with AI</span></span></a>
+        </div>
+      </div></div>
+    </details>
+    <details class="shelf" data-shelf="bookshelf">
+      <summary>Bookshelf<svg class="ic chev" aria-hidden="true"><use href="#ic-chevron"/></svg></summary>
+      <div class="menu"><div class="wrap">
+        <div class="menu-head"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-book"/></svg></span><span><b>Bookshelf</b><span class="menu-line">Ideas I keep, from other people and my own</span></span></div>
+        <div class="menu-items">
+          <a class="go" href="knowledge.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-bookmark"/></svg></span><span><b>Knowledge</b><span class="go-line">Ideas worth keeping, learned from other people</span></span></a>
+          <a class="go" href="chapters.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-sprout"/></svg></span><span><b>Chapters</b><span class="go-line">Lessons from the road, in my own words</span></span></a>
+        </div>
+      </div></div>
+    </details>
   </div>
 </div></nav>
 <div class="wrap">
@@ -208,6 +232,6 @@
 </footer>
 
 </div>
-<script src="site.js?v=20261031f"></script>
+<script src="site.js?v=20261102n"></script>
 </body>
 </html>

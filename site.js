@@ -12,6 +12,28 @@
 
 document.documentElement.classList.add("js");
 
+// The three shelves in the header: one open at a time; a press outside, Escape,
+// or choosing a page closes it. Without JavaScript each shelf still opens and closes.
+(function () {
+  var shelves = [].slice.call(document.querySelectorAll("nav.top .shelf"));
+  if (!shelves.length) return;
+  function closeAll(except) { shelves.forEach(function (d) { if (d !== except) d.open = false; }); }
+  shelves.forEach(function (d) {
+    d.addEventListener("toggle", function () { if (d.open) closeAll(d); });
+    [].slice.call(d.querySelectorAll(".go")).forEach(function (a) {
+      a.addEventListener("click", function () { d.open = false; });
+    });
+  });
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest || !e.target.closest("nav.top .shelf")) closeAll(null);
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Escape") return;
+    var open = shelves.filter(function (d) { return d.open; })[0];
+    if (open) { open.open = false; open.querySelector("summary").focus(); }
+  });
+})();
+
 // The seams beside the name: measure the name so the marine seam knows how far to travel on hover
 (function () {
   var brand = document.querySelector("nav.top .brand");
@@ -21,7 +43,7 @@ document.documentElement.classList.add("js");
   measure(); window.addEventListener("resize", measure);
 
   // On the Systems page the seams open together, then part, once per visit
-  var home = document.querySelector('nav.top .links a.active[href="index.html"]');
+  var home = document.querySelector("nav.top.is-home");
   var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (home && !calm) {
     brand.classList.add("no-anim", "is-joined");

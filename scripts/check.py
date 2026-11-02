@@ -47,15 +47,16 @@ for page in PAGES:
     # a SHIPPED pill must never appear inside a hidden block, and never with an in-progress label
     for blk in re.findall(r"<!--LIVE:(?:A|B)[^\n]*\n(.*?)LIVE:END-->", src, flags=re.S):
         if "SHIPPED" in blk: failures.append(f"{page}: SHIPPED pill inside a hidden block")
-    # nav order
-    nav = re.search(r'<div class="links">(.*?)</div>', src, re.S)
-    if nav:
-        order = re.findall(r'href="([^"]+)"', nav.group(1))
-        full = ["built.html", "aiwork.html", "clarity.html", "casefiles.html", "index.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
-        before = [x for x in full if x not in ("aiwork.html", "clarity.html")]   # the older nav, kept only until every page carries the new one
-        if order not in (full, before):
-            failures.append(f"{page}: nav order is {order}")
+    # nav: the three shelves, in order, with every page under its shelf (written by scripts/nav.py)
+    shelves = re.findall(r'data-shelf="([a-z]+)"', src)
+    if shelves != ["craft", "compass", "bookshelf"]:
+        failures.append(f"{page}: shelves are {shelves}, run scripts/nav.py")
+    navm = re.search(r'<nav class="top.*?</nav>', src, re.S)
+    order = re.findall(r'class="go" href="([^"]+)"', navm.group(0)) if navm else []
+    want = ["aiwork.html", "casefiles.html", "built.html", "index.html#systems", "operator.html", "models.html", "clarity.html", "knowledge.html", "chapters.html"]
+    if order != want:
+        failures.append(f"{page}: nav pages are {order}, run scripts/nav.py")
 
 if failures:
     print("CHECK FAILED"); [print(" -", f) for f in failures]; sys.exit(1)
-print("CHECK PASSED: no dashes, no banned words, tags balanced, LIVE markers paired, nav order correct")
+print("CHECK PASSED: no dashes, no banned words, tags balanced, LIVE markers paired, nav shelves correct")
