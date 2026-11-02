@@ -47,15 +47,15 @@ def nav(page):
     for gid, label, icon, line, items in GROUPS:
         mine = any(href == here for href, *_ in items) and not home
         out.append(f'    <details class="shelf{" active" if mine else ""}" data-shelf="{gid}">')
-        out.append(f'      <summary>{label}{ic("chevron", "ic chev")}</summary>')
-        out.append('      <div class="menu"><div class="wrap">')
+        out.append(f'      <summary aria-controls="menu-{gid}">{label}{ic("chevron", "ic chev")}</summary>')
+        out.append(f'      <div class="menu" id="menu-{gid}"><div class="wrap"><div class="menu-card">')
         out.append(f'        <div class="menu-head"><span class="badge badge-s">{ic(icon)}</span><span><b>{label}</b><span class="menu-line">{line}</span></span></div>')
         out.append('        <div class="menu-items">')
         for href, name, pic, desc in items:
             cur = ' aria-current="page"' if href == here else ""
             out.append(f'          <a class="go" href="{href}"{cur}><span class="badge badge-s">{ic(pic)}</span><span><b>{name}</b><span class="go-line">{desc}</span></span></a>')
         out.append('        </div>')
-        out.append('      </div></div>')
+        out.append('      </div></div></div>')
         out.append('    </details>')
     out.append('  </div>')
     out.append('</div></nav>')

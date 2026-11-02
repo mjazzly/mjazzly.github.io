@@ -12,25 +12,44 @@
 
 document.documentElement.classList.add("js");
 
-// The three shelves in the header: one open at a time; a press outside, Escape,
-// or choosing a page closes it. Without JavaScript each shelf still opens and closes.
+// The three shelves in the header. The script runs them itself (Safari on a
+// phone does not pass a tap on the page through to it, and handles <details>
+// unevenly): every shelf stays [open] and .is-open shows its card. A tap on the
+// shelf toggles it; a tap on the dim, Escape, or choosing a page closes it.
+// Without JavaScript each shelf still opens and closes natively.
 (function () {
   var shelves = [].slice.call(document.querySelectorAll("nav.top .shelf"));
   if (!shelves.length) return;
-  function closeAll(except) { shelves.forEach(function (d) { if (d !== except) d.open = false; }); }
+  var dim = document.createElement("div");
+  dim.className = "shelf-dim"; dim.setAttribute("aria-hidden", "true");
+  document.body.appendChild(dim);
+  function set(d, on) {
+    d.classList.toggle("is-open", on);
+    d.querySelector("summary").setAttribute("aria-expanded", on ? "true" : "false");
+  }
+  function closeAll() {
+    shelves.forEach(function (d) { set(d, false); });
+    dim.classList.remove("is-on");
+  }
   shelves.forEach(function (d) {
-    d.addEventListener("toggle", function () { if (d.open) closeAll(d); });
+    d.open = true;
+    set(d, false);
+    var sum = d.querySelector("summary");
+    sum.addEventListener("click", function (e) {
+      e.preventDefault();
+      var opening = !d.classList.contains("is-open");
+      closeAll();
+      if (opening) { set(d, true); dim.classList.add("is-on"); }
+    });
     [].slice.call(d.querySelectorAll(".go")).forEach(function (a) {
-      a.addEventListener("click", function () { d.open = false; });
+      a.addEventListener("click", closeAll);
     });
   });
-  document.addEventListener("click", function (e) {
-    if (!e.target.closest || !e.target.closest("nav.top .shelf")) closeAll(null);
-  });
+  dim.addEventListener("click", closeAll);
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Escape") return;
-    var open = shelves.filter(function (d) { return d.open; })[0];
-    if (open) { open.open = false; open.querySelector("summary").focus(); }
+    var open = shelves.filter(function (d) { return d.classList.contains("is-open"); })[0];
+    if (open) { closeAll(); open.querySelector("summary").focus(); }
   });
 })();
 
