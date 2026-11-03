@@ -147,7 +147,8 @@ n = s["numbers"]
 sweep_cost = n.get("sweep_cost")
 tiles = [
     ("layers", str(n["builds"]), "builds, every one rerun by one command",
-     "The four builds on the AI Work page. Each keeps <b>its own test cases, its own checker and its own pass rule</b>; the scorecard runs them and takes their verdicts."),
+     f'The {["no", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"][n["builds"]] if n["builds"] < 10 else n["builds"]} builds on the AI Work page. '
+     "Each keeps <b>its own test cases, its own checker and its own pass rule</b>; the scorecard runs them and takes their verdicts."),
     ("circle-check", str(n["runs"]), "counted runs on the record",
      (f'{n["runs"] - n["imported"]} from the scorecard\'s own sweeps and {n["imported"]} brought in from the builds\' earlier records. ' if n.get("imported") else "")
      + "<b>A run the model could have cheated on is refused</b> and never counted."),
