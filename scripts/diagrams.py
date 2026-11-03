@@ -374,7 +374,29 @@ DIAGRAMS["scorecard"] = dict(
            ((1,5),(1,6)), ((1,6),(3,6)), ((1,6),(0,6))],
 )
 
-FILES = {"casefiles.html": ["case-01-run", "case-01", "case-02", "case-03"], "built.html": ["tracker", "harness"], "aiwork.html": ["tracker", "versions", "normaliser", "answers", "brief", "scorecard"]}
+DIAGRAMS["pipeline"] = dict(
+    alt="Seven steps of the contact pipeline across four lanes: me, the code, Claude reading titles only, and the email validation stub; the run halts at four stops until I confirm the count, and at the third if Claude's answers fail the code's check",
+    steps=["Start", "Intake", "Scope", "Read", "Check", "Validate", "Release"],
+    lanes=["Me", "The code", "Claude|(titles only)", "Validation|stub"],
+    lane_h=72,
+    nodes=[
+        dict(at=(0, 0), lines=['"Run this', 'round"']),
+        dict(at=(1, 1), lines=["reads the", "export, counts"], stop="Stop 1: count"),
+        dict(at=(1, 2), lines=["scope and", "email checks"], stop="Stop 2: count"),
+        dict(at=(0, 2), lines=["confirms each", "count to go on"]),
+        dict(at=(1, 3), lines=["strips names", "and emails"]),
+        dict(at=(2, 3), lines=["seniority and", "function,", "once per title"], kind="ink"),
+        dict(at=(1, 4), lines=["checks every", "answer, floor"], stop="Stop 3: split"),
+        dict(at=(1, 5), lines=["sends each", "email"], stop="Stop 4: count"),
+        dict(at=(3, 5), lines=["a verdict per", "address"], kind="soft"),
+        dict(at=(1, 6), lines=["rejoins names,", "import file,", "run record"]),
+        dict(at=(0, 6), lines=["a CRM file,", "each exclusion", "named"], kind="ink"),
+    ],
+    links=[((0,0),(1,1)), ((1,1),(1,2)), ((1,2),(0,2)), ((1,2),(1,3)), ((1,3),(2,3)), ((2,3),(1,4)),
+           ((1,4),(1,5)), ((1,5),(3,5)), ((1,5),(1,6)), ((1,6),(0,6))],
+)
+
+FILES = {"casefiles.html": ["case-01-run", "case-01", "case-02", "case-03"], "built.html": ["tracker", "harness"], "aiwork.html": ["tracker", "versions", "normaliser", "answers", "brief", "scorecard", "pipeline"]}
 
 if __name__ == "__main__":
     root = pathlib.Path(__file__).resolve().parent.parent
