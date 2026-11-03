@@ -146,18 +146,34 @@ def draw(spec):
 
 DIAGRAMS = {}
 
+DIAGRAMS["case-01-run"] = dict(
+    alt="Six steps of one run, from the brief to the output: the playbook holds the fixed structure, the model drafts to it, the five-case rehearsal passes before the draft is used, and I sign off every output before it leaves",
+    steps=["Brief", "Structure", "Draft", "Rehearsal", "Review", "Output"],
+    lanes=["Me", "The model", "The playbook"],
+    nodes=[
+        dict(at=(0, 0), lines=["writes the", "brief"]),
+        dict(at=(2, 1), lines=["the fixed", "structure"], kind="soft"),
+        dict(at=(1, 2), lines=["drafts to the", "structure"]),
+        dict(at=(1, 3), lines=["runs the five", "test cases"]),
+        dict(at=(0, 3), lines=["checks the", "five cases"], stop="pass first"),
+        dict(at=(0, 4), lines=["reviews the", "output"], stop="signed off"),
+        dict(at=(0, 5), lines=["notes, deck", "or data file"], kind="ink"),
+    ],
+    links=[((0,0),(2,1)), ((2,1),(1,2)), ((1,2),(1,3)), ((1,3),(0,3)), ((0,3),(0,4)), ((0,4),(0,5))],
+)
+
 DIAGRAMS["case-01"] = dict(
-    alt="Seven steps from a use case to a deliverable, with two stops: the prompt passes its test cases before it enters the library, and every output passes the checkpoint before it enters a deliverable",
+    alt="Seven steps of the validation protocol, from a use case to a deliverable, with two stops: the workflow agrees with the answer key before it enters the library, and every output is signed off at the checkpoint before it enters a deliverable",
     steps=["Use case", "Prompt", "Test", "Library", "Run", "Checkpoint", "Deliverable"],
     lanes=["Me", "The model", "The playbook"],
     nodes=[
         dict(at=(0, 0), lines=["names the", "task"]),
         dict(at=(0, 1), lines=["designs the", "prompt"]),
         dict(at=(1, 2), lines=["runs it on", "real cases"]),
-        dict(at=(0, 2), lines=["checks against", "known answers"], stop="pass first"),
+        dict(at=(0, 2), lines=["checks against", "the answer key"], stop="agrees first"),
         dict(at=(2, 3), lines=["prompt, tests", "and version", "written down"], kind="soft"),
         dict(at=(1, 4), lines=["runs the task", "the same way"]),
-        dict(at=(0, 5), lines=["checks output", "against rules"], stop="pass first"),
+        dict(at=(0, 5), lines=["checks output", "against rules"], stop="signed off"),
         dict(at=(2, 5), lines=["the checkpoint", "rules"], kind="soft"),
         dict(at=(0, 6), lines=["enters the", "deliverable"], kind="ink"),
     ],
@@ -175,7 +191,7 @@ DIAGRAMS["case-02"] = dict(
         dict(at=(1, 2), lines=["emails sent out;", "names held back"], stop="count confirmed"),
         dict(at=(2, 2), lines=["checks every", "address"], kind="soft"),
         dict(at=(1, 3), lines=["results merged;", "invalid removed"], stop="count confirmed"),
-        dict(at=(1, 4), lines=["16 columns, a", "status per record"], stop="count confirmed"),
+        dict(at=(1, 4), lines=["CRM columns, a", "status per record"], stop="count confirmed"),
         dict(at=(1, 5), lines=["file, email,", "slides and log"], kind="ink"),
         dict(at=(0, 5), lines=["sends the", "pack"]),
     ],
@@ -183,15 +199,15 @@ DIAGRAMS["case-02"] = dict(
 )
 
 DIAGRAMS["case-03"] = dict(
-    alt="Six steps from five platform exports to the dashboard; the pipeline standardises, applies the written cleaning rules, consolidates into one table and reconciles the row counts before the dashboard refreshes",
+    alt="Six steps from the platform exports to the dashboard; the pipeline standardises, applies the written cleaning rules, consolidates into one table and reconciles the row counts before the dashboard refreshes",
     steps=["Export", "Ingest", "Standardise", "Clean", "One table", "Dashboard"],
-    lanes=["Five|platforms", "Power Query", "Dashboard"],
+    lanes=["Source|platforms", "Power Query", "Dashboard"],
     nodes=[
         dict(at=(0, 0), lines=["every export", "dropped in", "one folder"]),
         dict(at=(1, 1), lines=["reads every", "file"]),
         dict(at=(1, 2), lines=["one naming and", "one format"]),
         dict(at=(1, 3), lines=["the written", "cleaning rules", "applied"], kind="soft"),
-        dict(at=(1, 4), lines=["20+ metrics in", "one table"], stop="counts reconciled"),
+        dict(at=(1, 4), lines=["every metric in", "one table"], stop="counts reconciled"),
         dict(at=(2, 5), lines=["refreshes from", "the table"], kind="ink"),
     ],
     links=[((0,0),(1,1)), ((1,1),(1,2)), ((1,2),(1,3)), ((1,3),(1,4)), ((1,4),(2,5))],
@@ -358,7 +374,7 @@ DIAGRAMS["scorecard"] = dict(
            ((1,5),(1,6)), ((1,6),(3,6)), ((1,6),(0,6))],
 )
 
-FILES = {"casefiles.html": ["case-01", "case-02", "case-03"], "built.html": ["tracker", "harness"], "aiwork.html": ["tracker", "versions", "normaliser", "answers", "brief", "scorecard"]}
+FILES = {"casefiles.html": ["case-01-run", "case-01", "case-02", "case-03"], "built.html": ["tracker", "harness"], "aiwork.html": ["tracker", "versions", "normaliser", "answers", "brief", "scorecard"]}
 
 if __name__ == "__main__":
     root = pathlib.Path(__file__).resolve().parent.parent
