@@ -632,7 +632,7 @@ html.js .ex .nojs{display:none}
 /* The workflow the five decisions make */
 .ex .flow-lead{font-size:15px;color:var(--ink-soft);margin-bottom:14px}
 .ex .flow-lead b{color:var(--ink)}
-.flow{list-style:none;display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+ol.flow{list-style:none;display:grid;grid-template-columns:repeat(5,1fr);gap:8px}  /* Clarity: ol only, so the output pages' div.flow is untouched */
 .flow .fstep{background:var(--paper);border-radius:var(--radius-s);padding:12px 14px;font-size:13.5px;line-height:1.45;color:var(--ink)}
 .flow .fstep .fl{display:flex;align-items:center;gap:6px;font-weight:700;font-size:12.5px;color:var(--marine);margin-bottom:8px}
 .flow .fstep .fl .ic{width:16px;height:16px}
@@ -672,12 +672,12 @@ html.js .ex .nojs{display:none}
 .recap li.miss .mark{background:var(--amber-tint);color:var(--amber)}
 .recap li .b{font-family:var(--mono);font-size:12.5px;color:var(--marine);white-space:nowrap}
 @media(max-width:860px){
-  .flow{grid-template-columns:repeat(2,1fr)}
+  ol.flow{grid-template-columns:repeat(2,1fr)}
   .buckets{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:600px){
   .ex{padding:20px 18px 22px}
-  .flow{grid-template-columns:1fr}
+  ol.flow{grid-template-columns:1fr}
   .recap li{grid-template-columns:24px 1fr}
   .recap li .b{grid-column:2}
 }

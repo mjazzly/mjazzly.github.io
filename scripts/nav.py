@@ -31,9 +31,10 @@ HERE = {
     "index.html": "index.html#systems",
     "scorecard.html": "aiwork.html", "output-01.html": "aiwork.html", "output-01-board.html": "aiwork.html",
     "output-02.html": "aiwork.html", "output-03.html": "aiwork.html", "output-04.html": "aiwork.html",
+    "output-06.html": "aiwork.html",
 }
 
-PAGES = ["index.html", "built.html", "aiwork.html", "clarity.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
+PAGES = ["index.html", "built.html", "aiwork.html", "clarity.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "output-06.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
 
 def ic(name, cls="ic"):
     return f'<svg class="{cls}" aria-hidden="true"><use href="#ic-{name}"/></svg>'

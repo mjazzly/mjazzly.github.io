@@ -5,6 +5,7 @@
   output-02.html  spreadsheet normaliser ../spreadsheet-normaliser/eval/runs/
   output-03.html  data answers           ../data-answers/eval/runs/
   output-04.html  sourced brief          ../sourced-brief/eval/runs/
+  output-06.html  contact pipeline       ../contact-pipeline/results/ (a round's run record)
 
 Each page's frame (nav, hero, the words, footer) is hand-written. Everything
 between <!--OUTPUT--> and <!--/OUTPUT--> is written here from the run folder:
@@ -633,11 +634,127 @@ def normaliser(wanted):
     write("output-02.html", block)
     print(f"output-02.html: run {run['run_id']} ({run['model']}), files {', '.join(NORM_FILES)}, {len(mrows)} merged rows shown")
 
-BUILDS = {"01": tracker, "02": normaliser, "03": answers, "04": brief}
+# ---------------------------------------------------------------- output-06, contact pipeline
+CONTACT_ROUND = "demo_round"   # the round shown: the seeded demo export, not the case round the harness scores
+
+def contact(wanted):
+    """Output-06 is one round's run record, as the pipeline wrote it, not a harness run: the counts, the four
+    stops, every row that left with its reason, and the cost. The record holds row keys, never a name or an
+    email; this checks that against the round's export before anything is written."""
+    repo = CODE / "contact-pipeline"
+    recs = sorted((repo / "results").glob(f"{CONTACT_ROUND}-*.json"))
+    if wanted:
+        recs = [r for r in recs if r.stem == wanted]
+    if not recs:
+        sys.exit(f"contact-pipeline: no run record {wanted or CONTACT_ROUND}")
+    path = recs[-1]
+    rec = json.loads(path.read_text(encoding="utf-8"))
+    if rec.get("status") != "complete":
+        sys.exit(f"{path.name}: the round halted ({rec.get('status')}); show a complete round")
+
+    from openpyxl import load_workbook
+    export = next((repo / "data").glob(f"{CONTACT_ROUND}.*"))
+    sheet = load_workbook(export, read_only=True).worksheets[0]
+    head, *rows = [[("" if v is None else str(v)).strip() for v in r] for r in sheet.iter_rows(values_only=True)]
+    col = {h.lower(): i for i, h in enumerate(head)}
+    text = path.read_text(encoding="utf-8").lower()
+    for r in rows:
+        for v in (r[col["first_name"]], r[col["last_name"]]):
+            if v and re.search(rf"\b{re.escape(v.lower())}\b", text):
+                sys.exit(f"{path.name}: a name from the export is in the record; nothing written")
+        if r[col["email"]] and r[col["email"]].lower() in text:
+            sys.exit(f"{path.name}: an email from the export is in the record; nothing written")
+
+    c, stops, m = rec["counts"], {x["stop"]: x for x in rec["stops"]}, rec["model"]
+    titles = {t["row_key"]: t for t in rec["titles"]}
+    model = m["id"] + (f' at {m["effort"]} effort' if m.get("effort") else "")
+    out_by = {n: [e for e in rec["exclusions"] if e["stage"] == n] for n in (2, 3, 4)}
+    pills = lambda d: "".join(f'<li><b>{v}</b>{esc(k.replace("_", " "))}</li>' for k, v in d.items() if v)
+
+    stages = [("Intake: the export read", c["intake"], None, 1),
+              ("Scope: region, emails, duplicates", c["after_scope"], len(out_by[2]), 2),
+              ("Title read: the seniority floor", c["at_or_above_floor"], len(out_by[3]), 3),
+              ("Validation: the email verdict", c["after_validation"], len(out_by[4]), 4),
+              ("Import file", c["import_rows"], None, None)]
+    table = "".join(f'<tr><th>{esc(k)}</th><td>{f"Stop {n}" if n else "none"}</td><td class="num">{kept}</td>'
+                    f'<td class="num">{"" if out is None else out}</td></tr>' for k, kept, out, n in stages)
+
+    def stop_step(n, body):
+        x = stops[n]
+        how = f'confirmed with <span class="mono">{esc(x["how"])}</span>' if x["confirmed"] else "not confirmed"
+        return (f'    <div class="step"><span class="badge amber">{ic("hand")}</span><div><p class="step-k">Stop {n}, {esc(x["name"])}: {x["count"]}</p>'
+                f'<p class="said">The run halted here with the count and went on once it was {how}.</p>{body}</div></div>')
+    d1, d2, d3, d4 = (stops[n]["detail"] for n in (1, 2, 3, 4))
+    stop_html = [
+        stop_step(1, f'<ul class="kinds"><li><b>{d1["columns"]}</b>columns</li><li><b>{d1["blank_lines_skipped"]}</b>blank lines skipped</li></ul>'),
+        stop_step(2, f'<ul class="kinds">{pills(d2["excluded"])}</ul><p class="note">Columns dropped: <span class="mono">{esc(", ".join(d2["columns_dropped"]))}</span></p>'),
+        stop_step(3, f'<ul class="kinds"><li><b>{d3["below_floor"]}</b>below the floor</li>'
+                     + (f'<li><b>{d3["distinct_titles_asked"]}</b>distinct titles asked</li>' if "distinct_titles_asked" in d3 else "")
+                     + '</ul><p class="note">Every row below the floor is listed further down, with the model\'s reason.</p>'),
+        stop_step(4, f'<ul class="kinds"><li><b>{d4["valid"]}</b>valid</li><li><b>{d4["suspect"]}</b>suspect, kept and marked</li>{pills(d4["excluded"])}</ul>'),
+    ]
+
+    def left(n, label, line):
+        items = "".join(f'<li><span class="ln">{esc(e["row_key"])}</span><span class="said">{line(e)}</span></li>' for e in out_by[n])
+        return (f'    <div class="step"><span class="badge amber">{ic("stop")}</span><div><p class="step-k">{label}: {len(out_by[n])} rows</p>'
+                f'<ul class="lines src">{items}</ul></div></div>')
+    def title_line(e):
+        t = titles.get(e["row_key"], {})
+        sent = t.get("title", t.get("title_sent", ""))
+        return (f'<b>"{esc(swap(sent))}"</b> {esc(e["reason"])}' if sent else f'<b>(empty title)</b> {esc(e["reason"])}') + \
+               (f'<span class="sub">{esc(swap(t["reason"]))}</span>' if t.get("reason") else "")
+    t = m["tokens"]
+    cost = f'US${m["cost_usd"]:.4f}' if m.get("cost_usd") is not None else "not priced"
+
+    block = "\n".join([
+        f'<p class="out-run">{ic("circle-check")}<span>From run record <b>{esc(path.stem)}</b>, {esc(model)}, '
+        f'pipeline {esc(rec["pipeline_version"])}, prompt {esc(rec["prompt_version"])}, {day(rec["started_at"])}</span></p>',
+        "",
+        '<section id="counts">',
+        f'  <h2><span class="badge">{ic("funnel")}</span>The count at every stage</h2>',
+        '  <p class="lead">The rows kept after each stage, the rows that stage took out, and the stop where the run waited for the count to be confirmed. <b>Every row that left is accounted for</b>, each with one reason.</p>',
+        '  <div class="panel ans">',
+        f'    <table class="groups"><thead><tr><th>Stage</th><th>Stop</th><th class="num">Rows kept</th><th class="num">Rows out</th></tr></thead><tbody>{table}</tbody></table>',
+        f'    <p class="note">{len(rec["exclusions"])} rows out in all, each with one reason: the export\'s {c["intake"]} rows less the import file\'s {c["import_rows"]}.</p>',
+        "  </div>",
+        "</section>",
+        "",
+        '<section id="stops">',
+        f'  <h2><span class="badge amber">{ic("hand")}</span>The four stops</h2>',
+        '  <p class="lead">At each stop the run halts and prints the count. It goes on only when that stop is confirmed; <b>nothing reaches the import file until all four are</b>.</p>',
+        '  <div class="panel flow">',
+        *stop_html,
+        "  </div>",
+        "</section>",
+        "",
+        '<section id="left">',
+        f'  <h2><span class="badge">{ic("list")}</span>Every row that left, with its reason</h2>',
+        '  <p class="lead">Rows are named by their row key; <b>the run record holds no name and no email</b>. A title shows as it was sent to the model, with the model\'s own reason under it.</p>',
+        '  <div class="panel flow">',
+        left(2, "Stage 2, scope and email checks", lambda e: esc(e["reason"])),
+        left(3, "Stage 3, below the seniority floor", title_line),
+        left(4, "Stage 4, the email verdict", lambda e: esc(e["reason"])),
+        "  </div>",
+        "</section>",
+        "",
+        '<section id="cost">',
+        f'  <h2><span class="badge">{ic("chart")}</span>What the round cost</h2>',
+        '  <div class="panel ans"><dl class="facts">',
+        f'    <div><dt>Model</dt><dd><b>{esc(model)}</b>{m["calls"]} calls, the title read only</dd></div>',
+        f'    <div><dt>Tokens</dt><dd><b>{t["input"] + t["cache_read"] + t["cache_write"]:,}</b>in ({t["cache_write"]:,} written to the cache, {t["cache_read"]:,} read from it), <b>{t["output"]:,}</b>out</dd></div>',
+        f'    <div><dt>Cost</dt><dd><b>{cost}</b>for the round</dd></div>',
+        f'    <div><dt>Validation</dt><dd><b>{rec["validation_calls"]}</b>addresses checked by the seeded stub, at no cost</dd></div>',
+        "  </dl></div>",
+        "</section>",
+    ])
+    write("output-06.html", block)
+    print(f"output-06.html: record {path.stem} ({m['id']}), {c['intake']} rows in, {c['import_rows']} in the import file, {len(rec['exclusions'])} exclusions")
+
+BUILDS = {"01": tracker, "02": normaliser, "03": answers, "04": brief, "06": contact}
 
 ap = argparse.ArgumentParser()
-ap.add_argument("pages", nargs="*", help="01 to 04; every page that exists when left out")
-ap.add_argument("--run", help="a run id or label, when the latest counted run is not wanted")
+ap.add_argument("pages", nargs="*", help="01 to 04 and 06; every page that exists when left out")
+ap.add_argument("--run", help="a run id or label (for 06, a run record's name), when the latest is not wanted")
 args = ap.parse_args()
 todo = args.pages or [k for k in BUILDS if (ROOT / f"output-{k}.html").exists()]
 if args.run and len(todo) != 1:
