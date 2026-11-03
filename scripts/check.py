@@ -2,7 +2,7 @@
 """Pre-publish checks for mjazzly.github.io. Exit 1 on any failure.
 Run from the repo root: python3 scripts/check.py
 """
-import re, sys, pathlib, html.parser
+import re, sys, pathlib, html.parser, subprocess
 
 PAGES = ["index.html", "built.html", "aiwork.html", "clarity.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "output-06.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
 BANNED_WORDS = ["marketing", "enablement", "agentic", "FDE", "real users"]   # never on the site, in any case
@@ -57,6 +57,24 @@ for page in PAGES:
     if order != want:
         failures.append(f"{page}: nav pages are {order}, run scripts/nav.py")
 
+# WORK-05 and the Scorecard page against the scorecard's records: the table and every data-sc number
+sc = pathlib.Path("..", "scorecard")
+if not (sc / "results").is_dir():
+    failures.append("../scorecard not found: WORK-05's numbers cannot be checked against its records")
+else:
+    try:
+        fetched = subprocess.run(["git", "-C", str(sc), "fetch", "--quiet"], capture_output=True, timeout=30).returncode == 0
+    except subprocess.TimeoutExpired:
+        fetched = False
+    behind = subprocess.run(["git", "-C", str(sc), "rev-list", "--count", "HEAD..@{u}"], capture_output=True, text=True).stdout.strip()
+    if not fetched:
+        print("note: ../scorecard could not be fetched; WORK-05 checked against its local records")
+    elif behind not in ("", "0"):
+        failures.append(f"../scorecard is {behind} commit(s) behind its origin: pull it, then run scripts/scorecard.py")
+    r = subprocess.run([sys.executable, "scripts/scorecard.py", "--check"], capture_output=True, text=True)
+    if r.returncode:
+        failures += [f"{line}: run scripts/scorecard.py" for line in (r.stdout + r.stderr).strip().splitlines()]
+
 if failures:
     print("CHECK FAILED"); [print(" -", f) for f in failures]; sys.exit(1)
-print("CHECK PASSED: no dashes, no banned words, tags balanced, LIVE markers paired, nav shelves correct")
+print("CHECK PASSED: no dashes, no banned words, tags balanced, LIVE markers paired, nav shelves correct, scorecard numbers match its records")

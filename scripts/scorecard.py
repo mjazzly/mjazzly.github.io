@@ -12,6 +12,13 @@ writes the HTML. Run from the repo root, with the scorecard repo beside this one
   python3 scripts/scorecard.py                      # reads ../scorecard/results
   python3 scripts/scorecard.py --scorecard ~/Code/scorecard
 
+It also writes the numbers in WORK-05's own text (the tile, the four numbers, the
+Cost line): each sits in a <span data-sc="key">, and only the inside of that span is
+replaced. A data-sc key the script does not know stops it.
+
+  python3 scripts/scorecard.py --check              # write nothing; exit 1 if either page
+                                                    # differs from the records (check.py runs this)
+
 Needs Node 20 or later. Only what is between the markers is replaced.
 """
 import argparse, datetime, html, json, pathlib, re, subprocess, sys
@@ -19,6 +26,7 @@ import argparse, datetime, html, json, pathlib, re, subprocess, sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 ap = argparse.ArgumentParser()
 ap.add_argument("--scorecard", default=str(ROOT.parent / "scorecard"))
+ap.add_argument("--check", action="store_true", help="compare the pages with the records and write nothing")
 args = ap.parse_args()
 sc = pathlib.Path(args.scorecard).expanduser().resolve()
 if not (sc / "page.js").exists() or not (sc / "results").is_dir():
@@ -33,7 +41,9 @@ const { loadRecords } = await import(pathToFileURL(path.join(dir, "compare.js"))
 const { summarise } = await import(pathToFileURL(path.join(dir, "page.js")).href);
 const { modelTag } = await import(pathToFileURL(path.join(dir, "lib", "record.js")).href);
 const settings = JSON.parse(fs.readFileSync(path.join(dir, "settings.json"), "utf8"));
-const s = summarise(loadRecords(path.join(dir, "results")), settings);
+const recs = loadRecords(path.join(dir, "results"));
+const s = summarise(recs, settings);
+const records = recs.map((r) => ({ sweep: r.sweep, cost_usd: r.cost_usd, counted: r.counted, refused: !!r.refused }));
 const pick = (r) => r && { matched: r.matched, of_cases: r.of_cases, gates_held: r.gates_held, of_gates: r.of_gates,
   cost_usd: r.cost_usd, passed: r.passed, date: r.date, version: r.version, skill_version: r.skill_version,
   server_version: r.server_version, sweep: r.sweep, mode: r.mode };
@@ -47,7 +57,7 @@ const versions = Object.entries(s.versions).flatMap(([build, vs]) => Object.valu
   .map((v) => ({ title: s.table[build]?.title || build, version: v.version, since: v.since,
     models: Object.fromEntries(Object.entries(v.models).map(([m, r]) => [m, { matched: r.matched, of_cases: r.of_cases, passed: r.passed }])) })));
 const modelInfo = settings.models.map((m) => ({ tag: modelTag(m), id: m.id, effort: m.effort }));
-console.log(JSON.stringify({ models: s.models, modelInfo, builds, last: s.last, sweeps: s.sweeps, changes, versions, numbers: s.numbers, unpassed: s.unpassed }));
+console.log(JSON.stringify({ models: s.models, modelInfo, builds, last: s.last, sweeps: s.sweeps, changes, versions, numbers: s.numbers, unpassed: s.unpassed, records }));
 """
 out = subprocess.run(["node", "--input-type=module", "-e", JS, str(sc)], capture_output=True, text=True)
 if out.returncode:
@@ -134,13 +144,85 @@ block = "\n".join([
     f'<p class="score-open"><a href="scorecard.html">{ic("grid")}Open the full scorecard</a><span>the changes since the last sweep and every version, on one page</span></p>',
 ])
 
+# ---------------------------------------------------------------- the numbers in WORK-05's own text
+WORDS = ["no", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]
+word = lambda k: WORDS[k] if k < len(WORDS) else str(k)
+NO_ARTICLE = {"data answers"}   # named without "the" on the site
+def named(title):
+    t = title.lower()
+    return t if t in NO_ARTICLE else "the " + t
+n = s["numbers"]
+recs = s["records"]
+sweep_of = lambda r: (r["sweep"] or "").rstrip("r")   # a rerun counts as part of its sweep
+refused = sum(1 for r in recs if r["refused"])
+# the sweeps CI ran: the workflow alone commits "[ci] sweep S..." to the scorecard's history
+log = subprocess.run(["git", "-C", str(sc), "log", "--format=%s"], capture_output=True, text=True).stdout
+ci = [m.group(1) for m in re.finditer(r"^\[ci\] sweep (S\d+)", log, re.M)]   # newest first
+ci_cost = lambda sid, rerun: sum(r["cost_usd"] or 0 for r in recs if r["counted"] and not r["refused"]
+                                 and (sweep_of(r) == sid if rerun else r["sweep"] == sid))
+small = models[0]
+on_small = [b for b in s["builds"] if b["smallest"] == small]
+on_other = [b for b in s["builds"] if b["smallest"] and b["smallest"] != small]
+no_pass = [b for b in s["builds"] if not b["smallest"]]
+cost_of = lambda b: b["models"][b["smallest"]]["cost_usd"] or 0
+both = sum(r["cost_usd"] or 0 for b in s["builds"] for r in b["models"].values() if r)
+
+runs_basis = f'{n["runs"] - n["imported"]} from {n["sweeps"]} sweeps'
+if ci: runs_basis += f', {len(ci)} of them in CI on the smallest model,'
+runs_basis += (f' and {n["imported"]} brought in from the builds\' own earlier records, marked as brought in. '
+               + ("<b>None was refused</b>; a refused run stays on the record and is never counted." if not refused
+                  else f"<b>{refused} {'was' if refused == 1 else 'were'} refused</b>, kept on the record and never counted."))
+if len(on_small) == len(s["builds"]):
+    cost_basis = f'All {word(len(on_small))} builds pass on the smallest model.'
+else:
+    cost_basis = (f'{word(len(on_small)).capitalize()} build{"s pass" if len(on_small) != 1 else " passes"} on the smallest model for '
+                  f'<b>{money2(sum(cost_of(b) for b in on_small))} together</b>')
+    for b in on_other:
+        cost_basis += f'; for {named(b["title"])} the smallest passing model is the {labels[b["smallest"]].split()[0].lower()}, {money2(cost_of(b))} of the total'
+    if no_pass:
+        cost_basis += "; no model yet passes " + " or ".join(esc(named(b["title"])) for b in no_pass)
+    cost_basis += "."
+cost_basis += f' Every build on both models: {money2(both)}.'
+if ci:
+    cost_basis += f' The last sweep in CI, on the smallest model only, cost {money2(ci_cost(ci[0], False))}'
+    with_rerun = ci_cost(ci[0], True)
+    cost_basis += (f' ({money2(with_rerun)} with its rerun).' if round(with_rerun, 2) != round(ci_cost(ci[0], False), 2) else ".")
+values = {
+    "builds": str(n["builds"]),
+    "runs": str(n["runs"]),
+    "runs_basis": runs_basis,
+    "sweep_cost": money2(n.get("sweep_cost")) if n.get("sweep_cost") is not None else "no full sweep yet",
+    "cost_basis": cost_basis,
+    "ci_cost": money2(ci_cost(ci[0], False)) if ci else "no run",
+}
+
+stale = []
+def settle(page, old, new):
+    """Write the page, or under --check name what differs from the records."""
+    if not args.check:
+        page.write_text(new, encoding="utf-8"); return
+    if old == new: return
+    spans = lambda t: re.findall(r'<span data-sc="(\w+)">(.*?)</span>', t, re.S)
+    for (k, a), (_, b) in zip(spans(old), spans(new)):
+        if a != b: stale.append(f'{page.name}: data-sc="{k}" reads "{a}", the records give "{b}"')
+    if re.sub(r'<span data-sc="\w+">.*?</span>', "", old, flags=re.S) != re.sub(r'<span data-sc="\w+">.*?</span>', "", new, flags=re.S):
+        stale.append(f"{page.name}: the region written from the records differs from them")
+
 page = ROOT / "aiwork.html"
 src = page.read_text(encoding="utf-8")
 pat = re.compile(r"(<!--SCORECARD-->)(.*?)(<!--/SCORECARD-->)", re.S)
 if not pat.search(src):
     sys.exit("aiwork.html: no <!--SCORECARD--> markers")
-page.write_text(pat.sub(lambda m: m.group(1) + "\n" + block + "\n" + m.group(3), src), encoding="utf-8")
-print(f"aiwork.html: scorecard written ({len(s['builds'])} builds, {len(models)} models, records to {latest[:10]})")
+new = pat.sub(lambda m: m.group(1) + "\n" + block + "\n" + m.group(3), src)
+def fill(m):
+    if m.group(2) not in values:
+        sys.exit(f'aiwork.html: data-sc="{m.group(2)}" is not a number this script writes ({", ".join(values)})')
+    return m.group(1) + values[m.group(2)] + m.group(3)
+new = re.sub(r'(<span data-sc="(\w+)">).*?(</span>)', fill, new, flags=re.S)
+settle(page, src, new)
+if not args.check:
+    print(f"aiwork.html: scorecard written ({len(s['builds'])} builds, {len(models)} models, records to {latest[:10]}; "
+          f"{len(re.findall(r'data-sc=', new))} numbers in the text)")
 
 # ---------------------------------------------------------------- the full page, scorecard.html
 n = s["numbers"]
@@ -262,7 +344,12 @@ src = page.read_text(encoding="utf-8")
 pat = re.compile(r"(<!--SCOREPAGE-->)(.*?)(<!--/SCOREPAGE-->)", re.S)
 if not pat.search(src):
     sys.exit("scorecard.html: no <!--SCOREPAGE--> markers")
-src = pat.sub(lambda m: m.group(1) + "\n" + page_block + "\n" + m.group(3), src)
-src = re.sub(r"(<!--ASOF-->).*?(<!--/ASOF-->)", lambda m: m.group(1) + day(latest) + m.group(2), src, flags=re.S)
-page.write_text(src, encoding="utf-8")
-print(f"scorecard.html: page written ({len(s['changes'])} changes, {len(s['versions'])} version rows)")
+new = pat.sub(lambda m: m.group(1) + "\n" + page_block + "\n" + m.group(3), src)
+new = re.sub(r"(<!--ASOF-->).*?(<!--/ASOF-->)", lambda m: m.group(1) + day(latest) + m.group(2), new, flags=re.S)
+settle(page, src, new)
+if args.check:
+    if stale:
+        print("\n".join(stale)); sys.exit(1)
+    print(f"scorecard: both pages match the records to {latest[:10]}")
+else:
+    print(f"scorecard.html: page written ({len(s['changes'])} changes, {len(s['versions'])} version rows)")
