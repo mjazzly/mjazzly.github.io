@@ -383,6 +383,59 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { place(at); });
   });
 
+  // ---------- FRAME-02: the two roads into one song, and the rehearsal ----------
+  // Pointing at a road (or a tap) lights it toward the finished song. On the
+  // top road the composer leads and the performer follows; on the bottom road
+  // the performer leads. Nothing moves until the reader points or taps.
+  all(".roads-art").forEach(function (svg) {
+    var lit = {}, trav = {}, raf = 0, on = null, began = 0;
+    all(".lit", svg).forEach(function (p) { lit[p.getAttribute("data-road")] = p; });
+    all(".trav", svg).forEach(function (g) { trav[g.getAttribute("data-who")] = g; });
+    function at(path, t) { var q = path.getPointAtLength(Math.max(0, Math.min(1, t)) * path.getTotalLength()); return "translate(" + q.x + " " + q.y + ")"; }
+    function run(road) {
+      cancelAnimationFrame(raf);
+      on = road; began = Date.now();
+      var path = lit[road], order = road === "top" ? ["pen", "mic"] : ["mic", "pen"];
+      Object.keys(lit).forEach(function (k) { lit[k].classList.toggle("is-on", k === road); });
+      svg.classList.add("is-going"); svg.classList.remove("is-arrived");
+      var t0 = performance.now(), T = calm.matches ? 0 : 1600;
+      (function frame(now) {
+        var t = T ? Math.min(1, (now - t0) / T) : 1, e = t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        path.style.strokeDashoffset = 1 - e;
+        trav[order[0]].setAttribute("transform", at(path, e));
+        trav[order[1]].setAttribute("transform", at(path, e - 0.16));
+        if (t < 1) raf = requestAnimationFrame(frame); else svg.classList.add("is-arrived");
+      })(t0);
+    }
+    function stop() {
+      cancelAnimationFrame(raf); on = null;
+      svg.classList.remove("is-going", "is-arrived");
+      Object.keys(lit).forEach(function (k) { lit[k].classList.remove("is-on"); lit[k].style.strokeDashoffset = 1; });
+    }
+    all(".hit", svg).forEach(function (h) {
+      var road = h.getAttribute("data-road");
+      h.addEventListener("mouseenter", function () { if (on !== road) run(road); });
+      h.addEventListener("mouseleave", stop);
+      // a tap on a touch screen also reports the pointer arriving, so the tap that started a road does not stop it
+      h.addEventListener("click", function () {
+        if (on !== road) run(road);
+        else if (Date.now() - began > 500) stop();
+      });
+    });
+  });
+
+  // the rehearsal plays its pass marks once, when its screen is mostly in view
+  all(".tiles.pair .cases").forEach(function (cases) {
+    var tiles = cases.closest(".tiles");
+    if (calm.matches || !("IntersectionObserver" in window)) return;
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.intersectionRatio >= 0.85) { cases.classList.add("is-playing"); io.disconnect(); }
+      });
+    }, { threshold: [0.85] });
+    io.observe(tiles);
+  });
+
   // ---------- the strip of film at the top of the window ----------
   var sheet = document.querySelector(".tiles.entries.frames");
   var films = all("section.film");

@@ -1388,3 +1388,18 @@ section.film{padding:0;scroll-margin-top:58px}
   .cpg .crowd{order:3;flex:1;height:26px}
   .shape.is-picker li{margin:0}
 }
+
+/* FRAME-02: the composer and the performer named with their pictograms in the credits */
+.words.cast li > b:first-child .ic{width:15px;height:15px;margin-right:6px;vertical-align:-2px;color:var(--marine)}
+@media(min-width:601px){ .words.cast li > b:first-child{width:140px;white-space:nowrap} .words.cast li{padding-left:156px} }
+/* the two roads: pointing at one lights it toward the song, the composer or the performer leading */
+.roads-art .lit{fill:none;stroke:var(--marine);stroke-width:5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;transition:opacity .2s}
+.roads-art .lit.is-on{opacity:1}
+.roads-art .hit{fill:none;stroke:transparent;stroke-width:34;pointer-events:stroke;cursor:pointer}
+.roads-art .trav{opacity:0;color:#fff;pointer-events:none;transition:opacity .2s}
+.roads-art .trav circle{fill:var(--marine)}
+.roads-art .trav[data-who="mic"] circle{fill:var(--marine-deep)}
+.roads-art.is-going .trav{opacity:1}
+.roads-art.is-going .sign:not(.end){opacity:.35}
+.roads-art .sign{transition:opacity .2s,color .2s}
+.roads-art.is-arrived .sign.end{color:var(--marine)}
