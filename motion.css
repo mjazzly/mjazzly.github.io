@@ -878,10 +878,18 @@ section.film{padding:0;scroll-margin-top:58px}
 .map.flight .sky .cloud{stroke:var(--panel);stroke-width:12;stroke-linecap:round}
 .map.flight .sky .ground{stroke:var(--ink-faint);stroke-width:1.5}
 .map.flight .sky .route{stroke:var(--marine-tint-2);stroke-width:2;stroke-dasharray:1 7;stroke-linecap:round}
-.map.flight .plane{position:absolute;left:83.4%;top:22px;width:34px;height:34px;margin:-17px 0 0 -17px;color:var(--marine);transform:rotate(90deg);transition:left .9s cubic-bezier(.45,0,.25,1),top .9s cubic-bezier(.7,0,.3,1),transform .9s ease}
+.map.flight .plane{position:absolute;left:84%;top:22px;width:34px;height:34px;margin:-17px 0 0 -17px;color:var(--marine);transform:rotate(90deg);transition:left .9s cubic-bezier(.45,0,.25,1),top .9s cubic-bezier(.7,0,.3,1),transform .9s ease}
 .map.flight .plane .ic{width:34px;height:34px;display:block}
-.map.flight[data-at="1"] .plane{left:16.6%;top:78px}
-.map.flight[data-at="2"] .plane{left:50%;top:76px;transform:rotate(74deg)}
+/* nine posts: three on the stand, three towards the runway, then takeoff, above the clouds and on to the frequent flyer */
+.map.flight[data-at="1"] .plane{left:8%;top:78px}
+.map.flight[data-at="2"] .plane{left:16.6%;top:78px}
+.map.flight[data-at="3"] .plane{left:25%;top:78px}
+.map.flight[data-at="4"] .plane{left:41.6%;top:78px}
+.map.flight[data-at="5"] .plane{left:50%;top:78px}
+.map.flight[data-at="6"] .plane{left:58.4%;top:78px}
+.map.flight[data-at="7"] .plane{left:71.5%;top:52px;transform:rotate(62deg)}
+.map.flight[data-at="8"] .plane{left:84%;top:22px}
+.map.flight[data-at="9"] .plane{left:94%;top:22px}
 
 /* FRAME-01: each stage as a row on a departures board, filled in as the plane reaches it */
 .film .says.board{background:var(--marine-deep);border-radius:var(--radius);padding:8px;gap:4px}
@@ -890,9 +898,11 @@ section.film{padding:0;scroll-margin-top:58px}
 .board .say b,.board .say .lever b{color:#fff}
 .board .say .say-k{font-family:var(--sans);font-size:14.5px;font-weight:700;color:#fff;margin:0}
 .board .say .lever{padding:0;border:0}
-.is-stepping .board .say.is-later > :not(.say-k){visibility:hidden}
+.is-stepping .board .say.is-later > :not(.say-k){display:none}
 .is-stepping .board .say.is-later .say-k{color:rgba(255,255,255,.4)}
 .is-stepping .board .say.is-done{opacity:.55}
+/* a stage the plane has left folds down to its line on the board, so the board stays the height of one stage */
+.is-stepping .board .say.is-done > :not(.say-k){display:none}
 .is-stepping .board .say.is-now{background:rgba(255,255,255,.12)}
 
 /* FRAME-02: the song as a track, each part as wide as its share of the writing grade, a play head across it, the rhythm as a beat line under the whole length */
@@ -1095,7 +1105,6 @@ section.film{padding:0;scroll-margin-top:58px}
   .roads .lane{grid-template-columns:1fr;gap:8px}
   .roads .lane-k{justify-self:start;padding:5px 10px}
   .board .say{grid-template-columns:1fr;gap:4px}
-  .is-stepping .board .say.is-later > :not(.say-k){display:none}
   .ring-ex .controls{margin-top:14px}
 }
 @media(max-width:600px){
@@ -1115,8 +1124,6 @@ section.film{padding:0;scroll-margin-top:58px}
   .pass-stub::before{left:-10px}
   .pass-stub::after{left:auto;right:-10px}
   .map.flight{gap:6px}
-  .map.flight[data-at="1"] .plane{top:80px}
-  .map.flight[data-at="2"] .plane{top:79px}
   .map.flight .plane{width:28px;height:28px;margin:-14px 0 0 -14px}
   .map.flight .plane .ic{width:28px;height:28px}
   .film .map.flight .part{padding:10px 8px}
@@ -1158,4 +1165,79 @@ section.film{padding:0;scroll-margin-top:58px}
   .building .risers{grid-column:2}
   .tower .feet{grid-template-columns:118px repeat(4,1fr)}
   .film .tiles.sources{grid-template-columns:repeat(2,1fr)}
+}
+
+/* FRAME-01: the three posts inside each stage on the board; stepping lights the post the plane has reached */
+.film .posts-note{font-size:14px;line-height:1.55;color:var(--ink-soft);max-width:720px;margin:0 0 12px}
+.board .board-k{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1fr) minmax(0,1.25fr);gap:6px 22px;padding:6px 16px 2px;font-family:var(--mono);font-size:11.5px;color:rgba(255,255,255,.5)}
+.board .say .posts{grid-column:1 / -1;list-style:none;display:grid;gap:2px;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.12)}
+.board .post{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1fr) minmax(0,1.25fr);gap:4px 22px;margin:0 -8px;padding:7px 8px;border-radius:6px;font-size:13.5px;line-height:1.45;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background-color .2s,opacity .2s}
+.board .post .pn{color:#fff;display:flex;align-items:baseline;gap:8px}
+.board .post .pn::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;border:1.5px solid rgba(255,255,255,.6);transform:translateY(-1px)}
+.board .post .k{display:none}
+.board .post:hover{background:rgba(255,255,255,.08)}
+.is-stepping .board .post.is-now{background:rgba(255,255,255,.18)}
+.is-stepping .board .post.is-now .pn::before{background:#fff;border-color:#fff}
+.is-stepping .board .post.is-done .pn::before{background:rgba(255,255,255,.6)}
+.is-stepping .board .say.is-now .post.is-later{opacity:.5}
+
+/* the check-in desk: a sign over the counter, one question at a time, the pass printing out under it */
+.film .privacy{font-size:13.5px;color:var(--ink-faint);margin:-14px 0 22px}
+.desk{position:relative;background:var(--panel);border-radius:var(--radius);max-width:640px;overflow:hidden}
+.desk-sign{display:flex;align-items:center;gap:10px;background:var(--marine-deep);padding:10px 18px}
+.desk-sign .badge{background:rgba(255,255,255,.12);color:#fff}
+.desk-sign .sys-id{color:rgba(255,255,255,.8)}
+.desk-qs{list-style:none;display:grid;gap:22px;padding:22px 24px 6px}
+.desk-q[hidden]{display:none}
+.desk-q .ask{font-weight:700;font-size:19px;line-height:1.35;letter-spacing:-.01em;color:var(--ink);margin-bottom:12px}
+.desk .opts{list-style:none;display:grid;gap:6px}
+.desk .opts li{font-size:14.5px;color:var(--ink-soft);background:var(--paper);border-radius:10px;padding:10px 14px}
+.desk.is-asking .opts li{padding:0;background:none}
+.desk .opt{width:100%;text-align:left;font:600 15px/1.4 var(--sans);color:var(--ink);background:var(--paper);border:1.5px solid transparent;border-radius:10px;padding:13px 16px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background-color .15s,border-color .15s}
+.desk .opt:hover{background:var(--marine-tint)}
+.desk .opt:focus-visible{outline:none;border-color:var(--marine);background:var(--marine-tint)}
+.desk .key{font-size:13.5px;line-height:1.55;color:var(--ink-soft);padding:8px 24px 22px}
+.desk.is-asking .key{display:none}
+.desk .controls{padding:0 24px;margin:18px 0 24px}
+.desk .controls .again{flex-direction:row-reverse}
+.desk .controls .again .ic{display:none}
+.desk .controls [hidden]{display:none}
+.desk.is-done .desk-qs{display:none}
+.desk.is-asking::after{content:"";position:absolute;left:24px;right:24px;bottom:0;height:6px;border-radius:3px 3px 0 0;background:var(--marine-deep)}
+.film .print-slot{max-width:640px;padding:0 24px}
+.print-slot .pass.printed{margin:0;border-radius:0 0 12px 12px;animation:f-print .8s cubic-bezier(.2,.7,.3,1) both}
+@keyframes f-print{from{clip-path:inset(0 0 100% 0);transform:translateY(-30px)}to{clip-path:inset(0 0 0 0);transform:none}}
+.pass.printed .pass-k{display:block;font-family:var(--mono);font-size:12px;color:var(--ink-faint);margin-bottom:4px}
+.pass.printed .stage{font-weight:800;font-size:21px;line-height:1.25;letter-spacing:-.02em;color:var(--marine);margin-bottom:10px}
+.pass.printed .lever{font-size:14.5px;line-height:1.55;color:var(--ink-soft);margin-bottom:12px}
+.pass.printed .to-flight{font-weight:600;font-size:14px}
+
+/* what the shape tells you: a small drawing of where people stand across the nine posts, no numbers */
+.shape-shot .lead{max-width:700px}
+.lead.count-k{margin-bottom:30px}
+.lead.shape-k{margin-bottom:14px}
+.shape{list-style:none;display:grid;gap:12px;max-width:760px}
+.shape li{display:grid;grid-template-columns:118px minmax(0,1fr);gap:18px;align-items:center;font-size:15px;line-height:1.55;color:var(--ink-soft)}
+.spark{position:relative;display:flex;align-items:flex-end;gap:3px;height:48px;padding:8px 10px;background:var(--panel);border-radius:8px}
+.spark i{flex:1;border-radius:2px 2px 0 0;background:var(--marine)}
+.spark .h0{height:2px;background:var(--marine-tint-2)}
+.spark .h1{height:22%}.spark .h2{height:44%}.spark .h3{height:70%}.spark .h4{height:100%}
+.spark.again .was,.spark.again .now{position:absolute;left:10px;right:10px;top:8px;bottom:8px;display:flex;align-items:flex-end;gap:3px}
+.spark.again .was i{background:var(--marine-tint-2)}
+.spark.again .now i{background:none;border:1.5px solid var(--marine);border-bottom:0}
+
+@media(max-width:860px){
+  .board .board-k{display:none}
+  .board .post{grid-template-columns:1fr;gap:2px}
+  .board .post .k{display:block;font-family:var(--mono);font-style:normal;font-size:11px;color:rgba(255,255,255,.5);margin-top:4px}
+}
+@media(max-width:600px){
+  .desk-qs{padding:18px 18px 4px}
+  .desk .controls{padding:0 18px}
+  .desk .key{padding:8px 18px 18px}
+  .desk-q .ask{font-size:17.5px}
+  .film .print-slot{padding:0 12px}
+  .shape li{grid-template-columns:84px minmax(0,1fr);gap:14px;font-size:14.5px}
+  .spark{height:40px;padding:6px 7px;gap:2px}
+  .spark.again .was,.spark.again .now{left:7px;right:7px;top:6px;bottom:6px;gap:2px}
 }

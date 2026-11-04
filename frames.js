@@ -47,7 +47,10 @@
     var map = box.querySelector(".map") || box;
     var board = list && list.classList.contains("board");
     var first = box.hasAttribute("data-start") ? +box.getAttribute("data-start") : 1;
-    var n = parts.length, now = first;
+    // a part or a say may cover several steps (a stage on FRAME-01 holds three posts): data-step is its first, data-last its last
+    function from(e) { return +e.getAttribute("data-step"); }
+    function to(e) { return +(e.getAttribute("data-last") || e.getAttribute("data-step")); }
+    var n = parts.reduce(function (m, p) { return Math.max(m, to(p)); }, 0), now = first;
     if (!n) return;
 
     var head = map.querySelector(".head");
@@ -59,13 +62,15 @@
     var count = el("span", "count");
     count.setAttribute("aria-live", "polite");
     controls.appendChild(back); controls.appendChild(next); controls.appendChild(count);
-    if (list) list.parentNode.insertBefore(controls, list);
+    var mapEl = box.querySelector(".map");
+    if (mapEl) mapEl.parentNode.insertBefore(controls, mapEl.nextSibling);
+    else if (list) list.parentNode.insertBefore(controls, list);
     else box.appendChild(controls);
 
     // the play head on FRAME-02 sits at the end of the part being played; the rhythm runs the whole length
     function placeHead() {
       if (!head) return;
-      var cur = parts.filter(function (p) { return +p.getAttribute("data-step") === now; })[0];
+      var cur = parts.filter(function (p) { return from(p) === now; })[0];
       var m = map.getBoundingClientRect();
       var x = cur.classList.contains("rhythm") ? m.width - 16 : cur.getBoundingClientRect().right - m.left + 1.5;
       map.style.setProperty("--head", x + "px");
@@ -75,20 +80,21 @@
       now = k;
       map.setAttribute("data-at", k);
       says.forEach(function (s) {
-        var j = +s.getAttribute("data-step");
+        var on = from(s) <= k && k <= to(s);
         if (board) {
-          s.classList.toggle("is-now", j === k);
-          s.classList.toggle("is-done", j < k);
-          s.classList.toggle("is-later", j > k);
+          s.classList.toggle("is-now", on);
+          s.classList.toggle("is-done", to(s) < k);
+          s.classList.toggle("is-later", from(s) > k);
         } else {
-          s.hidden = j !== k;
+          s.hidden = !on;
         }
       });
       parts.forEach(function (p) {
-        var j = +p.getAttribute("data-step");
-        p.classList.toggle("is-now", j === k);
-        p.classList.toggle("is-done", j < k);
-        if (j === k) p.setAttribute("aria-current", "step"); else p.removeAttribute("aria-current");
+        var on = from(p) <= k && k <= to(p);
+        p.classList.toggle("is-now", on);
+        p.classList.toggle("is-done", to(p) < k);
+        p.classList.toggle("is-later", from(p) > k);
+        if (on) p.setAttribute("aria-current", "step"); else p.removeAttribute("aria-current");
       });
       lit.forEach(function (t) {
         t.classList.toggle("is-on", t.getAttribute("data-on").split(" ").indexOf(String(k)) > -1);
@@ -105,8 +111,8 @@
     parts.forEach(function (p) {
       p.addEventListener("click", function (e) {
         e.preventDefault();
-        go(+p.getAttribute("data-step"));
-        var say = says.filter(function (s) { return !s.hidden && +s.getAttribute("data-step") === now; })[0];
+        go(from(p));
+        var say = says.filter(function (s) { return !s.hidden && from(s) <= now && now <= to(s); })[0];
         if (say && say.getBoundingClientRect().bottom > window.innerHeight) {
           say.scrollIntoView({ block: "nearest", behavior: calm.matches ? "auto" : "smooth" });
         }
@@ -126,6 +132,84 @@
     };
     box.classList.add("is-stepping");
     go(first);
+  });
+
+  // ---------- the check-in desk on FRAME-01 ----------
+  // Five questions, one at a time; each answer counts toward a stage, the most
+  // common wins and a tie goes to the earlier stage. "No, or not yet" to the
+  // first question is no ticket, so the pass prints at once. The pass carries
+  // the stage line and the lever from the departures board, word for word.
+  // Answers live in this script only: nothing is sent or stored.
+  all("[data-checkin]").forEach(function (desk) {
+    var qs = all(".desk-q", desk);
+    var tpl = desk.querySelector("template[data-pass]");
+    var flight = document.querySelector("#frame-01 [data-stepper]");
+    var ORDER = ["ground", "gate", "air"];
+    var ROW = { ground: "f1-1", gate: "f1-2", air: "f1-3" };
+    var answers = [], at = 0;
+
+    var count = el("span", "count");
+    count.setAttribute("aria-live", "polite");
+    var back = button("Back", "back");
+    var again = button("Check in again", "again");
+    var foot = el("div", "controls");
+    foot.appendChild(back); foot.appendChild(again); foot.appendChild(count);
+    var slot = el("div", "print-slot");
+    desk.appendChild(foot);
+    desk.parentNode.insertBefore(slot, desk.nextSibling);
+
+    qs.forEach(function (q, i) {
+      all(".opts li", q).forEach(function (li) {
+        var b = el("button", "opt", li.innerHTML);
+        b.type = "button";
+        li.innerHTML = "";
+        li.appendChild(b);
+        b.addEventListener("click", function () {
+          answers[i] = li.getAttribute("data-to");
+          if (answers[i] === "none" || i === qs.length - 1) show(-1);
+          else show(i + 1);
+        });
+      });
+    });
+
+    function stage() {
+      if (answers[0] === "none") return "ground";
+      var tally = { ground: 0, gate: 0, air: 0 };
+      answers.forEach(function (a) { if (tally[a] !== undefined) tally[a]++; });
+      return ORDER.reduce(function (best, s) { return tally[s] > tally[best] ? s : best; }, "ground");
+    }
+
+    function print() {
+      var s = stage(), row = document.getElementById(ROW[s]);
+      var pass = tpl.content.firstElementChild.cloneNode(true);
+      pass.querySelector(".stage").textContent = row.querySelector(".say-k").textContent;
+      pass.querySelector(".lever").innerHTML = row.querySelector(".lever").innerHTML;
+      pass.querySelector(".to-flight").addEventListener("click", function () {
+        if (flight && flight.stepper) flight.stepper.go(+row.getAttribute("data-step"));
+      });
+      slot.innerHTML = "";
+      slot.appendChild(pass);
+    }
+
+    // k is the question on show; -1 is the printed pass
+    function show(k) {
+      if (k >= 0) answers.length = k;
+      at = k;
+      qs.forEach(function (q, i) { q.hidden = i !== k; });
+      desk.classList.toggle("is-done", k < 0);
+      if (k < 0) print(); else slot.innerHTML = "";
+      count.textContent = k < 0 ? "" : "Question " + (k + 1) + " of " + qs.length;
+      back.disabled = k === 0;
+      again.hidden = k >= 0;
+    }
+    back.addEventListener("click", function () {
+      if (at < 0) show(answers[0] === "none" ? 0 : answers.length - 1);
+      else if (at > 0) show(at - 1);
+    });
+    again.addEventListener("click", function () { show(0); });
+
+    desk.classList.add("is-asking");
+    show(0);
   });
 
   // ---------- the strip of film at the top of the window ----------
