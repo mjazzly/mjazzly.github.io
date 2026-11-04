@@ -775,3 +775,107 @@ html.js nav.top .shelf.is-open .go:nth-child(4){animation-delay:.09s}
 .hero-note{font-size:14px;color:var(--ink-faint);margin-top:10px;max-width:620px}
 .work .case-body > p.task{font-size:15.5px;line-height:1.65;color:var(--ink-soft);max-width:760px;margin:20px 0 22px}
 .work .case-body > p.task b{color:var(--ink)}
+
+/* ---------- Frames page: four frameworks, each drawing stepped through one part at a time ----------
+   The words for every step sit in the page; frames.js shows one at a time,
+   lights its part (the parts before it read as done) and adds Back and Next.
+   Without JavaScript every step shows as a list. Nothing moves on its own. */
+.tiles.entries.frames{grid-template-columns:repeat(4,1fr);margin:-12px 0 8px}
+.stepper{margin-bottom:14px}
+.stepper .map{margin-bottom:18px}
+.map .part{display:flex;flex-direction:column;align-items:flex-start;gap:6px;background:var(--paper);border:1.5px solid transparent;border-radius:var(--radius-s);padding:12px 14px;color:inherit;-webkit-tap-highlight-color:transparent;transition:background-color .15s,border-color .15s}
+.map .part:hover{background:var(--marine-tint);border-color:transparent}
+.map .part .pn{font-weight:700;font-size:14px;line-height:1.3;color:var(--ink)}
+.map .part .ps{font-size:12.5px;line-height:1.4;color:var(--ink-soft)}
+.map .part .no{font-family:var(--mono);font-size:11.5px;color:var(--amber)}
+.map .part .stop-note{font-size:11.5px;font-weight:700;line-height:1.3;color:var(--amber)}
+.map .part.is-now,.map .part.is-now:hover{border-color:var(--marine);background:var(--marine-tint)}
+.map .part.is-now .badge{background:var(--marine);color:#fff}
+.map .part.is-done .pn{color:var(--marine)}
+/* the gates, and only the gates, sit in amber */
+.map .part.gate{background:var(--amber-tint)}
+.map .part.gate.is-now,.map .part.gate.is-now:hover{border-color:var(--amber);background:var(--amber-tint)}
+.map .part.gate.is-done .pn{color:var(--ink)}
+
+/* FRAME-01: three stages rising left to right, off a dashed ground line */
+.map.flight{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:end;position:relative;padding-bottom:12px}
+.map.flight::after{content:"";position:absolute;left:0;right:0;bottom:0;border-top:1.5px dashed var(--line)}
+.map.flight .part:nth-child(2){margin-bottom:22px}
+.map.flight .part:nth-child(3){margin-bottom:44px}
+/* FRAME-02: the song bar, each part as wide as its share of the writing grade, the rhythm under the whole length */
+.map.song .song-bar{display:grid;grid-template-columns:minmax(max-content,10fr) minmax(max-content,20fr) minmax(max-content,15fr) minmax(max-content,25fr) minmax(max-content,10fr);gap:4px}
+.map.song .seg{padding:12px 12px 10px;gap:4px}
+.map.song .pts{font-family:var(--mono);font-size:12px;color:var(--marine)}
+.map.song .rhythm{flex-direction:row;justify-content:space-between;align-items:center;margin-top:4px;width:100%}
+/* FRAME-02: the loop */
+.map.loop{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:10px}
+.stepper .loop-back{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-faint);margin-bottom:18px}
+.stepper .loop-back .ic{width:16px;height:16px;color:var(--marine)}
+/* FRAME-03: three lanes, steps across */
+.map.lanes{display:grid;gap:6px}
+.map.lanes .lane{display:grid;grid-template-columns:58px 1fr;gap:10px;background:var(--paper);border-radius:var(--radius-s);padding:8px}
+.map.lanes .lane-k{font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);align-self:center;padding-left:4px}
+.map.lanes .nodes{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.map.lanes .part{background:var(--panel);padding:9px 10px;gap:3px}
+.map.lanes .part .pn{font-size:13px}
+.map.lanes .part.gate{background:var(--amber-tint)}
+/* FRAME-04: four stages */
+.map.stages{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+
+/* the words for each step */
+.says{list-style:none;display:grid;gap:8px}
+.say{background:var(--paper);border-radius:var(--radius-s);padding:16px 20px;font-size:15px;line-height:1.55;color:var(--ink-soft)}
+.say[hidden]{display:none}
+.say p + p,.say p + ul,.say ul + p{margin-top:8px}
+.say .say-k{font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);margin-bottom:6px}
+.say .lever{padding-top:8px;border-top:1px solid var(--line)}
+.say .q{font-weight:700;font-size:16px;color:var(--ink)}
+.say .measures{padding-left:20px}
+.say .measures li + li{margin-top:2px}
+.say .from{font-size:13.5px;color:var(--ink-faint)}
+.say .verdicts{list-style:none;display:grid;gap:4px}
+.say .verdicts b{color:var(--amber)}
+.stepper .steps{margin-bottom:12px}
+.stepper .actions .count{font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);margin:0 0 0 auto}
+.stepper .actions .back{flex-direction:row-reverse;padding:10px 16px 10px 14px}
+.stepper .actions .back .ic{transform:rotate(90deg)}
+.stepper .actions .next .ic{transform:rotate(-90deg)}
+.stepper .actions .case-toggle[disabled]{opacity:.45;cursor:default;background:var(--marine-tint);color:var(--marine)}
+
+/* the pieces around the drawings */
+.lead.cast-k{margin:26px 0 12px}
+.words.cast{margin-bottom:4px}
+.lead.roads{margin:12px 0 22px}
+.tiles.pair{grid-template-columns:repeat(2,1fr);margin-bottom:14px}
+.tiles.pair .basis + .basis{margin-top:8px}
+.tiles.pair .cases{list-style:none;display:flex;flex-wrap:wrap;gap:4px;margin:12px 0}
+.tiles.pair .cases li{font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:7px;background:var(--marine-tint);color:var(--marine)}
+.tiles.pair .cases li.decline{background:var(--amber-tint);color:var(--amber)}
+.tiles.asks{margin-bottom:14px}
+.tiles.asks .tile .what{margin:0;font-size:15px}
+.tiles.sources .tile{transition:box-shadow .2s ease}
+.tiles.sources .tile.is-on{box-shadow:0 0 0 2px var(--marine)}
+.tiles.sources .tile.is-on .badge{background:var(--marine);color:#fff}
+.lead.after{margin:20px 0 0}
+.coda{font-size:17px;font-weight:600;color:var(--ink);letter-spacing:-.01em;max-width:620px;padding:8px 0 0}
+@media(max-width:860px){
+  .tiles.entries.frames{grid-template-columns:repeat(2,1fr)}
+  .map.loop{grid-template-columns:repeat(3,1fr)}
+  .map.lanes .lane{grid-template-columns:1fr;gap:6px}
+  .map.lanes .lane-k{padding:2px 4px 0}
+  .map.lanes .nodes{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:600px){
+  .tiles.entries.frames,.tiles.pair{grid-template-columns:1fr}
+  .tiles.four.asks{grid-template-columns:repeat(2,1fr)}
+  .map .part{padding:10px 10px}
+  .map.flight{gap:6px}
+  .map.flight .part:nth-child(2){margin-bottom:12px}
+  .map.flight .part:nth-child(3){margin-bottom:24px}
+  .map.flight .part .pn{font-size:13px}
+  .map.song .seg{padding:10px 6px 8px}
+  .map.song .seg .pn{font-size:12.5px}
+  .map.lanes .nodes,.map.stages{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .say{padding:14px 16px}
+  .stepper .actions .count{width:100%;margin:0}
+}

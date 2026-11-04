@@ -19,6 +19,7 @@ GROUPS = [
         ("operator.html", "Operator", "user",   "How I work, read through three assessments"),
         ("models.html",   "Models",   "repeat", "The five models I build by"),
         ("clarity.html",  "Clarity",  "zap",    "Four short games on working with AI"),
+        ("frames.html",   "Frames",   "frame",  "Four frameworks for AI at work"),
     ]),
     ("bookshelf", "Bookshelf", "book", "Ideas I keep, from other people and my own", [
         ("knowledge.html", "Knowledge", "bookmark", "Ideas worth keeping, learned from other people"),
@@ -34,7 +35,7 @@ HERE = {
     "output-06.html": "aiwork.html",
 }
 
-PAGES = ["index.html", "built.html", "aiwork.html", "clarity.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "output-06.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
+PAGES = ["index.html", "built.html", "aiwork.html", "clarity.html", "frames.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "output-06.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
 
 def ic(name, cls="ic"):
     return f'<svg class="{cls}" aria-hidden="true"><use href="#ic-{name}"/></svg>'

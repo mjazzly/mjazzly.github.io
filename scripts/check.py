@@ -4,7 +4,7 @@ Run from the repo root: python3 scripts/check.py
 """
 import re, sys, pathlib, html.parser, subprocess
 
-PAGES = ["index.html", "built.html", "aiwork.html", "clarity.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "output-06.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
+PAGES = ["index.html", "built.html", "aiwork.html", "clarity.html", "frames.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "output-06.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
 BANNED_WORDS = ["marketing", "enablement", "agentic", "FDE", "real users"]   # never on the site, in any case
 BANNED_CHARS = {"\u2014": "em dash", "\u2013": "en dash"}
 failures = []
@@ -53,7 +53,7 @@ for page in PAGES:
         failures.append(f"{page}: shelves are {shelves}, run scripts/nav.py")
     navm = re.search(r'<nav class="top.*?</nav>', src, re.S)
     order = re.findall(r'class="go" href="([^"]+)"', navm.group(0)) if navm else []
-    want = ["aiwork.html", "casefiles.html", "built.html", "index.html#systems", "operator.html", "models.html", "clarity.html", "knowledge.html", "chapters.html"]
+    want = ["aiwork.html", "casefiles.html", "built.html", "index.html#systems", "operator.html", "models.html", "clarity.html", "frames.html", "knowledge.html", "chapters.html"]
     if order != want:
         failures.append(f"{page}: nav pages are {order}, run scripts/nav.py")
 

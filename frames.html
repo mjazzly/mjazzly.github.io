@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261031e"><link rel="stylesheet" href="motion.css?v=20261104"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
+<title>Frames | Megat Jazly</title>
+<meta name="description" content="Four frameworks for AI at work: how people come on board, how a prompt is built, how a request becomes a prompt that holds up, and how to tell whether it is working."><meta property="og:type" content="website"><meta property="og:site_name" content="Megat Jazly"><meta property="og:title" content="Frames | Megat Jazly"><meta property="og:description" content="Four frameworks for AI at work: how people come on board, how a prompt is built, how a request becomes a prompt that holds up, and how to tell whether it is working."><meta property="og:url" content="https://mjazzly.github.io/frames.html"><meta property="og:image" content="https://mjazzly.github.io/preview.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+<!--ICONS-->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+<symbol id="ic-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></symbol>
+<symbol id="ic-briefcase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1.5 1.5 0 011.5-1.5h3A1.5 1.5 0 0115 5v2"/><path d="M3 12h18"/></symbol>
+<symbol id="ic-circle-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></symbol>
+<symbol id="ic-hash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h14M5 15h14M10 4l-2 16M16 4l-2 16"/></symbol>
+<symbol id="ic-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></symbol>
+<symbol id="ic-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="ic-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a1 1 0 00-1 1v16a1 1 0 001 1h10a1 1 0 001-1V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></symbol>
+<symbol id="ic-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l8 4-8 4-8-4z"/><path d="M4 12l8 4 8-4"/><path d="M4 16l8 4 8-4"/></symbol>
+<symbol id="ic-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6l-5 9a1.5 1.5 0 001.3 2.2h11.4A1.5 1.5 0 0019 18l-5-9V3"/><path d="M7.5 15h9"/></symbol>
+<symbol id="ic-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5"/><path d="M12 12v9"/></symbol>
+<symbol id="ic-funnel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16l-6 7v6l-4 2v-8z"/></symbol>
+<symbol id="ic-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M7 16v-5M12 16V7M17 16v-9"/></symbol>
+<symbol id="ic-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 10h4v4h-4z"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4M7 4v3M17 4v3M7 17v3M17 17v3"/></symbol>
+<symbol id="ic-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/></symbol>
+<symbol id="ic-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></symbol>
+<symbol id="ic-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.5"/><path d="M8.5 13.5L7 21l5-2.5 5 2.5-1.5-7.5"/></symbol>
+<symbol id="ic-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></symbol>
+<symbol id="ic-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
+<symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+<symbol id="ic-puzzle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4a2 2 0 014 0v1h3a1 1 0 011 1v3h1a2 2 0 010 4h-1v3a1 1 0 01-1 1h-3v1a2 2 0 01-4 0v-1H7a1 1 0 01-1-1v-3H5a2 2 0 010-4h1V6a1 1 0 011-1h3z"/></symbol>
+<symbol id="ic-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1 1 0 011-1h5l2 2h9a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1z"/></symbol>
+<symbol id="ic-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4.5a5 5 0 00-5.5 6.8L4 16.3V20h3.7l5-5a5 5 0 006.8-5.5l-3 3-3-3z"/></symbol>
+<symbol id="ic-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+<symbol id="ic-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="12" height="16" rx="1.5"/><path d="M9 5a1.5 1.5 0 013 0h0a1.5 1.5 0 013 0"/><path d="M9 14l2 2 4-4"/></symbol>
+<symbol id="ic-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H9l-5 4z"/></symbol>
+<symbol id="ic-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></symbol>
+<symbol id="ic-server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="6" rx="1.5"/><rect x="4" y="14" width="16" height="6" rx="1.5"/><path d="M8 7h.01M8 17h.01"/></symbol>
+<symbol id="ic-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 17h2"/></symbol>
+<symbol id="ic-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V6a1.5 1.5 0 013 0v6M11 11V4.5a1.5 1.5 0 013 0V11M14 11V6a1.5 1.5 0 013 0v8a6 6 0 01-6 6h-1a6 6 0 01-5.4-3.4L3.3 12a1.5 1.5 0 012.5-1.6L8 13"/></symbol>
+<symbol id="ic-stop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></symbol>
+<symbol id="ic-table" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3 10h18M9 10v9M15 10v9"/></symbol>
+<symbol id="ic-ticket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 002 2 2 2 0 010 4 2 2 0 00-2 2v2h16v-2a2 2 0 01-2-2 2 2 0 010-4 2 2 0 002-2V6H4z"/><path d="M12 6v12"/></symbol>
+<symbol id="ic-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M8 13a5 5 0 118 0c-1 1-1.5 2-1.5 3h-5c0-1-.5-2-1.5-3z"/></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7h11M9 12h11M9 17h11"/><path d="M4 7l1 1 2-2M4 12l1 1 2-2M4 17l1 1 2-2"/></symbol>
+<symbol id="ic-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 012-2h5v17H6a2 2 0 01-2-2z"/><path d="M20 5a2 2 0 00-2-2h-5v17h5a2 2 0 002-2z"/></symbol>
+<symbol id="ic-stairs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4v-4h4v-4h4V8h4"/></symbol>
+<symbol id="ic-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></symbol>
+<symbol id="ic-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9L3.5 9.7l5.9-.8z"/></symbol>
+<symbol id="ic-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 010 7M21.5 20c0-3-2-4.8-4.5-5.3"/></symbol>
+<symbol id="ic-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/></symbol>
+<symbol id="ic-wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/></symbol>
+<symbol id="ic-sprout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9"/><path d="M12 12c0-4-3-6-7-6 0 4 3 6 7 6z"/><path d="M12 10c0-3.5 2.5-5.5 6.5-5.5 0 3.5-2.5 5.5-6.5 5.5z"/></symbol>
+<symbol id="ic-repeat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l3 3-3 3"/><path d="M20 6H8a4 4 0 00-4 4v1"/><path d="M7 21l-3-3 3-3"/><path d="M4 18h12a4 4 0 004-4v-1"/></symbol>
+<symbol id="ic-bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4a1 1 0 011-1h10a1 1 0 011 1v17l-6-4-6 4z"/></symbol>
+<symbol id="ic-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8.5v7M8.5 12h7"/></symbol>
+<symbol id="ic-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/></symbol>
+<symbol id="ic-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
+<symbol id="ic-frame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 011-1h3M16 4h3a1 1 0 011 1v3M20 16v3a1 1 0 01-1 1h-3M8 20H5a1 1 0 01-1-1v-3"/><rect x="9" y="9" width="6" height="6" rx="1"/></symbol>
+<symbol id="ic-plane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 3.5a1.5 1.5 0 013 0V9l7 4v2l-7-2v4.5l2 1.5v1.5L12 19.5 8.5 20.5V19l2-1.5V13l-7 2v-2l7-4z"/></symbol>
+<symbol id="ic-music" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></symbol>
+</svg>
+<!--/ICONS-->
+<nav class="top" aria-label="Site"><div class="wrap">
+  <a class="brand" href="index.html"><span class="seam silver" aria-hidden="true"></span><span class="brand-name">Megat Jazly</span><span class="seam" aria-hidden="true"></span></a>
+  <div class="shelves">
+    <details class="shelf" data-shelf="craft">
+      <summary aria-controls="menu-craft">Craft<svg class="ic chev" aria-hidden="true"><use href="#ic-chevron"/></svg></summary>
+      <div class="menu" id="menu-craft"><div class="wrap"><div class="menu-card">
+        <div class="menu-head"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-wrench"/></svg></span><span><b>Craft</b><span class="menu-line">What I have made, and the test record behind each piece</span></span></div>
+        <div class="menu-items">
+          <a class="go" href="aiwork.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-cpu"/></svg></span><span><b>AI Work</b><span class="go-line">Six AI systems, each with its test record</span></span></a>
+          <a class="go" href="casefiles.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-folder"/></svg></span><span><b>Case Files</b><span class="go-line">Three client systems, told end to end</span></span></a>
+          <a class="go" href="built.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-puzzle"/></svg></span><span><b>Built</b><span class="go-line">Everything built with Claude, from prompt to app</span></span></a>
+          <a class="go" href="index.html#systems"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-layers"/></svg></span><span><b>Systems</b><span class="go-line">The systems I run in client work, and my stack</span></span></a>
+        </div>
+      </div></div></div>
+    </details>
+    <details class="shelf active" data-shelf="compass">
+      <summary aria-controls="menu-compass">Compass<svg class="ic chev" aria-hidden="true"><use href="#ic-chevron"/></svg></summary>
+      <div class="menu" id="menu-compass"><div class="wrap"><div class="menu-card">
+        <div class="menu-head"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-compass"/></svg></span><span><b>Compass</b><span class="menu-line">How I think, decide and work</span></span></div>
+        <div class="menu-items">
+          <a class="go" href="operator.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-user"/></svg></span><span><b>Operator</b><span class="go-line">How I work, read through three assessments</span></span></a>
+          <a class="go" href="models.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-repeat"/></svg></span><span><b>Models</b><span class="go-line">The five models I build by</span></span></a>
+          <a class="go" href="clarity.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-zap"/></svg></span><span><b>Clarity</b><span class="go-line">Four short games on working with AI</span></span></a>
+          <a class="go" href="frames.html" aria-current="page"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-frame"/></svg></span><span><b>Frames</b><span class="go-line">Four frameworks for AI at work</span></span></a>
+        </div>
+      </div></div></div>
+    </details>
+    <details class="shelf" data-shelf="bookshelf">
+      <summary aria-controls="menu-bookshelf">Bookshelf<svg class="ic chev" aria-hidden="true"><use href="#ic-chevron"/></svg></summary>
+      <div class="menu" id="menu-bookshelf"><div class="wrap"><div class="menu-card">
+        <div class="menu-head"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-book"/></svg></span><span><b>Bookshelf</b><span class="menu-line">Ideas I keep, from other people and my own</span></span></div>
+        <div class="menu-items">
+          <a class="go" href="knowledge.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-bookmark"/></svg></span><span><b>Knowledge</b><span class="go-line">Ideas worth keeping, learned from other people</span></span></a>
+          <a class="go" href="chapters.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-sprout"/></svg></span><span><b>Chapters</b><span class="go-line">Lessons from the road, in my own words</span></span></a>
+        </div>
+      </div></div></div>
+    </details>
+  </div>
+</div></nav>
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">Frames <span class="dot">·</span> Four frameworks <span class="dot">·</span> AI at work</div>
+  <h1>Frames</h1>
+  <p class="thesis">Four frames I reach for when AI meets everyday work: <b>how people come on board, how a prompt is built, how a request becomes a prompt that holds up, and how to tell whether any of it is working.</b> Each one is yours to take: use it, adapt it, pass it on.</p>
+</header>
+
+<div class="tiles entries frames">
+  <a class="tile entry" href="#frame-01"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-plane"/></svg></span><span class="sys-id">FRAME-01</span><div class="what">The adoption flight</div><div class="basis">Getting people on board from wherever they stand, with one lever per stage.</div><div class="k">3 stages</div></a>
+  <a class="tile entry" href="#frame-02"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-music"/></svg></span><span class="sys-id">FRAME-02</span><div class="what">Before the words, the structure</div><div class="basis">A prompt built like a song: the shape first, then the words, rehearsed on five cases.</div><div class="k">6 parts, 6 steps</div></a>
+  <a class="tile entry" href="#frame-03"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-clipboard"/></svg></span><span class="sys-id">FRAME-03</span><div class="what">The brief before the prompt</div><div class="basis">Four questions in twenty seconds, then three lanes from a request to the library.</div><div class="k">13 steps, 2 gates</div></a>
+  <a class="tile entry" href="#frame-04"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-target"/></svg></span><span class="sys-id">FRAME-04</span><div class="what">How to tell a rollout is working</div><div class="basis">Four stages, each with one question and measures read from a named source.</div><div class="k">4 stages, 4 sources</div></a>
+</div>
+
+<section id="frame-01">
+  <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-plane"/></svg></span>The adoption flight</h2>
+  <p class="lead"><b>Adoption</b> (people taking a tool into the work they do every week) is a flight. A race is the wrong picture: a race has winners, and most people lose. <b>Everyone already has a ticket</b>, and the ticket is access: the tools are already there. <b>The destination is the same for everyone: better work.</b> The job is getting people on board from wherever they stand, and each stage has its own lever.</p>
+  <div class="ex stepper" data-stepper>
+    <div class="ex-head"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-stairs"/></svg></span><div class="sys-head"><span class="sys-id">FRAME-01 · Three stages, three levers</span></div></div>
+    <div class="map flight">
+      <a class="part" href="#f1-1" data-step="1"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-user"/></svg></span><span class="pn">On the ground</span><span class="ps">Not flying yet</span></a>
+      <a class="part" href="#f1-2" data-step="2"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-ticket"/></svg></span><span class="pn">At the gate</span><span class="ps">Ticket in hand</span></a>
+      <a class="part" href="#f1-3" data-step="3"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-users"/></svg></span><span class="pn">In the air</span><span class="ps">Using it every week</span></a>
+    </div>
+    <ol class="says">
+      <li class="say" id="f1-1" data-step="1"><p class="say-k">On the ground · Not flying yet</p><p>They have not started, or do not see the point.</p><p class="lever"><b>The lever: a plain-words reason to care, tied to their own work.</b> Show the twenty minutes it saves on a report they already write, not what the tool can do in general.</p></li>
+      <li class="say" id="f1-2" data-step="2"><p class="say-k">At the gate · Ticket in hand</p><p>They have access, but do not know which tool or which <b>tested prompt</b> to reach for. A tested prompt is a written request that has been checked against cases before anyone relies on it.</p><p class="lever"><b>The lever: a first win, and a library they can search.</b> The <b>library</b> is the one shared place where tested prompts are kept.</p></li>
+      <li class="say" id="f1-3" data-step="3"><p class="say-k">In the air · Using it well every week</p><p>They reach for it without being reminded, on work that matters to them.</p><p class="lever"><b>The lever: they become the advocates</b>, the colleagues others ask first, <b>and their work seeds the next tested prompts.</b></p></li>
+    </ol>
+  </div>
+</section>
+
+<section id="frame-02">
+  <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-music"/></svg></span>Before the words, the structure</h2>
+  <p class="lead">A song is recognised by its shape long before the words arrive. <b>A prompt that works is written the same way: the structure is fixed first, and the person using it brings the words.</b> A <b>prompt</b> is the request as written to an AI assistant.</p>
+  <div class="ex stepper" data-stepper>
+    <div class="ex-head"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-layers"/></svg></span><div class="sys-head"><span class="sys-id">FRAME-02 · The song bar, and each part's share of the writing grade</span></div></div>
+    <div class="map song">
+      <div class="song-bar">
+        <a class="part seg" href="#f2-1" data-step="1"><span class="pn">Key</span><span class="pts">10</span></a>
+        <a class="part seg" href="#f2-2" data-step="2"><span class="pn">Intro</span><span class="pts">20</span></a>
+        <a class="part seg" href="#f2-3" data-step="3"><span class="pn">Verse</span><span class="pts">15</span></a>
+        <a class="part seg" href="#f2-4" data-step="4"><span class="pn">Chorus</span><span class="pts">25</span></a>
+        <a class="part seg" href="#f2-5" data-step="5"><span class="pn">Outro</span><span class="pts">10</span></a>
+      </div>
+      <a class="part seg rhythm" href="#f2-6" data-step="6"><span class="pn">Rhythm, the whole length</span><span class="pts">20</span></a>
+    </div>
+    <ol class="says">
+      <li class="say" id="f2-1" data-step="1"><p class="say-k">Key and instruments · Set before it all</p><p><b>The inputs and the tools</b> it works with: what the person brings, and what the prompt may use.</p><p class="lever">10 of the 100 points on the writing grade.</p></li>
+      <li class="say" id="f2-2" data-step="2"><p class="say-k">Intro · Role and task</p><p><b>Who it is, who it writes for, and what it is for.</b></p><p class="lever">20 of the 100 points on the writing grade.</p></li>
+      <li class="say" id="f2-3" data-step="3"><p class="say-k">Verse · The process</p><p><b>The steps, numbered</b>, in the order they are done.</p><p class="lever">15 of the 100 points on the writing grade.</p></li>
+      <li class="say" id="f2-4" data-step="4"><p class="say-k">Chorus · The output</p><p><b>Form, length and shape, with one worked example</b>, so the answer comes back the same way every time.</p><p class="lever">25 of the 100 points on the writing grade: the largest share.</p></li>
+      <li class="say" id="f2-5" data-step="5"><p class="say-k">Outro · The stop condition</p><p><b>What it declines, when it asks instead of guessing, and where it hands back to a person.</b></p><p class="lever">10 of the 100 points on the writing grade.</p></li>
+      <li class="say" id="f2-6" data-step="6"><p class="say-k">Rhythm · Running the whole length</p><p><b>The rules and the style</b>, kept from the first line to the last.</p><p class="lever">20 of the 100 points on the writing grade.</p></li>
+    </ol>
+  </div>
+
+  <p class="lead cast-k"><b>The cast.</b></p>
+  <ul class="words cast">
+    <li><b>The composer</b> writes the structure and is rarely heard on the recording.</li>
+    <li><b>The performer</b> uses it, and <b>the credit stays with them</b>.</li>
+    <li><b>The words</b> are the performer's own content.</li>
+    <li><b>The sheet</b> is one tested structure anyone can pick up and play.</li>
+    <li><b>The repertoire</b> is the library, where good songs become the foundation of the next.</li>
+  </ul>
+  <p class="lead roads"><b>Two ways a song gets written.</b> The composer starts with the structure and the performer adds the words, or the performer arrives with a half-written prompt and the composer builds the structure around it. <b>Both roads end at the same song.</b></p>
+
+  <div class="tiles pair">
+    <div class="tile">
+      <span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-flask"/></svg></span>
+      <div class="what">The rehearsal</div>
+      <p class="basis">Nobody can hear a prompt's output, so every sheet is rehearsed on <b>five cases written first</b>: three ordinary, one <b>edge case</b> (unusual but fair), and one it should <b>decline</b>.</p>
+      <ul class="cases" aria-label="The five cases">
+        <li>Ordinary</li><li>Ordinary</li><li>Ordinary</li><li>Edge</li><li class="decline">Decline</li>
+      </ul>
+      <p class="basis"><b>It passes when four of five match and it declines the one it should.</b></p>
+    </div>
+    <div class="tile">
+      <span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-award"/></svg></span>
+      <div class="what">Keeping score</div>
+      <p class="basis"><b>Writing grade, out of 100</b>, read off the song bar above. <b>Below 60, rewrite before testing.</b></p>
+      <p class="basis"><b>Output grade, out of 100: quality 60, speed 20, cost 20</b>, on the smallest model that passed. A <b>model</b> is the AI system that runs the prompt; smaller ones are quicker and cost less.</p>
+    </div>
+  </div>
+
+  <div class="ex stepper" data-stepper>
+    <div class="ex-head"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-repeat"/></svg></span><div class="sys-head"><span class="sys-id">FRAME-02 · The loop</span></div></div>
+    <div class="map loop">
+      <a class="part" href="#f2l-1" data-step="1"><span class="no">01</span><span class="pn">Write</span></a>
+      <a class="part" href="#f2l-2" data-step="2"><span class="no">02</span><span class="pn">Grade the sheet</span></a>
+      <a class="part" href="#f2l-3" data-step="3"><span class="no">03</span><span class="pn">Rehearse</span></a>
+      <a class="part" href="#f2l-4" data-step="4"><span class="no">04</span><span class="pn">Grade the performance</span></a>
+      <a class="part" href="#f2l-5" data-step="5"><span class="no">05</span><span class="pn">Verdict</span></a>
+      <a class="part" href="#f2l-6" data-step="6"><span class="no">06</span><span class="pn">Reuse</span></a>
+    </div>
+    <p class="loop-back"><svg class="ic" aria-hidden="true"><use href="#ic-repeat"/></svg>Where it breaks in use, the next version starts back at Write.</p>
+    <ol class="says">
+      <li class="say" id="f2l-1" data-step="1"><p class="say-k">01 · Write</p><p><b>Write the sheet</b>: the structure first, in the order of the song bar.</p></li>
+      <li class="say" id="f2l-2" data-step="2"><p class="say-k">02 · Grade the sheet</p><p><b>Score the writing out of 100</b> against the song bar. Below 60, it goes back to be rewritten before any test.</p></li>
+      <li class="say" id="f2l-3" data-step="3"><p class="say-k">03 · Rehearse</p><p><b>Run it on the five cases written first</b>: three ordinary, one edge, one it should decline.</p></li>
+      <li class="say" id="f2l-4" data-step="4"><p class="say-k">04 · Grade the performance</p><p><b>Score the output out of 100</b>: quality 60, speed 20, cost 20, on the smallest model that passed.</p></li>
+      <li class="say" id="f2l-5" data-step="5"><p class="say-k">05 · Verdict</p><ul class="verdicts"><li><b>Ready</b> enters the repertoire.</li><li><b>Refine</b> gets a small fix and is rehearsed again.</li><li><b>Rewrite</b> means the structure is wrong, so it goes back to Write.</li><li><b>Retire</b> means it is no longer needed, or a better sheet covers it.</li></ul></li>
+      <li class="say" id="f2l-6" data-step="6"><p class="say-k">06 · Reuse</p><p><b>Anyone can pick the sheet up and play it.</b> Where it breaks in use, the break starts the next version.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section id="frame-03">
+  <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-clipboard"/></svg></span>The brief before the prompt</h2>
+  <p class="lead">Most weak prompts are weak briefs. A <b>brief</b> is the short written account of what is wanted, set down before any prompt. <b>Before touching any tool, answer four questions in twenty seconds.</b></p>
+  <div class="tiles four asks">
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-user"/></svg></span><div class="what">Who reads this?</div></div>
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-shield"/></svg></span><div class="what">What must it never contain?</div></div>
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-grid"/></svg></span><div class="what">What shape does it come back in?</div></div>
+    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-stop"/></svg></span><div class="what">Where does it stop?</div></div>
+  </div>
+  <div class="ex stepper" data-stepper>
+    <div class="ex-head"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-funnel"/></svg></span><div class="sys-head"><span class="sys-id">FRAME-03 · Three lanes, two gates</span></div></div>
+    <div class="map lanes">
+      <div class="lane"><span class="lane-k">Ask</span><div class="nodes">
+        <a class="part" href="#f3-1" data-step="1"><span class="no">01</span><span class="pn">Request received</span></a>
+        <a class="part" href="#f3-2" data-step="2"><span class="no">02</span><span class="pn">Objective in one line</span></a>
+        <a class="part" href="#f3-3" data-step="3"><span class="no">03</span><span class="pn">Done before?</span><span class="stop-note">yes: reuse, stop</span></a>
+        <a class="part" href="#f3-4" data-step="4"><span class="no">04</span><span class="pn">Recurring or one-off</span></a>
+        <a class="part" href="#f3-5" data-step="5"><span class="no">05</span><span class="pn">Shape decided</span></a>
+        <a class="part" href="#f3-6" data-step="6"><span class="no">06</span><span class="pn">Data rule checked</span></a>
+      </div></div>
+      <div class="lane"><span class="lane-k">Build</span><div class="nodes">
+        <a class="part" href="#f3-7" data-step="7"><span class="no">07</span><span class="pn">Brief filled</span></a>
+        <a class="part" href="#f3-8" data-step="8"><span class="no">08</span><span class="pn">Prompt assembled</span></a>
+        <a class="part" href="#f3-9" data-step="9"><span class="no">09</span><span class="pn">First run</span></a>
+        <a class="part" href="#f3-10" data-step="10"><span class="no">10</span><span class="pn">Read for faults</span></a>
+      </div></div>
+      <div class="lane"><span class="lane-k">Prove</span><div class="nodes">
+        <a class="part gate" href="#f3-11" data-step="11"><span class="no">11</span><span class="pn">Draft gate</span><span class="stop-note">2 cases</span></a>
+        <a class="part gate" href="#f3-12" data-step="12"><span class="no">12</span><span class="pn">Library gate</span><span class="stop-note">5 cases, 4 pass</span></a>
+        <a class="part" href="#f3-13" data-step="13"><span class="no">13</span><span class="pn">A failure routes back</span></a>
+      </div></div>
+    </div>
+    <ol class="says">
+      <li class="say" id="f3-1" data-step="1"><p class="say-k">Ask · 01 · Request received</p><p><b>Taken down in the words it arrived in</b>, before anyone decides what it means.</p></li>
+      <li class="say" id="f3-2" data-step="2"><p class="say-k">Ask · 02 · Objective in one line</p><p><b>What it is for, in a single sentence.</b> If it will not fit in one line, it is two requests.</p></li>
+      <li class="say" id="f3-3" data-step="3"><p class="say-k">Ask · 03 · Done before?</p><p><b>If yes, reuse what exists, and stop.</b></p></li>
+      <li class="say" id="f3-4" data-step="4"><p class="say-k">Ask · 04 · Recurring or one-off</p><p><b>Recurring work is worth a sheet in the library.</b> A one-off needs only a good brief.</p></li>
+      <li class="say" id="f3-5" data-step="5"><p class="say-k">Ask · 05 · Shape decided</p><p><b>What comes back</b>: a table, a draft, a list, a short answer, and how long.</p></li>
+      <li class="say" id="f3-6" data-step="6"><p class="say-k">Ask · 06 · Data rule checked</p><p><b>What must never go in</b>, settled before any material is pasted anywhere.</p></li>
+      <li class="say" id="f3-7" data-step="7"><p class="say-k">Build · 07 · Brief filled</p><p><b>Every blank field becomes a question back to the person asking.</b></p></li>
+      <li class="say" id="f3-8" data-step="8"><p class="say-k">Build · 08 · Prompt assembled</p><p><b>The brief, set into the structure</b>: role and task, steps, output, stop.</p></li>
+      <li class="say" id="f3-9" data-step="9"><p class="say-k">Build · 09 · First run</p><p><b>Run once, on a normal case.</b></p></li>
+      <li class="say" id="f3-10" data-step="10"><p class="say-k">Build · 10 · Output read for faults</p><p><b>What is missing, what is wrong, and what it should not have said.</b></p></li>
+      <li class="say" id="f3-11" data-step="11"><p class="say-k">Prove · 11 · Draft gate</p><p><b>One normal case plus the decline case.</b> Good enough for today's use, and marked as a draft.</p></li>
+      <li class="say" id="f3-12" data-step="12"><p class="say-k">Prove · 12 · Library gate</p><p><b>Five cases, four pass, and the decline holds.</b> The owner, version, limits and what it was tested on are recorded. Then it enters the library.</p></li>
+      <li class="say" id="f3-13" data-step="13"><p class="say-k">Prove · 13 · A failure routes back</p><p><b>Back to the field that failed</b>: the wording, missing context, a new use case, a platform limit or a policy question. <b>The last two are escalated</b> to whoever decides them.</p></li>
+    </ol>
+  </div>
+  <p class="lead after"><b>The gate rule in two lines.</b> <b>The expected answer is agreed with the person asking before the first run</b>, and where no standard exists, their own "what good looks like" becomes the standard. <b>Time-boxed work</b> (work with a deadline that will not wait for the full test) ships through the draft gate; <b>only the library gate makes it reusable.</b></p>
+</section>
+
+<section id="frame-04">
+  <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-target"/></svg></span>How to tell a rollout is working</h2>
+  <p class="lead">A <b>rollout</b> is putting a tool in front of a group of people and helping them use it. Each stage of a rollout answers one question, and <b>each question has measures read from a named source. A measure that cannot be read from a source does not go on the page.</b></p>
+  <div class="ex stepper" data-stepper>
+    <div class="ex-head"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-stairs"/></svg></span><div class="sys-head"><span class="sys-id">FRAME-04 · Four stages, one question each</span></div></div>
+    <div class="map stages">
+      <a class="part" href="#f4-1" data-step="1"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-layers"/></svg></span><span class="pn">Foundation</span><span class="ps">Stage 1</span></a>
+      <a class="part" href="#f4-2" data-step="2"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><span class="pn">Execution</span><span class="ps">Stage 2</span></a>
+      <a class="part" href="#f4-3" data-step="3"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-funnel"/></svg></span><span class="pn">Refinement</span><span class="ps">Stage 3</span></a>
+      <a class="part" href="#f4-4" data-step="4"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-sprout"/></svg></span><span class="pn">Scale</span><span class="ps">Stage 4</span></a>
+    </div>
+    <ol class="says">
+      <li class="say" id="f4-1" data-step="1"><p class="say-k">Foundation</p><p class="q">Which uses matter most, and where do people get stuck?</p><ul class="measures"><li>Uses logged and ranked by how often they come up.</li><li>Prompts tested against an answer key written first.</li><li>Requests matched to a tested prompt that already exists.</li><li>A usage baseline by team: where usage stood at the start.</li></ul><p class="from">Read from the question log, the usage dashboards and the library's records.</p></li>
+      <li class="say" id="f4-2" data-step="2"><p class="say-k">Execution</p><p class="q">Does it hold up in everyday use?</p><ul class="measures"><li>First use within two weeks of a session where it was shown.</li><li>Repeat use within 30 days.</li><li>Recurring questions covered by a tested prompt.</li><li>Tested prompts passing their cases.</li></ul><p class="from">Read from the usage dashboards, the question log and the run log.</p></li>
+      <li class="say" id="f4-3" data-step="3"><p class="say-k">Refinement</p><p class="q">What earns its place, and at what cost?</p><ul class="measures"><li>Tested prompts that pass on a smaller model.</li><li>Cost per use.</li><li>Prompts retired or merged.</li></ul><p class="from">Read from the run log and the library's records.</p></li>
+      <li class="say" id="f4-4" data-step="4"><p class="say-k">Scale</p><p class="q">Where has it changed the work?</p><ul class="measures"><li>Impact in people's own words, by team.</li><li>Uses taken up beyond the first team.</li><li>Share of people <a href="#frame-01">in the air</a> against the baseline.</li></ul><p class="from">Read from the question log and the usage dashboards.</p></li>
+    </ol>
+  </div>
+  <div class="tiles four sources">
+    <div class="tile" data-on="1 2 4"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-message"/></svg></span><div class="what">The question log</div><p class="basis">One row per question asked: <b>who asked, what it really was, how hard it was, and what was done.</b></p></div>
+    <div class="tile" data-on="1 2 4"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-chart"/></svg></span><div class="what">The usage dashboards</div><p class="basis">The figures <b>the tools themselves report</b>.</p></div>
+    <div class="tile" data-on="1 3"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-book"/></svg></span><div class="what">The library's records</div><p class="basis"><b>Owner, version, limits and test result</b> for each tested prompt.</p></div>
+    <div class="tile" data-on="2 3"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-table"/></svg></span><div class="what">The run log</div><p class="basis"><b>What each test run cost</b> and what it matched.</p></div>
+  </div>
+</section>
+
+<p class="coda">Take any of the four, change the words to fit your work, and keep the structure.</p>
+
+<footer>
+  <div class="end">
+    <p>Thanks for reading. Say hello anytime.</p>
+    <ul class="icon-links">
+      <li><a href="mailto:megatjazly@gmail.com" aria-label="Email" title="Email"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg></a></li>
+      <li><a target="_blank" href="https://linkedin.com/in/megatjazly" rel="me noopener" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/></svg></a></li>
+      <li><a target="_blank" href="https://github.com/mjazzly" rel="me noopener" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/></svg></a></li>
+    </ul>
+  </div>
+</footer>
+
+</div>
+<script data-goatcounter="https://mjazzly.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script src="site.js?v=20261102q"></script>
+<script src="frames.js?v=20261104"></script>
+</body>
+</html>
