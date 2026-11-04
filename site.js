@@ -404,3 +404,29 @@ document.documentElement.classList.add("js");
     }).catch(function () {});
   });
 })();
+
+// Back to top, on every page: a round button that shows once the first screen has scrolled away.
+// It glides up, or jumps under reduced motion. Without the script there is no button.
+(function () {
+  var calm = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var top = document.createElement("button");
+  top.className = "to-top";
+  top.type = "button";
+  top.innerHTML = '<svg class="ic" aria-hidden="true"><use href="#ic-chevron"/></svg>';
+  top.setAttribute("aria-label", "Back to top");
+  top.title = "Back to top";
+  top.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: calm.matches ? "auto" : "smooth" });
+  });
+  document.body.appendChild(top);
+  var ticking = false;
+  function update() {
+    ticking = false;
+    top.classList.toggle("is-shown", window.pageYOffset > window.innerHeight);
+  }
+  window.addEventListener("scroll", function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  window.addEventListener("resize", update);
+  update();
+})();

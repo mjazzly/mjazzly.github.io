@@ -570,6 +570,13 @@ html.js .work .case-body{animation:case-open .25s ease}
 .why-t th,.why-t td{vertical-align:top}
 .why-t td:nth-child(n+2):not(:last-child),.why-t th.mono{white-space:nowrap}
 .why-t td:last-child{min-width:300px;font-size:12px;color:var(--ink-faint)}
+/* Back to top, on every page: a round button that shows once the first screen has scrolled away */
+.to-top{position:fixed;right:20px;bottom:20px;z-index:12;width:42px;height:42px;border:0;border-radius:50%;background:var(--marine-deep);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(8px);-webkit-tap-highlight-color:transparent;transition:opacity .2s,transform .2s,visibility 0s .2s}
+.to-top.is-shown{opacity:1;visibility:visible;transform:none;transition:opacity .2s,transform .2s}
+.to-top:hover{background:var(--marine)}
+.to-top:focus-visible{outline:2px solid var(--marine);outline-offset:3px}
+.to-top .ic{width:18px;height:18px;transform:rotate(180deg)}
+@media(max-width:600px){.to-top{right:14px;bottom:14px;width:40px;height:40px}}
 /* The peek: a copy of whatever lit up off screen, in a tray at the bottom (or top) of the screen */
 .peek{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:50;width:min(880px,calc(100vw - 24px));max-height:42vh;overflow:auto;background:var(--panel);border-radius:var(--radius);padding:12px 16px 14px;box-shadow:0 0 0 2px var(--marine)}
 .peek.at-top{bottom:auto;top:16px}
@@ -1345,13 +1352,6 @@ section.film{padding:0;scroll-margin-top:58px}
   .tiles.entries.frames .tile.entry .k{align-self:end}
 }
 
-/* back to top, once the first screen has scrolled away */
-.to-top{position:fixed;right:20px;bottom:20px;z-index:12;width:42px;height:42px;border:0;border-radius:50%;background:var(--marine-deep);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(8px);-webkit-tap-highlight-color:transparent;transition:opacity .2s,transform .2s,visibility 0s .2s}
-.to-top.is-shown{opacity:1;visibility:visible;transform:none;transition:opacity .2s,transform .2s}
-.to-top:hover{background:var(--marine)}
-.to-top:focus-visible{outline:2px solid var(--marine);outline-offset:3px}
-.to-top .ic{width:18px;height:18px;transform:rotate(180deg)}
-
 /* the cue at the foot of each screen, naming the next one */
 .cue{display:flex;align-items:center;gap:8px;width:max-content;max-width:100%;margin:30px auto 0;font-size:13.5px;font-weight:600;color:var(--ink-soft);border-bottom:0;-webkit-tap-highlight-color:transparent}
 .cue .ic{width:18px;height:18px;color:var(--amber);transition:transform .2s}
@@ -1364,7 +1364,6 @@ section.film{padding:0;scroll-margin-top:58px}
 @media(max-width:600px){
   .reel .keys{margin-left:2px;gap:3px}
   .reel .key{padding:6px 7px;font-size:12px}
-  .to-top{right:14px;bottom:14px;width:40px;height:40px}
 }
 
 /* Check-in progress: a dotted route on the desk sign, the plane one dot further on for each answer */

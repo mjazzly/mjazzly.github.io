@@ -603,16 +603,6 @@
   reel.appendChild(row);
   document.body.appendChild(reel);
 
-  // back to top: a small button that shows once the first screen has scrolled away
-  var top = el("button", "to-top", icon("chevron"));
-  top.type = "button";
-  top.setAttribute("aria-label", "Back to top");
-  top.title = "Back to top";
-  top.addEventListener("click", function () {
-    window.scrollTo({ top: 0, behavior: calm.matches ? "auto" : "smooth" });
-  });
-  document.body.appendChild(top);
-
   // the line the reader is looking at: a little above the middle of what the strip leaves visible
   function probe() { return reel.offsetHeight + (window.innerHeight - reel.offsetHeight) * 0.38; }
 
@@ -632,7 +622,6 @@
     curFrame = cur;
     prevF.disabled = cur <= 0;
     nextF.disabled = cur >= films.length - 1;
-    top.classList.toggle("is-shown", window.pageYOffset > window.innerHeight);
     cells.forEach(function (c, i) {
       c.classList.toggle("is-now", i === cur);
       if (i === cur) c.setAttribute("aria-current", "true"); else c.removeAttribute("aria-current");
