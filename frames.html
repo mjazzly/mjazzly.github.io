@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261031e"><link rel="stylesheet" href="motion.css?v=20261104"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261031e"><link rel="stylesheet" href="motion.css?v=20261104b"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
 <title>Frames | Megat Jazly</title>
 <meta name="description" content="Four frameworks for AI at work: how people come on board, how a prompt is built, how a request becomes a prompt that holds up, and how to tell whether it is working."><meta property="og:type" content="website"><meta property="og:site_name" content="Megat Jazly"><meta property="og:title" content="Frames | Megat Jazly"><meta property="og:description" content="Four frameworks for AI at work: how people come on board, how a prompt is built, how a request becomes a prompt that holds up, and how to tell whether it is working."><meta property="og:url" content="https://mjazzly.github.io/frames.html"><meta property="og:image" content="https://mjazzly.github.io/preview.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
 </head>
@@ -114,27 +114,40 @@
   <a class="tile entry" href="#frame-04"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-target"/></svg></span><span class="sys-id">FRAME-04</span><div class="what">How to tell a rollout is working</div><div class="basis">Four stages, each with one question and measures read from a named source.</div><div class="k">4 stages, 4 sources</div></a>
 </div>
 
-<section id="frame-01">
+<section id="frame-01" class="film">
+<div class="shot">
   <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-plane"/></svg></span>The adoption flight</h2>
-  <p class="lead"><b>Adoption</b> (people taking a tool into the work they do every week) is a flight. A race is the wrong picture: a race has winners, and most people lose. <b>Everyone already has a ticket</b>, and the ticket is access: the tools are already there. <b>The destination is the same for everyone: better work.</b> The job is getting people on board from wherever they stand, and each stage has its own lever.</p>
+  <div class="pass">
+    <div class="pass-main">
+      <div class="pass-route" aria-hidden="true"><span>Access</span><i></i><svg class="ic"><use href="#ic-plane"/></svg><i></i><span>Better work</span></div>
+      <p class="lead"><b>Adoption</b> (people taking a tool into the work they do every week) is a flight. A race is the wrong picture: a race has winners, and most people lose. <b>Everyone already has a ticket</b>, and the ticket is access: the tools are already there. <b>The destination is the same for everyone: better work.</b> The job is getting people on board from wherever they stand, and each stage has its own lever.</p>
+    </div>
+    <div class="pass-stub" aria-hidden="true"><svg class="ic"><use href="#ic-ticket"/></svg><span class="sys-id">FRAME-01</span><span class="code"></span></div>
+  </div>
   <div class="ex stepper" data-stepper>
     <div class="ex-head"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-stairs"/></svg></span><div class="sys-head"><span class="sys-id">FRAME-01 · Three stages, three levers</span></div></div>
     <div class="map flight">
+      <svg class="sky" viewBox="0 0 600 100" preserveAspectRatio="none" aria-hidden="true"><path class="cloud" d="M376 54h46M394 44h30M508 66h56M522 56h26"/><path class="ground" d="M0 94H600"/><path class="route" d="M50 86H300C350 86 362 22 450 22H600"/></svg>
+      <span class="plane" aria-hidden="true"><svg class="ic"><use href="#ic-plane"/></svg></span>
       <a class="part" href="#f1-1" data-step="1"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-user"/></svg></span><span class="pn">On the ground</span><span class="ps">Not flying yet</span></a>
       <a class="part" href="#f1-2" data-step="2"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-ticket"/></svg></span><span class="pn">At the gate</span><span class="ps">Ticket in hand</span></a>
       <a class="part" href="#f1-3" data-step="3"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-users"/></svg></span><span class="pn">In the air</span><span class="ps">Using it every week</span></a>
     </div>
-    <ol class="says">
+    <ol class="says board">
       <li class="say" id="f1-1" data-step="1"><p class="say-k">On the ground · Not flying yet</p><p>They have not started, or do not see the point.</p><p class="lever"><b>The lever: a plain-words reason to care, tied to their own work.</b> Show the twenty minutes it saves on a report they already write, not what the tool can do in general.</p></li>
       <li class="say" id="f1-2" data-step="2"><p class="say-k">At the gate · Ticket in hand</p><p>They have access, but do not know which tool or which <b>tested prompt</b> to reach for. A tested prompt is a written request that has been checked against cases before anyone relies on it.</p><p class="lever"><b>The lever: a first win, and a library they can search.</b> The <b>library</b> is the one shared place where tested prompts are kept.</p></li>
       <li class="say" id="f1-3" data-step="3"><p class="say-k">In the air · Using it well every week</p><p>They reach for it without being reminded, on work that matters to them.</p><p class="lever"><b>The lever: they become the advocates</b>, the colleagues others ask first, <b>and their work seeds the next tested prompts.</b></p></li>
     </ol>
   </div>
+</div>
 </section>
 
-<section id="frame-02">
+<section id="frame-02" class="film">
+<div class="shot">
+  <div class="title-card">
   <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-music"/></svg></span>Before the words, the structure</h2>
   <p class="lead">A song is recognised by its shape long before the words arrive. <b>A prompt that works is written the same way: the structure is fixed first, and the person using it brings the words.</b> A <b>prompt</b> is the request as written to an AI assistant.</p>
+  </div>
   <div class="ex stepper" data-stepper>
     <div class="ex-head"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-layers"/></svg></span><div class="sys-head"><span class="sys-id">FRAME-02 · The song bar, and each part's share of the writing grade</span></div></div>
     <div class="map song">
@@ -146,6 +159,7 @@
         <a class="part seg" href="#f2-5" data-step="5"><span class="pn">Outro</span><span class="pts">10</span></a>
       </div>
       <a class="part seg rhythm" href="#f2-6" data-step="6"><span class="pn">Rhythm, the whole length</span><span class="pts">20</span></a>
+      <span class="head" aria-hidden="true"></span>
     </div>
     <ol class="says">
       <li class="say" id="f2-1" data-step="1"><p class="say-k">Key and instruments · Set before it all</p><p><b>The inputs and the tools</b> it works with: what the person brings, and what the prompt may use.</p><p class="lever">10 of the 100 points on the writing grade.</p></li>
@@ -156,7 +170,10 @@
       <li class="say" id="f2-6" data-step="6"><p class="say-k">Rhythm · Running the whole length</p><p><b>The rules and the style</b>, kept from the first line to the last.</p><p class="lever">20 of the 100 points on the writing grade.</p></li>
     </ol>
   </div>
+</div>
 
+<div class="shot cast-shot">
+  <div class="credits">
   <p class="lead cast-k"><b>The cast.</b></p>
   <ul class="words cast">
     <li><b>The composer</b> writes the structure and is rarely heard on the recording.</li>
@@ -165,14 +182,20 @@
     <li><b>The sheet</b> is one tested structure anyone can pick up and play.</li>
     <li><b>The repertoire</b> is the library, where good songs become the foundation of the next.</li>
   </ul>
+  </div>
+  <div class="two-roads">
+  <svg class="roads-art" viewBox="0 0 380 170" aria-hidden="true"><path class="road" d="M50 30C150 30 160 85 240 85H320M50 140C150 140 160 85 240 85"/><path class="lane-line" d="M50 30C150 30 160 85 240 85H320M50 140C150 140 160 85 240 85"/><use class="sign" href="#ic-layers" x="6" y="16" width="28" height="28"/><use class="sign" href="#ic-file" x="6" y="126" width="28" height="28"/><use class="sign end" href="#ic-music" x="340" y="69" width="32" height="32"/></svg>
   <p class="lead roads"><b>Two ways a song gets written.</b> The composer starts with the structure and the performer adds the words, or the performer arrives with a half-written prompt and the composer builds the structure around it. <b>Both roads end at the same song.</b></p>
+  </div>
+</div>
 
+<div class="shot">
   <div class="tiles pair">
     <div class="tile">
       <span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-flask"/></svg></span>
       <div class="what">The rehearsal</div>
       <p class="basis">Nobody can hear a prompt's output, so every sheet is rehearsed on <b>five cases written first</b>: three ordinary, one <b>edge case</b> (unusual but fair), and one it should <b>decline</b>.</p>
-      <ul class="cases" aria-label="The five cases">
+      <ul class="cases figure" aria-label="The five cases">
         <li>Ordinary</li><li>Ordinary</li><li>Ordinary</li><li>Edge</li><li class="decline">Decline</li>
       </ul>
       <p class="basis"><b>It passes when four of five match and it declines the one it should.</b></p>
@@ -181,21 +204,26 @@
       <span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-award"/></svg></span>
       <div class="what">Keeping score</div>
       <p class="basis"><b>Writing grade, out of 100</b>, read off the song bar above. <b>Below 60, rewrite before testing.</b></p>
+      <div class="meter" aria-hidden="true"><i class="g10"></i><i class="g20"></i><i class="g15"></i><i class="g25"></i><i class="g10"></i><i class="g20"></i><b class="bar60">60</b></div>
       <p class="basis"><b>Output grade, out of 100: quality 60, speed 20, cost 20</b>, on the smallest model that passed. A <b>model</b> is the AI system that runs the prompt; smaller ones are quicker and cost less.</p>
+      <div class="meter out" aria-hidden="true"><i class="g60">Quality 60</i><i class="g20">Speed 20</i><i class="g20">Cost 20</i></div>
     </div>
   </div>
+</div>
 
-  <div class="ex stepper" data-stepper>
+<div class="shot">
+  <div class="ex stepper ring-ex" data-stepper>
     <div class="ex-head"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-repeat"/></svg></span><div class="sys-head"><span class="sys-id">FRAME-02 · The loop</span></div></div>
     <div class="map loop">
+      <svg class="ring" viewBox="0 0 200 200" aria-hidden="true"><circle class="groove" cx="100" cy="100" r="62"/><circle class="groove" cx="100" cy="100" r="54"/><circle class="track" cx="100" cy="100" r="78"/><circle class="arc" cx="100" cy="100" r="78" pathLength="6"/></svg>
       <a class="part" href="#f2l-1" data-step="1"><span class="no">01</span><span class="pn">Write</span></a>
       <a class="part" href="#f2l-2" data-step="2"><span class="no">02</span><span class="pn">Grade the sheet</span></a>
       <a class="part" href="#f2l-3" data-step="3"><span class="no">03</span><span class="pn">Rehearse</span></a>
       <a class="part" href="#f2l-4" data-step="4"><span class="no">04</span><span class="pn">Grade the performance</span></a>
       <a class="part" href="#f2l-5" data-step="5"><span class="no">05</span><span class="pn">Verdict</span></a>
       <a class="part" href="#f2l-6" data-step="6"><span class="no">06</span><span class="pn">Reuse</span></a>
+      <p class="loop-back"><svg class="ic" aria-hidden="true"><use href="#ic-repeat"/></svg>Where it breaks in use, the next version starts back at Write.</p>
     </div>
-    <p class="loop-back"><svg class="ic" aria-hidden="true"><use href="#ic-repeat"/></svg>Where it breaks in use, the next version starts back at Write.</p>
     <ol class="says">
       <li class="say" id="f2l-1" data-step="1"><p class="say-k">01 · Write</p><p><b>Write the sheet</b>: the structure first, in the order of the song bar.</p></li>
       <li class="say" id="f2l-2" data-step="2"><p class="say-k">02 · Grade the sheet</p><p><b>Score the writing out of 100</b> against the song bar. Below 60, it goes back to be rewritten before any test.</p></li>
@@ -205,20 +233,29 @@
       <li class="say" id="f2l-6" data-step="6"><p class="say-k">06 · Reuse</p><p><b>Anyone can pick the sheet up and play it.</b> Where it breaks in use, the break starts the next version.</p></li>
     </ol>
   </div>
+</div>
 </section>
 
-<section id="frame-03">
+<section id="frame-03" class="film">
+<div class="shot">
   <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-clipboard"/></svg></span>The brief before the prompt</h2>
+  <div class="ex stepper brief" data-stepper data-start="0">
+  <div class="brief-head">
   <p class="lead">Most weak prompts are weak briefs. A <b>brief</b> is the short written account of what is wanted, set down before any prompt. <b>Before touching any tool, answer four questions in twenty seconds.</b></p>
-  <div class="tiles four asks">
-    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-user"/></svg></span><div class="what">Who reads this?</div></div>
-    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-shield"/></svg></span><div class="what">What must it never contain?</div></div>
-    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-grid"/></svg></span><div class="what">What shape does it come back in?</div></div>
-    <div class="tile"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-stop"/></svg></span><div class="what">Where does it stop?</div></div>
+  <span class="dial" aria-hidden="true"><svg viewBox="0 0 40 40"><circle class="face" cx="20" cy="20" r="15"/><circle class="fill" cx="20" cy="20" r="15" pathLength="4"/></svg><span>20</span></span>
   </div>
+  <div class="tiles four asks">
+    <div class="tile part" data-step="1"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-user"/></svg></span><div class="what">Who reads this?</div><span class="box" aria-hidden="true"><svg class="ic"><use href="#ic-check"/></svg></span></div>
+    <div class="tile part" data-step="2"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-shield"/></svg></span><div class="what">What must it never contain?</div><span class="box" aria-hidden="true"><svg class="ic"><use href="#ic-check"/></svg></span></div>
+    <div class="tile part" data-step="3"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-grid"/></svg></span><div class="what">What shape does it come back in?</div><span class="box" aria-hidden="true"><svg class="ic"><use href="#ic-check"/></svg></span></div>
+    <div class="tile part" data-step="4"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-stop"/></svg></span><div class="what">Where does it stop?</div><span class="box" aria-hidden="true"><svg class="ic"><use href="#ic-check"/></svg></span></div>
+  </div>
+  </div>
+</div>
+<div class="shot">
   <div class="ex stepper" data-stepper>
     <div class="ex-head"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-funnel"/></svg></span><div class="sys-head"><span class="sys-id">FRAME-03 · Three lanes, two gates</span></div></div>
-    <div class="map lanes">
+    <div class="map lanes roads">
       <div class="lane"><span class="lane-k">Ask</span><div class="nodes">
         <a class="part" href="#f3-1" data-step="1"><span class="no">01</span><span class="pn">Request received</span></a>
         <a class="part" href="#f3-2" data-step="2"><span class="no">02</span><span class="pn">Objective in one line</span></a>
@@ -234,8 +271,8 @@
         <a class="part" href="#f3-10" data-step="10"><span class="no">10</span><span class="pn">Read for faults</span></a>
       </div></div>
       <div class="lane"><span class="lane-k">Prove</span><div class="nodes">
-        <a class="part gate" href="#f3-11" data-step="11"><span class="no">11</span><span class="pn">Draft gate</span><span class="stop-note">2 cases</span></a>
-        <a class="part gate" href="#f3-12" data-step="12"><span class="no">12</span><span class="pn">Library gate</span><span class="stop-note">5 cases, 4 pass</span></a>
+        <a class="part gate" href="#f3-11" data-step="11"><span class="no">11</span><i class="boom" aria-hidden="true"></i><span class="pn">Draft gate</span><span class="stop-note">2 cases</span></a>
+        <a class="part gate" href="#f3-12" data-step="12"><span class="no">12</span><i class="boom" aria-hidden="true"></i><span class="pn">Library gate</span><span class="stop-note">5 cases, 4 pass</span></a>
         <a class="part" href="#f3-13" data-step="13"><span class="no">13</span><span class="pn">A failure routes back</span></a>
       </div></div>
     </div>
@@ -256,18 +293,29 @@
     </ol>
   </div>
   <p class="lead after"><b>The gate rule in two lines.</b> <b>The expected answer is agreed with the person asking before the first run</b>, and where no standard exists, their own "what good looks like" becomes the standard. <b>Time-boxed work</b> (work with a deadline that will not wait for the full test) ships through the draft gate; <b>only the library gate makes it reusable.</b></p>
+</div>
 </section>
 
-<section id="frame-04">
+<section id="frame-04" class="film">
+<div class="shot">
+  <div class="title-card">
   <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-target"/></svg></span>How to tell a rollout is working</h2>
   <p class="lead">A <b>rollout</b> is putting a tool in front of a group of people and helping them use it. Each stage of a rollout answers one question, and <b>each question has measures read from a named source. A measure that cannot be read from a source does not go on the page.</b></p>
-  <div class="ex stepper" data-stepper>
+  </div>
+  <div class="ex stepper tower" data-stepper>
     <div class="ex-head"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-stairs"/></svg></span><div class="sys-head"><span class="sys-id">FRAME-04 · Four stages, one question each</span></div></div>
-    <div class="map stages">
-      <a class="part" href="#f4-1" data-step="1"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-layers"/></svg></span><span class="pn">Foundation</span><span class="ps">Stage 1</span></a>
-      <a class="part" href="#f4-2" data-step="2"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><span class="pn">Execution</span><span class="ps">Stage 2</span></a>
-      <a class="part" href="#f4-3" data-step="3"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-funnel"/></svg></span><span class="pn">Refinement</span><span class="ps">Stage 3</span></a>
-      <a class="part" href="#f4-4" data-step="4"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-sprout"/></svg></span><span class="pn">Scale</span><span class="ps">Stage 4</span></a>
+    <div class="map stages building">
+      <a class="part floor" href="#f4-1" data-step="1"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-layers"/></svg></span><span class="pn">Foundation</span><span class="ps">Stage 1</span><span class="risers" aria-hidden="true"><i class="tap" data-on="1 2 4"></i><i class="tap" data-on="1 2 4"></i><i class="tap" data-on="1 3"></i><i data-on="2 3"></i></span></a>
+      <a class="part floor" href="#f4-2" data-step="2"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><span class="pn">Execution</span><span class="ps">Stage 2</span><span class="risers" aria-hidden="true"><i class="tap" data-on="1 2 4"></i><i class="tap" data-on="1 2 4"></i><i data-on="1 3"></i><i class="tap" data-on="2 3"></i></span></a>
+      <a class="part floor" href="#f4-3" data-step="3"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-funnel"/></svg></span><span class="pn">Refinement</span><span class="ps">Stage 3</span><span class="risers" aria-hidden="true"><i data-on="1 2 4"></i><i data-on="1 2 4"></i><i class="tap" data-on="1 3"></i><i class="tap" data-on="2 3"></i></span></a>
+      <a class="part floor" href="#f4-4" data-step="4"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-sprout"/></svg></span><span class="pn">Scale</span><span class="ps">Stage 4</span><span class="risers" aria-hidden="true"><i class="tap" data-on="1 2 4"></i><i class="tap" data-on="1 2 4"></i><i data-on="1 3"></i><i data-on="2 3"></i></span></a>
+    </div>
+    <div class="feet" aria-hidden="true"><span class="badge badge-s" data-on="1 2 4"><svg class="ic"><use href="#ic-message"/></svg></span><span class="badge badge-s" data-on="1 2 4"><svg class="ic"><use href="#ic-chart"/></svg></span><span class="badge badge-s" data-on="1 3"><svg class="ic"><use href="#ic-book"/></svg></span><span class="badge badge-s" data-on="2 3"><svg class="ic"><use href="#ic-table"/></svg></span></div>
+    <div class="tiles four sources">
+      <div class="tile" data-on="1 2 4"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-message"/></svg></span><div class="what">The question log</div><p class="basis">One row per question asked: <b>who asked, what it really was, how hard it was, and what was done.</b></p></div>
+      <div class="tile" data-on="1 2 4"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-chart"/></svg></span><div class="what">The usage dashboards</div><p class="basis">The figures <b>the tools themselves report</b>.</p></div>
+      <div class="tile" data-on="1 3"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-book"/></svg></span><div class="what">The library's records</div><p class="basis"><b>Owner, version, limits and test result</b> for each tested prompt.</p></div>
+      <div class="tile" data-on="2 3"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-table"/></svg></span><div class="what">The run log</div><p class="basis"><b>What each test run cost</b> and what it matched.</p></div>
     </div>
     <ol class="says">
       <li class="say" id="f4-1" data-step="1"><p class="say-k">Foundation</p><p class="q">Which uses matter most, and where do people get stuck?</p><ul class="measures"><li>Uses logged and ranked by how often they come up.</li><li>Prompts tested against an answer key written first.</li><li>Requests matched to a tested prompt that already exists.</li><li>A usage baseline by team: where usage stood at the start.</li></ul><p class="from">Read from the question log, the usage dashboards and the library's records.</p></li>
@@ -276,12 +324,7 @@
       <li class="say" id="f4-4" data-step="4"><p class="say-k">Scale</p><p class="q">Where has it changed the work?</p><ul class="measures"><li>Impact in people's own words, by team.</li><li>Uses taken up beyond the first team.</li><li>Share of people <a href="#frame-01">in the air</a> against the baseline.</li></ul><p class="from">Read from the question log and the usage dashboards.</p></li>
     </ol>
   </div>
-  <div class="tiles four sources">
-    <div class="tile" data-on="1 2 4"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-message"/></svg></span><div class="what">The question log</div><p class="basis">One row per question asked: <b>who asked, what it really was, how hard it was, and what was done.</b></p></div>
-    <div class="tile" data-on="1 2 4"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-chart"/></svg></span><div class="what">The usage dashboards</div><p class="basis">The figures <b>the tools themselves report</b>.</p></div>
-    <div class="tile" data-on="1 3"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-book"/></svg></span><div class="what">The library's records</div><p class="basis"><b>Owner, version, limits and test result</b> for each tested prompt.</p></div>
-    <div class="tile" data-on="2 3"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-table"/></svg></span><div class="what">The run log</div><p class="basis"><b>What each test run cost</b> and what it matched.</p></div>
-  </div>
+</div>
 </section>
 
 <p class="coda">Take any of the four, change the words to fit your work, and keep the structure.</p>
@@ -300,6 +343,6 @@
 </div>
 <script data-goatcounter="https://mjazzly.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 <script src="site.js?v=20261102q"></script>
-<script src="frames.js?v=20261104"></script>
+<script src="frames.js?v=20261104b"></script>
 </body>
 </html>

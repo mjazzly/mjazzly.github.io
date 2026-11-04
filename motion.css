@@ -776,106 +776,386 @@ html.js nav.top .shelf.is-open .go:nth-child(4){animation-delay:.09s}
 .work .case-body > p.task{font-size:15.5px;line-height:1.65;color:var(--ink-soft);max-width:760px;margin:20px 0 22px}
 .work .case-body > p.task b{color:var(--ink)}
 
-/* ---------- Frames page: four frameworks, each drawing stepped through one part at a time ----------
-   The words for every step sit in the page; frames.js shows one at a time,
-   lights its part (the parts before it read as done) and adds Back and Next.
-   Without JavaScript every step shows as a list. Nothing moves on its own. */
-.tiles.entries.frames{grid-template-columns:repeat(4,1fr);margin:-12px 0 8px}
-.stepper{margin-bottom:14px}
-.stepper .map{margin-bottom:18px}
-.map .part{display:flex;flex-direction:column;align-items:flex-start;gap:6px;background:var(--paper);border:1.5px solid transparent;border-radius:var(--radius-s);padding:12px 14px;color:inherit;-webkit-tap-highlight-color:transparent;transition:background-color .15s,border-color .15s}
-.map .part:hover{background:var(--marine-tint);border-color:transparent}
-.map .part .pn{font-weight:700;font-size:14px;line-height:1.3;color:var(--ink)}
-.map .part .ps{font-size:12.5px;line-height:1.4;color:var(--ink-soft)}
-.map .part .no{font-family:var(--mono);font-size:11.5px;color:var(--amber)}
-.map .part .stop-note{font-size:11.5px;font-weight:700;line-height:1.3;color:var(--amber)}
-.map .part.is-now,.map .part.is-now:hover{border-color:var(--marine);background:var(--marine-tint)}
-.map .part.is-now .badge{background:var(--marine);color:#fff}
-.map .part.is-done .pn{color:var(--marine)}
-/* the gates, and only the gates, sit in amber */
-.map .part.gate{background:var(--amber-tint)}
-.map .part.gate.is-now,.map .part.gate.is-now:hover{border-color:var(--amber);background:var(--amber-tint)}
-.map .part.gate.is-done .pn{color:var(--ink)}
+/* ---------- Frames page: the page as a film, each framework a frame ----------
+   Each framework is a frame, and each frame is one or more screens (.shot),
+   one idea each. Under the hero the four frames sit on a strip of film; once
+   it scrolls away, frames.js shows a thin strip at the top of the window with
+   the frame being read marked in amber. Every frame has its own drawing,
+   all in marine and amber: a boarding pass, a flight and a departures board
+   (FRAME-01), a song track with a play head, the credits, the rehearsal and
+   the loop (FRAME-02), a paper brief and three roads with two gates
+   (FRAME-03), and a building that rises floor by floor (FRAME-04). The words
+   for every step sit in the page; frames.js shows them in step with the
+   drawing. Without JavaScript every step shows as a list and every drawing
+   sits complete. Nothing moves on its own. */
 
-/* FRAME-01: three stages rising left to right, off a dashed ground line */
-.map.flight{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:end;position:relative;padding-bottom:12px}
-.map.flight::after{content:"";position:absolute;left:0;right:0;bottom:0;border-top:1.5px dashed var(--line)}
-.map.flight .part:nth-child(2){margin-bottom:22px}
-.map.flight .part:nth-child(3){margin-bottom:44px}
-/* FRAME-02: the song bar, each part as wide as its share of the writing grade, the rhythm under the whole length */
-.map.song .song-bar{display:grid;grid-template-columns:minmax(max-content,10fr) minmax(max-content,20fr) minmax(max-content,15fr) minmax(max-content,25fr) minmax(max-content,10fr);gap:4px}
-.map.song .seg{padding:12px 12px 10px;gap:4px}
+/* the film under the hero: the four frames as cells on a strip, perforated top and bottom */
+.tiles.entries.frames{grid-template-columns:repeat(4,1fr);gap:10px;margin:-12px 0 8px;background:var(--marine-deep);border-radius:var(--radius);padding:30px 14px;position:relative}
+.tiles.entries.frames::before,.tiles.entries.frames::after{content:"";position:absolute;left:18px;right:18px;height:8px;background:linear-gradient(90deg,rgba(243,244,246,.92) 0 11px,transparent 11px) 0 0/24px 8px repeat-x;border-radius:2px}
+.tiles.entries.frames::before{top:11px}
+.tiles.entries.frames::after{bottom:11px}
+.tiles.entries.frames .tile.entry{border-radius:6px}
+
+/* the thin strip at the top of the window, from frames.js */
+.reel{position:fixed;left:0;right:0;top:0;z-index:12;background:var(--marine-deep);transform:translateY(-105%);visibility:hidden;transition:transform .2s ease,visibility 0s .2s}
+.reel.is-shown{transform:none;visibility:visible;transition:transform .2s ease}
+.reel::before,.reel::after{content:"";position:absolute;left:0;right:0;height:4px;background:linear-gradient(90deg,rgba(243,244,246,.85) 0 7px,transparent 7px) 0 0/16px 4px repeat-x}
+.reel::before{top:3px}
+.reel::after{bottom:3px}
+.reel .wrap{display:flex;align-items:center;gap:8px;padding-top:12px;padding-bottom:12px}
+.reel .cell{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:9px;padding:6px 10px;border:1.5px solid rgba(255,255,255,.16);border-radius:6px;color:rgba(255,255,255,.78);font-size:13px;font-weight:600;line-height:1.2;transition:border-color .15s,background-color .15s,color .15s}
+.reel .cell:hover{border-color:rgba(255,255,255,.5);color:#fff}
+.reel .cell .ic{width:16px;height:16px}
+.reel .cell .id{font-family:var(--mono);font-size:12px;font-weight:500;color:rgba(255,255,255,.62);flex:none}
+.reel .cell.is-now{border-color:var(--amber);background:rgba(176,126,35,.2);color:#fff}
+.reel .cell.is-now .ic,.reel .cell.is-now .id{color:var(--amber)}
+.reel .cell:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.reel .keys{display:flex;gap:4px;flex:none;margin-left:4px}
+.reel kbd{font-family:var(--mono);font-size:11px;line-height:1;color:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.24);border-radius:4px;padding:4px 5px}
+@media (hover:none),(max-width:860px){.reel .keys{display:none}}
+
+/* a screen each */
+section.film{padding:0;scroll-margin-top:58px}
+.shot{padding:48px 0;scroll-margin-top:58px}
+@media(min-width:861px) and (min-height:640px){
+  .shot{padding:32px 0;min-height:calc(100vh - 58px);min-height:calc(100svh - 58px);display:flex;flex-direction:column;justify-content:center}
+}
+.title-card{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:28px;align-items:start;margin-bottom:26px}
+.title-card h2{margin:0}
+.title-card .lead{margin:0;font-size:15px}
+
+/* the drawings sit on the paper, not in panels */
+.film .ex{background:none;padding:0;border-radius:0}
+.film .ex-head{margin-bottom:14px;gap:12px}
+.film .ex-head .badge{width:32px;height:32px;border-radius:10px}
+.film .ex-head .badge .ic{width:17px;height:17px}
+.film .map .part{display:flex;flex-direction:column;align-items:flex-start;gap:5px;background:var(--panel);border:1.5px solid transparent;border-radius:var(--radius-s);padding:12px 14px;color:inherit;-webkit-tap-highlight-color:transparent;transition:background-color .15s,border-color .15s,opacity .2s}
+.film .map .part:hover{border-color:var(--marine-tint-2)}
+.film .map .part .pn{font-weight:700;font-size:14px;line-height:1.3;color:var(--ink)}
+.film .map .part .ps{font-size:12.5px;line-height:1.4;color:var(--ink-soft)}
+.film .map .part .no{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint)}
+.film .map .part .stop-note{font-size:11.5px;font-weight:700;line-height:1.3;color:var(--amber)}
+.film .map .part.is-now,.film .map .part.is-now:hover{border-color:var(--marine)}
+.film .map .part.is-now .badge{background:var(--marine);color:#fff}
+.film .map .part.is-done .pn{color:var(--marine)}
+
+/* Back, Next and the count, right under the drawing so they never move */
+.film .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0}
+.film .controls .count{font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);margin-left:auto}
+.film .controls .back{flex-direction:row-reverse;padding:10px 16px 10px 14px}
+.film .controls .back .ic{transform:rotate(90deg)}
+.film .controls .next .ic{transform:rotate(-90deg)}
+.film .controls .case-toggle[disabled]{opacity:.45;cursor:default;background:var(--marine-tint);color:var(--marine)}
+
+/* the words for each step: read straight off the paper */
+.film .says{list-style:none;display:grid;gap:8px}
+.film .say{font-size:15px;line-height:1.55;color:var(--ink-soft)}
+.film .say[hidden]{display:none}
+.film .say p + p,.film .say p + ul,.film .say ul + p{margin-top:8px}
+.film .say .say-k{font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);margin-bottom:6px}
+.film .say .verdicts{list-style:none;display:grid;gap:4px}
+.film .say .verdicts b{color:var(--amber)}
+
+/* FRAME-01: the ticket as a boarding pass, torn off at the stub */
+.pass{display:grid;grid-template-columns:minmax(0,1fr) 148px;background:var(--panel);border-radius:12px;margin-bottom:24px}
+.pass-main{padding:20px 26px 22px}
+.pass-route{display:flex;align-items:center;gap:12px;font-weight:800;font-size:22px;line-height:1.2;letter-spacing:-.02em;color:var(--ink);margin-bottom:12px}
+.pass-route i{flex:1;min-width:16px;border-top:2px dotted var(--marine-tint-2)}
+.pass-route .ic{width:24px;height:24px;color:var(--marine);transform:rotate(90deg)}
+.pass-route span:last-child{color:var(--marine)}
+.pass .lead{margin:0;font-size:14.5px;max-width:none}
+.pass-stub{position:relative;border-left:2px dashed var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px}
+.pass-stub::before,.pass-stub::after{content:"";position:absolute;left:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper)}
+.pass-stub::before{top:-10px}
+.pass-stub::after{bottom:-10px}
+.pass-stub .ic{width:28px;height:28px;color:var(--marine)}
+.pass-stub .code{width:92px;height:30px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 5px,transparent 5px 8px,var(--ink) 8px 11px,transparent 11px 13px)}
+
+/* FRAME-01: the flight, the plane moving from the stand to the runway to cruise as the reader steps */
+.map.flight{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding-top:108px}
+.map.flight .sky{position:absolute;left:0;top:0;width:100%;height:100px;overflow:visible}
+.map.flight .sky path{fill:none;vector-effect:non-scaling-stroke}
+.map.flight .sky .cloud{stroke:var(--panel);stroke-width:12;stroke-linecap:round}
+.map.flight .sky .ground{stroke:var(--ink-faint);stroke-width:1.5}
+.map.flight .sky .route{stroke:var(--marine-tint-2);stroke-width:2;stroke-dasharray:1 7;stroke-linecap:round}
+.map.flight .plane{position:absolute;left:83.4%;top:22px;width:34px;height:34px;margin:-17px 0 0 -17px;color:var(--marine);transform:rotate(90deg);transition:left .9s cubic-bezier(.45,0,.25,1),top .9s cubic-bezier(.7,0,.3,1),transform .9s ease}
+.map.flight .plane .ic{width:34px;height:34px;display:block}
+.map.flight[data-at="1"] .plane{left:16.6%;top:78px}
+.map.flight[data-at="2"] .plane{left:50%;top:76px;transform:rotate(74deg)}
+
+/* FRAME-01: each stage as a row on a departures board, filled in as the plane reaches it */
+.film .says.board{background:var(--marine-deep);border-radius:var(--radius);padding:8px;gap:4px}
+.board .say{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1fr) minmax(0,1.25fr);gap:6px 22px;align-items:start;background:rgba(255,255,255,.05);border-radius:8px;padding:12px 16px;font-size:14px;line-height:1.5;color:rgba(255,255,255,.74);transition:background-color .2s,opacity .2s}
+.board .say p + p{margin:0}
+.board .say b,.board .say .lever b{color:#fff}
+.board .say .say-k{font-family:var(--sans);font-size:14.5px;font-weight:700;color:#fff;margin:0}
+.board .say .lever{padding:0;border:0}
+.is-stepping .board .say.is-later > :not(.say-k){visibility:hidden}
+.is-stepping .board .say.is-later .say-k{color:rgba(255,255,255,.4)}
+.is-stepping .board .say.is-done{opacity:.55}
+.is-stepping .board .say.is-now{background:rgba(255,255,255,.12)}
+
+/* FRAME-02: the song as a track, each part as wide as its share of the writing grade, a play head across it, the rhythm as a beat line under the whole length */
+.map.song{position:relative;background:var(--panel);border-radius:var(--radius);padding:16px 16px 12px}
+.map.song .song-bar{display:grid;grid-template-columns:minmax(max-content,10fr) minmax(max-content,20fr) minmax(max-content,15fr) minmax(max-content,25fr) minmax(max-content,10fr);gap:3px}
+.film .map.song .seg{position:relative;background:var(--paper);border-radius:6px;padding:10px 12px 52px;gap:2px}
+.map.song .song-bar .seg::after{content:"";position:absolute;left:10px;right:10px;bottom:10px;height:34px;background:var(--marine-tint-2);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='34'%3E%3Cpath d='M1 12h2v10h-2zM5 8h2v18h-2zM9 4h2v26h-2zM13 10h2v14h-2zM17 2h2v30h-2zM21 6h2v22h-2zM25 11h2v12h-2zM29 5h2v24h-2zM33 1h2v32h-2zM37 9h2v16h-2zM41 13h2v8h-2zM45 7h2v20h-2zM49 3h2v28h-2zM53 8h2v18h-2zM57 11h2v12h-2z'/%3E%3C/svg%3E") 0 0/60px 34px repeat-x;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='34'%3E%3Cpath d='M1 12h2v10h-2zM5 8h2v18h-2zM9 4h2v26h-2zM13 10h2v14h-2zM17 2h2v30h-2zM21 6h2v22h-2zM25 11h2v12h-2zM29 5h2v24h-2zM33 1h2v32h-2zM37 9h2v16h-2zM41 13h2v8h-2zM45 7h2v20h-2zM49 3h2v28h-2zM53 8h2v18h-2zM57 11h2v12h-2z'/%3E%3C/svg%3E") 0 0/60px 34px repeat-x;transition:background-color .2s}
+/* the key is set before the music starts: a single held line, no waveform */
+.map.song .song-bar .seg:first-child::after{height:2px;bottom:26px;-webkit-mask:none;mask:none}
+.map.song .song-bar .seg:nth-child(3)::after{-webkit-mask-position:23px 0;mask-position:23px 0}
+.map.song .song-bar .seg:nth-child(5)::after{-webkit-mask-position:41px 0;mask-position:41px 0}
 .map.song .pts{font-family:var(--mono);font-size:12px;color:var(--marine)}
-.map.song .rhythm{flex-direction:row;justify-content:space-between;align-items:center;margin-top:4px;width:100%}
-/* FRAME-02: the loop */
-.map.loop{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:10px}
-.stepper .loop-back{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-faint);margin-bottom:18px}
-.stepper .loop-back .ic{width:16px;height:16px;color:var(--marine)}
-/* FRAME-03: three lanes, steps across */
-.map.lanes{display:grid;gap:6px}
-.map.lanes .lane{display:grid;grid-template-columns:58px 1fr;gap:10px;background:var(--paper);border-radius:var(--radius-s);padding:8px}
-.map.lanes .lane-k{font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);align-self:center;padding-left:4px}
-.map.lanes .nodes{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
-.map.lanes .part{background:var(--panel);padding:9px 10px;gap:3px}
-.map.lanes .part .pn{font-size:13px}
-.map.lanes .part.gate{background:var(--amber-tint)}
-/* FRAME-04: four stages */
-.map.stages{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.film .map.song .seg.is-now{background:var(--marine-tint);border-color:transparent}
+.map.song .seg.is-now::after,.map.song .seg.is-done::after{background:var(--marine)}
+.film .map.song .rhythm{flex-direction:row;justify-content:space-between;align-items:center;margin-top:3px;width:100%;background:none;padding:6px 2px 24px;border-radius:0;position:relative}
+.map.song .rhythm::after{content:"";position:absolute;left:0;right:0;bottom:4px;height:14px;background:linear-gradient(90deg,var(--marine-tint-2) 0 2px,transparent 2px) 0 0/48px 14px repeat-x,linear-gradient(90deg,var(--marine-tint-2) 0 2px,transparent 2px) 0 5px/12px 9px repeat-x;transition:opacity .2s}
+.film .map.song .rhythm.is-now{border-color:transparent}
+.map.song .rhythm.is-now::after{background:linear-gradient(90deg,var(--marine) 0 2px,transparent 2px) 0 0/48px 14px repeat-x,linear-gradient(90deg,var(--marine) 0 2px,transparent 2px) 0 5px/12px 9px repeat-x}
+.map.song .head{display:none}
+.is-stepping .map.song .head{display:block;position:absolute;top:8px;bottom:8px;left:var(--head,16px);width:2px;margin-left:-1px;background:var(--marine-deep);border-radius:1px;transition:left .6s cubic-bezier(.45,0,.25,1);pointer-events:none}
+.is-stepping .map.song .head::before{content:"";position:absolute;top:-2px;left:-5px;width:12px;height:12px;border-radius:50%;background:var(--marine-deep)}
+.map.song ~ .says .say{font-size:17px;line-height:1.5;max-width:640px}
+.map.song ~ .says .say .lever{font-size:13.5px;color:var(--ink-faint)}
 
-/* the words for each step */
-.says{list-style:none;display:grid;gap:8px}
-.say{background:var(--paper);border-radius:var(--radius-s);padding:16px 20px;font-size:15px;line-height:1.55;color:var(--ink-soft)}
-.say[hidden]{display:none}
-.say p + p,.say p + ul,.say ul + p{margin-top:8px}
-.say .say-k{font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);margin-bottom:6px}
-.say .lever{padding-top:8px;border-top:1px solid var(--line)}
-.say .q{font-weight:700;font-size:16px;color:var(--ink)}
-.say .measures{padding-left:20px}
-.say .measures li + li{margin-top:2px}
-.say .from{font-size:13.5px;color:var(--ink-faint)}
-.say .verdicts{list-style:none;display:grid;gap:4px}
-.say .verdicts b{color:var(--amber)}
-.stepper .steps{margin-bottom:12px}
-.stepper .actions .count{font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);margin:0 0 0 auto}
-.stepper .actions .back{flex-direction:row-reverse;padding:10px 16px 10px 14px}
-.stepper .actions .back .ic{transform:rotate(90deg)}
-.stepper .actions .next .ic{transform:rotate(-90deg)}
-.stepper .actions .case-toggle[disabled]{opacity:.45;cursor:default;background:var(--marine-tint);color:var(--marine)}
+/* FRAME-02: the cast as the credits on a sleeve, and the two roads into one song */
+.cast-shot{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:44px;align-items:center}
+.credits{background:var(--panel);border-radius:var(--radius);padding:24px 28px 20px}
+.lead.cast-k{margin:0 0 12px}
+.words.cast{columns:1;margin:0}
+.words.cast li{position:relative;background:none;border-radius:0;margin:0;padding:9px 0 9px 128px;font-size:14.5px;line-height:1.5}
+.words.cast li > b:first-child{position:absolute;left:0;top:9px;width:112px;text-align:right;color:var(--marine)}
+.two-roads .roads-art{display:block;width:100%;max-width:380px;height:auto;margin-bottom:20px;overflow:visible}
+.roads-art .road{fill:none;stroke:var(--line);stroke-width:16;stroke-linecap:round}
+.roads-art .lane-line{fill:none;stroke:var(--panel);stroke-width:2;stroke-dasharray:8 8}
+.roads-art .sign{color:var(--marine)}
+.roads-art .sign.end{color:var(--marine-deep)}
+.lead.roads{margin:0}
 
-/* the pieces around the drawings */
-.lead.cast-k{margin:26px 0 12px}
-.words.cast{margin-bottom:4px}
-.lead.roads{margin:12px 0 22px}
-.tiles.pair{grid-template-columns:repeat(2,1fr);margin-bottom:14px}
+/* FRAME-02: the rehearsal as five tracks, each with its pass mark; the decline stops short, as it should */
+.film .tiles.pair{grid-template-columns:repeat(2,1fr);margin:0}
 .tiles.pair .basis + .basis{margin-top:8px}
-.tiles.pair .cases{list-style:none;display:flex;flex-wrap:wrap;gap:4px;margin:12px 0}
-.tiles.pair .cases li{font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:7px;background:var(--marine-tint);color:var(--marine)}
+.tiles.pair .cases{list-style:none;display:grid;gap:5px;margin:14px 0}
+.tiles.pair .cases li{display:grid;grid-template-columns:62px minmax(0,1fr) 20px;align-items:center;gap:10px;background:var(--paper);border-radius:7px;padding:6px 10px;font-size:12.5px;font-weight:600;color:var(--marine)}
+.tiles.pair .cases li::before{content:"";grid-column:2;grid-row:1;height:18px;background:var(--marine-tint-2);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='34'%3E%3Cpath d='M1 12h2v10h-2zM5 8h2v18h-2zM9 4h2v26h-2zM13 10h2v14h-2zM17 2h2v30h-2zM21 6h2v22h-2zM25 11h2v12h-2zM29 5h2v24h-2zM33 1h2v32h-2zM37 9h2v16h-2zM41 13h2v8h-2zM45 7h2v20h-2zM49 3h2v28h-2zM53 8h2v18h-2zM57 11h2v12h-2z'/%3E%3C/svg%3E") 0 0/32px 18px repeat-x;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='34'%3E%3Cpath d='M1 12h2v10h-2zM5 8h2v18h-2zM9 4h2v26h-2zM13 10h2v14h-2zM17 2h2v30h-2zM21 6h2v22h-2zM25 11h2v12h-2zM29 5h2v24h-2zM33 1h2v32h-2zM37 9h2v16h-2zM41 13h2v8h-2zM45 7h2v20h-2zM49 3h2v28h-2zM53 8h2v18h-2zM57 11h2v12h-2z'/%3E%3C/svg%3E") 0 0/32px 18px repeat-x}
+.tiles.pair .cases li:nth-child(2)::before{-webkit-mask-position:11px 0;mask-position:11px 0}
+.tiles.pair .cases li:nth-child(3)::before{-webkit-mask-position:21px 0;mask-position:21px 0}
+.tiles.pair .cases li:nth-child(4)::before{-webkit-mask-size:22px 18px;mask-size:22px 18px}
 .tiles.pair .cases li.decline{background:var(--amber-tint);color:var(--amber)}
-.tiles.asks{margin-bottom:14px}
-.tiles.asks .tile .what{margin:0;font-size:15px}
-.tiles.sources .tile{transition:box-shadow .2s ease}
+.tiles.pair .cases li.decline::before{width:34%;background:var(--amber)}
+.tiles.pair .cases li::after{content:"";grid-column:3;grid-row:1;width:20px;height:20px;border-radius:50%;background:var(--amber) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/12px no-repeat}
+.is-playing.cases li::before{animation:f-wave .6s ease-out backwards}
+.is-playing.cases li::after{animation:f-mark .3s ease-out backwards;animation-delay:.6s}
+.is-playing.cases li:nth-child(2)::before{animation-delay:.15s}.is-playing.cases li:nth-child(2)::after{animation-delay:.75s}
+.is-playing.cases li:nth-child(3)::before{animation-delay:.3s}.is-playing.cases li:nth-child(3)::after{animation-delay:.9s}
+.is-playing.cases li:nth-child(4)::before{animation-delay:.45s}.is-playing.cases li:nth-child(4)::after{animation-delay:1.05s}
+.is-playing.cases li:nth-child(5)::before{animation-delay:.6s}.is-playing.cases li:nth-child(5)::after{animation-delay:1.2s}
+@keyframes f-wave{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes f-mark{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
+
+/* FRAME-02: keeping score, the writing grade as the song bar with the line at 60, the output grade in three parts */
+.meter{position:relative;display:flex;gap:2px;height:20px;margin:12px 0 16px}
+.meter i{border-radius:4px;background:var(--marine-tint-2)}
+.meter i:nth-child(even){background:var(--marine-tint)}
+.meter .g10{flex:10}.meter .g15{flex:15}.meter .g20{flex:20}.meter .g25{flex:25}.meter .g60{flex:60}
+.meter .bar60{position:absolute;left:60%;top:-5px;bottom:-5px;border-left:2px solid var(--amber);padding-left:5px;display:flex;align-items:center;font-family:var(--mono);font-size:11px;font-weight:500;color:var(--amber)}
+.meter.out{height:28px;margin-bottom:0}
+.meter.out i{display:flex;align-items:center;padding:0 9px;font-style:normal;font-size:11.5px;font-weight:600;color:var(--marine-deep);white-space:nowrap;overflow:hidden}
+
+/* FRAME-02: the loop as a ring, the arc filling round to the step being read */
+.film .ring-ex{display:grid;grid-template-columns:360px minmax(0,1fr);column-gap:44px;align-items:center}
+.ring-ex .ex-head{grid-column:1 / -1}
+.ring-ex .map.loop{grid-column:1;grid-row:2 / span 2;position:relative;width:360px;height:360px}
+.ring-ex .controls{grid-column:2;grid-row:2;align-self:end;margin-top:0}
+.ring-ex .says{grid-column:2;grid-row:3;align-self:start}
+.ring-ex .say{font-size:16px}
+.map.loop .ring{position:absolute;inset:0;width:100%;height:100%}
+.map.loop .ring circle{fill:none}
+.map.loop .ring .groove{stroke:var(--line);stroke-width:1}
+.map.loop .ring .track{stroke:var(--marine-tint);stroke-width:9}
+.map.loop .ring .arc{stroke:var(--marine);stroke-width:9;stroke-linecap:round;stroke-dasharray:6;stroke-dashoffset:0;transform:rotate(-90deg);transform-origin:center;transform-box:fill-box;transition:stroke-dashoffset .6s cubic-bezier(.45,0,.25,1)}
+.film .map.loop .part{position:absolute;width:116px;transform:translate(-50%,-50%);align-items:center;text-align:center;padding:8px 10px;gap:1px}
+.film .map.loop .part .pn{font-size:13px}
+.map.loop .part:nth-of-type(1){left:50%;top:11.1%}
+.map.loop .part:nth-of-type(2){left:83.7%;top:30.6%}
+.map.loop .part:nth-of-type(3){left:83.7%;top:69.4%}
+.map.loop .part:nth-of-type(4){left:50%;top:88.9%}
+.map.loop .part:nth-of-type(5){left:16.3%;top:69.4%}
+.map.loop .part:nth-of-type(6){left:16.3%;top:30.6%}
+.map.loop .loop-back{position:absolute;left:50%;top:50%;width:150px;transform:translate(-50%,-50%);text-align:center;font-size:12.5px;line-height:1.45;color:var(--ink-faint);display:flex;flex-direction:column;align-items:center;gap:6px}
+.map.loop .loop-back .ic{width:18px;height:18px;color:var(--marine)}
+
+/* FRAME-03: the brief as one paper card, its four checks ticked in turn, against twenty seconds on the dial */
+.film .stepper.brief{background:var(--panel);border-radius:4px;padding:26px 30px 10px;max-width:700px;position:relative}
+.stepper.brief::after{content:"";position:absolute;top:0;right:0;width:26px;height:26px;background:linear-gradient(225deg,var(--paper) 50%,var(--marine-tint) 50%);border-radius:0 0 0 4px}
+.brief-head{display:flex;gap:24px;align-items:flex-start;margin-bottom:8px}
+.brief-head .lead{margin:0;font-size:15px}
+.brief .dial{position:relative;flex:none;width:52px;height:52px;margin-right:14px}
+.brief .dial svg{width:100%;height:100%}
+.brief .dial circle{fill:none;stroke-width:4}
+.brief .dial .face{stroke:var(--marine-tint)}
+.brief .dial .fill{stroke:var(--marine);stroke-dasharray:4;stroke-dashoffset:0;transform:rotate(-90deg);transform-origin:center;transform-box:fill-box;transition:stroke-dashoffset .4s ease}
+.brief .dial span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--marine)}
+.film .tiles.asks{display:block;margin:0}
+.film .tiles.asks .tile{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;background:none;border-radius:0;border-bottom:1px solid var(--line);padding:14px 2px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.film .tiles.asks .tile .badge{margin:0}
+.film .tiles.asks .tile .what{margin:0;font-size:16px}
+.tiles.asks .box{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:6px;border:1.5px solid var(--marine-tint-2);color:var(--amber)}
+.tiles.asks .box .ic{width:18px;height:18px;stroke-width:2.6;opacity:0;transform:scale(.4);transition:opacity .2s,transform .2s}
+.is-stepping .tiles.asks .tile.is-now .box,.is-stepping .tiles.asks .tile.is-done .box{border-color:var(--amber);background:var(--amber-tint)}
+.is-stepping .tiles.asks .tile.is-now .box .ic,.is-stepping .tiles.asks .tile.is-done .box .ic{opacity:1;transform:none}
+.is-stepping .tiles.asks .tile.is-now .badge,.is-stepping .tiles.asks .tile.is-done .badge{background:var(--marine);color:#fff}
+.stepper.brief .controls{margin:14px 0 12px}
+/* without JavaScript the four are a plain checklist, every box ticked */
+.tiles.asks .box .ic{opacity:1;transform:none}
+.is-stepping .tiles.asks .tile:not(.is-now):not(.is-done) .box .ic{opacity:0;transform:scale(.4)}
+
+/* FRAME-03: Ask, Build and Prove as three roads, a stop on the road for each step, the two gates as barriers in amber */
+.map.lanes.roads{display:grid;gap:22px}
+.roads .lane{display:grid;grid-template-columns:62px minmax(0,1fr);gap:14px;align-items:start}
+.roads .lane-k{font-family:var(--mono);font-size:12.5px;color:#fff;background:var(--marine-deep);border-radius:6px;padding:5px 0;text-align:center;margin-top:3px}
+.roads .nodes{display:grid;grid-template-columns:repeat(6,minmax(0,1fr))}
+.film .roads .part{position:relative;background:none;border:0;border-radius:0;padding:36px 6px 0;align-items:center;text-align:center;gap:2px}
+.film .roads .part:hover{border:0}
+.film .roads .part .pn{font-size:13px}
+.roads .part::before{content:"";position:absolute;left:0;right:0;top:8px;height:16px;background:linear-gradient(90deg,var(--panel) 0 8px,transparent 8px) 4px 50%/16px 2px repeat-x,var(--line);transition:background-color .2s}
+.roads .part:first-child::before{border-radius:8px 0 0 8px}
+.roads .part:last-child::before{right:calc(50% - 14px);border-radius:0 8px 8px 0}
+.roads .part::after{content:"";position:absolute;left:50%;top:5px;width:22px;height:22px;margin-left:-11px;border-radius:50%;background:var(--panel);border:2px solid var(--ink-faint);box-sizing:border-box;transition:background-color .2s,border-color .2s,transform .2s}
+.roads .part.is-done::before{background:linear-gradient(90deg,var(--panel) 0 8px,transparent 8px) 4px 50%/16px 2px repeat-x,var(--marine-tint-2)}
+.roads .part.is-now::before{background:linear-gradient(90deg,var(--panel) 0 8px,transparent 8px) 4px 50%/16px 2px repeat-x,linear-gradient(90deg,var(--marine-tint-2) 50%,var(--line) 50%)}
+.roads .part.is-done::after{border-color:var(--marine);background:var(--marine-tint-2)}
+.roads .part.is-now::after{border-color:var(--marine);background:var(--marine);transform:scale(1.2)}
+.film .roads .part.is-now .pn{color:var(--marine)}
+.roads .part .boom{position:absolute;left:calc(50% + 17px);top:2px;width:6px;height:28px;border-radius:3px;background:repeating-linear-gradient(180deg,var(--amber) 0 5px,var(--panel) 5px 9px);box-shadow:0 0 0 1px var(--amber)}
+.roads .part.gate::after{border-color:var(--amber)}
+.roads .part.gate.is-done::after{border-color:var(--amber);background:var(--amber-tint)}
+.roads .part.gate.is-now::after{border-color:var(--amber);background:var(--amber)}
+.film .roads .part.gate.is-now .pn{color:var(--ink)}
+.film .roads .part.gate.is-done .pn{color:var(--ink)}
+.roads ~ .says .say{font-size:16px;max-width:640px}
+.lead.after{margin:22px 0 0}
+
+/* FRAME-04: the rollout as a building, one floor a stage, rising as the reader steps; the four sources run up through it as risers, with a joint on every floor that reads from them */
+.film .stepper.tower{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);grid-template-areas:"head head" "map says" "feet says" "ctrl says" "tiles tiles";column-gap:40px;align-items:start}
+.tower .ex-head{grid-area:head}
+.tower .map.building{grid-area:map}
+.tower .feet{grid-area:feet}
+.tower .controls{grid-area:ctrl;margin:14px 0 0}
+.tower .says{grid-area:says;align-self:center}
+.tower .tiles.sources{grid-area:tiles}
+.map.building{display:flex;flex-direction:column-reverse;padding:14px 0 0;border-bottom:3px solid var(--ink)}
+.film .map.building .floor{display:grid;grid-template-columns:40px 116px minmax(0,1fr);grid-template-rows:auto auto;column-gap:10px;row-gap:0;align-items:center;min-height:64px;padding:8px 0 8px 12px;background:var(--panel);border:2px solid var(--marine-deep);border-bottom:0;border-radius:0}
+.film .map.building .floor:last-child{border-radius:6px 6px 0 0}
+.film .map.building .floor:hover{border-color:var(--marine-deep)}
+.film .map.building .floor.is-now,.film .map.building .floor.is-now:hover{border-color:var(--marine-deep);background:var(--marine-tint)}
+.building .floor .badge{grid-column:1;grid-row:1 / span 2}
+.building .floor .pn{grid-column:2;grid-row:1;align-self:end}
+.building .floor .ps{grid-column:2;grid-row:2;align-self:start}
+.building .risers{grid-column:3;grid-row:1 / span 2;align-self:stretch;display:grid;grid-template-columns:repeat(4,1fr);margin:-8px 0}
+.building .risers i{position:relative}
+.building .risers i::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--line);transition:background-color .2s}
+.building .risers i.tap::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--panel);border:2px solid var(--ink-faint);box-sizing:border-box;transition:background-color .2s,border-color .2s}
+.building .risers i.is-on::before{background:var(--marine)}
+.building .floor.is-now .risers i.tap.is-on::after{background:var(--marine);border-color:var(--marine)}
+.building .floor.is-now .risers i.tap::after{border-color:var(--marine)}
+/* the floors not built yet stand as a dashed outline; each new one fills from the floor up */
+.is-stepping .map.building .floor:not(.is-now):not(.is-done){background:none;border-color:var(--marine-tint-2);border-style:dashed}
+.is-stepping .map.building .floor:not(.is-now):not(.is-done) > :not(.risers){opacity:.45}
+.is-stepping .map.building .floor:not(.is-now):not(.is-done) .risers i::after{opacity:.4}
+.is-stepping .map.building .floor.is-now{animation:f-rise .45s ease-out}
+@keyframes f-rise{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0 0 0 0)}}
+.tower .feet{display:grid;grid-template-columns:190px repeat(4,1fr);padding-right:2px;margin-top:8px}
+.tower .feet .badge{justify-self:center;background:var(--marine-tint);color:var(--marine)}
+.tower .feet .badge:nth-child(1){grid-column:2}.tower .feet .badge:nth-child(2){grid-column:3}.tower .feet .badge:nth-child(3){grid-column:4}.tower .feet .badge:nth-child(4){grid-column:5}
+.tower .feet .badge.is-on{background:var(--marine);color:#fff}
+.tower .say .q{font-weight:700;font-size:19px;line-height:1.35;color:var(--ink);letter-spacing:-.01em}
+.tower .say .measures{padding-left:20px;margin-top:10px}
+.tower .say .measures li + li{margin-top:3px}
+.tower .say .from{font-size:13.5px;color:var(--ink-faint);margin-top:10px}
+.film .tiles.sources{margin-top:26px}
+.film .tiles.sources .tile{padding:16px 16px 14px;transition:box-shadow .2s ease}
+.film .tiles.sources .tile .badge{width:32px;height:32px;border-radius:10px;margin-bottom:10px}
+.film .tiles.sources .tile .badge .ic{width:17px;height:17px}
+.film .tiles.sources .tile .what{font-size:14px;margin-bottom:6px}
+.film .tiles.sources .tile .basis{font-size:13px}
 .tiles.sources .tile.is-on{box-shadow:0 0 0 2px var(--marine)}
 .tiles.sources .tile.is-on .badge{background:var(--marine);color:#fff}
-.lead.after{margin:20px 0 0}
-.coda{font-size:17px;font-weight:600;color:var(--ink);letter-spacing:-.01em;max-width:620px;padding:8px 0 0}
+
+.coda{font-size:17px;font-weight:600;color:var(--ink);letter-spacing:-.01em;max-width:620px;padding:24px 0 0}
+
 @media(max-width:860px){
   .tiles.entries.frames{grid-template-columns:repeat(2,1fr)}
-  .map.loop{grid-template-columns:repeat(3,1fr)}
-  .map.lanes .lane{grid-template-columns:1fr;gap:6px}
-  .map.lanes .lane-k{padding:2px 4px 0}
-  .map.lanes .nodes{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .title-card{grid-template-columns:1fr;gap:12px}
+  .cast-shot{grid-template-columns:1fr;gap:28px}
+  .film .ring-ex{grid-template-columns:1fr}
+  .ring-ex .map.loop{grid-column:1;grid-row:auto;margin:0 auto}
+  .ring-ex .controls,.ring-ex .says{grid-column:1;grid-row:auto}
+  .film .stepper.tower{grid-template-columns:1fr;grid-template-areas:"head" "map" "feet" "ctrl" "says" "tiles"}
+  .tower .says{margin-top:4px}
+  .roads .lane{grid-template-columns:1fr;gap:8px}
+  .roads .lane-k{justify-self:start;padding:5px 10px}
+  .board .say{grid-template-columns:1fr;gap:4px}
+  .is-stepping .board .say.is-later > :not(.say-k){display:none}
+  .ring-ex .controls{margin-top:14px}
 }
 @media(max-width:600px){
-  .tiles.entries.frames,.tiles.pair{grid-template-columns:1fr}
-  .tiles.four.asks{grid-template-columns:repeat(2,1fr)}
-  .map .part{padding:10px 10px}
+  .tiles.entries.frames{grid-template-columns:1fr;padding:14px 34px}
+  .tiles.entries.frames::before,.tiles.entries.frames::after{left:auto;right:auto;top:18px;bottom:18px;width:8px;height:auto;background:linear-gradient(180deg,rgba(243,244,246,.92) 0 11px,transparent 11px) 0 0/8px 24px repeat-y}
+  .tiles.entries.frames::before{left:13px}
+  .tiles.entries.frames::after{right:13px}
+  .reel .wrap{gap:5px;padding-left:12px;padding-right:12px}
+  .reel .cell{justify-content:center;gap:6px;padding:6px 4px}
+  .reel .cell .pre{display:none}
+  .shot{padding:36px 0}
+  .pass{grid-template-columns:1fr}
+  .pass-main{padding:18px 18px 20px}
+  .pass-route{font-size:18px;gap:8px}
+  .pass-stub{border-left:0;border-top:2px dashed var(--line);flex-direction:row;justify-content:space-between;padding:12px 18px}
+  .pass-stub::before,.pass-stub::after{top:-11px;bottom:auto}
+  .pass-stub::before{left:-10px}
+  .pass-stub::after{left:auto;right:-10px}
   .map.flight{gap:6px}
-  .map.flight .part:nth-child(2){margin-bottom:12px}
-  .map.flight .part:nth-child(3){margin-bottom:24px}
-  .map.flight .part .pn{font-size:13px}
-  .map.song .seg{padding:10px 6px 8px}
-  .map.song .seg .pn{font-size:12.5px}
-  .map.lanes .nodes,.map.stages{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .say{padding:14px 16px}
-  .stepper .actions .count{width:100%;margin:0}
+  .map.flight[data-at="1"] .plane{top:80px}
+  .map.flight[data-at="2"] .plane{top:79px}
+  .map.flight .plane{width:28px;height:28px;margin:-14px 0 0 -14px}
+  .map.flight .plane .ic{width:28px;height:28px}
+  .film .map.flight .part{padding:10px 8px}
+  .film .map.flight .part .badge{display:none}
+  .film .map.flight .part .pn{font-size:13px}
+  .film .map.flight .part .ps{font-size:12px}
+  .map.song{padding:12px 10px 10px}
+  .film .map.song .seg{padding:9px 5px 46px}
+  .film .map.song .seg .pn{font-size:12px}
+  .map.song .song-bar .seg::after{left:4px;right:4px;height:28px;bottom:9px}
+  .map.song .song-bar .seg:first-child::after{bottom:22px;height:2px}
+  .words.cast li{padding-left:0;padding-top:30px}
+  .words.cast li > b:first-child{position:absolute;top:8px;width:auto;text-align:left}
+  .credits{padding:20px 20px 14px}
+  .film .tiles.pair{grid-template-columns:1fr}
+  .ring-ex .map.loop{width:300px;height:300px}
+  .film .map.loop .part{width:96px;padding:7px 6px}
+  .film .map.loop .part .pn{font-size:12px}
+  .map.loop .loop-back{width:120px;font-size:11.5px}
+  .film .stepper.brief{padding:20px 18px 6px}
+  .brief-head{flex-direction:column-reverse;gap:10px}
+  .brief .dial{width:44px;height:44px}
+  .film .tiles.asks .tile .what{font-size:15px}
+  /* the roads turn to run down the screen */
+  .roads .nodes{grid-template-columns:1fr}
+  .film .roads .part{flex-direction:row;flex-wrap:wrap;align-items:baseline;text-align:left;padding:12px 0 12px 46px;column-gap:8px;min-height:46px}
+  .roads .part::before{left:12px;right:auto;top:0;bottom:0;width:16px;height:auto;background:linear-gradient(180deg,var(--panel) 0 8px,transparent 8px) 50% 4px/2px 16px repeat-y,var(--line)}
+  .roads .part:first-child::before{border-radius:8px 8px 0 0}
+  .roads .part:last-child::before{right:auto;bottom:calc(100% - 34px);border-radius:0 0 8px 8px}
+  .roads .part.is-done::before{background:linear-gradient(180deg,var(--panel) 0 8px,transparent 8px) 50% 4px/2px 16px repeat-y,var(--marine-tint-2)}
+  .roads .part.is-now::before{background:linear-gradient(180deg,var(--panel) 0 8px,transparent 8px) 50% 4px/2px 16px repeat-y,linear-gradient(180deg,var(--marine-tint-2) 50%,var(--line) 50%)}
+  .roads .part::after{left:20px;top:12px}
+  .roads .part .boom{left:5px;top:40px;width:30px;height:6px;background:repeating-linear-gradient(90deg,var(--amber) 0 5px,var(--panel) 5px 9px)}
+  .film .roads .part .stop-note{flex-basis:100%}
+  .film .map.building .floor{grid-template-columns:96px minmax(0,1fr);padding-left:10px}
+  .building .floor .badge{display:none}
+  .building .floor .pn{grid-column:1}
+  .building .floor .ps{grid-column:1}
+  .building .risers{grid-column:2}
+  .tower .feet{grid-template-columns:118px repeat(4,1fr)}
+  .film .tiles.sources{grid-template-columns:repeat(2,1fr)}
 }
