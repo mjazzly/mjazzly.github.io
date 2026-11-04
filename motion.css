@@ -1130,6 +1130,26 @@ section.film{padding:0;scroll-margin-top:58px}
   .film .map.flight .part .badge{display:none}
   .film .map.flight .part .pn{font-size:13px}
   .film .map.flight .part .ps{font-size:12px}
+  .pass-route{margin-bottom:8px}
+  .pass .lead{font-size:14px;line-height:1.5}
+  .pass-stub{padding:8px 18px}
+  .pass-stub .ic{width:22px;height:22px}
+  .pass-stub .code{height:22px}
+  .map.flight{padding-top:96px}
+  .map.flight .sky{height:88px}
+  .map.flight .plane{top:19px}
+  .map.flight[data-at="1"] .plane,.map.flight[data-at="2"] .plane,.map.flight[data-at="3"] .plane,.map.flight[data-at="4"] .plane,.map.flight[data-at="5"] .plane,.map.flight[data-at="6"] .plane{top:68px}
+  .map.flight[data-at="7"] .plane{top:45px}
+  .map.flight[data-at="8"] .plane,.map.flight[data-at="9"] .plane{top:19px}
+  .film .ex-head{margin-bottom:8px}
+  .film .posts-note{font-size:13px;margin-bottom:10px}
+  .board .say{padding:10px 12px;font-size:13.5px}
+  .board .say .say-k{font-size:14px}
+  .board .say .posts{margin-top:6px;padding-top:6px}
+  .board .post{padding:5px 8px;font-size:13px;line-height:1.4;gap:1px}
+  .board .say{line-height:1.45}
+  .film .ex.stepper > .controls{margin:10px 0 12px}
+  .film .says.board{padding:6px;gap:3px}
   .map.song{padding:12px 10px 10px}
   .film .map.song .seg{padding:9px 5px 46px}
   .film .map.song .seg .pn{font-size:12px}
@@ -1180,6 +1200,8 @@ section.film{padding:0;scroll-margin-top:58px}
 .is-stepping .board .post.is-now .pn::before{background:#fff;border-color:#fff}
 .is-stepping .board .post.is-done .pn::before{background:rgba(255,255,255,.6)}
 .is-stepping .board .say.is-now .post.is-later{opacity:.5}
+.is-stepping .board .say:not(.is-now) .say-k{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.is-stepping .board .say:not(.is-now):hover{opacity:1;background:rgba(255,255,255,.1)}
 
 /* the check-in desk: a sign over the counter, one question at a time, the pass printing out under it */
 .film .privacy{font-size:13.5px;color:var(--ink-faint);margin:-14px 0 22px}
@@ -1229,7 +1251,7 @@ section.film{padding:0;scroll-margin-top:58px}
 @media(max-width:860px){
   .board .board-k{display:none}
   .board .post{grid-template-columns:1fr;gap:2px}
-  .board .post .k{display:block;font-family:var(--mono);font-style:normal;font-size:11px;color:rgba(255,255,255,.5);margin-top:4px}
+  .board .post .k{display:inline;font-family:var(--mono);font-style:normal;font-size:11px;color:rgba(255,255,255,.5);margin-right:6px}
 }
 @media(max-width:600px){
   .desk-qs{padding:18px 18px 4px}

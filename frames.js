@@ -118,6 +118,12 @@
         }
       });
     });
+    // on the departures board a folded stage opens with one tap, at its first post
+    if (board) says.forEach(function (s) {
+      s.querySelector(".say-k").addEventListener("click", function () {
+        if (!s.classList.contains("is-now")) go(from(s));
+      });
+    });
     back.addEventListener("click", function () { if (now > first) go(now - 1); });
     next.addEventListener("click", function () { go(now === n ? first : now + 1); });
     window.addEventListener("resize", placeHead);
