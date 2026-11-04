@@ -820,7 +820,8 @@ html.js nav.top .shelf.is-open .go:nth-child(4){animation-delay:.09s}
 section.film{padding:0;scroll-margin-top:58px}
 .shot{padding:48px 0;scroll-margin-top:58px}
 @media(min-width:861px) and (min-height:640px){
-  .shot{position:relative;padding:32px 0 76px;min-height:calc(100vh - 58px);min-height:calc(100svh - 58px);display:flex;flex-direction:column;justify-content:center}
+  .shot{position:relative;padding:44px 0 80px}
+  #frame-01 > .shot:first-child{padding:32px 0 76px;min-height:calc(100vh - 58px);min-height:calc(100svh - 58px);display:flex;flex-direction:column;justify-content:center}
 }
 .title-card{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:28px;align-items:start;margin-bottom:26px}
 .title-card h2{margin:0}
@@ -1053,13 +1054,21 @@ section.film{padding:0;scroll-margin-top:58px}
 .tower .map.building{grid-area:map}
 .tower .feet{grid-area:feet}
 .tower .controls{grid-area:ctrl;margin:14px 0 0}
-.tower .says{grid-area:says;align-self:center}
+.tower .says{grid-area:says;align-self:start;display:grid}
+/* every stage's words share one cell, so the column keeps its height and the words cross-fade instead of jumping */
+@media(min-width:861px){
+  .film .tower .says .say{grid-area:1 / 1;transition:opacity .3s ease,visibility 0s}
+  .film .tower .says .say[hidden]{display:block;visibility:hidden;opacity:0;transition:opacity .2s ease,visibility 0s .2s}
+}
 .tower .tiles.sources{grid-area:tiles}
 .map.building{display:flex;flex-direction:column-reverse;padding:14px 0 0;border-bottom:3px solid var(--ink)}
-.film .map.building .floor{display:grid;grid-template-columns:40px 116px minmax(0,1fr);grid-template-rows:auto auto;column-gap:10px;row-gap:0;align-items:center;min-height:64px;padding:8px 0 8px 12px;background:var(--panel);border:2px solid var(--marine-deep);border-bottom:0;border-radius:0}
+.film .map.building .floor{position:relative;isolation:isolate;display:grid;grid-template-columns:40px 116px minmax(0,1fr);grid-template-rows:auto auto;column-gap:10px;row-gap:0;align-items:center;min-height:64px;padding:8px 0 8px 12px;background:none;border:2px solid var(--marine-deep);border-bottom:0;border-radius:0;transition:border-color .35s ease}
+.film .map.building .floor::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--panel);transform-origin:50% 100%;transition:transform .45s cubic-bezier(.3,.7,.3,1),background-color .35s ease}
+.film .map.building .floor > :not(.risers){transition:opacity .35s ease,color .35s ease}
 .film .map.building .floor:last-child{border-radius:6px 6px 0 0}
 .film .map.building .floor:hover{border-color:var(--marine-deep)}
-.film .map.building .floor.is-now,.film .map.building .floor.is-now:hover{border-color:var(--marine-deep);background:var(--marine-tint)}
+.film .map.building .floor.is-now,.film .map.building .floor.is-now:hover{border-color:var(--marine-deep);background:none}
+.film .map.building .floor.is-now::before{background:var(--marine-tint)}
 .building .floor .badge{grid-column:1;grid-row:1 / span 2}
 .building .floor .pn{grid-column:2;grid-row:1;align-self:end}
 .building .floor .ps{grid-column:2;grid-row:2;align-self:start}
@@ -1071,11 +1080,10 @@ section.film{padding:0;scroll-margin-top:58px}
 .building .floor.is-now .risers i.tap.is-on::after{background:var(--marine);border-color:var(--marine)}
 .building .floor.is-now .risers i.tap::after{border-color:var(--marine)}
 /* the floors not built yet stand as a dashed outline; each new one fills from the floor up */
-.is-stepping .map.building .floor:not(.is-now):not(.is-done){background:none;border-color:var(--marine-tint-2);border-style:dashed}
+.is-stepping .map.building .floor:not(.is-now):not(.is-done){border-color:var(--marine-tint-2);border-style:dashed}
+.is-stepping .map.building .floor:not(.is-now):not(.is-done)::before{transform:scaleY(0)}
 .is-stepping .map.building .floor:not(.is-now):not(.is-done) > :not(.risers){opacity:.45}
 .is-stepping .map.building .floor:not(.is-now):not(.is-done) .risers i::after{opacity:.4}
-.is-stepping .map.building .floor.is-now{animation:f-rise .45s ease-out}
-@keyframes f-rise{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0 0 0 0)}}
 .tower .feet{display:grid;grid-template-columns:190px repeat(4,1fr);padding-right:2px;margin-top:8px}
 .tower .feet .badge{justify-self:center;background:var(--marine-tint);color:var(--marine)}
 .tower .feet .badge:nth-child(1){grid-column:2}.tower .feet .badge:nth-child(2){grid-column:3}.tower .feet .badge:nth-child(3){grid-column:4}.tower .feet .badge:nth-child(4){grid-column:5}
@@ -1403,3 +1411,15 @@ section.film{padding:0;scroll-margin-top:58px}
 .roads-art.is-going .sign:not(.end){opacity:.35}
 .roads-art .sign{transition:opacity .2s,color .2s}
 .roads-art.is-arrived .sign.end{color:var(--marine)}
+
+/* each frame's world fills the width with its own soft tone, so the space around a drawing is part of its scene:
+   sky for the flight, a studio for the song, paper for the brief, a site for the building */
+section.film{--tone:#E7EEF4;background:var(--tone);box-shadow:0 0 0 100vmax var(--tone);clip-path:inset(0 -100vmax)}
+#frame-02{--tone:#E9EBF1}
+#frame-03{--tone:#F4EFE5}
+#frame-04{--tone:#ECEEF0}
+section.film + section.film{margin-top:0}
+.shot + .shot{padding-top:12px}
+.film .cue{color:var(--ink-soft)}
+.coda{padding-top:40px}
+@media(max-width:860px){ .shot{padding:36px 0 44px} .shot + .shot{padding-top:8px} }
