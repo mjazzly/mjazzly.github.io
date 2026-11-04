@@ -10,7 +10,7 @@ BANNED_CHARS = {"\u2014": "em dash", "\u2013": "en dash"}
 failures = []
 
 class Balance(html.parser.HTMLParser):
-    VOID = {"meta", "link", "br", "img", "input", "hr"}
+    VOID = {"meta", "link", "br", "img", "input", "hr", "source", "track"}
     def __init__(self):
         super().__init__(); self.stack = []; self.bad = []
     def handle_starttag(self, t, a):

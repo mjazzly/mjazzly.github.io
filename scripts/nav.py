@@ -43,7 +43,7 @@ def ic(name, cls="ic"):
 def nav(page):
     here = HERE.get(page, page)
     home = page == "index.html"
-    out = [f'<nav class="top{" is-home" if home else ""}" aria-label="Site"><div class="wrap">',
+    out = [f'<nav class="top{" is-home" if home else ""}" aria-label="Site"><a class="skip" href="#main">Skip to the content</a><div class="wrap">',
            '  <a class="brand" href="index.html"><span class="seam silver" aria-hidden="true"></span><span class="brand-name">Megat Jazly</span><span class="seam" aria-hidden="true"></span></a>',
            '  <div class="shelves">']
     for gid, label, icon, line, items in GROUPS:
@@ -70,5 +70,7 @@ if __name__ == "__main__":
         if not p.exists(): continue
         s = p.read_text(encoding="utf-8")
         s, n = re.subn(r'<nav class="top[^"]*"[^>]*>.*?</nav>', lambda m: nav(page), s, count=1, flags=re.S)
+        # the skip link lands on the first wrap after the nav (5 Nov 2026): a keyboard reader jumps the menus in one key
+        s = re.sub(r'(</nav>\s*)<div class="wrap"(?! id=)>', r'\1<div class="wrap" id="main" tabindex="-1">', s, count=1)
         p.write_text(s, encoding="utf-8")
         print(page, "nav written" if n else "NO NAV FOUND")

@@ -80,6 +80,73 @@ document.documentElement.classList.add("js");
   });
 })();
 
+// The folds, on every page and under reduced motion too (5 Nov 2026: they sat after the reduced-motion exit
+// of the drawings script, so a phone with Reduce Motion on opened every fold and hid its button).
+(function () {
+  // The fold: each case opens on its button; without JavaScript every case stays open
+  Array.prototype.forEach.call(document.querySelectorAll(".case, .work"), function (card) {
+    var button = card.querySelector(".case-toggle");
+    var body = card.querySelector(".case-body");
+    if (!button || !body) return;
+    var openLabel = button.getAttribute("data-open") || "Read the case";
+    function setOpen(open) {
+      button.setAttribute("aria-expanded", open ? "true" : "false");
+      button.querySelector(".case-toggle-label").textContent = open ? "Close" : openLabel;
+      body.hidden = !open;
+    }
+    card.openFold = function () { setOpen(true); };
+    button.hidden = false;
+    setOpen(false);
+    button.addEventListener("click", function () {
+      setOpen(button.getAttribute("aria-expanded") !== "true");
+    });
+  });
+  // The other folds (5 Nov 2026): long reference parts of a page start folded so the page ends sooner.
+  // data-fold-below="860" folds only on phones and tablets and leaves wider screens open with no button;
+  // without it the part folds on every width. A folded part is hidden "until found", so a search on the page
+  // opens it at the match. Without JavaScript every part stays open.
+  Array.prototype.forEach.call(document.querySelectorAll(".fold"), function (box) {
+    var button = box.querySelector(".case-toggle");
+    var body = box.querySelector(".case-body");
+    if (!button || !body) return;
+    var openLabel = button.getAttribute("data-open") || "Show";
+    var below = box.getAttribute("data-fold-below");
+    var narrow = below && window.matchMedia ? window.matchMedia("(max-width:" + below + "px)") : null;
+    function setOpen(open) {
+      button.setAttribute("aria-expanded", open ? "true" : "false");
+      button.querySelector(".case-toggle-label").textContent = open ? "Close" : openLabel;
+      box.classList.toggle("is-folded", !open);
+      if (open) body.removeAttribute("hidden"); else body.setAttribute("hidden", "until-found");
+    }
+    function settle() {
+      if (narrow && !narrow.matches) { button.hidden = true; setOpen(true); return; }
+      button.hidden = false;
+      setOpen(false);
+    }
+    box.openFold = function () { setOpen(true); };
+    body.addEventListener("beforematch", function () { setOpen(true); });
+    button.addEventListener("click", function () { box.classList.add("is-opened"); setOpen(button.getAttribute("aria-expanded") !== "true"); });
+    if (narrow && narrow.addEventListener) narrow.addEventListener("change", settle);
+    settle();
+  });
+  // A link to a folded entry (the tiles at the top, or a shared address) opens it on arrival
+  function openHash() {
+    if (!location.hash) return;
+    var target = document.getElementById(location.hash.slice(1));
+    if (!target) return;
+    // the fold the address points into: the card itself, or one whose folded body holds the target
+    var card = target.closest(".work, .case, .fold");
+    if (card && card !== target) {
+      var inner = card.querySelector(".case-body");
+      if (!inner || !inner.contains(target)) card = null;
+    }
+    if (!card) card = target.querySelector(".work, .case");
+    if (card && card.openFold) card.openFold();
+  }
+  openHash();
+  window.addEventListener("hashchange", openHash);
+})();
+
 (function () {
   var calm = window.matchMedia("(prefers-reduced-motion: reduce)");
   var ROUND = 3000;  // how long one play of a drawing takes, in milliseconds
@@ -176,34 +243,6 @@ document.documentElement.classList.add("js");
     });
   });
 
-  // The fold: each case opens on its button; without JavaScript every case stays open
-  Array.prototype.forEach.call(document.querySelectorAll(".case, .work"), function (card) {
-    var button = card.querySelector(".case-toggle");
-    var body = card.querySelector(".case-body");
-    if (!button || !body) return;
-    var openLabel = button.getAttribute("data-open") || "Read the case";
-    function setOpen(open) {
-      button.setAttribute("aria-expanded", open ? "true" : "false");
-      button.querySelector(".case-toggle-label").textContent = open ? "Close" : openLabel;
-      body.hidden = !open;
-    }
-    card.openFold = function () { setOpen(true); };
-    button.hidden = false;
-    setOpen(false);
-    button.addEventListener("click", function () {
-      setOpen(button.getAttribute("aria-expanded") !== "true");
-    });
-  });
-  // A link to a folded entry (the tiles at the top, or a shared address) opens it on arrival
-  function openHash() {
-    if (!location.hash) return;
-    var target = document.getElementById(location.hash.slice(1));
-    if (!target) return;
-    var card = target.classList.contains("work") || target.classList.contains("case") ? target : target.querySelector(".work, .case");
-    if (card && card.openFold) card.openFold();
-  }
-  openHash();
-  window.addEventListener("hashchange", openHash);
 
   // The INFJ-A bars fill once, and each percentage counts up beside its bar
   if (traits) {

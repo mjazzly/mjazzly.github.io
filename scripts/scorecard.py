@@ -138,7 +138,7 @@ block = "\n".join([
     "    </tbody>",
     "  </table>",
     "</div>",
-    f'<p class="score-note">Written from the scorecard\'s records on {day(latest)}: the latest counted run of each build on each model. '
+    f'<p class="score-note">Written from the scorecard\'s records: the latest counted run of each build on each model. '
     "<b>Cases</b> are the build's own test cases, matched by its own checker; <b>gates</b> are its stop and decline cases; the cost is every token at the build's own prices, "
     f"with the cache counted. The bar is each build's own pass rule.{since}</p>",
     f'<p class="score-open"><a href="scorecard.html">{ic("grid")}Open the full scorecard</a><span>the changes since the last sweep and every version, on one page</span></p>',
@@ -299,7 +299,7 @@ page_block = "\n".join([
     "",
     '<section id="builds">',
     f'  <h2><span class="badge">{ic("grid")}</span>Builds by model</h2>',
-    f'  <p class="lead">The latest counted run of each build on each model, as of {day(latest)}. <b>Cases</b> are the build\'s own test cases, matched by its own checker. <b>Gates</b> are the cases where the build must stop or decline. The cost is every token at the build\'s own prices, with the cache counted, and <b>the bars share one scale</b> across the table.</p>',
+    f'  <p class="lead">The latest counted run of each build on each model. <b>Cases</b> are the build\'s own test cases, matched by its own checker. <b>Gates</b> are the cases where the build must stop or decline. The cost is every token at the build\'s own prices, with the cache counted, and <b>the bars share one scale</b> across the table.</p>',
     '  <div class="panel table">',
     '    <table class="costs">',
     f'      <thead><tr><th scope="col">Build</th>{head}</tr></thead>',
@@ -345,7 +345,7 @@ pat = re.compile(r"(<!--SCOREPAGE-->)(.*?)(<!--/SCOREPAGE-->)", re.S)
 if not pat.search(src):
     sys.exit("scorecard.html: no <!--SCOREPAGE--> markers")
 new = pat.sub(lambda m: m.group(1) + "\n" + page_block + "\n" + m.group(3), src)
-new = re.sub(r"(<!--ASOF-->).*?(<!--/ASOF-->)", lambda m: m.group(1) + day(latest) + m.group(2), new, flags=re.S)
+new = re.sub(r"(<!--ASOF-->).*?(<!--/ASOF-->)", lambda m: m.group(1) + "the latest sweep" + m.group(2), new, flags=re.S)   # no date: the site never shows when it was last updated (4 Nov 2026)
 settle(page, src, new)
 if args.check:
     if stale:
