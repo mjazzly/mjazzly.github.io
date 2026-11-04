@@ -811,14 +811,16 @@ html.js nav.top .shelf.is-open .go:nth-child(4){animation-delay:.09s}
 .reel .cell.is-now .ic,.reel .cell.is-now .id{color:var(--amber)}
 .reel .cell:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .reel .keys{display:flex;gap:4px;flex:none;margin-left:4px}
-.reel kbd{font-family:var(--mono);font-size:11px;line-height:1;color:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.24);border-radius:4px;padding:4px 5px}
-@media (hover:none),(max-width:860px){.reel .keys{display:none}}
+.reel .key{font-family:var(--mono);font-size:13px;line-height:1;color:#fff;background:none;border:1px solid rgba(255,255,255,.3);border-radius:6px;padding:7px 9px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background-color .15s,border-color .15s,opacity .15s}
+.reel .key:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.6)}
+.reel .key:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.reel .key[disabled]{opacity:.3;cursor:default;background:none}
 
 /* a screen each */
 section.film{padding:0;scroll-margin-top:58px}
 .shot{padding:48px 0;scroll-margin-top:58px}
 @media(min-width:861px) and (min-height:640px){
-  .shot{padding:32px 0;min-height:calc(100vh - 58px);min-height:calc(100svh - 58px);display:flex;flex-direction:column;justify-content:center}
+  .shot{position:relative;padding:32px 0 76px;min-height:calc(100vh - 58px);min-height:calc(100svh - 58px);display:flex;flex-direction:column;justify-content:center}
 }
 .title-card{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:28px;align-items:start;margin-bottom:26px}
 .title-card h2{margin:0}
@@ -1283,4 +1285,35 @@ section.film{padding:0;scroll-margin-top:58px}
 @media(max-width:600px){
   .pass-lines > div{grid-template-columns:1fr;gap:1px}
   .fixed-note{padding:12px 14px;font-size:14px}
+}
+
+/* the index cards: description and count on the same lines across all four */
+.tiles.entries.frames .tile.entry{display:flex;flex-direction:column}
+.tiles.entries.frames .tile.entry .k{margin-top:auto}
+@supports (grid-template-rows:subgrid){
+  .tiles.entries.frames .tile.entry{display:grid;grid-row:span 5;grid-template-rows:subgrid;row-gap:0}
+  .tiles.entries.frames .tile.entry .badge{justify-self:start}
+  .tiles.entries.frames .tile.entry .k{align-self:end}
+}
+
+/* back to top, once the first screen has scrolled away */
+.to-top{position:fixed;right:20px;bottom:20px;z-index:12;width:42px;height:42px;border:0;border-radius:50%;background:var(--marine-deep);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(8px);-webkit-tap-highlight-color:transparent;transition:opacity .2s,transform .2s,visibility 0s .2s}
+.to-top.is-shown{opacity:1;visibility:visible;transform:none;transition:opacity .2s,transform .2s}
+.to-top:hover{background:var(--marine)}
+.to-top:focus-visible{outline:2px solid var(--marine);outline-offset:3px}
+.to-top .ic{width:18px;height:18px;transform:rotate(180deg)}
+
+/* the cue at the foot of each screen, naming the next one */
+.cue{display:flex;align-items:center;gap:8px;width:max-content;max-width:100%;margin:30px auto 0;font-size:13.5px;font-weight:600;color:var(--ink-soft);border-bottom:0;-webkit-tap-highlight-color:transparent}
+.cue .ic{width:18px;height:18px;color:var(--amber);transition:transform .2s}
+.cue:hover{color:var(--marine)}
+.cue:hover .ic{transform:translateY(2px)}
+.cue-row .cue{margin-top:18px}
+@media(min-width:861px) and (min-height:640px){
+  .shot > .cue{position:absolute;left:50%;bottom:22px;margin:0;transform:translateX(-50%)}
+}
+@media(max-width:600px){
+  .reel .keys{margin-left:2px;gap:3px}
+  .reel .key{padding:6px 7px;font-size:12px}
+  .to-top{right:14px;bottom:14px;width:40px;height:40px}
 }

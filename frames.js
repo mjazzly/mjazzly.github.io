@@ -259,17 +259,32 @@
     row.appendChild(a);
     return a;
   });
-  var keys = el("span", "keys", "<kbd>←</kbd><kbd>→</kbd>");
-  keys.setAttribute("aria-hidden", "true");
+  // the two arrows beside the cells move to the previous and the next frame
+  var keys = el("span", "keys");
+  var prevF = el("button", "key", "\u2190"), nextF = el("button", "key", "\u2192");
+  prevF.type = nextF.type = "button";
+  prevF.setAttribute("aria-label", "Previous frame");
+  nextF.setAttribute("aria-label", "Next frame");
+  keys.appendChild(prevF); keys.appendChild(nextF);
   row.appendChild(keys);
   reel.appendChild(row);
   document.body.appendChild(reel);
+
+  // back to top: a small button that shows once the first screen has scrolled away
+  var top = el("button", "to-top", icon("chevron"));
+  top.type = "button";
+  top.setAttribute("aria-label", "Back to top");
+  top.title = "Back to top";
+  top.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: calm.matches ? "auto" : "smooth" });
+  });
+  document.body.appendChild(top);
 
   function stripH() { return reel.classList.contains("is-shown") ? reel.offsetHeight : 0; }
   // the line the reader is looking at: a little above the middle of what the strip leaves visible
   function probe() { return reel.offsetHeight + (window.innerHeight - reel.offsetHeight) * 0.38; }
 
-  var ticking = false;
+  var ticking = false, curFrame = -1;
   function update() {
     ticking = false;
     var y = probe();
@@ -281,11 +296,17 @@
       var r = f.getBoundingClientRect();
       if (r.top <= y && r.bottom > y) cur = i;
     });
+    curFrame = cur;
+    prevF.disabled = cur <= 0;
+    nextF.disabled = cur >= films.length - 1;
+    top.classList.toggle("is-shown", window.pageYOffset > window.innerHeight);
     cells.forEach(function (c, i) {
       c.classList.toggle("is-now", i === cur);
       if (i === cur) c.setAttribute("aria-current", "true"); else c.removeAttribute("aria-current");
     });
   }
+  prevF.addEventListener("click", function () { if (curFrame > 0) scrollToShot(films[curFrame - 1]); });
+  nextF.addEventListener("click", function () { if (curFrame < films.length - 1) scrollToShot(films[curFrame + 1]); });
   window.addEventListener("scroll", function () {
     if (!ticking) { ticking = true; requestAnimationFrame(update); }
   }, { passive: true });
@@ -297,6 +318,18 @@
     var top = s.getBoundingClientRect().top + window.pageYOffset - reel.offsetHeight;
     window.scrollTo({ top: Math.max(0, top), behavior: calm.matches ? "auto" : "smooth" });
   }
+  // at the foot of each screen, a cue naming the next one; a tap glides there
+  function cue(after, next) {
+    var a = el("a", "cue", icon("chevron") + "<span>Next: " + next.getAttribute("data-name") + "</span>");
+    a.href = next.id ? "#" + next.id : "#" + (next.closest("section") || next).id;
+    a.addEventListener("click", function (e) { e.preventDefault(); scrollToShot(next); });
+    after.appendChild(a);
+  }
+  var heroCue = el("div", "cue-row");
+  sheet.parentNode.insertBefore(heroCue, sheet.nextSibling);
+  cue(heroCue, shots[0]);
+  shots.forEach(function (s, i) { if (shots[i + 1]) cue(s, shots[i + 1]); });
+
   function currentShot() {
     var y = probe();
     if (shots[0].getBoundingClientRect().top > y) return -1;
