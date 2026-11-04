@@ -11,6 +11,9 @@
    card under the pointer.
    ========================================================================== */
 
+/* Manrope joins fl and fi into one glyph, which reads as a broken f; keep every letter apart, site-wide */
+body{font-variant-ligatures:no-common-ligatures}
+
 /* ---------- Focus: the card under the pointer stands alone ---------- */
 .models.has-focus .model:not(.is-focus){opacity:.42}
 .model.is-focus{box-shadow:0 0 0 2px var(--marine)}
@@ -974,6 +977,38 @@ section.film{padding:0;scroll-margin-top:58px}
 .meter.out{height:28px;margin-bottom:0}
 .meter.out i{display:flex;align-items:center;padding:0 9px;font-style:normal;font-size:11.5px;font-weight:600;color:var(--marine-deep);white-space:nowrap;overflow:hidden}
 
+/* FRAME-02: both cards can be tried. A case tapped misses (the decline answers instead, so its track runs the whole way);
+   a part of the writing grade tapped is left out, the parts kept close up to the left and turn amber below the 60 line */
+.tiles.pair .try{margin:12px 0 2px}
+.tiles.pair .try-k{font-size:12.5px;color:var(--ink-faint);margin:0 0 6px}
+.verdict{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:2px 12px;font-size:13px;line-height:1.4;color:var(--ink-soft)}
+.verdict .tally{grid-column:1;grid-row:1}
+.verdict .tally b{font-size:15px;font-weight:800;color:var(--ink)}
+.verdict .held{grid-column:1;grid-row:2;transition:color .2s}
+.verdict .held.is-no{color:var(--ink)}
+.verdict .stamp{grid-column:2;grid-row:1 / span 2;font-size:12.5px;font-weight:700;color:#fff;background:var(--amber);border-radius:999px;padding:3px 11px;transition:background-color .2s,color .2s}
+.verdict .stamp.is-no{background:var(--panel);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink-faint)}
+.verdict .stamp.is-new{animation:f-mark .3s ease-out}
+.is-trying .cases li{cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background-color .2s,color .2s}
+.is-trying .cases li:hover{background:var(--marine-tint)}
+.is-trying .cases li.decline:hover{background:#F3E6CC}
+.is-trying .cases li:focus-visible{outline:2px solid var(--marine);outline-offset:2px}
+.is-trying .cases li[aria-pressed="true"]{background:var(--paper);color:var(--ink-faint)}
+.is-trying .cases li[aria-pressed="true"]::before{background:var(--line)}
+.is-trying .cases li.decline[aria-pressed="true"]{background:var(--paper);color:var(--ink-faint)}
+.is-trying .cases li.decline[aria-pressed="true"]::before{width:auto;background:var(--line)}
+.is-trying .cases li[aria-pressed="true"]::after{background:var(--ink-faint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M7 7l10 10M17 7L7 17'/%3E%3C/svg%3E") center/11px no-repeat}
+.meter.is-trying{height:26px}
+.meter.is-trying i{display:flex;align-items:center;justify-content:center;min-width:0;font-style:normal;font-size:11px;font-weight:600;color:var(--marine-deep);white-space:nowrap;overflow:hidden;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background-color .2s,color .2s}
+.meter.is-trying i:hover{background:var(--marine-tint-2);color:var(--marine-deep)}
+.meter.is-trying i:focus-visible{outline:2px solid var(--marine);outline-offset:1px}
+.meter.is-trying i[aria-pressed="true"]{order:2;background:none;color:var(--ink-faint);outline:1.5px dashed var(--marine-tint-2);outline-offset:-1.5px;text-decoration:line-through}
+.meter.is-under i:not([aria-pressed="true"]){background:var(--amber-tint);color:var(--amber)}
+.meter.is-trying{margin-top:24px}
+.meter.is-trying .bar60{top:-20px;bottom:-4px;align-items:flex-start;padding-left:4px;line-height:1}
+.meter.is-under .bar60{font-weight:700}
+@media(max-width:600px){ .meter.is-trying i{font-size:9.5px} }
+
 /* FRAME-02: the loop as a ring, the arc filling round to the step being read */
 .film .ring-ex{display:grid;grid-template-columns:360px minmax(0,1fr);column-gap:44px;align-items:center}
 .ring-ex .ex-head{grid-column:1 / -1}
@@ -985,7 +1020,7 @@ section.film{padding:0;scroll-margin-top:58px}
 .map.loop .ring circle{fill:none}
 .map.loop .ring .groove{stroke:var(--line);stroke-width:1}
 .map.loop .ring .track{stroke:var(--marine-tint);stroke-width:9}
-.map.loop .ring .arc{stroke:var(--marine);stroke-width:9;stroke-linecap:round;stroke-dasharray:6;stroke-dashoffset:0;transform:rotate(-90deg);transform-origin:center;transform-box:fill-box;transition:stroke-dashoffset .6s cubic-bezier(.45,0,.25,1)}
+.map.loop .ring .arc{stroke:var(--marine);stroke-width:9;stroke-linecap:round;stroke-dasharray:6;stroke-dashoffset:0;transform:rotate(-90deg);transform-origin:center;transform-box:fill-box;transition:stroke-dashoffset .6s cubic-bezier(.45,0,.25,1),opacity .3s ease}
 .film .map.loop .part{position:absolute;width:116px;transform:translate(-50%,-50%);align-items:center;text-align:center;padding:8px 10px;gap:1px}
 .film .map.loop .part .pn{font-size:13px}
 .map.loop .part:nth-of-type(1){left:50%;top:11.1%}
@@ -1045,7 +1080,6 @@ section.film{padding:0;scroll-margin-top:58px}
 .roads .part.gate.is-now::after{border-color:var(--amber);background:var(--amber)}
 .film .roads .part.gate.is-now .pn{color:var(--ink)}
 .film .roads .part.gate.is-done .pn{color:var(--ink)}
-.roads ~ .says .say{font-size:16px;max-width:640px}
 .lead.after{margin:22px 0 0}
 
 /* FRAME-04: the rollout as a building, one floor a stage, rising as the reader steps; the four sources run up through it as risers, with a joint on every floor that reads from them */
@@ -1055,11 +1089,9 @@ section.film{padding:0;scroll-margin-top:58px}
 .tower .feet{grid-area:feet}
 .tower .controls{grid-area:ctrl;margin:14px 0 0}
 .tower .says{grid-area:says;align-self:start;display:grid}
-/* every stage's words share one cell, so the column keeps its height and the words cross-fade instead of jumping */
-@media(min-width:861px){
-  .film .tower .says .say{grid-area:1 / 1;transition:opacity .3s ease,visibility 0s}
-  .film .tower .says .say[hidden]{display:block;visibility:hidden;opacity:0;transition:opacity .2s ease,visibility 0s .2s}
-}
+/* every stage's words share one cell on every width, so the column keeps its height, the words cross-fade, and the tiles below never move */
+.film .tower .says .say{grid-area:1 / 1;transition:opacity .3s ease,visibility 0s}
+.film .tower .says .say[hidden]{display:block;visibility:hidden;opacity:0;transition:opacity .2s ease,visibility 0s .2s}
 .tower .tiles.sources{grid-area:tiles}
 .map.building{display:flex;flex-direction:column-reverse;padding:14px 0 0;border-bottom:3px solid var(--ink)}
 .film .map.building .floor{position:relative;isolation:isolate;display:grid;grid-template-columns:40px 116px minmax(0,1fr);grid-template-rows:auto auto;column-gap:10px;row-gap:0;align-items:center;min-height:64px;padding:8px 0 8px 12px;background:none;border:2px solid var(--marine-deep);border-bottom:0;border-radius:0;transition:border-color .35s ease}
@@ -1158,7 +1190,7 @@ section.film{padding:0;scroll-margin-top:58px}
   .board .say .posts{margin-top:6px;padding-top:6px}
   .board .post{padding:5px 8px;font-size:13px;line-height:1.4;gap:1px}
   .board .say{line-height:1.45}
-  .film .ex.stepper > .controls{margin:10px 0 12px}
+  .film .ex.stepper > .controls,.film .pin > .controls{margin:10px 0 12px}
   .film .says.board{padding:6px;gap:3px}
   .map.song{padding:12px 10px 10px}
   .film .map.song .seg{padding:9px 5px 46px}
@@ -1287,12 +1319,21 @@ section.film{padding:0;scroll-margin-top:58px}
 .pass-lines .r-stage,.pass-lines .r-cp{font-weight:800;color:var(--marine);letter-spacing:-.01em}
 .pass-lines .r-cp{font-size:20px;line-height:1.2}
 .pass-lines .r-next b{color:var(--ink)}
-/* FRAME-03: the gate rule, fixed under the roads while the steps change below it */
-.fixed-note{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start;background:var(--panel);border-radius:var(--radius-s);padding:14px 18px;margin-top:22px;max-width:760px;font-size:14.5px;line-height:1.55;color:var(--ink-soft)}
-.fixed-note b{color:var(--ink)}
+/* FRAME-01: the flight and its Back and Next stay pinned under the strip of film while the departures board passes beneath */
+.is-stepping > .pin{position:sticky;top:var(--reel,0px);z-index:3;display:flow-root;background:var(--tone);transition:top .2s ease}
+.is-stepping > .pin .map.flight{margin-top:0}
+/* FRAME-03: the words for the step sit in a white card right under Back and Next, every step sharing one cell so nothing below jumps;
+   the gate rule stays under them as a quieter note on the paper */
+.roads ~ .says{display:grid;background:var(--panel);border-radius:var(--radius-s);padding:18px 22px;max-width:760px}
+.roads ~ .says .say{font-size:17px;line-height:1.5}
+.is-stepping .roads ~ .says .say{grid-area:1 / 1;transition:opacity .25s ease,visibility 0s}
+.is-stepping .roads ~ .says .say[hidden]{display:block;visibility:hidden;opacity:0;transition:opacity .15s ease,visibility 0s .15s}
+.fixed-note{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;border-top:1px solid var(--line);padding:16px 0 0;margin-top:26px;max-width:760px;font-size:14px;line-height:1.55;color:var(--ink-faint)}
+.fixed-note b{color:var(--ink-soft)}
 @media(max-width:600px){
   .pass-lines > div{grid-template-columns:1fr;gap:1px}
-  .fixed-note{padding:12px 14px;font-size:14px}
+  .roads ~ .says{padding:14px 16px}
+  .roads ~ .says .say{font-size:15.5px}
 }
 
 /* the index cards: description and count on the same lines across all four */
@@ -1413,10 +1454,10 @@ section.film{padding:0;scroll-margin-top:58px}
 .roads-art.is-arrived .sign.end{color:var(--marine)}
 
 /* each frame's world fills the width with its own soft tone, so the space around a drawing is part of its scene:
-   sky for the flight, a studio for the song, paper for the brief, a site for the building */
+   all four cool and close, so the page reads as one film: sky for the flight, a studio for the song, a cool paper for the brief, a site for the building */
 section.film{--tone:#E7EEF4;background:var(--tone);box-shadow:0 0 0 100vmax var(--tone);clip-path:inset(0 -100vmax)}
 #frame-02{--tone:#E9EBF1}
-#frame-03{--tone:#F4EFE5}
+#frame-03{--tone:#EAEDF2}
 #frame-04{--tone:#ECEEF0}
 section.film + section.film{margin-top:0}
 .shot + .shot{padding-top:12px}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261031e"><link rel="stylesheet" href="motion.css?v=20261104l"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261031e"><link rel="stylesheet" href="motion.css?v=20261104m"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
 <title>Frames | Megat Jazly</title>
 <meta name="description" content="Four frameworks for AI at work: how people come on board, how a prompt is built, how a request becomes a prompt that holds up, and how to tell whether it is working."><meta property="og:type" content="website"><meta property="og:site_name" content="Megat Jazly"><meta property="og:title" content="Frames | Megat Jazly"><meta property="og:description" content="Four frameworks for AI at work: how people come on board, how a prompt is built, how a request becomes a prompt that holds up, and how to tell whether it is working."><meta property="og:url" content="https://mjazzly.github.io/frames.html"><meta property="og:image" content="https://mjazzly.github.io/preview.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
 </head>
@@ -128,6 +128,7 @@
   </div>
   <div class="ex stepper" data-stepper>
     <div class="ex-head"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-stairs"/></svg></span><div class="sys-head"><span class="sys-id">FRAME-01 · Three stages, nine checkpoints</span></div></div>
+    <p class="posts-note"><b>Each stage has three checkpoints</b>, so you can see where inside a stage someone sits. The checkpoints mark progress on the same flight; none of them ranks one person above another. <b>AI</b> here means any AI a person is allowed to use for their work, the company's own tool or an approved one.</p>
     <div class="map flight">
       <svg class="sky" viewBox="0 0 600 100" preserveAspectRatio="none" aria-hidden="true"><path class="cloud" d="M470 56h46M488 46h30M540 74h44M552 64h22"/><path class="ground" d="M0 94H600"/><path class="route" d="M30 86H380C420 86 432 22 490 22H600"/></svg>
       <span class="plane" aria-hidden="true"><svg class="ic"><use href="#ic-plane"/></svg></span>
@@ -135,7 +136,6 @@
       <a class="part" href="#f1-2" data-step="4" data-last="6"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-ticket"/></svg></span><span class="pn">At the gate</span><span class="ps">Ticket in hand</span></a>
       <a class="part" href="#f1-3" data-step="7" data-last="9"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-users"/></svg></span><span class="pn">In the air</span><span class="ps">Using it every week</span></a>
     </div>
-    <p class="posts-note"><b>Each stage has three checkpoints</b>, so you can see where inside a stage someone sits. The checkpoints mark progress on the same flight; none of them ranks one person above another. <b>AI</b> here means any AI a person is allowed to use for their work, the company's own tool or an approved one.</p>
     <ol class="says board">
       <li class="board-k"><span></span><span>How you tell</span><span>The lever</span></li>
       <li class="say" id="f1-1" data-step="1" data-last="3"><p class="say-k">On the ground · Not flying yet</p><p>They have not started, or do not see the point.</p><p class="lever"><b>The lever: a plain-words reason to care, tied to their own work.</b> Show the twenty minutes it saves on a report they already write, not what the tool can do in general.</p><ul class="posts"><li class="part post" data-step="1"><b class="pn">No ticket</b><span class="tell"><i class="k">How you tell</i>Has no AI they are allowed to use for work yet.</span><span class="plever"><i class="k">The lever</i>Access, and a reason to use AI in the first week.</span></li><li class="part post" data-step="2"><b class="pn">Ticket held</b><span class="tell"><i class="k">How you tell</i>Is allowed to use AI for work, but has not tried it yet.</span><span class="plever"><i class="k">The lever</i>A first task done side by side with someone who already uses AI.</span></li><li class="part post" data-step="3"><b class="pn">Checked in</b><span class="tell"><i class="k">How you tell</i>Tried AI once or twice, then stopped.</span><span class="plever"><i class="k">The lever</i>A second task that fits their actual week.</span></li></ul></li>
@@ -239,6 +239,7 @@
       <ul class="cases" aria-label="The five cases">
         <li>Ordinary</li><li>Ordinary</li><li>Ordinary</li><li>Edge</li><li class="decline">Decline</li>
       </ul>
+      <template data-try="cases"><div class="try"><p class="try-k">Tap a case to make it miss.</p><p class="verdict" aria-live="polite"><span class="tally"><b class="tn">5</b> of 5 match</span><span class="held" data-yes="Declines the one it should" data-no="Answers the one it should decline">Declines the one it should</span><span class="stamp" data-yes="Passes" data-no="Does not pass">Passes</span></p></div></template>
       <p class="basis"><b>It passes when four of five match and it declines the one it should.</b></p>
     </div>
     <div class="tile">
@@ -246,6 +247,7 @@
       <div class="what">Keeping score</div>
       <p class="basis"><b>Writing grade, out of 100</b>, read off the song bar above. <b>Below 60, rewrite before testing.</b></p>
       <div class="meter" aria-hidden="true"><i class="g10"></i><i class="g20"></i><i class="g15"></i><i class="g25"></i><i class="g10"></i><i class="g20"></i><b class="bar60">60</b></div>
+      <template data-try="grade"><div class="try"><p class="try-k">Tap a part to leave it out of the sheet.</p><p class="verdict" aria-live="polite"><span class="tally">Writing grade <b class="tn">100</b></span><span class="stamp" data-yes="On to the rehearsal" data-no="Rewrite before testing">On to the rehearsal</span></p></div></template>
       <p class="basis"><b>Output grade, out of 100: quality 60, speed 20, cost 20</b>, on the smallest model that passed. A <b>model</b> is the AI system that runs the prompt; smaller ones are quicker and cost less.</p>
       <div class="meter out" aria-hidden="true"><i class="g60">Quality 60</i><i class="g20">Speed 20</i><i class="g20">Cost 20</i></div>
     </div>
@@ -317,7 +319,6 @@
         <a class="part" href="#f3-13" data-step="13"><span class="no">13</span><span class="pn">A failure routes back</span></a>
       </div></div>
     </div>
-    <div class="fixed-note"><span class="badge badge-s amber"><svg class="ic" aria-hidden="true"><use href="#ic-shield"/></svg></span><p><b>The gate rule in two lines.</b> <b>The expected answer is agreed with the person asking before the first run</b>, and where no standard exists, their own "what good looks like" becomes the standard. <b>Time-boxed work</b> (work with a deadline that will not wait for the full test) ships through the draft gate; <b>only the library gate makes it reusable.</b></p></div>
     <ol class="says">
       <li class="say" id="f3-1" data-step="1"><p class="say-k">Ask · 01 · Request received</p><p><b>Taken down in the words it arrived in</b>, before anyone decides what it means.</p></li>
       <li class="say" id="f3-2" data-step="2"><p class="say-k">Ask · 02 · Objective in one line</p><p><b>What it is for, in a single sentence.</b> If it will not fit in one line, it is two requests.</p></li>
@@ -333,6 +334,7 @@
       <li class="say" id="f3-12" data-step="12"><p class="say-k">Prove · 12 · Library gate</p><p><b>Five cases, four pass, and the decline holds.</b> The owner, version, limits and what it was tested on are recorded. Then it enters the library.</p></li>
       <li class="say" id="f3-13" data-step="13"><p class="say-k">Prove · 13 · A failure routes back</p><p><b>Back to the field that failed</b>: the wording, missing context, a new use case, a platform limit or a policy question. <b>The last two are escalated</b> to whoever decides them.</p></li>
     </ol>
+    <div class="fixed-note"><span class="badge badge-s amber"><svg class="ic" aria-hidden="true"><use href="#ic-shield"/></svg></span><p><b>The gate rule in two lines.</b> <b>The expected answer is agreed with the person asking before the first run</b>, and where no standard exists, their own "what good looks like" becomes the standard. <b>Time-boxed work</b> (work with a deadline that will not wait for the full test) ships through the draft gate; <b>only the library gate makes it reusable.</b></p></div>
   </div>
 </div>
 </section>
@@ -384,6 +386,6 @@
 </div>
 <script data-goatcounter="https://mjazzly.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 <script src="site.js?v=20261102q"></script>
-<script src="frames.js?v=20261104j"></script>
+<script src="frames.js?v=20261104k"></script>
 </body>
 </html>

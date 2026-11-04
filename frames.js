@@ -60,11 +60,19 @@
     var controls = el("div", "controls");
     var back = button("Back", "back"), next = button("Next", "next");
     controls.appendChild(back); controls.appendChild(next);
-    // under the drawing, or under a fixed note that sits with it (the gate rule on FRAME-03)
-    var mapEl = box.querySelector(".fixed-note") || box.querySelector(".map");
+    // right under the drawing, so the words they change sit just below them
+    var mapEl = box.querySelector(".map");
     if (mapEl) mapEl.parentNode.insertBefore(controls, mapEl.nextSibling);
     else if (list) list.parentNode.insertBefore(controls, list);
     else box.appendChild(controls);
+    // on the departures board the flight and its buttons stay pinned under the strip of film while the board passes beneath,
+    // so the plane and the checkpoint it has reached are always seen together
+    var pin = null;
+    if (board && mapEl) {
+      pin = el("div", "pin");
+      mapEl.parentNode.insertBefore(pin, mapEl);
+      pin.appendChild(mapEl); pin.appendChild(controls);
+    }
 
     // the play head on FRAME-02 sits at the end of the part being played; the rhythm runs the whole length
     function placeHead() {
@@ -98,32 +106,78 @@
       lit.forEach(function (t) {
         t.classList.toggle("is-on", t.getAttribute("data-on").split(" ").indexOf(String(k)) > -1);
       });
-      if (arc) arc.style.strokeDashoffset = 6 - (k - 1);
+      if (arc && !wrapping) arc.style.strokeDashoffset = 6 - (k - 1);
       if (dial) dial.style.strokeDashoffset = 4 - k;
       placeHead();
       back.disabled = k === first;
-      next.querySelector(".case-toggle-label").textContent = k === n ? "From the start" : "Next";
+      next.querySelector(".case-toggle-label").textContent = k === n ? (arc ? "Next version" : "From the start") : "Next";
     }
 
-    // A tap on a part shows its words; on a phone the words can sit below the screen, so they are brought just into view
+    // After a step the reader takes, the window moves only as far as it must to show the drawing and the words for the step together:
+    // on FRAME-01 the plane and the checkpoint it has reached on the board. Where both cannot fit, the moving part and its words come first,
+    // and where even that cannot fit, the words.
+    var plane = map.querySelector(".plane");
+    function keep() {
+      var words = board ? box.querySelector('.post[data-step="' + now + '"]') || list.querySelector(".say.is-now")
+        : says.filter(function (s) { return !s.hidden; })[0];
+      if (!words) return;
+      var reel = document.querySelector(".reel"), top = (reel ? reel.offsetHeight : 0) + 10;
+      if (pin) top += pin.offsetHeight;
+      var room = window.innerHeight - top - 14, b = words.getBoundingClientRect().bottom;
+      if (pin) {
+        // the plane is pinned, so only the checkpoint has to come into the room under it
+        var w = words.getBoundingClientRect(), d = w.top < top ? w.top - top : w.bottom > top + room ? w.bottom - top - room : 0;
+        if (Math.abs(d) > 2) window.scrollBy({ top: d, behavior: calm.matches ? "auto" : "smooth" });
+        return;
+      }
+      var mover = plane || parts.filter(function (p) { return p.classList.contains("is-now"); })[0] || map;
+      var t = [map.getBoundingClientRect().top, mover.getBoundingClientRect().top, words.getBoundingClientRect().top]
+        .filter(function (y) { return b - y <= room; })[0];
+      var dy = 0;
+      if (t === undefined) dy = b - (top + room);
+      else if (t < top) dy = t - top;
+      else if (b > top + room) dy = b - (top + room);
+      if (Math.abs(dy) > 2) window.scrollBy({ top: dy, behavior: calm.matches ? "auto" : "smooth" });
+    }
+
+    // A tap on a part shows its words, brought into view with the drawing
     parts.forEach(function (p) {
       p.addEventListener("click", function (e) {
         e.preventDefault();
         go(from(p));
-        var say = says.filter(function (s) { return !s.hidden && from(s) <= now && now <= to(s); })[0];
-        if (say && say.getBoundingClientRect().bottom > window.innerHeight) {
-          say.scrollIntoView({ block: "nearest", behavior: calm.matches ? "auto" : "smooth" });
-        }
+        keep();
       });
     });
     // on the departures board a folded stage opens with one tap, at its first post
     if (board) says.forEach(function (s) {
       s.querySelector(".say-k").addEventListener("click", function () {
-        if (!s.classList.contains("is-now")) go(from(s));
+        if (!s.classList.contains("is-now")) { go(from(s)); keep(); }
       });
     });
-    back.addEventListener("click", function () { if (now > first) go(now - 1); });
-    next.addEventListener("click", function () { go(now === n ? first : now + 1); });
+    back.addEventListener("click", function () { if (now > first) { go(now - 1); keep(); } });
+    next.addEventListener("click", function () {
+      if (now === n && arc) roundAgain(); else go(now === n ? first : now + 1);
+      keep();
+    });
+    // the loop goes round, never back: past Reuse the arc closes the circle, then the next version starts at Write
+    var wrapping = false;
+    function roundAgain() {
+      wrapping = true;
+      go(first);
+      arc.style.strokeDashoffset = 0;
+      // the closed ring fades, and the new round begins from empty
+      var T = calm.matches ? 0 : 650;
+      setTimeout(function () { arc.style.opacity = 0; }, T);
+      setTimeout(function () {
+        arc.style.transition = "none";
+        arc.style.strokeDashoffset = 6;
+        arc.getBoundingClientRect();
+        arc.style.transition = "";
+        arc.style.opacity = "";
+        wrapping = false;
+        arc.style.strokeDashoffset = 6 - (now - 1);
+      }, T * 1.5);
+    }
     window.addEventListener("resize", placeHead);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeHead);
 
@@ -132,7 +186,8 @@
       at: function () { return now; },
       first: first,
       last: n,
-      controls: controls
+      controls: controls,
+      keep: keep
     };
     box.classList.add("is-stepping");
     go(first);
@@ -386,7 +441,7 @@
   // ---------- FRAME-02: the two roads into one song, and the rehearsal ----------
   // Pointing at a road (or a tap) lights it toward the finished song. On the
   // top road the composer leads and the performer follows; on the bottom road
-  // the performer leads. Nothing moves until the reader points or taps.
+  // the performer leads. Both play once when the drawing first comes into view.
   all(".roads-art").forEach(function (svg) {
     var lit = {}, trav = {}, raf = 0, on = null, began = 0;
     all(".lit", svg).forEach(function (p) { lit[p.getAttribute("data-road")] = p; });
@@ -412,12 +467,28 @@
       svg.classList.remove("is-going", "is-arrived");
       Object.keys(lit).forEach(function (k) { lit[k].classList.remove("is-on"); lit[k].style.strokeDashoffset = 1; });
     }
+    // the first time the drawing is mostly on screen, both roads play once, top then bottom, so the reader sees there is something to point at
+    var demo = [];
+    function quiet() { demo.forEach(clearTimeout); demo = []; }
+    if (!calm.matches && "IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (es) {
+        if (!es.some(function (e) { return e.intersectionRatio >= 0.8; })) return;
+        io.disconnect();
+        demo = [
+          setTimeout(function () { run("top"); }, 300),
+          setTimeout(function () { run("bottom"); }, 2500),
+          setTimeout(function () { stop(); demo = []; }, 4900)
+        ];
+      }, { threshold: [0.8] });
+      io.observe(svg);
+    }
     all(".hit", svg).forEach(function (h) {
       var road = h.getAttribute("data-road");
-      h.addEventListener("mouseenter", function () { if (on !== road) run(road); });
-      h.addEventListener("mouseleave", stop);
+      h.addEventListener("mouseenter", function () { quiet(); if (on !== road) run(road); });
+      h.addEventListener("mouseleave", function () { if (!demo.length) stop(); });
       // a tap on a touch screen also reports the pointer arriving, so the tap that started a road does not stop it
       h.addEventListener("click", function () {
+        quiet();
         if (on !== road) run(road);
         else if (Date.now() - began > 500) stop();
       });
@@ -434,6 +505,71 @@
       });
     }, { threshold: [0.85] });
     io.observe(tiles);
+  });
+
+  // Then both cards can be tried. A tap on a case makes it miss (the decline case then answers instead of declining),
+  // and the verdict under the cases follows the rule: four of five match and the decline holds. A tap on a part of the
+  // writing grade leaves it out of the sheet; the parts left in close up to the left, so the grade reads against the 60 line.
+  function tryOut(tpl) {
+    var t = tpl.content.firstElementChild.cloneNode(true);
+    tpl.parentNode.insertBefore(t, tpl);
+    var stamp = t.querySelector(".stamp");
+    return {
+      n: t.querySelector(".tn"),
+      say: function (e, ok) {
+        e.textContent = e.getAttribute(ok ? "data-yes" : "data-no");
+        e.classList.toggle("is-no", !ok);
+      },
+      stamp: function (ok) {
+        this.say(stamp, ok);
+        stamp.classList.remove("is-new"); stamp.getBoundingClientRect(); stamp.classList.add("is-new");
+      }
+    };
+  }
+  function toggler(e, label, onFlip) {
+    e.setAttribute("role", "button");
+    e.tabIndex = 0;
+    e.setAttribute("aria-pressed", "false");
+    if (label) e.setAttribute("aria-label", label);
+    e.addEventListener("click", function () {
+      e.setAttribute("aria-pressed", e.getAttribute("aria-pressed") === "true" ? "false" : "true");
+      onFlip();
+    });
+    e.addEventListener("keydown", function (k) {
+      if (k.key === "Enter" || k.key === " ") { k.preventDefault(); e.click(); }
+    });
+  }
+  all('template[data-try="cases"]').forEach(function (tpl) {
+    var ui = tryOut(tpl), cases = all(".cases li", tpl.parentNode), held = tpl.parentNode.querySelector(".verdict .held");
+    function judge() {
+      var miss = cases.filter(function (c) { return c.getAttribute("aria-pressed") === "true"; });
+      var holds = miss.every(function (c) { return !c.classList.contains("decline"); });
+      ui.n.textContent = cases.length - miss.length;
+      ui.say(held, holds);
+      ui.stamp(cases.length - miss.length >= 4 && holds);
+    }
+    cases.forEach(function (c) { toggler(c, null, judge); });
+    tpl.parentNode.classList.add("is-trying");
+  });
+  all('template[data-try="grade"]').forEach(function (tpl) {
+    var ui = tryOut(tpl), meter = tpl.parentNode.querySelector(".meter");
+    var names = all("#frame-02 .song-bar .pn, #frame-02 .rhythm .pn").map(function (e) { return e.textContent.split(",")[0]; });
+    var segs = all("i", meter);
+    if (names.length !== segs.length) return;
+    meter.removeAttribute("aria-hidden");
+    segs.forEach(function (g, i) {
+      var pts = +g.className.replace(/\D/g, "");
+      g.setAttribute("data-pts", pts);
+      g.textContent = names[i];
+      toggler(g, names[i] + ", " + pts, function () {
+        var sum = 0;
+        segs.forEach(function (x) { if (x.getAttribute("aria-pressed") !== "true") sum += +x.getAttribute("data-pts"); });
+        ui.n.textContent = sum;
+        meter.classList.toggle("is-under", sum < 60);
+        ui.stamp(sum >= 60);
+      });
+    });
+    meter.classList.add("is-trying");
   });
 
   // ---------- the strip of film at the top of the window ----------
@@ -477,7 +613,6 @@
   });
   document.body.appendChild(top);
 
-  function stripH() { return reel.classList.contains("is-shown") ? reel.offsetHeight : 0; }
   // the line the reader is looking at: a little above the middle of what the strip leaves visible
   function probe() { return reel.offsetHeight + (window.innerHeight - reel.offsetHeight) * 0.38; }
 
@@ -488,6 +623,7 @@
     var shown = sheet.getBoundingClientRect().bottom < reel.offsetHeight &&
       films[films.length - 1].getBoundingClientRect().bottom > reel.offsetHeight + 40;
     reel.classList.toggle("is-shown", shown);
+    document.documentElement.style.setProperty("--reel", (shown ? reel.offsetHeight : 0) + "px");
     var cur = -1;
     films.forEach(function (f, i) {
       var r = f.getBoundingClientRect();
@@ -536,13 +672,6 @@
     }
     return shots.length;
   }
-  // a step taken with the keys while its drawing is off screen brings the screen in first
-  function inView(box) {
-    var m = (box.querySelector(".map") || box).getBoundingClientRect();
-    var c = box.stepper.controls.getBoundingClientRect();
-    return m.top >= stripH() - 4 && c.bottom <= window.innerHeight + 4;
-  }
-
   document.addEventListener("keydown", function (e) {
     if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
     if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || e.defaultPrevented) return;
@@ -558,7 +687,7 @@
       var st = box.stepper, k = st.at();
       if (fwd ? k < st.last : k > st.first) {
         st.go(fwd ? k + 1 : k - 1);
-        if (!inView(box)) scrollToShot(shot);
+        st.keep();
         return;
       }
     }
