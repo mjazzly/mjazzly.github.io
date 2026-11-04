@@ -298,7 +298,13 @@ html.js .is-in .stair:nth-child(5){transition-delay:.48s}
 .timeline a,.timeline a *{pointer-events:all;cursor:pointer}
 .timeline a:focus-visible .note{fill:var(--amber)}
 @media (hover:hover){.timeline a:hover .note{fill:var(--amber)}}
-@media(max-width:600px){.timeline .k-text{font-size:17px}}
+/* the month labels: on a phone only the first tick and the start of each year are named (as the year), so none run into each other */
+.timeline .k-text.narrow{display:none}
+@media(max-width:600px){
+  .timeline .k-text{font-size:17px}
+  .timeline .k-text.minor,.timeline .k-text.wide{display:none}
+  .timeline .k-text.narrow{display:inline}
+}
 
 /* a tapped link in a drawing never keeps a focus ring or a lit state on touch screens */
 .shelf a,.timeline a{-webkit-tap-highlight-color:transparent;outline:none}
@@ -1463,3 +1469,37 @@ section.film + section.film{margin-top:0}
 .film .cue{color:var(--ink-soft)}
 .coda{padding-top:40px}
 @media(max-width:860px){ .shot{padding:36px 0 44px} .shot + .shot{padding-top:8px} }
+
+/* FRAME-03 and FRAME-04 step without a jump: only position, scale and opacity move.
+   On the roads the fill is a layer that slides along the road (the new stop's half follows once the last one is full),
+   the dashes stay on top of it, and the dot at the stop grows in; the floors of the building swap their dashed outline by a fade */
+.is-stepping .roads .part::before{content:none}
+.roads .part .road{position:absolute;left:0;right:0;top:8px;height:16px;overflow:hidden;background:var(--line)}
+.roads .part:first-child .road{border-radius:8px 0 0 8px}
+.roads .part:last-child .road{right:calc(50% - 14px);border-radius:0 8px 8px 0}
+.roads .part .road::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--panel) 0 8px,transparent 8px) 4px 50%/16px 2px repeat-x}
+.roads .part .fill{position:absolute;inset:0;background:var(--marine-tint-2);transform:translateX(-100%);transition:transform .32s cubic-bezier(.4,0,.2,1)}
+.roads .part.is-now .fill{transform:translateX(-50%);transition-delay:.2s}
+.roads .part.is-done .fill{transform:none}
+.roads .part:last-child.is-now .fill{transform:translateX(-14px)}
+.roads .part .dot{position:absolute;left:50%;top:5px;z-index:1;width:22px;height:22px;margin-left:-11px;border-radius:50%;background:var(--marine);transform:scale(0);transition:transform .2s ease}
+.roads .part.gate .dot{background:var(--amber)}
+.roads .part.is-now .dot{transform:scale(1.2);transition:transform .3s cubic-bezier(.3,1.4,.5,1) .4s}
+.is-stepping .roads .part.is-now::after{background:var(--panel)}
+.is-stepping .roads .part.gate.is-now::after{background:var(--panel)}
+.film .roads .part .pn{transition:color .2s}
+.film .map.building .floor::after{content:"";position:absolute;inset:-2px -2px 0;border:2px dashed var(--marine-tint-2);border-bottom:0;border-radius:inherit;opacity:0;pointer-events:none;transition:opacity .35s ease}
+.is-stepping .map.building .floor:not(.is-now):not(.is-done){border-style:solid;border-color:transparent}
+.is-stepping .map.building .floor:not(.is-now):not(.is-done)::after{opacity:1}
+.building .risers i.tap::after{transition:background-color .2s,border-color .2s,opacity .35s}
+@media(max-width:600px){
+  .roads .part .road{left:12px;right:auto;top:0;bottom:0;width:16px;height:auto}
+  .roads .part:first-child .road{border-radius:8px 8px 0 0}
+  .roads .part:last-child .road{right:auto;bottom:calc(100% - 34px);border-radius:0 0 8px 8px}
+  .roads .part .road::after{background:linear-gradient(180deg,var(--panel) 0 8px,transparent 8px) 50% 4px/2px 16px repeat-y}
+  .roads .part .fill{transform:translateY(-100%)}
+  .roads .part.is-now .fill{transform:translateY(-50%)}
+  .roads .part:last-child.is-now .fill{transform:translateY(-11px)}
+  .roads .part.is-done .fill{transform:none}
+  .roads .part .dot{left:20px;top:12px}
+}

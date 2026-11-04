@@ -13,7 +13,9 @@
    parts before it read as done), and adds Back and Next under the drawing, with no step count.
    A tap on a part goes straight to its step. Anything in the same section
    carrying data-on="1 3" lights while step 1 or 3 is showing (the four
-   sources and their risers on FRAME-04). The departures board on FRAME-01
+   sources and their risers on FRAME-04). A stepper marked data-still
+   (FRAME-03's roads, FRAME-04's building) never moves the page on Back,
+   Next or the arrow keys: its words share one cell, so nothing below moves. The departures board on FRAME-01
    keeps every row and fills them in as the plane moves; the brief on
    FRAME-03 starts with nothing ticked. Nothing moves on its own. Without
    JavaScript every step shows as a list, and each part links to its words. */
@@ -47,6 +49,7 @@
     var map = box.querySelector(".map") || box;
     var board = list && list.classList.contains("board");
     var first = box.hasAttribute("data-start") ? +box.getAttribute("data-start") : 1;
+    var still = box.hasAttribute("data-still");
     // a part or a say may cover several steps (a stage on FRAME-01 holds three posts): data-step is its first, data-last its last
     function from(e) { return +e.getAttribute("data-step"); }
     function to(e) { return +(e.getAttribute("data-last") || e.getAttribute("data-step")); }
@@ -73,6 +76,14 @@
       mapEl.parentNode.insertBefore(pin, mapEl);
       pin.appendChild(mapEl); pin.appendChild(controls);
     }
+
+    // on the roads each stop gets a road that fills with a sliding layer and a dot that grows in, so a step animates rather than redraws
+    if (map.classList.contains("roads")) parts.forEach(function (p) {
+      var road = el("i", "road"), dot = el("i", "dot");
+      road.setAttribute("aria-hidden", "true"); dot.setAttribute("aria-hidden", "true");
+      road.appendChild(el("i", "fill"));
+      p.insertBefore(road, p.firstChild); p.appendChild(dot);
+    });
 
     // the play head on FRAME-02 sits at the end of the part being played; the rhythm runs the whole length
     function placeHead() {
@@ -154,10 +165,10 @@
         if (!s.classList.contains("is-now")) { go(from(s)); keep(); }
       });
     });
-    back.addEventListener("click", function () { if (now > first) { go(now - 1); keep(); } });
+    back.addEventListener("click", function () { if (now > first) { go(now - 1); if (!still) keep(); } });
     next.addEventListener("click", function () {
       if (now === n && arc) roundAgain(); else go(now === n ? first : now + 1);
-      keep();
+      if (!still) keep();
     });
     // the loop goes round, never back: past Reuse the arc closes the circle, then the next version starts at Write
     var wrapping = false;
@@ -187,6 +198,7 @@
       first: first,
       last: n,
       controls: controls,
+      still: still,
       keep: keep
     };
     box.classList.add("is-stepping");
@@ -676,7 +688,7 @@
       var st = box.stepper, k = st.at();
       if (fwd ? k < st.last : k > st.first) {
         st.go(fwd ? k + 1 : k - 1);
-        st.keep();
+        if (!st.still) st.keep();
         return;
       }
     }
