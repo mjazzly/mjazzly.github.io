@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261031e"><link rel="stylesheet" href="motion.css?v=20261104g"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261031e"><link rel="stylesheet" href="motion.css?v=20261104h"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
 <title>Frames | Megat Jazly</title>
 <meta name="description" content="Four frameworks for AI at work: how people come on board, how a prompt is built, how a request becomes a prompt that holds up, and how to tell whether it is working."><meta property="og:type" content="website"><meta property="og:site_name" content="Megat Jazly"><meta property="og:title" content="Frames | Megat Jazly"><meta property="og:description" content="Four frameworks for AI at work: how people come on board, how a prompt is built, how a request becomes a prompt that holds up, and how to tell whether it is working."><meta property="og:url" content="https://mjazzly.github.io/frames.html"><meta property="og:image" content="https://mjazzly.github.io/preview.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
 </head>
@@ -164,12 +164,18 @@
 
 <div data-name="Counting who is where" class="shot shape-shot">
   <p class="lead count-k"><b>Counting who is where.</b> A check-in, where people say for themselves where they stand, gives a fast picture of the shape. The sources give the true one: the usage dashboards show who has access and separate Ticket held, Checked in, Waiting to board and Takeoff; the library's records show Boarding, Above the clouds and Frequent flyer; the question log shows Through security. <b>Where the check-in and the sources disagree, the gap is itself a finding.</b></p>
+  <template data-scene><div class="scene">
+    <div class="scene-srcs"><button type="button" class="scene-src" data-show="1 2 3 4 5 6 7 8 9"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-list"/></svg></span>The check-in</button><button type="button" class="scene-src" data-show="1 2 3 5 7"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-chart"/></svg></span>The usage dashboards</button><button type="button" class="scene-src" data-show="6 8 9"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-book"/></svg></span>The library's records</button><button type="button" class="scene-src" data-show="4"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-message"/></svg></span>The question log</button></div>
+    <div class="cpgs"></div>
+    <div class="pax-layer" aria-hidden="true"></div>
+    <p class="finding-now" aria-live="polite"></p>
+  </div></template>
   <p class="lead shape-k"><b>What the shape tells you.</b></p>
   <ul class="shape">
-    <li><span class="spark" aria-hidden="true"><i class="h4"></i><i class="h4"></i><i class="h2"></i><i class="h1"></i><i class="h1"></i><i class="h0"></i><i class="h0"></i><i class="h0"></i><i class="h0"></i></span><p><b>Most at No ticket or Ticket held:</b> the problem is access and the first week; training does nothing yet.</p></li>
-    <li><span class="spark" aria-hidden="true"><i class="h1"></i><i class="h1"></i><i class="h2"></i><i class="h2"></i><i class="h4"></i><i class="h1"></i><i class="h1"></i><i class="h0"></i><i class="h0"></i></span><p><b>Most waiting to board:</b> the problem is habit. Reminders got them here and will not take them further; the lever is one recurring task per person, tied to a weekday.</p></li>
-    <li><span class="spark" aria-hidden="true"><i class="h0"></i><i class="h1"></i><i class="h1"></i><i class="h1"></i><i class="h2"></i><i class="h4"></i><i class="h4"></i><i class="h1"></i><i class="h0"></i></span><p><b>Most at Boarding or Takeoff, and nobody a Frequent flyer:</b> the problem is sharing; the lever is the library and showing work.</p></li>
-    <li><span class="spark" aria-hidden="true"><i class="h1"></i><i class="h1"></i><i class="h1"></i><i class="h2"></i><i class="h4"></i><i class="h2"></i><i class="h1"></i><i class="h1"></i><i class="h1"></i></span><p><b>A few Frequent flyers and many waiting to board:</b> pair them.</p></li>
+    <li><span class="spark" aria-hidden="true"><i class="h4"></i><i class="h4"></i><i class="h2"></i><i class="h1"></i><i class="h1"></i><i class="h0"></i><i class="h0"></i><i class="h0"></i><i class="h0"></i></span><p><b>Most at No ticket or Ticket held:</b> <span class="finding">the problem is access and the first week; training does nothing yet.</span></p></li>
+    <li><span class="spark" aria-hidden="true"><i class="h1"></i><i class="h1"></i><i class="h2"></i><i class="h2"></i><i class="h4"></i><i class="h1"></i><i class="h1"></i><i class="h0"></i><i class="h0"></i></span><p><b>Most waiting to board:</b> <span class="finding">the problem is habit. Reminders got them here and will not take them further; the lever is one recurring task per person, tied to a weekday.</span></p></li>
+    <li><span class="spark" aria-hidden="true"><i class="h0"></i><i class="h1"></i><i class="h1"></i><i class="h1"></i><i class="h2"></i><i class="h4"></i><i class="h4"></i><i class="h1"></i><i class="h0"></i></span><p><b>Most at Boarding or Takeoff, and nobody a Frequent flyer:</b> <span class="finding">the problem is sharing; the lever is the library and showing work.</span></p></li>
+    <li><span class="spark" aria-hidden="true"><i class="h1"></i><i class="h1"></i><i class="h1"></i><i class="h2"></i><i class="h4"></i><i class="h2"></i><i class="h1"></i><i class="h1"></i><i class="h1"></i></span><p><b>A few Frequent flyers and many waiting to board:</b> <span class="finding">pair them.</span></p></li>
     <li><span class="spark again" aria-hidden="true"><span class="was"><i class="h1"></i><i class="h2"></i><i class="h2"></i><i class="h2"></i><i class="h4"></i><i class="h2"></i><i class="h1"></i><i class="h1"></i><i class="h0"></i></span><span class="now"><i class="h0"></i><i class="h1"></i><i class="h1"></i><i class="h2"></i><i class="h3"></i><i class="h3"></i><i class="h2"></i><i class="h1"></i><i class="h1"></i></span></span><p><b>Counted again a month later, the people who moved up a checkpoint are the rollout measure.</b></p></li>
   </ul>
 </div>
@@ -376,6 +382,6 @@
 </div>
 <script data-goatcounter="https://mjazzly.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 <script src="site.js?v=20261102q"></script>
-<script src="frames.js?v=20261104g"></script>
+<script src="frames.js?v=20261104h"></script>
 </body>
 </html>

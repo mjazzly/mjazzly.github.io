@@ -278,6 +278,111 @@
     show(0);
   });
 
+  // ---------- counting who is where: the scene on FRAME-01 ----------
+  // Nine checkpoint gates, named from the departures board, with passenger
+  // dots standing at them: an illustration, never a count. The four sources
+  // light the gates they reveal (pointed at, or tapped to hold). Each shape in
+  // the list below is a picker: a tap moves the dots into that shape and
+  // shows its finding under the gates. The dots keep their order, so a shape
+  // that moves people up the flight reads as people moving up. Without
+  // JavaScript the scene is not drawn and the list reads as it is.
+  all(".shape-shot").forEach(function (shot) {
+    var tpl = shot.querySelector("template[data-scene]");
+    var list = shot.querySelector(".shape");
+    var names = all("#frame-01 .post .pn").map(function (e) { return e.textContent; });
+    if (!tpl || !list || names.length !== 9) return;
+    var scene = tpl.content.firstElementChild.cloneNode(true);
+    tpl.parentNode.insertBefore(scene, tpl);
+    var row = scene.querySelector(".cpgs"), layer = scene.querySelector(".pax-layer");
+    var caption = scene.querySelector(".finding-now");
+    var gates = names.map(function (name, i) {
+      var g = el("div", "cpg" + (i && i % 3 === 0 ? " stage-start" : ""),
+        '<span class="crowd"></span><span class="arch" aria-hidden="true"></span><span class="gn">' + name + "</span>");
+      row.appendChild(g);
+      return g;
+    });
+
+    var N = 24, W = [0, 1, 2, 3.5, 5.5], pax = [], at = [];
+    for (var d = 0; d < N; d++) { var dot = el("i", "pax"); layer.appendChild(dot); pax.push(dot); }
+    function heights(box) { return all("i", box).map(function (i) { return +i.className.replace(/\D/g, ""); }); }
+    // share the same crowd out across the gates in proportion to the shape
+    function share(hs) {
+      var w = hs.map(function (h) { return W[h]; }), sum = w.reduce(function (a, b) { return a + b; }, 0);
+      var raw = w.map(function (x) { return x / sum * N; }), out = raw.map(Math.floor);
+      var left = N - out.reduce(function (a, b) { return a + b; }, 0);
+      raw.map(function (x, i) { return [x - Math.floor(x), i]; }).sort(function (a, b) { return b[0] - a[0]; })
+        .slice(0, left).forEach(function (r) { out[r[1]]++; });
+      return out;
+    }
+    function place(counts) {
+      at = counts;
+      var base = layer.getBoundingClientRect(), k = 0;
+      gates.forEach(function (g, gi) {
+        var c = g.querySelector(".crowd").getBoundingClientRect();
+        var wide = c.width > c.height * 1.6, per = wide ? 99 : Math.max(1, Math.min(4, Math.floor(c.width / 12)));
+        for (var j = 0; j < counts[gi]; j++, k++) {
+          var x, y;
+          if (wide) { x = c.left - base.left + j * 12; y = c.top - base.top + (c.height - 9) / 2; }
+          else {
+            x = c.left - base.left + (c.width - Math.min(per, counts[gi]) * 12) / 2 + (j % per) * 12;
+            y = c.bottom - base.top - 10 - Math.floor(j / per) * 12;
+          }
+          pax[k].style.transform = "translate(" + x.toFixed(1) + "px," + y.toFixed(1) + "px)";
+          pax[k].setAttribute("data-gate", gi + 1);
+        }
+      });
+      light();
+    }
+
+    // the sources: pointing previews, a tap holds
+    var srcs = all(".scene-src", scene), held = null, hover = null;
+    function light() {
+      var s = hover || held, show = s ? s.getAttribute("data-show").split(" ") : null;
+      scene.classList.toggle("has-lit", !!show);
+      gates.forEach(function (g, i) { g.classList.toggle("is-lit", !!show && show.indexOf(String(i + 1)) > -1); });
+      pax.forEach(function (p) { p.classList.toggle("dim", !!show && show.indexOf(p.getAttribute("data-gate")) < 0); });
+      srcs.forEach(function (b) { b.classList.toggle("is-on", b === s); b.setAttribute("aria-pressed", b === held ? "true" : "false"); });
+    }
+    srcs.forEach(function (b) {
+      b.addEventListener("mouseenter", function () { hover = b; light(); });
+      b.addEventListener("mouseleave", function () { hover = null; light(); });
+      b.addEventListener("click", function () { held = held === b ? null : b; hover = null; light(); });
+    });
+
+    // the shapes: each item in the list moves the crowd and shows its finding
+    var items = all("li", list);
+    list.classList.add("is-picker");
+    function pick(li) {
+      items.forEach(function (x) { x.classList.toggle("is-on", x === li); x.setAttribute("aria-pressed", x === li ? "true" : "false"); });
+      caption.innerHTML = li.querySelector("p").innerHTML;
+      var was = li.querySelector(".spark .was"), now = li.querySelector(".spark .now");
+      if (was && now) {
+        // a month later: the crowd stands as it was, then moves up
+        place(share(heights(was)));
+        setTimeout(function () { place(share(heights(now))); }, calm.matches ? 0 : 750);
+      } else {
+        place(share(heights(li.querySelector(".spark"))));
+      }
+    }
+    items.forEach(function (li) {
+      li.setAttribute("role", "button");
+      li.tabIndex = 0;
+      li.addEventListener("click", function () {
+        pick(li);
+        var r = scene.getBoundingClientRect();
+        if (r.top < 0) scene.scrollIntoView({ block: "start", behavior: calm.matches ? "auto" : "smooth" });
+      });
+      li.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); li.click(); }
+      });
+    });
+    window.addEventListener("resize", function () { if (at.length) place(at); });
+    layer.classList.add("still");
+    pick(items[0]);
+    requestAnimationFrame(function () { requestAnimationFrame(function () { layer.classList.remove("still"); }); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { place(at); });
+  });
+
   // ---------- the strip of film at the top of the window ----------
   var sheet = document.querySelector(".tiles.entries.frames");
   var films = all("section.film");
