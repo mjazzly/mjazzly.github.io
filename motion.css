@@ -1317,3 +1317,30 @@ section.film{padding:0;scroll-margin-top:58px}
   .reel .key{padding:6px 7px;font-size:12px}
   .to-top{right:14px;bottom:14px;width:40px;height:40px}
 }
+
+/* Check-in progress: a dotted route on the desk sign, the plane one dot further on for each answer */
+.desk-sign .route{position:relative;flex:1;max-width:280px;height:22px;margin-left:auto;display:flex;align-items:center;justify-content:space-between}
+.desk-sign .route::before{content:"";position:absolute;left:3px;right:3px;top:50%;border-top:1.5px dotted rgba(255,255,255,.35)}
+.desk-sign .route i{position:relative;width:6px;height:6px;border-radius:50%;background:var(--marine-deep);box-shadow:0 0 0 1.5px rgba(255,255,255,.4);transition:background-color .3s}
+.desk-sign .route i.is-passed{background:#fff;box-shadow:0 0 0 1.5px #fff}
+.desk-sign .rplane{position:absolute;left:0;top:50%;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;background:var(--marine-deep);color:#fff;transform:rotate(90deg);transition:left .5s cubic-bezier(.45,0,.25,1)}
+.desk-sign .rplane .ic{width:18px;height:18px;display:block;margin:3px}
+/* the result: the pass, and beside it the flight with the plane parked at the reader's checkpoint */
+.film .print-slot{max-width:none;display:grid;grid-template-columns:minmax(0,592px) minmax(0,1fr);column-gap:28px;align-items:center}
+.print-slot .mini svg{display:block;width:100%;height:auto;overflow:visible}
+.mini path{fill:none}
+.mini .ground{stroke:var(--ink-faint);stroke-width:1.5}
+.mini .path{stroke:var(--marine-tint-2);stroke-width:2;stroke-dasharray:1 6;stroke-linecap:round}
+.mini .cp{fill:var(--panel);stroke:var(--ink-faint);stroke-width:1.5}
+.mini .cp.passed,.mini .cp.here{fill:var(--marine);stroke:var(--marine)}
+.mini .cp.next{fill:var(--amber);stroke:var(--amber)}
+.mini .glow{fill:var(--amber);opacity:.22}
+.mini .mplane{color:var(--marine);transition:transform 1s cubic-bezier(.45,0,.25,1)}
+@media(max-width:860px){
+  .film .print-slot{grid-template-columns:1fr;row-gap:18px}
+  .print-slot .mini{max-width:300px;margin:0 auto 4px;width:100%}
+}
+@media(max-width:600px){
+  .desk-sign .route{max-width:none;margin-left:14px}
+  .desk-sign{flex-wrap:nowrap}
+}

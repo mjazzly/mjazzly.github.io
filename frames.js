@@ -156,6 +156,43 @@
     var ROW = { ground: "f1-1", gate: "f1-2", air: "f1-3" };
     var answers = [], cp = 0, at = 0;
 
+    // progress: a dotted route on the sign, the plane one dot further on for each answer
+    var STOPS = stageQs.length + 1;
+    var route = el("span", "route");
+    route.setAttribute("aria-hidden", "true");
+    for (var d = 0; d <= STOPS; d++) route.appendChild(el("i"));
+    var rplane = el("span", "rplane", icon("plane"));
+    route.appendChild(rplane);
+    desk.querySelector(".desk-sign").appendChild(route);
+    function fly(n) {
+      rplane.style.left = (n / STOPS * 100) + "%";
+      all("i", route).forEach(function (dot, j) { dot.classList.toggle("is-passed", j <= n); });
+    }
+
+    // the result: a small flight beside the pass, the plane parked at the reader's checkpoint, the next one glowing amber
+    var PTS = [[12, 92], [30, 92], [48, 92], [74, 92], [92, 92], [110, 92], [140, 62], [166, 32], [190, 28]];
+    function miniFlight(n) {
+      var svgNS = "http://www.w3.org/2000/svg";
+      var box = el("div", "mini");
+      box.setAttribute("aria-hidden", "true");
+      var dots = PTS.map(function (p, j) {
+        var c = j + 1, cls = c < n ? "passed" : c === n ? "here" : c === n + 1 ? "next" : "";
+        return (c === n + 1 ? '<circle class="glow" cx="' + p[0] + '" cy="' + p[1] + '" r="12"/>' : "") +
+          '<circle class="cp ' + cls + '" cx="' + p[0] + '" cy="' + p[1] + '" r="5.5"/>';
+      }).join("");
+      var at = PTS[n - 1], tilt = n === 7 ? 62 : 90;
+      box.innerHTML = '<svg viewBox="0 0 200 120" xmlns="' + svgNS + '">' +
+        '<path class="ground" d="M0 108H200"/>' +
+        '<path class="path" d="M12 92H118C134 92 138 36 166 32C178 30 188 28 200 28"/>' + dots +
+        '<g class="mplane" style="transform:translate(' + PTS[0][0] + 'px,' + (PTS[0][1] - 15) + 'px)">' +
+        '<use href="#ic-plane" x="-13" y="-13" width="26" height="26" transform="rotate(' + tilt + ')"/></g></svg>';
+      var g = box.querySelector(".mplane");
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { g.style.transform = "translate(" + at[0] + "px," + (at[1] - 15) + "px)"; });
+      });
+      return box;
+    }
+
     var back = button("Back", "back");
     var again = button("Check in again", "again");
     var foot = el("div", "controls");
@@ -213,6 +250,7 @@
       });
       slot.innerHTML = "";
       slot.appendChild(pass);
+      slot.appendChild(miniFlight(cp));
     }
 
     // k is the question on show (the last is the checkpoint question); -1 is the printed pass
@@ -226,6 +264,7 @@
       }
       desk.classList.toggle("is-done", k < 0);
       if (k < 0) print(); else slot.innerHTML = "";
+      fly(k < 0 ? STOPS : k);
       back.disabled = k === 0;
       again.hidden = k >= 0;
     }
