@@ -811,3 +811,17 @@ section.fold.is-folded > .case-body{margin:0}
 .fold.is-opened:not(.is-folded) > .case-body{animation:case-open .25s ease}   /* only after a tap, never on load */
 @media(min-width:861px){ [data-fold-below="860"] > .case-foot{display:none} }
 
+
+/* ---------- Case Files (5 Nov 2026): Before and After on each case, read before the drawing ---------- */
+.case .measure.shift{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 28px 4px}
+.case .measure.shift div{background:var(--paper);border-radius:var(--radius-s);padding:12px 14px}
+.case .measure.shift dt{font-size:12px;font-weight:700;color:var(--amber);margin-bottom:4px}
+.case .measure.shift dd{font-size:14px;line-height:1.5;font-weight:600;color:var(--ink)}
+@media(max-width:600px){ .case .measure.shift{grid-template-columns:1fr;margin-left:20px;margin-right:20px} }
+
+/* ---------- Home (5 Nov 2026): the four frames as a row, one line each, so a reader with a minute finds them ---------- */
+#frames .lead{margin:-10px 0 18px;max-width:640px;font-size:15.5px;color:var(--ink-soft)}
+#frames .tiles.four.entries{grid-template-columns:repeat(4,1fr)}
+#frames .tile.entry .basis{margin-bottom:0}
+@media(max-width:860px){ #frames .tiles.four.entries{grid-template-columns:repeat(2,1fr)} }
+@media(max-width:600px){ #frames .tiles.four.entries{grid-template-columns:1fr} }
