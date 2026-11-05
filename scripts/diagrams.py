@@ -213,6 +213,21 @@ DIAGRAMS["case-03"] = dict(
     links=[((0,0),(1,1)), ((1,1),(1,2)), ((1,2),(1,3)), ((1,3),(1,4)), ((1,4),(2,5))],
 )
 
+DIAGRAMS["case-04"] = dict(
+    alt="Six steps from a vague request to sentiment analysis appearing in a pitch: the request is decoded into the decision behind it before anything is taught, then a session or a one-to-one, hands-on time with the tool, and the colleague running it alone",
+    steps=["Request", "Decode", "Session", "Hands-on", "Run alone", "In a pitch"],
+    lanes=["A colleague", "Me", "The tool", "The pitch"],
+    nodes=[
+        dict(at=(0, 0), lines=["a vague", "request"]),
+        dict(at=(1, 1), lines=["what are they", "deciding?"], stop="decision named"),
+        dict(at=(1, 2), lines=["open session", "or one-to-one"]),
+        dict(at=(2, 3), lines=["sentiment on", "their question"], kind="soft"),
+        dict(at=(0, 4), lines=["runs the read", "on their own"], kind="ink"),
+        dict(at=(3, 5), lines=["sentiment in", "the proposal"], kind="ink"),
+    ],
+    links=[((0,0),(1,1)), ((1,1),(1,2)), ((1,2),(2,3)), ((2,3),(0,4)), ((0,4),(3,5))],
+)
+
 DIAGRAMS["tracker"] = dict(
     alt="Seven steps of the meeting tracker across four lanes: me, Claude with the skill, the tool server, and the files on disk and in a Google Drive folder; the tool server stops the run when a transcript is confidential, when a name matches two people, when a meeting has no actions, or when a date falls before its meeting",
     steps=["Start", "Find new", "Read", "Decide", "Look up", "Record", "Report"],
@@ -396,7 +411,7 @@ DIAGRAMS["pipeline"] = dict(
            ((1,4),(1,5)), ((1,5),(3,5)), ((1,5),(1,6)), ((1,6),(0,6))],
 )
 
-FILES = {"casefiles.html": ["case-01-run", "case-01", "case-02", "case-03"], "built.html": ["tracker", "harness"], "aiwork.html": ["tracker", "versions", "normaliser", "answers", "brief", "scorecard", "pipeline"]}
+FILES = {"casefiles.html": ["case-01-run", "case-01", "case-02", "case-03", "case-04"], "built.html": ["tracker", "harness"], "aiwork.html": ["tracker", "versions", "normaliser", "answers", "brief", "scorecard", "pipeline"]}
 
 if __name__ == "__main__":
     root = pathlib.Path(__file__).resolve().parent.parent
