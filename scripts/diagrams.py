@@ -411,7 +411,29 @@ DIAGRAMS["pipeline"] = dict(
            ((1,4),(1,5)), ((1,5),(3,5)), ((1,5),(1,6)), ((1,6),(0,6))],
 )
 
-FILES = {"casefiles.html": ["case-01-run", "case-01", "case-02", "case-03", "case-04"], "built.html": ["tracker", "harness"], "aiwork.html": ["tracker", "versions", "normaliser", "answers", "brief", "scorecard", "pipeline"]}
+DIAGRAMS["sheet"] = dict(
+    alt="Seven steps of one run of the meeting tracker sheet across four lanes: me, the model with the sheet, the chat, and the files I keep; the model is told to decline a confidential transcript and to stop and ask when a name matches two people, a meeting has no actions or a date falls before its meeting, and nothing but the model holds it to those stops",
+    steps=["Start", "Read", "Decide", "Stop", "Answer", "Write", "Carry"],
+    lanes=["Me", "The model|with the sheet", "The chat", "Files|I keep"],
+    lane_h=72,
+    nodes=[
+        dict(at=(0, 0), lines=['"Run the', 'tracker"']),
+        dict(at=(1, 1), lines=["reads each", "transcript"], stop="confidential"),
+        dict(at=(2, 1), lines=["contacts file,", "transcripts"], kind="soft"),
+        dict(at=(1, 2), lines=["picks actions,", "owners, dates"], kind="ink"),
+        dict(at=(1, 3), lines=["checks the", "written stops"], stop="unclear: ask"),
+        dict(at=(2, 3), lines=["questions", "in the chat"]),
+        dict(at=(0, 4), lines=["answers if", "it stops"]),
+        dict(at=(1, 5), lines=["writes both", "blocks again"]),
+        dict(at=(2, 5), lines=["tracker and", "run log as text"], kind="soft"),
+        dict(at=(0, 6), lines=["saves the", "tracker"]),
+        dict(at=(3, 6), lines=["tracker for", "the next run"], kind="ink"),
+    ],
+    links=[((0,0),(1,1)), ((1,1),(2,1)), ((1,1),(1,2)), ((1,2),(1,3)), ((1,3),(2,3)), ((2,3),(0,4)),
+           ((0,4),(1,5)), ((1,5),(2,5)), ((2,5),(0,6)), ((0,6),(3,6))],
+)
+
+FILES = {"casefiles.html": ["case-01-run", "case-01", "case-02", "case-03", "case-04"], "built.html": ["tracker", "harness"], "aiwork.html": ["tracker", "versions", "normaliser", "answers", "brief", "scorecard", "pipeline", "sheet"]}
 
 if __name__ == "__main__":
     root = pathlib.Path(__file__).resolve().parent.parent
