@@ -147,6 +147,81 @@ document.documentElement.classList.add("js");
   window.addEventListener("hashchange", openHash);
 })();
 
+// Step by step, on every page and under reduced motion too (lighting a step answers the reader; it is not motion).
+// Resting the pointer on a column, or tapping it, lights that step. The keyboard reaches each drawing once: it
+// takes focus as a whole, the left and right arrows (and Home, End) move from step to step, and the step is announced.
+(function () {
+  // Remember whether the last press came from a finger, so a touch screen's phantom "pointer leaves" never undoes a tap
+  var lastTouch = false;
+  document.addEventListener("pointerdown", function (e) { lastTouch = e.pointerType === "touch"; }, true);
+
+  Array.prototype.forEach.call(document.querySelectorAll(".diagram"), function (svg) {
+    var parts = Array.prototype.slice.call(svg.querySelectorAll("[data-step]"));
+    var hits = Array.prototype.slice.call(svg.querySelectorAll(".hit"));
+    var fig = svg.closest(".figure");
+    var at = -1;
+    function light(step) {
+      svg.classList.add("has-hot");
+      parts.forEach(function (el) { el.classList.toggle("is-hot", el.getAttribute("data-step") === step); });
+      if (fig) fig.classList.remove("is-playing");  // reading a step: the drawing sits complete
+    }
+    function clear() {
+      at = -1;
+      svg.classList.remove("has-hot");
+      parts.forEach(function (el) { el.classList.remove("is-hot"); });
+    }
+    hits.forEach(function (hit) {
+      hit.addEventListener("mouseenter", function () { light(hit.getAttribute("data-step")); });
+      hit.addEventListener("click", function () { light(hit.getAttribute("data-step")); });
+    });
+    svg.addEventListener("mouseleave", function () { if (!lastTouch && document.activeElement !== svg) clear(); });
+    // A tap or click anywhere outside the drawing returns it to normal (a touch screen has no "pointer leaves")
+    document.addEventListener("pointerdown", function (e) {
+      if (svg.classList.contains("has-hot") && !svg.contains(e.target)) clear();
+    });
+
+    // The keyboard: only a drawing with steps to light takes focus
+    if (!hits.length) return;
+    var names = hits.map(function (hit, k) {
+      var no = svg.querySelectorAll(".step-no")[k], name = svg.querySelectorAll(".step-name")[k];
+      return "Step " + (no ? no.textContent : k + 1) + " of " + hits.length + (name ? ", " + name.textContent : "");
+    });
+    var say = document.createElement("span");
+    say.className = "visually-hidden";
+    say.setAttribute("aria-live", "polite");
+    (fig || svg.parentNode).appendChild(say);
+    svg.setAttribute("tabindex", "0");
+    function go(k) {
+      if (fig && !fig.startedAt) fig.startedAt = Date.now();   // first reached by the keyboard: it sits complete rather than playing under a lit step
+      at = Math.max(0, Math.min(hits.length - 1, k));
+      light(hits[at].getAttribute("data-step"));
+      say.textContent = names[at];
+      // on a phone the drawing scrolls sideways: bring the lit column into its box
+      var box = svg.closest(".scroll");
+      if (box && box.scrollWidth > box.clientWidth) {
+        var c = hits[at].getBoundingClientRect(), b = box.getBoundingClientRect();
+        if (c.left < b.left) box.scrollLeft -= b.left - c.left + 8;
+        else if (c.right > b.right) box.scrollLeft += c.right - b.right + 8;
+      }
+    }
+    svg.addEventListener("focus", function () {
+      if (!svg.matches(":focus-visible")) return;   // a click focuses it too; only the keyboard starts at the first step
+      go(0);
+      say.textContent = names[0] + ". Left and right arrows move between steps.";
+    });
+    svg.addEventListener("blur", clear);
+    svg.addEventListener("keydown", function (e) {
+      if (e.altKey || e.ctrlKey || e.metaKey) return;
+      // left and right only: up and down still scroll the page
+      var k = { ArrowRight: at + 1, ArrowLeft: at - 1, Home: 0, End: hits.length - 1 }[e.key];
+      if (k === undefined) return;
+      e.preventDefault();
+      if (at < 0 && e.key === "ArrowLeft") k = hits.length - 1;
+      go(k);
+    });
+  });
+})();
+
 (function () {
   var calm = window.matchMedia("(prefers-reduced-motion: reduce)");
   var ROUND = 3000;  // how long one play of a drawing takes, in milliseconds
@@ -201,34 +276,6 @@ document.documentElement.classList.add("js");
     card.addEventListener("mouseleave", function () {
       card.classList.remove("is-focus");
       if (grid) grid.classList.remove("has-focus");
-    });
-  });
-
-  // Remember whether the last press came from a finger, so a touch screen's phantom "pointer leaves" never undoes a tap
-  var lastTouch = false;
-  document.addEventListener("pointerdown", function (e) { lastTouch = e.pointerType === "touch"; }, true);
-
-  // Step by step: resting the pointer on a column lights that step
-  Array.prototype.forEach.call(document.querySelectorAll(".diagram"), function (svg) {
-    var parts = Array.prototype.slice.call(svg.querySelectorAll("[data-step]"));
-    var fig = svg.closest(".figure");
-    function light(step) {
-      svg.classList.add("has-hot");
-      parts.forEach(function (el) { el.classList.toggle("is-hot", el.getAttribute("data-step") === step); });
-      if (fig) fig.classList.remove("is-playing");  // reading a step: the drawing sits complete
-    }
-    function clear() {
-      svg.classList.remove("has-hot");
-      parts.forEach(function (el) { el.classList.remove("is-hot"); });
-    }
-    Array.prototype.forEach.call(svg.querySelectorAll(".hit"), function (hit) {
-      hit.addEventListener("mouseenter", function () { light(hit.getAttribute("data-step")); });
-      hit.addEventListener("click", function () { light(hit.getAttribute("data-step")); });
-    });
-    svg.addEventListener("mouseleave", function () { if (!lastTouch) clear(); });
-    // A tap or click anywhere outside the drawing returns it to normal (a touch screen has no "pointer leaves")
-    document.addEventListener("pointerdown", function (e) {
-      if (svg.classList.contains("has-hot") && !svg.contains(e.target)) clear();
     });
   });
 
