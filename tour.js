@@ -115,12 +115,14 @@
     var by = 0;
     if (b.top < head) by = b.top - head;
     else if (b.bottom > foot) by = Math.min(b.bottom - foot, b.top - head);
-    var done = function () { if (!arriving) return; arriving = false; place(); dock(); };
-    if (by) {
-      window.addEventListener("scrollend", done, { once: true });
-      setTimeout(done, 900);   // where there is no scrollend
-      window.scrollBy({ top: by, behavior: calm.matches ? "auto" : "smooth" });
-    } else done();
+    // the arrival ends once the page has stopped scrolling for a moment (not every browser has scrollend)
+    var idle;
+    function done() { if (!arriving) return; arriving = false; window.removeEventListener("scroll", wait); place(); dock(); }
+    function wait() { clearTimeout(idle); idle = setTimeout(done, 160); }
+    window.addEventListener("scroll", wait, { passive: true });
+    wait();
+    // a short way glides; more than a screen (a page that grew after the browser found the anchor) jumps
+    if (by) window.scrollBy({ top: by, behavior: calm.matches || Math.abs(by) > window.innerHeight ? "auto" : "smooth" });
   }
 
   function leave() {
@@ -189,7 +191,12 @@
   }
   function arrive() {
     place();
-    requestAnimationFrame(function () { requestAnimationFrame(function () { bring(); card.focus({ preventScroll: true }); }); });
+    requestAnimationFrame(function () { requestAnimationFrame(function () {
+      bring();
+      // to the card, unless the reader has already started somewhere
+      var a = document.activeElement;
+      if (!a || a === document.body || a === document.documentElement) card.focus({ preventScroll: true });
+    }); });
   }
   // once the fonts are in, not on load: load also waits for the counter's script, which can be slow or blocked
   (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(arrive);

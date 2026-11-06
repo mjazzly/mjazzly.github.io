@@ -449,7 +449,7 @@ document.documentElement.classList.add("js");
 (function () {
   if (!/[?&]tour=\d/.test(location.search)) return;
   var s = document.createElement("script");
-  s.src = "tour.js?v=20261106";
+  s.src = "tour.js?v=20261106b";
   document.body.appendChild(s);
 })();
 
