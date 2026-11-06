@@ -825,3 +825,36 @@ section.fold.is-folded > .case-body{margin:0}
 #frames .tile.entry .basis{margin-bottom:0}
 @media(max-width:860px){ #frames .tiles.four.entries{grid-template-columns:repeat(2,1fr)} }
 @media(max-width:600px){ #frames .tiles.four.entries{grid-template-columns:1fr} }
+
+/* Tour: the walk's card and its lit area (tour.js, loaded only on ?tour=N), and the start link on the home and AI Work heroes */
+.tour-start{margin-top:14px;font-size:14.5px;color:var(--ink-faint)}
+.tour-start a{font-weight:700}
+.tour-lit{position:absolute;z-index:14;pointer-events:none;border-radius:var(--radius);box-shadow:0 0 0 200vmax rgba(23,37,41,.18)}
+.tour-lit[hidden]{display:none}
+.tour{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:16;width:min(560px,calc(100vw - 32px));background:var(--panel);border-radius:var(--radius);padding:16px 18px 14px;display:grid;grid-template-columns:auto 1fr;column-gap:14px;align-items:start;box-shadow:0 0 0 1px var(--line)}
+.tour.at-top{bottom:auto;top:16px}
+.tour:focus{outline:none}
+.tour .badge{grid-row:1 / span 3}
+.tour-n{font-size:13px;font-weight:600;color:var(--ink-faint);line-height:1.3}
+.tour-try{font-size:16px;line-height:1.4;margin-top:2px}
+.tour.is-done .tour-try{margin-top:9px}
+.tour-shows{font-size:14.5px;line-height:1.45;color:var(--ink-soft);margin-top:4px}
+.tour-bar{grid-column:1 / -1;display:flex;align-items:center;gap:8px;margin-top:12px}
+.tour-bar .end{margin-right:auto;background:none;border:0;padding:8px 4px;font:600 14px var(--sans);color:var(--ink-soft);cursor:pointer}
+.tour-bar .btn{border:0;border-radius:999px;padding:9px 16px;font:600 14px var(--sans);line-height:1.3;cursor:pointer;background:var(--marine-tint);color:var(--marine)}
+.tour-bar .btn:hover{background:var(--marine-tint-2)}
+.tour-bar .btn.go{background:var(--marine);color:#fff}
+.tour-bar .btn.go:hover{background:var(--marine-deep)}
+.tour-bar .btn.go.end{margin-left:auto;margin-right:0}
+.tour-bar .end:focus-visible,.tour-bar .btn:focus-visible{outline:2px solid var(--marine);outline-offset:2px}
+html.touring body{padding-bottom:var(--tour-h,150px)}
+html.touring .to-top{bottom:var(--tour-h,150px)}
+html.touring .peek:not(.at-top){bottom:var(--tour-h,150px)}
+@media(max-width:600px){
+  .tour{left:0;right:0;bottom:0;transform:none;width:auto;border-radius:var(--radius) var(--radius) 0 0;padding:14px 16px calc(12px + env(safe-area-inset-bottom))}
+  .tour.at-top{top:0;border-radius:0 0 var(--radius) var(--radius)}
+  .tour-shows{font-size:14px}
+  .tour-bar{margin-top:10px;gap:6px}
+  .tour-bar .btn{padding:9px 14px}
+  html.touring .to-top{display:none}
+}

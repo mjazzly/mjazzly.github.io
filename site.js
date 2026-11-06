@@ -444,6 +444,15 @@ document.documentElement.classList.add("js");
   });
 })();
 
+// The walk: tour.js loads only when the address carries ?tour=N, so no page is heavier for anyone else.
+// Change the date here when tour.js changes.
+(function () {
+  if (!/[?&]tour=\d/.test(location.search)) return;
+  var s = document.createElement("script");
+  s.src = "tour.js?v=20261106";
+  document.body.appendChild(s);
+})();
+
 // Back to top, on every page: a round button that shows once the first screen has scrolled away.
 // It glides up, or jumps under reduced motion. Without the script there is no button.
 (function () {

@@ -2,7 +2,7 @@
 """Pre-publish checks for mjazzly.github.io. Exit 1 on any failure.
 Run from the repo root: python3 scripts/check.py
 """
-import re, sys, pathlib, html.parser, subprocess
+import re, sys, json, pathlib, html.parser, subprocess
 
 PAGES = ["index.html", "built.html", "aiwork.html", "clarity.html", "frames.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "output-06.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
 BANNED_WORDS = ["marketing", "enablement", "agentic", "FDE", "real users"]   # never on the site, in any case
@@ -57,6 +57,90 @@ for page in PAGES:
     if order != want:
         failures.append(f"{page}: nav pages are {order}, run scripts/nav.py")
 
+# The walk (tour.js): every stop that is on opens on a page of the site, at an anchor that exists, and lights
+# parts that sit inside it; its words keep the site's rules; the start links point at stop 1 and count the stops
+class Tree(html.parser.HTMLParser):
+    VOID = Balance.VOID
+    def __init__(self):
+        super().__init__(); self.nodes = []; self.open = []
+    def handle_starttag(self, t, a):
+        a = dict(a)
+        self.nodes.append({"tag": t, "id": a.get("id"), "cls": (a.get("class") or "").split(), "attrs": a,
+                           "up": self.open[-1] if self.open else None})
+        if t not in self.VOID: self.open.append(len(self.nodes) - 1)
+    def handle_endtag(self, t):
+        for k in range(len(self.open) - 1, -1, -1):
+            if self.nodes[self.open[k]]["tag"] == t: del self.open[k:]; break
+
+def simple(node, sel):
+    m = re.fullmatch(r"([a-z0-9]*)((?:[#.][\w-]+)*)", sel)
+    if not m: return False
+    if m.group(1) and node["tag"] != m.group(1): return False
+    for kind, name in re.findall(r"([#.])([\w-]+)", m.group(2)):
+        if kind == "#" and node["id"] != name: return False
+        if kind == "." and name not in node["cls"]: return False
+    return True
+
+def select(tree, query):
+    *ups, last = query.split()
+    found = []
+    for i, node in enumerate(tree.nodes):
+        if not simple(node, last): continue
+        want, up = list(ups), node["up"]
+        while want and up is not None:
+            if simple(tree.nodes[up], want[-1]): want.pop()
+            up = tree.nodes[up]["up"]
+        if not want: found.append(node)
+    return found
+
+tour = pathlib.Path("tour.js")
+if not tour.exists():
+    failures.append("tour.js: missing")
+else:
+    tsrc = tour.read_text(encoding="utf-8")
+    m = re.search(r"/\*STOPS\*/(.*?)/\*/STOPS\*/", tsrc, re.S)
+    try: stops = json.loads(m.group(1)) if m else None
+    except ValueError as e: stops = None; failures.append(f"tour.js: the stop list is not plain JSON ({e})")
+    if m is None: failures.append("tour.js: no stop list between the STOPS markers")
+    for ch, name in BANNED_CHARS.items():
+        if ch in tsrc: failures.append(f"tour.js: {name} in the walk")
+    words = " ".join(re.findall(r'"(?:try|shows)":\s*"([^"]*)"', tsrc) + re.findall(r'END_LINE = "([^"]*)"', tsrc))
+    for w in BANNED_WORDS + [r"\bwar\b", r"\bthings?\b"]:
+        if re.search(w, words, flags=re.I): failures.append(f"tour.js: banned word '{w}' in the card words")
+    on = [s for s in (stops or []) if s.get("on")]
+    for k, s in enumerate(on, 1):
+        page = pathlib.Path(s["page"])
+        if s["page"] not in PAGES or not page.exists():
+            failures.append(f"tour.js stop {k}: page {s['page']} is not on the site"); continue
+        src = page.read_text(encoding="utf-8")
+        tree = Tree(); tree.feed(src)
+        if not select(tree, "#" + s["anchor"]):
+            failures.append(f"tour.js stop {k}: no #{s['anchor']} on {s['page']}"); continue
+        scripts = "".join(pathlib.Path(x).read_text(encoding="utf-8") for x in re.findall(r'<script src="([\w.-]+\.js)', src) if pathlib.Path(x).exists())
+        for q in s["lit"]:
+            if not q.startswith("#" + s["anchor"] + " "):
+                failures.append(f"tour.js stop {k}: lit part '{q}' does not start inside #{s['anchor']}")
+            elif not select(tree, q):
+                # a part the page's own script draws (the Check-in's printed pass) passes when that script names it
+                drawn = re.search(r"[.]([\w-]+)$", q)
+                if not (drawn and f'"{drawn.group(1)}"' in scripts):
+                    failures.append(f"tour.js stop {k}: lit part '{q}' not found on {s['page']}")
+        if s.get("open"):
+            links = select(tree, s["open"])
+            if not links or links[0]["tag"] != "a" or links[0]["attrs"].get("target") != "_blank":
+                failures.append(f"tour.js stop {k}: its Open it link '{s['open']}' is not an outside link on {s['page']}")
+        ic = f'id="ic-{s["icon"]}"'
+        if ic not in src: failures.append(f"tour.js stop {k}: icon ic-{s['icon']} is not in the sprite")
+    if on:
+        first = f'href="{on[0]["page"]}?tour=1#{on[0]["anchor"]}"'
+        say = ["no", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"][len(on)] + " stops"
+        for page in ("index.html", "aiwork.html"):
+            line = re.search(r'<p class="tour-start">(.*?)</p>', pathlib.Path(page).read_text(encoding="utf-8"))
+            if not line or first not in line.group(1):
+                failures.append(f"{page}: the start link does not point at stop 1 ({first})")
+            elif say not in line.group(1):
+                failures.append(f"{page}: the start link does not say '{say}'")
+
 # WORK-05 and the Scorecard page against the scorecard's records: the table and every data-sc number
 sc = pathlib.Path("..", "scorecard")
 if not (sc / "results").is_dir():
@@ -77,4 +161,4 @@ else:
 
 if failures:
     print("CHECK FAILED"); [print(" -", f) for f in failures]; sys.exit(1)
-print("CHECK PASSED: no dashes, no banned words, tags balanced, LIVE markers paired, nav shelves correct, scorecard numbers match its records")
+print("CHECK PASSED: no dashes, no banned words, tags balanced, LIVE markers paired, nav shelves correct, every stop of the walk in place, scorecard numbers match its records")
