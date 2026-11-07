@@ -824,7 +824,7 @@
       <figcaption class="fig-note">One question through data answers. Steps across, who or what does each step down. <b>Amber</b> marks where the run halts: the model refuses a question about one person, the code refuses a metric or a dimension nobody has defined, and the code stops to ask when a period or a branch name cannot be matched to the data.</figcaption>
     </figure>
 
-    <p class="how"><b>How it runs:</b> a small Node.js tool server on my machine holds the seven tools; the Claude desktop app starts it and calls the tools as it works. The table sits in a DuckDB file on disk with its data version, and every answer is appended to a log with its run id, which is how a repeated question finds the first answer and how <b>a change in the data is noticed</b>. The table is synthetic, written by a seeded generator together with every expected answer, so <b>every expected number is exact</b> and nothing is checked by eye.</p>
+    <p class="how"><b>How it runs:</b> a small Node.js tool server on my machine holds the seven tools; the Claude desktop app starts it and calls the tools as it works. The table sits in a DuckDB file on disk with its data version, and every answer is appended to a log with its run id, which is how a repeated question finds the first answer and how <b>a change in the data is noticed</b>. The table is synthetic, written by a seeded generator together with every expected answer, so <b>every expected number is exact</b> and nothing is checked by eye. The public demo runs the same code on Vercel, on the smallest model, and is built only from a green CI (continuous integration) run: <b>every push to the main branch runs the twenty-eight questions through the demo's own code</b>, after the tests with no model, and only a green run moves the branch the demo is built from. A pass that misses is run once more before the run turns red, and a green that needed the rerun opens an issue naming what missed. The same check reruns once a week with no change, and every run's record is kept in the repository.</p>
 
     <p class="score-open"><a href="output-03.html"><svg class="ic" aria-hidden="true"><use href="#ic-file"/></svg>See the output</a><span>one run, the input beside what came out</span></p>
 
@@ -836,6 +836,8 @@
       <li><a target="_blank" href="https://github.com/mjazzly/data-answers/blob/main/scripts/make_data.js" rel="noopener"><b>scripts/make_data.js</b></a> The seeded generator that writes the table and every expected answer in one pass.</li>
       <li><a target="_blank" href="https://github.com/mjazzly/data-answers/blob/main/eval/EXEMPLAR.md" rel="noopener"><b>eval/EXEMPLAR.md</b></a> Every recorded run as one page: the model, each question, the tokens and the cost.</li>
       <li><a target="_blank" href="https://github.com/mjazzly/data-answers/blob/main/skill/SKILL.md" rel="noopener"><b>skill/SKILL.md</b></a> The instructions the model is given, and nothing else.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/data-answers/blob/main/.github/workflows/cases.yml" rel="noopener"><b>.github/workflows/cases.yml</b></a> The gate: the tests, the twenty-eight questions, one rerun of a miss, and the demo's branch moved only on green.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/data-answers/tree/main/results/ci" rel="noopener"><b>results/ci</b></a> Every CI record on the main branch, each naming its commit, its workflow run and every question's result.</li>
     </ul>
     </div>
   </div>
