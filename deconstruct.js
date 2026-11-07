@@ -1,18 +1,21 @@
 /* Deconstruct (deconstruct.html): finished outputs taken apart a layer at a time.
 
-   One renderer, one data block per piece. Each block is plain JSON between
-   PIECE markers: its words, its layers and its rows. OUT holds each piece's one
-   small function, which turns the rows and the reader's choices into the output.
-   scripts/deconstruct.py reads the blocks (and runs OUT through node) to write
-   the page's no-JavaScript view between the DECON markers in deconstruct.html.
+   One engine, three scenes. Each piece is a drawing the output sits inside: Step back
+   reveals the next layer down inside the same drawing, a choice is a part of the drawing
+   the reader presses, and the output rolls to its new value with one amber flash. The
+   last layer is the floor: the rows themselves, drawn and named on hover or tap, with a
+   plain table of them behind a fold under the scene. Each scene plays one pass on its own
+   (down to the floor and back up) the first time it is mostly on screen, then waits.
 
-   DECONSTRUCT-03's rows are the record: every name, line and cell between the
-   RECORD markers is written by scripts/deconstruct.py from the meeting tracker's
-   run, never by hand. Rerun the script after a new counted run.
+   Each piece's data is plain JSON between PIECE markers: its words, its layers, its rows.
+   OUT holds each piece's one small function (rows and choices in, the output out) and
+   SCENES its drawing. scripts/deconstruct.py reads the blocks and runs OUT through node
+   to write the page's no-JavaScript view. DECONSTRUCT-03's rows are the record: every
+   name, line and cell between the RECORD markers is written by scripts/deconstruct.py
+   from the meeting tracker's run, never by hand. Rerun the script after a new counted run.
 
-   A fourth piece costs one PIECE block, one OUT entry and one section in the page.
-   Nothing moves on its own: a layer slides in when the reader steps back, and the
-   parts of the output that changed flash once when the reader changes a choice. */
+   A fourth piece costs its rows and words (a PIECE block), its OUT function and its scene.
+   Reduced motion: no pass on its own, no travel, no roll, no flash; every change is shown at once. */
 (function () {
   "use strict";
 
@@ -21,23 +24,26 @@
   DATA["01"] = /*PIECE:01*/{
   "code": "DECONSTRUCT-01",
   "out": {"label": "Qualified this quarter"},
+  "met": {"name": "The output", "what": "Qualified this quarter, as a dashboard tile shows it.", "why": "Step back to see what it rests on."},
   "layers": [
     {"key": "count", "name": "The count",
-     "what": "What one unit on the tile is: a record in the export, or a person.",
-     "why": "The same person entered twice is two records. Four people in these rows appear twice, each pair sharing one email.",
+     "what": "What one unit on the tile is: a record, or a person.",
+     "why": "Four people were entered twice. As records they count twice; as people, once.",
      "options": [["records", "Records"], ["people", "People"]], "pub": "records"},
     {"key": "word", "name": "The word “qualified”",
-     "what": "Which contacts the word covers: anyone who ever reached the stage, or only those still in it.",
-     "why": "Contacts move on after they qualify, to an opportunity, to a customer, or out. Counting only the ones still in the stage drops them.",
-     "options": [["any", "Reached it at any time"], ["now", "In the stage now"]], "pub": "any"},
+     "what": "Anyone who ever reached the stage, or only those still in it.",
+     "why": "Contacts move on after qualifying. Counting only those still there drops them.",
+     "options": [["any", "Any time"], ["now", "In it now"]], "pub": "any"},
     {"key": "date", "name": "The date",
      "what": "Which date puts a contact inside July to September.",
-     "why": "A contact created in September and qualified in October falls in one quarter by one date and in the next by the other.",
+     "why": "Created in September, qualified in October: one date says this quarter, one says next.",
      "options": [["qualified", "Date qualified"], ["created", "Date created"]], "pub": "qualified"},
     {"key": "rows", "name": "The rows", "floor": true,
-     "what": "The 40 records in the export, as it came out. The ones the tile counts are lit.",
-     "why": "Nothing here is a choice: every number above is a recount of these rows."}
+     "what": "The 40 contacts in the export. Point at one to read it.",
+     "why": "Nothing here is a choice. Every count above is a recount of these."}
   ],
+  "words": {"pub": "as published", "same": "same email", "stopped": "stopped here", "table": "The 40 contacts as a table",
+            "tip": "{id} · {name}, {company} · created {created}, qualified {qualified} · now {stage}"},
   "quarter": ["Jul", "Aug", "Sep"],
   "columns": [["id", "Id"], ["name", "Name"], ["company", "Company"], ["email", "Email"], ["created", "Created"], ["qualified", "Qualified"], ["stage", "Stage now"]],
   "blank": {"qualified": "not yet"},
@@ -88,24 +94,32 @@
   DATA["02"] = /*PIECE:02*/{
   "code": "DECONSTRUCT-02",
   "out": {"label": "On time"},
+  "met": {"name": "The output", "what": "The on-time rate for June, as an arrivals board shows it.", "why": "Step back to see what it rests on."},
   "layers": [
     {"key": "rule", "name": "The rule",
      "what": "How late a flight can be and still count as on time.",
-     "why": "One public reporting body counts a flight as on time when it arrives less than 15 minutes after schedule, so at 15 minutes it is late. A stricter or looser line moves flights across it.",
-     "options": [["15", "Under 15 minutes late"], ["0", "Not late at all"], ["30", "Under 30 minutes late"]], "pub": "15",
+     "why": "One public reporting body says under 15 minutes. At exactly 15, it is late.",
+     "options": [["0", "Not late at all"], ["15", "Under 15 minutes late"], ["30", "Under 30 minutes late"]], "pub": "15",
      "source": {"text": "Source: Bureau of Transportation Statistics, how flight delays are calculated", "href": "https://www.bts.gov/explore-topics-and-geography/topics/airline-time-performance-and-causes-flight-delays"}},
     {"key": "never", "name": "The flights that never arrived",
-     "what": "What happens to the two cancelled flights and the one diverted flight.",
-     "why": "Counted, they stay in the total as not on time. Left out, the total shrinks and the rate rises.",
-     "options": [["counted", "Counted as not on time"], ["out", "Left out"]], "pub": "counted"},
+     "what": "Two cancelled and one diverted: counted as not on time, or left out.",
+     "why": "Counted, they stay in the total. Left out, the total shrinks and the rate rises.",
+     "options": [["counted", "Counted"], ["out", "Left out"]], "pub": "counted"},
     {"key": "at", "name": "Where it is measured",
      "what": "Which moment is timed: arrival at the gate, or departure from it.",
-     "why": "Flights make up time in the air and lose it on the ground, so a late departure can still arrive on time, and the reverse.",
+     "why": "Flights make up time in the air, so late leaving can still mean on time.",
      "options": [["arrival", "At arrival"], ["departure", "At departure"]], "pub": "arrival"},
     {"key": "rows", "name": "The rows", "floor": true,
-     "what": "The 24 flights in June, as scheduled and as flown. The ones counted on time are lit.",
-     "why": "Nothing here is a choice: every rate above is a recount of these rows."}
+     "what": "The 24 June flights. Point at one to read it.",
+     "why": "Nothing here is a choice. Every rate above is a recount of these."}
   ],
+  "words": {"pub": "as published", "board": "Arrivals, June", "arrived": "arrived on time", "flights": "{on} of {of} flights",
+            "onTime": "on time", "late": "late", "early": "early", "min": "{m} min", "edge": "exactly 15: late",
+            "axis": {"arrival": "minutes late at arrival", "departure": "minutes late at departure"},
+            "never": ["never", "arrived"], "leftOut": "left out", "table": "The 24 flights as a table",
+            "tip": "{id} · {flight}, {from} to {to}, {date} · left {dep}, arrived {arr}",
+            "tipCancelled": "{id} · {flight}, {from} to {to}, {date} · cancelled",
+            "tipDiverted": "{id} · {flight}, {from} to {to}, {date} · left {dep}, diverted"},
   "columns": [["id", "#"], ["flight", "Flight"], ["from", "From"], ["to", "To"], ["date", "Date"], ["sched", "Scheduled arrival"], ["actual", "Actual arrival"], ["dep", "Departure"], ["arr", "Arrival"]],
   "rows": [
     {"id": "F-01", "flight": "Flight 101", "from": "Capital", "to": "Coast Town", "date": "2 Jun", "sched": "08:40", "actual": "08:52", "dep": "14 late", "arr": "12 late"},
@@ -138,19 +152,23 @@
   DATA["03"] = /*PIECE:03*/{
   "code": "DECONSTRUCT-03",
   "out": {"label": "The row as the tracker released it"},
-  "fields": [["action", "Action"], ["owner", "Owner"], ["due", "Due"], ["status", "Status"]],
+  "met": {"name": "The output", "what": "One row as the meeting tracker released it.", "why": "Step back to see what it rests on."},
+  "fields": [["owner", "Owner"], ["action", "Action"], ["due", "Due"], ["status", "Status"]],
   "layers": [
     {"key": "gate", "name": "The gate", "live": true,
-     "what": "The checker that compares every row with the answer written before the first run, and the rule the row was made under: an owner only when the transcript names the person in the same sentence, and “not stated” for every blank.",
-     "why": "The rule decides what goes in the owner cell; the checker shows whether the row kept to it."},
+     "what": "The checker compares each row with the answer written before the first run.",
+     "why": "The rule: an owner only when the same sentence names them."},
     {"key": "line", "name": "The sentence",
-     "what": "How the line in the transcript names, or does not name, who will do the work. Three lines from the same meeting, each phrased one way.",
-     "why": "A name in the same sentence makes an owner. A name one line later, or no name at all, leaves the owner “not stated”, and the row is still kept, because an unowned action is the one most worth chasing.",
+     "what": "Three lines from one meeting, each naming the doer differently, or not at all.",
+     "why": "A name in the same sentence makes an owner. Anything else stays “not stated”.",
      "options": [["same", "Name in the same sentence"], ["next", "Name in the next sentence"], ["none", "No name"]], "pub": "same"},
     {"key": "transcript", "name": "The transcript", "floor": true,
-     "what": "The meeting as it was recorded, line by line. The line the row was read from is lit.",
+     "what": "The meeting as recorded, line by line. Point at a line to read it.",
      "why": "The row can only say what these lines say."}
   ],
+  "words": {"pub": "as published", "rule": "an owner only when the same sentence names them", "matched": "Matched", "missed": "Missed",
+            "answer": "answer written first:", "closedBy": "closed by transcript {n}, line {line}", "table": "The transcript as text",
+            "tip": "line {n} · {who}: {text}"},
   "columns": [["n", "Line"], ["who", "Speaker"], ["text", "Said"]]
 }/*/PIECE:03*/;
 
@@ -208,6 +226,10 @@
    "lines": [
     "5"
    ],
+   "mark": {
+    "line": "5",
+    "text": "I will"
+   },
    "expected": {
     "owner": "Mei Ling Chong",
     "due": "2026-10-24"
@@ -243,6 +265,10 @@
     "3",
     "4"
    ],
+   "mark": {
+    "line": "4",
+    "who": true
+   },
    "expected": {
     "owner": "not stated",
     "due": "2026-10-28"
@@ -272,6 +298,10 @@
    "lines": [
     "6"
    ],
+   "mark": {
+    "line": "6",
+    "text": "Someone"
+   },
    "expected": {
     "owner": "not stated",
     "due": "not stated"
@@ -386,9 +416,12 @@
   if (typeof module === "object" && module.exports) { module.exports = {DATA: DATA, OUT: OUT, pubs: pubs, floorGroups: floorGroups}; return; }
   if (typeof document === "undefined") return;
 
-  // ---------- the renderer ----------
+  // ---------- drawing helpers ----------
+  var NS = "http://www.w3.org/2000/svg";
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var PIECES = [];
+  var SANS = "Manrope, system-ui, sans-serif";
+  var measure = document.createElement("canvas").getContext("2d");
 
   function el(tag, cls, text) {
     var e = document.createElement(tag);
@@ -396,11 +429,39 @@
     if (text != null) e.textContent = text;
     return e;
   }
+  function sv(tag, attrs, parent) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) if (attrs[k] != null) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function tx(parent, x, y, s, cls, anchor) {
+    var e = sv("text", {x: x, y: y, "class": cls || null, "text-anchor": anchor || null}, parent);
+    e.textContent = s;
+    return e;
+  }
+  function move(e, x, y) { e.style.transform = "translate(" + x + "px," + y + "px)"; }
+  function show(e, on) { e.classList.toggle("is-off", !on); }
+  function wide(s, size, weight) { measure.font = (weight || 400) + " " + size + "px " + SANS; return measure.measureText(s).width; }
+  function fit(s, px, size, weight) {
+    if (wide(s, size, weight) <= px) return s;
+    while (s.length > 1 && wide(s + " …", size, weight) > px) s = s.slice(0, -1);
+    return s.replace(/\s+\S*$/, "") + " …";
+  }
+  function wrapLines(s, px, size, weight, max) {
+    var words = s.split(" "), lines = [], cur = "";
+    words.forEach(function (w) {
+      var next = cur ? cur + " " + w : w;
+      if (cur && wide(next, size, weight) > px) { lines.push(cur); cur = w; } else cur = next;
+    });
+    lines.push(cur);
+    if (lines.length > max) { lines = lines.slice(0, max); lines[max - 1] = fit(lines[max - 1] + " ……", px, size, weight); }
+    return lines;
+  }
+  function fill(t, r) { return t.replace(/\{(\w+)\}/g, function (_, k) { return r[k] == null ? "" : r[k]; }); }
   function icon(name) {
-    var s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    s.setAttribute("class", "ic"); s.setAttribute("aria-hidden", "true");
-    var u = document.createElementNS("http://www.w3.org/2000/svg", "use");
-    u.setAttribute("href", "#ic-" + name); s.appendChild(u);
+    var s = sv("svg", {"class": "ic", "aria-hidden": "true"});
+    sv("use", {href: "#ic-" + name}, s);
     return s;
   }
   function button(label, cls, ic) {
@@ -410,19 +471,491 @@
     if (ic) b.appendChild(icon(ic));
     return b;
   }
-  function off(b, yes) { b.setAttribute("aria-disabled", yes ? "true" : "false"); b.classList.toggle("is-off", !!yes); }
+  function off(b, yes) { b.setAttribute("aria-disabled", yes ? "true" : "false"); b.classList.toggle("is-dim", !!yes); }
   function flash(node) {
     if (reduce) return;
-    node.classList.remove("flash"); void node.offsetWidth; node.classList.add("flash");
+    node.classList.remove("flash"); void node.getBoundingClientRect(); node.classList.add("flash");
+  }
+  // a number rolls from its old value to its new one, then flashes amber once
+  function roll(p, key, from, to, paint) {
+    if (p.rolls[key]) cancelAnimationFrame(p.rolls[key]);
+    if (reduce || from === to || from == null) { paint(to); return; }
+    var t0 = performance.now();
+    (function frame(t) {
+      var k = Math.min(1, (t - t0) / 420), v = Math.round(from + (to - from) * (1 - Math.pow(1 - k, 3)));
+      paint(v);
+      if (k < 1) p.rolls[key] = requestAnimationFrame(frame);
+    })(t0);
   }
 
+  // a switch drawn into the scene: one pressable segment per setting, the published one marked
+  function drawSwitch(p, parent, layer, x, y) {
+    var g = sv("g", {"class": "switch"}, parent), segs = [], cx = 2;
+    var bg = sv("rect", {x: x, y: y, height: 30, rx: 15, "class": "switch-bg"}, g);
+    layer.options.forEach(function (o) {
+      var w = Math.ceil(wide(o[1], 12.5, 700)) + 26;
+      var s = sv("g", {"class": "seg", role: "button", tabindex: "0", "aria-label": layer.name + ": " + o[1]}, g);
+      sv("rect", {x: x + cx, y: y + 2, width: w, height: 26, rx: 13, "class": "seg-on"}, s);
+      sv("rect", {x: x + cx - 2, y: y - 2, width: w + 4, height: 34, rx: 17, "class": "seg-ring"}, s);
+      tx(s, x + cx + w / 2, y + 19.5, o[1], "seg-t", "middle");
+      if (o[0] === layer.pub) tx(g, x + cx + w / 2, y + 46, p.d.words.pub, "pub", "middle");
+      press(s, function () { choose(p, layer.key, o[0]); });
+      segs.push({v: o[0], g: s});
+      cx += w;
+    });
+    bg.setAttribute("width", cx + 2);
+    p.switches.push({key: layer.key, segs: segs});
+    return {g: g, w: cx + 4};
+  }
+  function switchWidth(layer) {
+    return layer.options.reduce(function (a, o) { return a + Math.ceil(wide(o[1], 12.5, 700)) + 26; }, 6);
+  }
+  function press(g, fn) {
+    g.addEventListener("click", function (e) { e.stopPropagation(); fn(); });
+    g.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fn(); }
+    });
+  }
+  function ghost(parent, x, y, w, h, label) {
+    var g = sv("g", {"class": "ghost"}, parent);
+    sv("rect", {x: x, y: y, width: w, height: h, rx: 10}, g);
+    tx(g, x + 14, y + (h && h < 46 ? h / 2 + 4 : 24), label, "k");
+    return g;
+  }
+  function tipOn(p, node, text) { node.setAttribute("data-tip", text); node.classList.add("named"); p.named.push(node); }
+
+  // ---------- DECONSTRUCT-01: the tile on three sieves, the contacts as dots ----------
+  var SCENES = {};
+  SCENES["01"] = {
+    build: function (p, svg, W) {
+      var d = p.d, G = p.g = {}, L = d.layers;
+      var tw = Math.min(260, W - 32), tl = (W - tw) / 2;
+      G.tile = sv("g", {"class": "part"}, svg);
+      sv("rect", {x: tl, y: 0, width: tw, height: 128, rx: 14, "class": "card"}, G.tile);
+      tx(G.tile, tl + 22, 32, d.out.label, "t-label");
+      G.big = tx(G.tile, tl + 19, 92, "", "t-big");
+      G.sub = tx(G.tile, tl + 22, 113, "", "t-sub");
+      // three plates, each a sieve with its switch; a plate too narrow for its label and switch side by side stacks them
+      var y = 176;
+      G.plates = []; G.stopY = [];
+      for (var k = 0; k < 3; k++) {
+        var lay = L[k], lw = wide(lay.name, 13.5, 700) + 70, swW = switchWidth(lay);
+        var stacked = lw + swW + 28 > W - 16, h = stacked ? 74 : 44;
+        var gh = ghost(svg, 8, y, W - 16, h, (k + 1) + " back");
+        var g = sv("g", {"class": "part plate"}, svg);
+        sv("rect", {x: 8, y: y, width: W - 16, height: h, rx: 10, "class": "plate-body"}, g);
+        for (var hx = 30; hx < W - 30; hx += 22) sv("ellipse", {cx: hx, cy: y + 6, rx: 5.5, ry: 2, "class": "hole"}, g);
+        tx(g, 22, y + 27, (k + 1) + " back", "k");
+        tx(g, 72, y + 27, lay.name, "t-name");
+        drawSwitch(p, g, lay, stacked ? 20 : W - 14 - swW, stacked ? y + 36 : y + 7);
+        G.plates.push({g: g, y: y, h: h, ghost: gh});
+        G.stopY.push(y + h + (k === 0 ? 0 : 26));
+        y += h + (k === 0 ? 40 : 70);
+      }
+      // the tray of 40 contacts
+      var cols = Math.floor((W - 40) / 20), rows = Math.ceil(d.rows.length / cols);
+      G.trayY = y - 10;
+      G.trayGhost = ghost(svg, 8, G.trayY, W - 16, rows * 20 + 22, "4 back");
+      G.tray = sv("g", {"class": "part"}, svg);
+      sv("rect", {x: 8, y: G.trayY, width: W - 16, height: rows * 20 + 22, rx: 10, "class": "tray"}, G.tray);
+      tx(G.tray, 22, G.trayY - 8, "4 back", "k");
+      G.trayPos = d.rows.map(function (r, i) {
+        var c = i % cols, rr = Math.floor(i / cols), x0 = (W - (cols - 1) * 20) / 2;
+        return [x0 + c * 20, G.trayY + 21 + rr * 20];
+      });
+      p.H = G.trayY + rows * 20 + 26;
+      // the twins: a thread between two records of one person, and a ring when they are drawn as one
+      var seen = {}; G.twins = [];
+      d.rows.forEach(function (r, i) { if (seen[r.email] != null) G.twins.push([seen[r.email], i]); else seen[r.email] = i; });
+      G.threads = G.twins.map(function () { return sv("path", {"class": "thread"}, svg); });
+      G.sameLabel = tx(svg, 0, 0, d.words.same, "same", "middle");
+      G.rings = G.twins.map(function () { return sv("circle", {r: 11, "class": "ring"}, svg); });
+      // the dots, with a faint line up into the tile for every dot that passes
+      G.rise = d.rows.map(function () { return sv("line", {x1: 0, x2: 0, y1: 128, y2: 0, "class": "rise"}, svg); });
+      G.dots = d.rows.map(function (r) {
+        var c = sv("circle", {r: W < 460 ? 5.5 : 6.5, "class": "dot"}, svg);
+        tipOn(p, c, fill(d.words.tip, Object.assign({}, r, {qualified: r.qualified || d.blank.qualified, created: r.created})));
+        return c;
+      });
+    },
+    update: function (p, o) {
+      var d = p.d, G = p.g, c = p.c, depth = p.depth, W = p.W;
+      var pass = OUT["01"].out({count: "records", word: c.word, date: c.date}, d).lit, lit = o.lit;
+      var Q = d.quarter;
+      // where each contact stops: past every plate (top), at the qualified plate, or at the date plate
+      var level = d.rows.map(function (r) {
+        if (pass.indexOf(r.id) >= 0) return 0;
+        var date = c.date === "qualified" ? r.qualified : r.created;
+        if (!date || Q.indexOf(date.split(" ")[1]) < 0) return 2;
+        return 1;
+      });
+      var tileY = 0;
+      G.plates.forEach(function (pl, k) { show(pl.g, depth > k); show(pl.ghost, depth <= k); move(pl.g, 0, depth > k ? 0 : -10); });
+      show(G.tray, depth >= 4); show(G.trayGhost, depth < 4);
+      var nextY = depth < 3 ? G.plates[depth].y + 4 : G.trayY + 6;
+      // rows of dots: the passing ones under the tile (twins side by side, or as one), the stopped ones under their plate
+      var people = c.count === "people", twinOf = {};
+      G.twins.forEach(function (t) { twinOf[t[1]] = t[0]; });
+      var top = [], stop = [[], [], []];
+      d.rows.forEach(function (r, i) {
+        if (level[i] === 0) { if (twinOf[i] != null && pass.indexOf(d.rows[twinOf[i]].id) >= 0) return; top.push(i); var tw = G.twins.filter(function (t) { return t[0] === i; })[0]; if (tw && pass.indexOf(d.rows[tw[1]].id) >= 0) top.push(tw[1]); }
+        else stop[level[i]].push(i);
+      });
+      var pos = {}, spread = function (list, y, merge) {
+        var slots = [];
+        list.forEach(function (i) { if (merge && twinOf[i] != null && list.indexOf(twinOf[i]) >= 0) return; slots.push(i); });
+        var per = Math.max(1, Math.floor((W - 24) / 15)), lines = Math.ceil(slots.length / per) || 1;
+        slots.forEach(function (i, k) {
+          var line = Math.floor(k / per), inLine = Math.min(per, slots.length - line * per), gap = Math.min(22, (W - 24) / Math.max(inLine, 1));
+          pos[i] = [W / 2 - (inLine - 1) * gap / 2 + (k % per) * gap, y + line * 17];
+        });
+        if (merge) list.forEach(function (i) { if (twinOf[i] != null && pos[twinOf[i]]) pos[i] = pos[twinOf[i]].slice(); });
+        return lines;
+      };
+      spread(top, 152, people);
+      spread(stop[1], G.stopY[1], false);
+      spread(stop[2], G.stopY[2], false);
+      var hideY = nextY + 4;
+      G.dots.forEach(function (dot, i) {
+        var visible, at;
+        if (depth >= 4) { visible = true; at = G.trayPos[i]; }
+        else if (depth === 0) { visible = false; at = [W / 2, tileY + 100]; }
+        else { visible = level[i] === 0 || level[i] < depth; at = visible ? pos[i] : [pos[i] ? pos[i][0] : W / 2, hideY]; }
+        move(dot, at[0], at[1]);
+        show(dot, visible);
+        dot.classList.toggle("lit", depth >= 4 ? lit.indexOf(d.rows[i].id) >= 0 : level[i] === 0);
+        var up = depth >= 1 && depth < 4 && level[i] === 0;
+        move(G.rise[i], at[0], 0); G.rise[i].setAttribute("y2", at[1] - 8); show(G.rise[i], up);
+      });
+      // threads and rings for the people entered twice
+      var firstLabel = true;
+      G.twins.forEach(function (t, k) {
+        var a = pos[t[0]], b = pos[t[1]], both = depth >= 1 && depth < 4 && level[t[0]] === 0 && level[t[1]] === 0;
+        var thread = both && !people, ring = both && people;
+        if (a && b && thread) {
+          G.threads[k].setAttribute("d", "M" + a[0] + " " + (a[1] - 8) + " Q" + (a[0] + b[0]) / 2 + " " + (a[1] - 24) + " " + b[0] + " " + (b[1] - 8));
+          if (firstLabel) { G.sameLabel.setAttribute("x", (a[0] + b[0]) / 2); G.sameLabel.setAttribute("y", a[1] + 24); firstLabel = false; }
+        }
+        show(G.threads[k], thread);
+        if (a) move(G.rings[k], a[0], a[1]);
+        show(G.rings[k], ring);
+      });
+      show(G.sameLabel, !firstLabel);
+      // the tile
+      var from = p.shown.big == null ? null : +p.shown.big;
+      roll(p, "big", from, +o.big, function (v) { G.big.textContent = v; });
+      if (p.shown.big != null && p.shown.big !== o.big) flash(G.big);
+      G.sub.textContent = o.sub;
+      p.shown.big = o.big;
+      p.svg.setAttribute("height", p.H);
+    }
+  };
+
+  // ---------- DECONSTRUCT-02: the arrivals board on a scale of delay minutes ----------
+  function minutes(s) {
+    if (s === "on the minute") return 0;
+    var m = /^(\d+) (late|early)$/.exec(s);
+    return m ? (m[2] === "late" ? +m[1] : -m[1]) : null;
+  }
+  SCENES["02"] = {
+    build: function (p, svg, W) {
+      var d = p.d, G = p.g = {}, L = d.layers, w = d.words;
+      var bw = Math.min(400, W - 16), bl = (W - bw) / 2;
+      G.scaleGhost = ghost(svg, 0, 152, W, 236, "1 back");
+      G.board = sv("g", {"class": "part"}, svg);
+      sv("rect", {x: bl, y: 0, width: bw, height: 140, rx: 14, "class": "board"}, G.board);
+      tx(G.board, bl + 22, 28, w.board, "b-small");
+      tx(G.board, bl + 22, 50, d.out.label, "b-label");
+      G.tiles = sv("g", {}, G.board); G.tilesX = bl + 22; G.flapW = bw < 400 ? 40 : 46;
+      G.flights = tx(G.board, bl + Math.min(196, bw - 150), 98, "", "b-count");
+      tx(G.board, bl + Math.min(196, bw - 150), 117, w.arrived, "b-small");
+      // the scale
+      var x0 = 20, x1 = W - 76, zx = W - 62, ax = 336;
+      var X = G.X = function (m) { return x0 + (m + 10) * (x1 - x0) / 70; };
+      G.ax = ax; G.zx = zx;
+      G.scale = sv("g", {"class": "part"}, svg);
+      G.band = sv("rect", {x: x0, y: 200, width: x1 - x0, height: ax - 200, "class": "band"}, G.scale);
+      tx(G.scale, x0 + 8, 218, w.onTime, "s-on");
+      tx(G.scale, x1 - 6, 218, w.late, "s-late", "end");
+      sv("line", {x1: x0, y1: ax, x2: x1, y2: ax, "class": "axis"}, G.scale);
+      [0, 15, 30, 45, 60].forEach(function (m) {
+        sv("line", {x1: X(m), y1: ax, x2: X(m), y2: ax + 5, "class": "axis"}, G.scale);
+        tx(G.scale, X(m), ax + 19, String(m), "s-tick", "middle");
+      });
+      tx(G.scale, x0 + 2, ax + 19, w.early, "s-tick");
+      G.caption = tx(G.scale, (x0 + x1) / 2, ax + 37, "", "s-cap", "middle");
+      sv("line", {x1: zx - 8, y1: 204, x2: zx - 8, y2: ax + 6, "class": "zone"}, G.scale);
+      tx(G.scale, zx + 26, ax + 19, w.never[0], "s-tick", "middle");
+      tx(G.scale, zx + 26, ax + 32, w.never[1], "s-tick", "middle");
+      G.leftOut = tx(G.scale, zx + 26, 194, w.leftOut, "s-tick", "middle");
+      // the rule: a line the reader moves to 0, 15 or 30
+      G.rule = sv("g", {"class": "rule"}, G.scale);
+      sv("line", {x1: 0, y1: 196, x2: 0, y2: ax + 4}, G.rule);
+      G.handles = [];
+      var seg = sv("g", {"class": "switch"}, G.scale), segs = [];
+      L[0].options.forEach(function (o) {
+        var cx = X(+o[0]), hw = Math.min(60, X(15) - X(0) - 6), s = sv("g", {"class": "seg handle", role: "button", tabindex: "0", "aria-label": L[0].name + ": " + o[1]}, seg);
+        sv("rect", {x: cx - hw / 2, y: 170, width: hw, height: 26, rx: 13, "class": "seg-on"}, s);
+        sv("rect", {x: cx - hw / 2, y: 170, width: hw, height: 26, rx: 13, "class": "seg-off"}, s);
+        sv("rect", {x: cx - hw / 2 - 2, y: 168, width: hw + 4, height: 30, rx: 15, "class": "seg-ring"}, s);
+        tx(s, cx, 187, hw >= 54 ? fill(w.min, {m: o[0]}) : o[0], "seg-t", "middle");
+        if (o[0] === L[0].pub) tx(seg, cx, 160, w.pub, "pub", "middle");
+        press(s, function () { choose(p, "rule", o[0]); });
+        segs.push({v: o[0], g: s});
+      });
+      p.switches.push({key: "rule", segs: segs});
+      tx(G.scale, W - 8, 160, "1 back · " + L[0].name, "k", "end");
+      G.edge = sv("g", {"class": "edge"}, G.scale);
+      sv("path", {d: "M6 -5 L20 -22", "class": "leader"}, G.edge);
+      tx(G.edge, 22, -25, w.edge, "s-note");
+      // the two layers under the scale: never arrived, and where it is measured
+      var y = ax + 62;
+      G.rows = [1, 2].map(function (k) {
+        var lay = L[k], swW = switchWidth(lay);
+        var stacked = wide(lay.name, 13.5, 700) + 70 + swW + 16 > W, h = stacked ? 74 : 44;
+        var gh = ghost(svg, 0, y, W, h, (k + 1) + " back"), g = sv("g", {"class": "part"}, svg);
+        sv("rect", {x: 0, y: y, width: W, height: h, rx: 10, "class": "plate-body"}, g);
+        tx(g, 14, y + 27, (k + 1) + " back", "k");
+        tx(g, 64, y + 27, lay.name, "t-name");
+        drawSwitch(p, g, lay, stacked ? 14 : W - 6 - swW, stacked ? y + 36 : y + 7);
+        var r = {g: g, y: y, h: h, ghost: gh};
+        y += h + 26;
+        return r;
+      });
+      G.floorGhost = ghost(svg, 0, y - 18, W, 32, "4 back");
+      G.floor = sv("g", {"class": "part"}, svg);
+      tx(G.floor, 14, y + 4, "4 back", "k");
+      tx(G.floor, 64, y + 4, L[3].name + ": " + L[3].what, "t-name");
+      p.H = y + 16;
+      G.dots = d.rows.map(function (r) {
+        var c = sv("circle", {r: 6.5, "class": "dot"}, svg);
+        var tpl = minutes(r.arr) !== null ? w.tip : r.dep === "Cancelled" ? w.tipCancelled : w.tipDiverted;
+        tipOn(p, c, fill(tpl, r));
+        return c;
+      });
+    },
+    update: function (p, o) {
+      var d = p.d, G = p.g, c = p.c, depth = p.depth, w = d.words;
+      show(G.scale, depth >= 1); show(G.scaleGhost, depth < 1); move(G.scale, 0, depth >= 1 ? 0 : -10);
+      G.rows.forEach(function (r, k) { show(r.g, depth >= k + 2); show(r.ghost, depth < k + 2); move(r.g, 0, depth >= k + 2 ? 0 : -10); });
+      show(G.floor, depth >= 4); show(G.floorGhost, depth < 4);
+      // the rule and the band of on-time minutes
+      var lx = G.X(+c.rule);
+      move(G.rule, lx, 0);
+      G.band.style.transform = "scaleX(" + ((lx - G.X(-10)) / (G.X(60) - G.X(-10))) + ")";
+      G.caption.textContent = w.axis[c.at];
+      show(G.leftOut, c.never === "out");
+      // the flights, placed by their delay and stacked where they meet; those that never arrived at the far end
+      var placed = [], never = 0, order = d.rows.map(function (r, i) { return i; });
+      var m = d.rows.map(function (r) { var a = minutes(r.arr); return a === null ? null : minutes(c.at === "arrival" ? r.arr : r.dep); });
+      order.sort(function (a, b) { return (m[a] == null ? 999 : m[a]) - (m[b] == null ? 999 : m[b]); });
+      order.forEach(function (i) {
+        var dot = G.dots[i], at;
+        if (m[i] == null) {
+          at = c.never === "out" ? [G.zx + 6 + never * 20, 212] : [G.zx + 6 + never * 20, G.ax - 9];
+          never++;
+          dot.classList.add("hollow"); dot.classList.toggle("gone", c.never === "out");
+        } else {
+          var x = G.X(m[i]), lv = 0;
+          while (placed.some(function (q) { return Math.abs(q[0] - x) < 12.5 && q[1] === lv; })) lv++;
+          placed.push([x, lv]);
+          at = [x, G.ax - 9 - lv * 14];
+          if (d.rows[i].arr === "15 late" && c.at === "arrival") { move(G.edge, at[0], at[1]); }
+        }
+        move(dot, at[0], at[1]);
+        show(dot, depth >= 1);
+        dot.classList.toggle("lit", o.lit.indexOf(d.rows[i].id) >= 0);
+      });
+      show(G.edge, depth >= 1 && c.rule === "15" && c.at === "arrival");
+      // the board
+      var pct = parseInt(o.big, 10), from = p.shown.pct;
+      roll(p, "pct", from, pct, function (v) { paintTiles(G, String(v) + "%"); });
+      var counts = /^(\d+) of (\d+)/.exec(o.sub);
+      G.flights.textContent = fill(w.flights, {on: counts[1], of: counts[2]});
+      if (from != null && from !== pct) { Array.prototype.forEach.call(G.tiles.querySelectorAll("text"), flash); flash(G.flights); }
+      p.shown.pct = pct;
+      p.svg.setAttribute("height", p.H);
+    }
+  };
+  function paintTiles(G, s) {
+    while (G.tiles.childNodes.length > s.length * 3) G.tiles.removeChild(G.tiles.lastChild);
+    var fw = G.flapW;
+    while (G.tiles.childNodes.length < s.length * 3) {
+      var k = G.tiles.childNodes.length / 3, x = G.tilesX + k * (fw + 6);
+      sv("rect", {x: x, y: 62, width: fw, height: 62, rx: 7, "class": "flap"}, G.tiles);
+      sv("text", {x: x + fw / 2, y: 109, "class": fw < 46 ? "flap-t small" : "flap-t", "text-anchor": "middle"}, G.tiles);
+      sv("line", {x1: x, y1: 93, x2: x + fw, y2: 93, "class": "flap-l"}, G.tiles);
+    }
+    for (var k = 0; k < s.length; k++) G.tiles.childNodes[k * 3 + 1].textContent = s[k];
+  }
+
+  // ---------- DECONSTRUCT-03: the row, the gate under it, the sentence under that ----------
+  SCENES["03"] = {
+    build: function (p, svg, W) {
+      var d = p.d, G = p.g = {}, R = d.record, w = d.words, L = d.layers;
+      var narrow = W < 470;
+      G.narrow = narrow;
+      // the row, drawn as the tracker draws it
+      G.card = sv("g", {"class": "part"}, svg);
+      var ch = narrow ? 172 : 124;
+      G.cardBg = sv("rect", {x: 0, y: 0, width: W, height: ch, rx: 12, "class": "card"}, G.card);
+      G.id = tx(G.card, 16, 22, "", "mono-s");
+      var col = narrow ? {owner: [16, 44], due: [W - 150, 44], status: [W - 64, 44], action: [16, 102]}
+                       : {owner: [16, 44], action: [W * 0.3, 44], due: [W * 0.7, 44], status: [W * 0.85, 44]};
+      G.col = col;
+      d.fields.forEach(function (f) { tx(G.card, col[f[0]][0], col[f[0]][1], f[1], "f-label"); });
+      G.owner = tx(G.card, 16, col.owner[1] + 22, "", "f-owner");
+      G.company = tx(G.card, 16, col.owner[1] + 40, "", "f-sub");
+      G.action = [0, 1, 2].map(function (k) { return tx(G.card, col.action[0], col.action[1] + 22 + k * 17, "", "f-val"); });
+      G.actionW = narrow ? W - 32 : W * 0.38;
+      G.due = tx(G.card, col.due[0], col.due[1] + 22, "", "f-val f-due");
+      G.chip = sv("rect", {x: col.status[0] - 2, y: col.status[1] + 8, height: 21, rx: 10.5, "class": "chip"}, G.card);
+      G.status = tx(G.card, col.status[0] + 8, col.status[1] + 23, "", "chip-t");
+      // threads from each cell down to the gate
+      var gy = ch + 54;
+      G.gateGhost = ghost(svg, 0, ch + 30, W, (narrow ? 112 : 90), "1 back");
+      G.gate = sv("g", {"class": "part"}, svg);
+      G.threads = [["owner", 40], ["action", narrow ? W * 0.45 : W * 0.3 + 40], ["due", col.due[0] + 30], ["status", col.status[0] + 20]].map(function (t) {
+        sv("line", {x1: t[1], y1: ch, x2: t[1], y2: gy + 4, "class": "thread-m"}, G.gate);
+        sv("circle", {cx: t[1], cy: ch, r: 3, "class": "knot"}, G.gate);
+        return t[1];
+      });
+      // the gate: a striped barrier with its rule, and the verdict the record carries
+      var defs = sv("defs", {}, svg), pat = sv("pattern", {id: "dx-stripes", width: 14, height: 14, patternUnits: "userSpaceOnUse", patternTransform: "rotate(45)"}, defs);
+      sv("rect", {width: 7, height: 14, "class": "stripe-a"}, pat); sv("rect", {x: 7, width: 7, height: 14, "class": "stripe-b"}, pat);
+      sv("rect", {x: 4, y: gy - 4, width: 8, height: 48, rx: 2, "class": "post"}, G.gate);
+      sv("rect", {x: W - 12, y: gy - 4, width: 8, height: 48, rx: 2, "class": "post"}, G.gate);
+      sv("rect", {x: 0, y: gy + 4, width: W, height: 30, rx: 7, fill: "url(#dx-stripes)"}, G.gate);
+      var rs = wide(w.rule, 11.5, 700) + 28 <= W - 32 ? 11.5 : 10.5, rw = Math.min(W - 32, wide(w.rule, rs, 700) + 24);
+      sv("rect", {x: (W - rw) / 2, y: gy + 9, width: rw, height: 20, rx: 5, "class": "card"}, G.gate);
+      tx(G.gate, W / 2, gy + 23, fit(w.rule, rw - 10, rs, 700), rs < 11.5 ? "g-rule small" : "g-rule", "middle");
+      var vy = gy + 60;
+      tx(G.gate, 16, vy, "1 back · " + L[0].name, "k");
+      var vx = narrow ? 16 : W * 0.48;
+      if (narrow) vy += 22;
+      G.check = sv("g", {"class": "check"}, G.gate);
+      sv("circle", {cx: vx + 7, cy: vy - 4, r: 7.5}, G.check);
+      sv("path", {d: "M" + (vx + 3.5) + " " + (vy - 3.5) + "l2.5 2.5 4.5-5"}, G.check);
+      G.verdict = tx(G.gate, vx + 21, vy, "", "g-verdict");
+      tx(G.gate, vx + 104, vy - 6, w.answer, "f-sub");
+      G.answer = tx(G.gate, vx + 104, vy + 8, "", "g-answer");
+      // the three recorded sentences, each pressable; a thread runs from the gate to the one chosen
+      var tr = {}; R.transcript.lines.forEach(function (l) { tr[l.n] = l; });
+      var sy = vy + 42;
+      G.sentGhost = ghost(svg, 0, sy - 18, W, 0, "2 back");
+      G.sentence = sv("g", {"class": "part"}, svg);
+      tx(G.sentence, 16, sy, "2 back · " + L[1].name, "k");
+      sy += 12;
+      var segs = [];
+      G.cards = L[1].options.map(function (o) {
+        var v = R.variants[o[0]], h = 26 + v.lines.length * 18;
+        var g = sv("g", {"class": "seg sentence", role: "button", tabindex: "0", "aria-label": L[1].name + ": " + o[1]}, G.sentence);
+        sv("rect", {x: 14, y: sy, width: W - 14, height: h, rx: 10, "class": "s-card"}, g);
+        tx(g, 28, sy + 17, o[1], "s-label");
+        if (o[0] === L[1].pub) tx(g, W - 12, sy + 17, w.pub, "pub", "end");
+        v.lines.forEach(function (n, k) { sentence(g, tr[n], 28, sy + 35 + k * 18, W - 42, v.mark); });
+        press(g, function () { choose(p, "line", o[0]); });
+        segs.push({v: o[0], g: g});
+        var r = {v: o[0], y: sy, h: h};
+        sy += h + 8;
+        return r;
+      });
+      p.switches.push({key: "line", segs: segs});
+      G.link = sv("path", {"class": "thread-m strong"}, G.sentence);
+      G.linkKnot = sv("circle", {r: 3.5, "class": "knot"}, G.sentence);
+      G.gateY = gy;
+      G.sentGhost.firstChild.setAttribute("height", sy - (vy + 42) + 18);
+      // the floor: the meeting as recorded, line by line, and the line that closed the row
+      var fy = sy + 24;
+      G.floorGhost = ghost(svg, 0, fy - 18, W, 0, "3 back");
+      G.floor = sv("g", {"class": "part"}, svg);
+      tx(G.floor, 16, fy, "3 back · " + L[2].name, "k");
+      tx(G.floor, 16, fy + 18, fit(R.transcript.file + " · " + R.transcript.meeting + " · " + R.transcript.date, W - 32, 11, 500), "mono-s");
+      fy += 26;
+      G.lines = {};
+      R.transcript.lines.forEach(function (l) { G.lines["L" + l.n] = line(p, G.floor, l, fy, W); fy += 24; });
+      G.closers = {};
+      Object.keys(R.variants).forEach(function (k) {
+        var cl = R.variants[k].closer;
+        if (!cl || G.closers[cl.file + cl.n]) return;
+        var g = sv("g", {}, G.floor);
+        tx(g, 16, fy + 20, fill(w.closedBy, {n: cl.file.slice(0, 2), line: cl.n}), "mono-s");
+        G.lines["C" + cl.n] = line(p, g, cl, fy + 28, W);
+        G.closers[cl.file + cl.n] = {g: g, key: k};
+      });
+      p.H = fy + 60;
+      G.floorGhost.firstChild.setAttribute("height", p.H - (G.fy0 = sy + 24) + 12);
+      G.ch = ch;
+    },
+    update: function (p, o) {
+      var d = p.d, G = p.g, c = p.c, depth = p.depth, R = d.record, w = d.words;
+      var v = R.variants[c.line], r = v.row || {}, none = r.owner === "not stated";
+      show(G.gate, depth >= 1); show(G.gateGhost, depth < 1); move(G.gate, 0, depth >= 1 ? 0 : -10);
+      show(G.sentence, depth >= 2); show(G.sentGhost, depth < 2); move(G.sentence, 0, depth >= 2 ? 0 : -10);
+      show(G.floor, depth >= 3); show(G.floorGhost, depth < 3); move(G.floor, 0, depth >= 3 ? 0 : -10);
+      // the cells, read from the record
+      var prev = p.shown.row;
+      G.cardBg.classList.toggle("unowned", none);
+      G.id.textContent = r.id || "";
+      G.owner.textContent = r.owner || "";
+      G.owner.classList.toggle("unowned", none);
+      G.company.textContent = r.company || "";
+      wrapLines(r.action || "", G.actionW, 12.5, 500, 3).concat(["", ""]).slice(0, 3).forEach(function (s, k) { G.action[k].textContent = s; });
+      G.due.textContent = r.due || "";
+      G.status.textContent = r.status || "";
+      G.chip.setAttribute("width", wide(r.status || "", 11.5, 700) + 18);
+      if (prev && prev !== r.id) [G.owner, G.due, G.status].concat(G.action).forEach(flash);
+      p.shown.row = r.id;
+      // the gate's verdict, as recorded for this line
+      G.verdict.textContent = v.matched ? w.matched : w.missed;
+      G.check.classList.toggle("miss", !v.matched);
+      G.answer.textContent = v.expected.owner + ", " + v.expected.due;
+      // the chosen sentence lit, the thread re-drawn to it
+      var chosen = G.cards.filter(function (k) { return k.v === c.line; })[0];
+      G.cards.forEach(function (k, i) { p.switches[0].segs[i].g.classList.toggle("on", k.v === c.line); });
+      var mid = chosen.y + chosen.h / 2;
+      G.link.setAttribute("d", "M8 " + (G.gateY + 38) + " L8 " + (mid - 8) + " Q8 " + mid + " 14 " + mid);
+      G.linkKnot.setAttribute("cx", 14); G.linkKnot.setAttribute("cy", mid);
+      // the floor: the lines the row was read from lit, and the closing line when there is one
+      Object.keys(G.lines).forEach(function (k) { G.lines[k].classList.toggle("lit", o.lit.indexOf(k) >= 0); });
+      Object.keys(G.closers).forEach(function (k) { show(G.closers[k].g, G.closers[k].key === c.line); });
+      p.svg.setAttribute("height", p.H);
+    }
+  };
+  // a transcript line inside a sentence card, its deciding words lit
+  function sentence(g, l, x, y, px, mark) {
+    var t = sv("text", {x: x, y: y, "class": "s-line"}, g);
+    var n = sv("tspan", {"class": "s-n"}, t); n.textContent = l.n;
+    var whoLit = mark && mark.line === l.n && mark.who;
+    var who = sv("tspan", {dx: 8, "class": whoLit ? "s-who mark" : "s-who"}, t); who.textContent = l.who + ":";
+    var room = px - wide(l.n + "  " + l.who + ": ", 12, 700) - 8;
+    var said = fit(l.text, room, 12, 500), cut = mark && mark.line === l.n && mark.text && said.indexOf(mark.text) >= 0;
+    var a = sv("tspan", {dx: 5}, t);
+    if (cut) {
+      var parts = said.split(mark.text);
+      a.textContent = parts[0];
+      var m = sv("tspan", {"class": "mark", dx: parts[0] ? null : 5}, t); m.textContent = mark.text;
+      var b = sv("tspan", {}, t); b.textContent = parts.slice(1).join(mark.text);
+    } else a.textContent = said;
+  }
+  // a line of the transcript on the floor, named in full on hover or tap
+  function line(p, parent, l, y, W) {
+    var g = sv("g", {"class": "t-line"}, parent);
+    sv("rect", {x: 8, y: y + 4, width: W - 16, height: 22, rx: 6, "class": "t-hi"}, g);
+    tx(g, 18, y + 19, l.n, "s-n");
+    tx(g, 40, y + 19, l.who, "s-who");
+    tx(g, 40 + Math.min(118, wide(l.who, 12, 700) + 12), y + 19, fit(l.text, W - 72 - Math.min(118, wide(l.who, 12, 700) + 12), 12, 500), "t-said");
+    tipOn(p, g, fill(p.d.words.tip, l));
+    return g;
+  }
+
+  // ---------- the engine ----------
   function build(stage) {
     var id = stage.getAttribute("data-piece"), d = DATA[id];
-    if (!d || !OUT[id]) return;
-    var p = {id: id, d: d, stage: stage, depth: 0, c: pubs(d), parts: {}};
-    var layers = d.layers;
+    if (!d || !OUT[id] || !SCENES[id]) return;
+    var n = d.layers.length;
+    var p = {id: id, d: d, stage: stage, depth: 0, c: pubs(d), shown: {}, rolls: {}, switches: [], named: []};
     stage.textContent = "";
-
     if (d.record && d.record.run) {
       var run = el("p", "dx-run");
       run.appendChild(icon("circle-check"));
@@ -432,85 +965,106 @@
       run.appendChild(rs);
       stage.appendChild(run);
     }
-
-    // the output and the buttons, pinned while the layers are read
-    var pin = el("div", "dx-pin");
-    var card = el("div", "dx-out");
-    card.appendChild(el("div", "dx-label", d.out.label));
-    if (d.fields) {
-      var dl = el("dl", "dx-cells");
-      d.fields.forEach(function (f) {
-        var w = el("div", "dx-cell " + f[0]);
-        w.appendChild(el("dt", "", f[1]));
-        p.parts[f[0]] = w.appendChild(el("dd"));
-        dl.appendChild(w);
-      });
-      card.appendChild(dl);
-    } else {
-      p.parts.big = card.appendChild(el("div", "dx-big"));
-    }
-    p.parts.sub = card.appendChild(el("div", "dx-sub"));
-    pin.appendChild(card);
-
+    var scene = el("div", "dx-scene");
+    p.draw = el("div", "dx-draw");
+    p.tip = el("div", "dx-tip"); p.tip.hidden = true; p.tip.setAttribute("aria-hidden", "true");
+    p.draw.appendChild(p.tip);
     var ctl = el("div", "dx-controls");
     p.back = button("Step back", "dx-step back", "chevron");
     p.fwd = button("Step forward", "dx-step fwd", "chevron");
     p.reset = button("Reset", "dx-reset", "repeat");
     p.count = el("span", "dx-count");
     [p.back, p.fwd, p.reset, p.count].forEach(function (x) { ctl.appendChild(x); });
-    pin.appendChild(ctl);
-    stage.appendChild(pin);
-
-    p.hint = stage.appendChild(el("p", "dx-hint", "Step back to see what this result rests on."));
-
-    // the layers, numbered from the output
-    var ol = el("ol", "dx-layers");
-    p.items = layers.map(function (l, k) {
-      var li = el("li", "dx-layer" + (l.floor ? " floor" : ""));
-      li.hidden = true;
-      var head = el("div", "dx-lh");
-      head.appendChild(el("span", "dx-back", (k + 1) + " back" + (l.floor ? " · the floor" : "")));
-      head.appendChild(el("h3", "", l.name));
-      li.appendChild(head);
-      li.appendChild(el("p", "dx-what", l.what));
-      li.appendChild(el("p", "dx-why", l.why));
-      if (l.options) {
-        var g = el("div", "dx-opts");
-        g.setAttribute("role", "group"); g.setAttribute("aria-label", l.name);
-        l.options.forEach(function (o) {
-          var b = el("button", "dx-opt");
-          b.type = "button"; b.setAttribute("data-v", o[0]);
-          b.appendChild(el("span", "", o[1]));
-          if (o[0] === l.pub) b.appendChild(el("span", "dx-pub", "as published"));
-          b.addEventListener("click", function () { choose(p, l.key, o[0]); });
-          g.appendChild(b);
-        });
-        li.appendChild(g);
-      }
+    // the words cell: one entry per step, all in one cell, so nothing below moves
+    p.words = el("div", "dx-words");
+    p.says = [d.met].concat(d.layers).map(function (l, k) {
+      var s = el("div", "dx-say");
+      s.appendChild(el("span", "dx-back", k ? k + " back" + (l.floor ? " · the floor" : "") : " "));
+      s.appendChild(el("h3", "", l.name));
+      s.appendChild(el("p", "dx-what", l.what));
+      s.appendChild(el("p", "dx-why", l.why));
       if (l.source) {
-        var sp = el("p", "dx-src"), a = el("a", "", l.source.text);
+        var a = el("a", "dx-src", l.source.text);
         a.href = l.source.href; a.target = "_blank"; a.rel = "noopener";
-        sp.appendChild(a); li.appendChild(sp);
+        s.appendChild(a);
       }
-      if (l.live) p.parts["live-" + l.key] = li.appendChild(el("div", "dx-live"));
-      if (l.floor) {
-        p.parts.litText = li.appendChild(el("p", "dx-lit"));
-        p.parts.rows = li.appendChild(el("div", "dx-rows"));
-      }
-      ol.appendChild(li);
-      return li;
+      p.words.appendChild(s);
+      return s;
     });
-    stage.appendChild(ol);
-
+    var left = el("div", "dx-left");
+    left.appendChild(p.draw); left.appendChild(ctl);
+    scene.appendChild(left); scene.appendChild(p.words);
+    stage.appendChild(scene);
+    // the floor as a plain table, behind a fold under the scene
+    var det = el("details", "dx-table");
+    var sum = el("summary", "case-toggle");
+    sum.appendChild(el("span", "", d.words.table)); sum.appendChild(icon("chevron"));
+    det.appendChild(sum);
+    p.rowsBox = det.appendChild(el("div", "dx-rows"));
+    stage.appendChild(det);
     p.say = stage.appendChild(el("p", "visually-hidden"));
     p.say.setAttribute("aria-live", "polite");
 
-    p.back.addEventListener("click", function () { step(p, 1); });
-    p.fwd.addEventListener("click", function () { step(p, -1); });
-    p.reset.addEventListener("click", function () { reset(p); });
+    p.back.addEventListener("click", function () { mine(p); step(p, 1); });
+    p.fwd.addEventListener("click", function () { mine(p); step(p, -1); });
+    p.reset.addEventListener("click", function () { mine(p); reset(p); });
+    stage.addEventListener("pointerdown", function () { mine(p); });
+    // a named dot or line shows its name on hover, or on a tap
+    p.draw.addEventListener("pointerover", function (e) { var t = e.target.closest && e.target.closest(".named"); if (t && e.pointerType === "mouse") tip(p, t); });
+    p.draw.addEventListener("pointerout", function (e) { if (e.pointerType === "mouse" && e.target.closest && e.target.closest(".named")) tip(p, null); });
+    p.draw.addEventListener("click", function (e) { var t = e.target.closest && e.target.closest(".named"); tip(p, t && p.tipFor !== t ? t : null); });
 
-    render(p, false);
+    draw(p);
     PIECES.push(p);
+    play(p);
+  }
+
+  // the drawing is laid out at its own width, so its words stay readable on a phone
+  function draw(p) {
+    p.W = Math.max(300, Math.round(p.draw.clientWidth));
+    if (p.svg) p.draw.removeChild(p.svg);
+    p.switches = []; p.named = []; p.shown = {};
+    p.svg = sv("svg", {"class": "dx-svg is-still", width: p.W, role: "group", "aria-label": p.d.code});
+    p.draw.insertBefore(p.svg, p.tip);
+    SCENES[p.id].build(p, p.svg, p.W);
+    p.svg.setAttribute("viewBox", "0 0 " + p.W + " " + p.H);
+    render(p);
+    requestAnimationFrame(function () { requestAnimationFrame(function () { p.svg.classList.remove("is-still"); }); });
+  }
+
+  function render(p) {
+    var o = OUT[p.id].out(p.c, p.d), n = p.d.layers.length;
+    SCENES[p.id].update(p, o);
+    p.switches.forEach(function (s) {
+      s.segs.forEach(function (sg) {
+        var on = sg.v === p.c[s.key];
+        sg.g.classList.toggle("on", on);
+        sg.g.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+    });
+    var floor = p.depth >= n;
+    p.named.forEach(function (x) { x.classList.toggle("can-name", floor); });
+    if (!floor) tip(p, null);
+    p.says.forEach(function (s, k) { s.classList.toggle("is-on", k === p.depth); s.setAttribute("aria-hidden", k === p.depth ? "false" : "true"); });
+    p.count.textContent = p.depth + " of " + n + " back";
+    off(p.back, p.depth >= n);
+    off(p.fwd, p.depth <= 0);
+    var base = pubs(p.d);
+    off(p.reset, Object.keys(p.c).every(function (k) { return p.c[k] === base[k]; }));
+    p.rowsBox.textContent = "";
+    p.rowsBox.appendChild(table(p, floorGroups(p.id, p.c, p.d), o.lit));
+    return o;
+  }
+
+  function tip(p, node) {
+    p.tipFor = node;
+    if (!node || !node.classList.contains("can-name")) { p.tip.hidden = true; p.tipFor = null; return; }
+    p.tip.textContent = node.getAttribute("data-tip");
+    p.tip.hidden = false;
+    var b = node.getBoundingClientRect(), box = p.draw.getBoundingClientRect();
+    var x = b.left + b.width / 2 - box.left, tw = p.tip.offsetWidth;
+    p.tip.style.left = Math.max(0, Math.min(box.width - tw, x - tw / 2)) + "px";
+    p.tip.style.top = (b.top - box.top - p.tip.offsetHeight - 8) + "px";
   }
 
   function table(p, groups, lit) {
@@ -538,67 +1092,46 @@
     return t;
   }
 
-  function render(p, changed) {
-    var o = OUT[p.id].out(p.c, p.d), parts = p.parts;
-    function put(node, text) {
-      if (node.textContent === text) return;
-      node.textContent = text;
-      if (changed) flash(node);
-    }
-    if (o.cells) Object.keys(o.cells).forEach(function (k) { put(parts[k], o.cells[k]); });
-    else put(parts.big, o.big);
-    put(parts.sub, o.sub || "");
-    if (o.live) Object.keys(o.live).forEach(function (k) { if (parts["live-" + k]) parts["live-" + k].innerHTML = o.live[k]; });
-    if (parts.rows) {
-      parts.litText.textContent = o.litText;
-      parts.rows.textContent = "";
-      parts.rows.appendChild(table(p, floorGroups(p.id, p.c, p.d), o.lit));
-    }
-    // the choices, the as-published mark and the buttons
-    p.items.forEach(function (li, k) {
-      var l = p.d.layers[k];
-      if (!l.options) return;
-      Array.prototype.forEach.call(li.querySelectorAll(".dx-opt"), function (b) {
-        b.setAttribute("aria-pressed", b.getAttribute("data-v") === p.c[l.key] ? "true" : "false");
-      });
-    });
-    var n = p.d.layers.length;
-    p.count.textContent = p.depth + " of " + n + " back";
-    off(p.back, p.depth >= n);
-    off(p.fwd, p.depth <= 0);
-    var same = Object.keys(p.c).every(function (k) { return p.c[k] === pubs(p.d)[k]; });
-    off(p.reset, same);
-    p.hint.hidden = p.depth > 0;
-    return o;
-  }
-
   function announce(p, text) { p.say.textContent = ""; setTimeout(function () { p.say.textContent = text; }, 30); }
 
-  function step(p, by) {
+  function step(p, by, quiet) {
     var n = p.d.layers.length, to = Math.max(0, Math.min(n, p.depth + by));
     if (to === p.depth) return;
-    if (by > 0) {
-      var li = p.items[to - 1];
-      li.hidden = false;
-      if (!reduce) { li.classList.remove("in"); void li.offsetWidth; li.classList.add("in"); }
-    } else {
-      p.items[p.depth - 1].hidden = true;
-    }
     p.depth = to;
-    var o = render(p, false), l = p.d.layers[to - 1];
-    announce(p, to ? to + " back: " + l.name + "." + (l.floor ? " " + o.litText : "") : "The output, as it stands. " + o.say);
+    var o = render(p), l = to ? p.d.layers[to - 1] : p.d.met;
+    if (!quiet) announce(p, to ? to + " back: " + l.name + "." + (l.floor ? " " + o.litText : "") : "The output, as it stands. " + o.say);
   }
-
   function choose(p, key, v) {
+    mine(p);
     if (p.c[key] === v) return;
     p.c[key] = v;
-    announce(p, render(p, true).say);
+    announce(p, render(p).say);
   }
-
   function reset(p) {
     if (p.reset.getAttribute("aria-disabled") === "true") return;
     p.c = pubs(p.d);
-    announce(p, "Back to as published. " + render(p, true).say);
+    announce(p, "Back to as published. " + render(p).say);
+  }
+
+  // one pass on its own, the first time the scene is mostly on screen: down to the floor and back up, then it waits
+  function mine(p) { p.taken = true; if (p.timer) { clearTimeout(p.timer); p.timer = null; } }
+  function play(p) {
+    if (reduce || !("IntersectionObserver" in window)) return;
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        var h = e.boundingClientRect.height, seen = e.intersectionRect.height;
+        if (p.played || p.taken || seen < 0.6 * Math.min(h, window.innerHeight)) return;
+        p.played = true; io.disconnect();
+        var n = p.d.layers.length, down = 0;
+        (function tick() {
+          if (p.taken) return;
+          if (down < n) { down++; step(p, 1, true); p.timer = setTimeout(tick, down === n ? 1800 : 1100); }
+          else if (p.depth > 0) { step(p, -1, true); p.timer = setTimeout(tick, 420); }
+          else p.timer = null;
+        })();
+      });
+    }, {threshold: [0, .2, .4, .5, .6, .7, .8, .9, 1]});
+    io.observe(p.draw);
   }
 
   // the left and right arrows step the piece the reader is in: the one holding focus,
@@ -621,8 +1154,20 @@
     var p = current();
     if (!p) return;
     e.preventDefault();
+    mine(p);
     step(p, e.key === "ArrowRight" ? 1 : -1);
   });
+  document.addEventListener("click", function (e) {
+    PIECES.forEach(function (p) { if (p.tipFor && !p.draw.contains(e.target)) tip(p, null); });
+  });
+  var lastW = window.innerWidth;
+  window.addEventListener("resize", function () {
+    if (window.innerWidth === lastW) return;
+    lastW = window.innerWidth;
+    clearTimeout(window.dxResize);
+    window.dxResize = setTimeout(function () { PIECES.forEach(function (p) { if (Math.round(p.draw.clientWidth) !== p.W) draw(p); }); }, 150);
+  });
 
-  Array.prototype.forEach.call(document.querySelectorAll(".dx-stage[data-piece]"), build);
+  function start() { Array.prototype.forEach.call(document.querySelectorAll(".dx-stage[data-piece]"), build); }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(start); else start();
 })();

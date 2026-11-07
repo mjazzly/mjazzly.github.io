@@ -28,10 +28,11 @@ esc = html.escape
 # all three phrasings; each variant names the line its row was read from, and the lines lit with it.
 CASE = "02_meridian_pricing.txt"
 VARIANTS = {
-    "same": {"line": "5", "lines": ["5"]},          # "I will update the scenario B model ..."
-    "next": {"line": "3", "lines": ["3", "4"]},     # the price list line, then "Agreed, that has to happen."
-    "none": {"line": "6", "lines": ["6"]},          # "Someone also needs to brief the sales team ..."
+    "same": {"line": "5", "lines": ["5"], "mark": {"line": "5", "text": "I will"}},        # "I will update the scenario B model ..."
+    "next": {"line": "3", "lines": ["3", "4"], "mark": {"line": "4", "who": True}},       # the price list line; the next line's speaker agrees
+    "none": {"line": "6", "lines": ["6"], "mark": {"line": "6", "text": "Someone"}},       # "Someone also needs to brief the sales team ..."
 }
+# The scene lights the words that decide the owner: words read from the line, or the next line's speaker; never a name typed here.
 OF = 5   # the harness scores five cases (verdict.five_matched, "of 5" in eval/run_eval.js)
 TIERS = [("haiku", "smallest model"), ("sonnet", "standard model"), ("opus", "largest model")]
 # Words the site never carries (CLAUDE.md, rule 4), as in scripts/outputs.py
@@ -90,7 +91,10 @@ def record(run_id=None):
         fails = [f for f in case_fails if re.search(rf"\bline {line}\b", f)]
         notes = [{"file": CASE, "text": swap(s)} for n in log if n["transcript"] == CASE and n["step"] == "note"
                  for s in segments(n["detail"]) if re.match(rf"Line {line}\b", s)]
-        item = {"line": line, "lines": v["lines"], "expected": {"owner": exp["owner"], "due": exp["due"]}, "row": None, "closer": None}
+        mark = dict(v["mark"])
+        said = next(x for x in lines if x["n"] == mark["line"])
+        if mark.get("text") and mark["text"] not in said["text"]: sys.exit(f"line {mark['line']} no longer reads '{mark['text']}': update VARIANTS")
+        item = {"line": line, "lines": v["lines"], "mark": mark, "expected": {"owner": exp["owner"], "due": exp["due"]}, "row": None, "closer": None}
         if row:
             item["row"] = {"id": row["action_id"], "action": swap(row["action"]), "owner": row["owner"], "company": swap(row["owner_company"]),
                            "due": row["due"], "status": row["status"], "closed_in": "", "closed_line": ""}

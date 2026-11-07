@@ -1,75 +1,65 @@
 /* ---------- Deconstruct page (deconstruct.html only, loaded after motion.css) ----------
-   One look for every piece: the output in a card at the top, pinned while the layers
-   are read; under it each layer the reader steps back to, numbered from the output;
-   the last layer is the floor, the rows with the counted ones lit. White panels on the
-   paper, 14px corners, no shadows, no borders, no side bars. Nothing moves on its own:
-   a layer slides in on Step back, and a part of the output that changed flashes amber
-   once when a choice changes (opacity and colour only). Reduced motion: no slide, no flash. */
+   Each piece is a scene, drawn full width on its own soft cool tone as the Frames films are:
+   the output sits inside the drawing, Step back reveals the next layer down inside it, a choice
+   is a part of the drawing the reader presses, and the output rolls with one amber flash.
+   Beside the drawing (under it on a phone) one words cell carries the layer's three lines and
+   cross-fades, so nothing below moves. Only position, scale, opacity and colour move.
+   Reduced motion: nothing travels, rolls or flashes; every change is shown at once. */
 
 .tiles.entries.pieces{margin:-12px 0 8px}
-.dx-after{max-width:720px;margin-top:18px;font-size:16px;line-height:1.6;color:var(--ink-soft)}
-.coda{font-size:17px;font-weight:600;color:var(--ink);letter-spacing:-.01em;max-width:620px;padding:24px 0 0}
+.coda{font-size:17px;font-weight:600;color:var(--ink);letter-spacing:-.01em;max-width:620px;padding:40px 0 0}
+
+/* each piece's world fills the width with its own tone */
+section.dx-film{--tone:#E7EEF4;background:var(--tone);box-shadow:0 0 0 100vmax var(--tone);clip-path:inset(0 -100vmax);padding:52px 0 56px;scroll-margin-top:12px}
+#deconstruct-02{--tone:#E9EBF1}
+#deconstruct-03{--tone:#EAEDF2}
+section.dx-film + section.dx-film{margin-top:0}
+section.dx-film + section{padding-top:56px}
+.dx-film .ex{background:none;padding:0;border-radius:0}
+.dx-film .ex-head{margin-bottom:14px;gap:12px}
+.dx-film .ex-head .badge{width:32px;height:32px;border-radius:10px}
+.dx-film .ex-head .badge .ic{width:17px;height:17px}
+.dx-after{max-width:640px;margin-top:26px;font-size:16px;line-height:1.6;color:var(--ink-soft)}
 
 /* the record line on DECONSTRUCT-03: the run named once */
-.dx-run{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--ink-soft);margin-bottom:14px}
+.dx-run{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--ink-soft);margin-bottom:16px}
 .dx-run .ic{width:18px;height:18px;flex:none;margin-top:1px;color:var(--amber)}
 .dx-run b:first-of-type{font-family:var(--mono);font-weight:500;font-size:13px}
 
-/* the output, pinned with its buttons */
-.dx-pin{position:sticky;top:0;z-index:3;background:var(--panel);padding:10px 0 12px;margin-top:-10px}
-.dx-out{background:var(--paper);border-radius:var(--radius-s);padding:18px 22px 16px}
-.dx-label{font-size:14.5px;font-weight:700;color:var(--ink);margin-bottom:4px}
-.dx-big{font-weight:800;font-size:52px;line-height:1.05;letter-spacing:-.03em;color:var(--ink);font-variant-numeric:tabular-nums}
-.dx-sub{font-size:14px;color:var(--ink-soft);margin-top:4px}
-.dx-cells{display:grid;grid-template-columns:2.2fr 1.3fr 1fr 1.5fr;gap:14px;margin:8px 0 4px}
-.dx-cell dt{font-size:12.5px;font-weight:700;color:var(--ink-faint);margin-bottom:3px}
-.dx-cell dd{font-size:15.5px;font-weight:600;line-height:1.45;color:var(--ink)}
-.dx-cell.owner dd{font-weight:800}
-.dx-cell.due dd{white-space:nowrap}
-.dx-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+/* the scene: the drawing and its buttons on the left, the words cell on the right */
+.dx-scene{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:36px;align-items:start}
+.dx-draw{position:relative}
+.dx-svg{display:block;overflow:visible;max-width:100%}
+.dx-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px}
 .dx-controls .case-toggle .ic{width:15px;height:15px}
 .dx-controls .fwd .ic{transform:rotate(180deg)}
 .dx-controls .dx-reset .ic{width:14px;height:14px}
-.dx-controls .is-off{opacity:.45;cursor:default}
-.dx-controls .is-off:hover,.dx-controls .is-off:focus-visible{background:var(--marine-tint);color:var(--marine)}
+.dx-controls .is-dim{opacity:.45;cursor:default}
+.dx-controls .is-dim:hover,.dx-controls .is-dim:focus-visible{background:var(--marine-tint);color:var(--marine)}
 .dx-controls .case-toggle:focus-visible{outline:2px solid var(--marine);outline-offset:2px}
 .dx-count{font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);margin-left:auto}
-.dx-hint{font-size:15px;color:var(--ink-soft);margin:6px 0 0}
-.dx-hint[hidden]{display:none}
 
-/* the parts of the output that changed: one amber flash */
-@keyframes dx-flash{0%{color:var(--amber);opacity:.35}35%{color:var(--amber);opacity:1}100%{color:inherit;opacity:1}}
-.flash{animation:dx-flash .9s ease-out}
+/* the words cell: every step in one cell, cross-fading */
+.dx-words{display:grid;position:sticky;top:20px}
+.dx-say{grid-area:1/1;opacity:0;visibility:hidden;transition:opacity .25s ease,visibility 0s .25s}
+.dx-say.is-on{opacity:1;visibility:visible;transition:opacity .3s ease .08s,visibility 0s}
+.dx-say .dx-back{font-family:var(--mono);font-size:12.5px;color:var(--marine)}
+.dx-say h3{font-size:21px;line-height:1.3;margin:6px 0 10px}
+.dx-what{font-size:15.5px;line-height:1.55;color:var(--ink)}
+.dx-why{font-size:15px;line-height:1.55;color:var(--ink-soft);margin-top:10px}
+.dx-src{display:inline-block;font-size:13.5px;line-height:1.5;margin-top:12px}
 
-/* the layers, newest at the bottom */
-.dx-layers{list-style:none;display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-top:6px}
-.dx-layer{min-width:0}
-.dx-layer{background:var(--paper);border-radius:var(--radius-s);padding:16px 20px 18px}
-.dx-layer[hidden]{display:none}
-@keyframes dx-in{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
-.dx-layer.in{animation:dx-in .28s cubic-bezier(.2,.7,.2,1)}
-.dx-lh{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
-.dx-lh h3{font-size:17px;line-height:1.35}
-.dx-back{font-family:var(--mono);font-size:12.5px;color:var(--marine);white-space:nowrap}
-.dx-what{font-size:15px;line-height:1.55;color:var(--ink)}
-.dx-why{font-size:14.5px;line-height:1.55;color:var(--ink-soft);margin-top:6px}
-.dx-opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.dx-opt{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:0 8px;text-align:left;background:var(--panel);border:1.5px solid transparent;border-radius:999px;padding:8px 16px;font:inherit;font-size:14.5px;font-weight:600;color:var(--ink);cursor:pointer;transition:background-color .15s,border-color .15s}
-.dx-opt:hover{background:var(--marine-tint)}
-.dx-opt:focus-visible{outline:2px solid var(--marine);outline-offset:2px}
-.dx-opt[aria-pressed="true"]{border-color:var(--marine);background:var(--marine-tint);color:var(--marine)}
-.dx-pub{font-size:12px;font-weight:600;color:var(--amber)}
-.dx-optlist{font-size:14.5px;color:var(--ink-soft);margin-top:10px}
-.dx-src{font-size:13.5px;margin-top:12px}
-.dx-live{margin-top:12px;padding:12px 16px;border-radius:var(--radius-s);background:var(--panel);font-size:14.5px;line-height:1.55;color:var(--ink-soft)}
-.dx-live p+p{margin-top:8px}
-.dx-verdict{font-weight:700;color:var(--amber);margin-right:4px}
-.dx-verdict.miss{color:var(--ink)}
-.dx-note{font-size:14px}
+/* the name of a dot or a line, on hover or a tap */
+.dx-tip{position:absolute;z-index:5;max-width:340px;background:var(--ink);color:#fff;font-size:12.5px;font-weight:600;line-height:1.45;padding:7px 11px;border-radius:8px;pointer-events:none}
+.dx-tip[hidden]{display:none}
 
-/* the floor: the rows, the counted ones lit; anything wide scrolls inside its panel */
-.dx-lit{font-size:14px;color:var(--ink-soft);margin-top:12px}
-.dx-rows{margin-top:10px;overflow-x:auto;border-radius:var(--radius-s);background:var(--panel)}
+/* the floor as a plain table, behind a fold under the scene */
+.dx-table{margin-top:26px}
+.dx-table summary{list-style:none;cursor:pointer;width:max-content}
+.dx-table summary::-webkit-details-marker{display:none}
+.dx-table[open] summary .ic{transform:rotate(180deg)}
+.dx-table summary:focus-visible{outline:2px solid var(--marine);outline-offset:2px}
+.dx-rows{margin-top:12px;overflow-x:auto;border-radius:var(--radius-s);background:var(--panel)}
 .dx-rows table{width:100%;border-collapse:collapse;font-size:13.5px;line-height:1.4}
 .dx-rows th,.dx-rows td{text-align:left;padding:7px 12px;white-space:nowrap;vertical-align:top}
 .dx-rows thead th{font-size:12px;font-weight:700;color:var(--ink-faint);border-bottom:1px solid var(--line)}
@@ -79,28 +69,163 @@
 .dx-rows tr.lit th.key{color:var(--marine);font-weight:500}
 .dx-rows tbody+tbody .dx-group th{padding-top:16px}
 .dx-rows .dx-group th{font-family:var(--mono);font-size:12px;font-weight:400;color:var(--ink-faint);white-space:normal}
-#deconstruct-03-panel .dx-rows td:last-child{white-space:normal;min-width:320px}
+#deconstruct-03 .dx-rows td:last-child{white-space:normal;min-width:320px}
+
+/* ---------- the drawings ---------- */
+.dx-svg *{transition:transform .6s cubic-bezier(.2,.7,.2,1),opacity .35s ease,fill .3s ease,stroke .3s ease,visibility 0s}
+.dx-svg .is-off{opacity:0;visibility:hidden;transition:transform .6s cubic-bezier(.2,.7,.2,1),opacity .3s ease,fill .3s ease,visibility 0s .3s}
+.dx-svg.is-still *{transition:none!important}
+.dx-svg text{font-family:var(--sans)}
+.dx-svg .k,.dx-svg .mono-s,.dx-svg .s-n{font-family:var(--mono)}
+.dx-svg .k{font-size:11px;font-weight:500;fill:var(--marine)}
+.dx-svg .mono-s{font-size:10.5px;fill:var(--ink-faint)}
+.dx-svg .card{fill:var(--panel)}
+.dx-svg .t-label{font-size:14px;font-weight:700;fill:var(--ink)}
+.dx-svg .t-big{font-size:58px;font-weight:800;fill:var(--ink);letter-spacing:-2px}
+.dx-svg .t-sub{font-size:13px;font-weight:500;fill:var(--ink-soft)}
+.dx-svg .t-name{font-size:13.5px;font-weight:700;fill:var(--ink)}
+.dx-svg .plate-body{fill:var(--marine-tint-2)}
+.dx-svg .hole{fill:#B9CFDC}
+.dx-svg .tray{fill:var(--panel);opacity:.7}
+/* a layer not yet shown holds its place as a dashed outline, as Frames draws an unbuilt floor */
+.dx-svg .ghost rect{fill:none;stroke:#C3D3DE;stroke-width:1.5;stroke-dasharray:5 6}
+.dx-svg .ghost .k{fill:var(--ink-faint);opacity:.8}
+.dx-svg .pub{font-size:10.5px;font-weight:600;fill:var(--amber)}
+@keyframes dx-fill{0%,35%{fill:var(--amber)}}
+.dx-svg .flash{animation:dx-fill .95s ease-out}
+
+/* switches the reader presses */
+.dx-svg .switch-bg{fill:var(--panel)}
+.dx-svg .seg{cursor:pointer;outline:none}
+.dx-svg .seg-on{fill:var(--marine);opacity:0}
+.dx-svg .seg.on .seg-on{opacity:1}
+.dx-svg .seg-t{font-size:12.5px;font-weight:700;fill:var(--ink-soft)}
+.dx-svg .seg:hover .seg-t{fill:var(--marine)}
+.dx-svg .seg.on .seg-t{fill:#fff}
+.dx-svg .seg-ring{fill:none;stroke:var(--marine);stroke-width:2;opacity:0}
+.dx-svg .seg:focus-visible .seg-ring{opacity:1}
+
+/* DECONSTRUCT-01 */
+.dx-svg .dot{fill:var(--marine-tint-2)}
+.dx-svg .dot.lit{fill:var(--amber)}
+.dx-svg .rise{stroke:var(--amber);stroke-width:1.2;opacity:.3}
+.dx-svg .rise.is-off{opacity:0}
+.dx-svg .thread{fill:none;stroke:var(--amber);stroke-width:1.5}
+.dx-svg .ring{fill:none;stroke:var(--amber);stroke-width:1.6}
+.dx-svg .same{font-size:10.5px;font-weight:600;fill:var(--amber)}
+
+/* DECONSTRUCT-02 */
+.dx-svg .board{fill:var(--marine-deep)}
+.dx-svg .b-small{font-size:12.5px;font-weight:600;fill:var(--marine-tint-2)}
+.dx-svg .b-label{font-size:16px;font-weight:700;fill:#fff}
+.dx-svg .b-count{font-size:15px;font-weight:700;fill:#fff}
+.dx-svg .flap{fill:#18384B}
+.dx-svg .flap-t{font-size:44px;font-weight:800;fill:#fff}
+.dx-svg .flap-l{stroke:var(--marine-deep);stroke-width:2}
+.dx-svg .flap-t.small{font-size:38px}
+@keyframes dx-board{0%,35%{fill:#E9C27A}}
+.dx-svg .flap-t.flash,.dx-svg .b-count.flash{animation:dx-board .95s ease-out}
+.dx-svg .band{fill:var(--marine-tint);transform-box:fill-box;transform-origin:left center}
+.dx-svg .s-on{font-size:12px;font-weight:700;fill:var(--marine)}
+.dx-svg .s-late{font-size:12px;font-weight:700;fill:var(--ink-faint)}
+.dx-svg .axis{stroke:var(--ink-faint);stroke-width:1.2}
+.dx-svg .s-tick{font-size:11px;font-weight:500;fill:var(--ink-faint)}
+.dx-svg .s-cap{font-size:11.5px;font-weight:600;fill:var(--ink-soft)}
+.dx-svg .zone{stroke:var(--marine-tint-2);stroke-width:1.5;stroke-dasharray:3 4}
+.dx-svg .rule line{stroke:var(--marine);stroke-width:2.5}
+.dx-svg .handle .seg-off{fill:var(--panel);stroke:var(--marine);stroke-width:1.2;stroke-dasharray:3 3}
+.dx-svg .handle.on .seg-off{opacity:0}
+.dx-svg .handle .seg-t{fill:var(--marine)}
+.dx-svg .handle.on .seg-t{fill:#fff}
+.dx-svg .dot.hollow{fill:transparent;stroke:var(--ink-faint);stroke-width:1.6}
+.dx-svg .dot.hollow.gone{opacity:.35}
+.dx-svg .leader{stroke:var(--ink-faint);stroke-width:1;fill:none}
+.dx-svg .s-note{font-size:11px;font-weight:600;fill:var(--ink-soft)}
+
+/* DECONSTRUCT-03 */
+.dx-svg .card.unowned{fill:var(--amber-tint)}
+.dx-svg .f-label{font-size:11px;font-weight:600;fill:var(--ink-faint)}
+.dx-svg .f-owner{font-size:14px;font-weight:800;fill:var(--ink)}
+.dx-svg .f-owner.unowned{fill:var(--amber)}
+.dx-svg .f-sub{font-size:11px;font-weight:500;fill:var(--ink-faint)}
+.dx-svg .f-val{font-size:12.5px;font-weight:500;fill:var(--ink)}
+.dx-svg .f-due{font-weight:600}
+.dx-svg .chip{fill:var(--marine-tint)}
+.dx-svg .chip-t{font-size:11.5px;font-weight:700;fill:var(--marine)}
+.dx-svg .thread-m{stroke:var(--marine);stroke-width:1.4;fill:none}
+.dx-svg .thread-m.strong{stroke-width:1.8}
+.dx-svg .knot{fill:var(--marine)}
+.dx-svg .stripe-a{fill:#E2C38A}
+.dx-svg .stripe-b{fill:var(--amber-tint)}
+.dx-svg .post{fill:var(--marine-deep)}
+.dx-svg .g-rule{font-size:11.5px;font-weight:700;fill:var(--ink)}
+.dx-svg .g-rule.small{font-size:10.5px}
+.dx-svg .check circle,.dx-svg .check path{fill:none;stroke:var(--amber);stroke-width:1.8}
+.dx-svg .check.miss circle,.dx-svg .check.miss path{stroke:var(--ink)}
+.dx-svg .g-verdict{font-size:13px;font-weight:800;fill:var(--amber)}
+.dx-svg .g-answer{font-size:10.5px;font-weight:700;fill:var(--ink)}
+.dx-svg .s-card{fill:var(--panel);opacity:.55;stroke:var(--marine);stroke-width:0}
+.dx-svg .sentence.on .s-card{opacity:1;stroke-width:1.8}
+.dx-svg .sentence:hover .s-card{opacity:.85}
+.dx-svg .sentence.on:hover .s-card{opacity:1}
+.dx-svg .sentence:focus-visible .s-card{stroke-width:2.4;opacity:1}
+.dx-svg .s-label{font-size:11.5px;font-weight:800;fill:var(--ink-faint)}
+.dx-svg .sentence.on .s-label{fill:var(--marine)}
+.dx-svg .s-line{font-size:12px;font-weight:500;fill:var(--ink-faint)}
+.dx-svg .sentence.on .s-line{fill:var(--ink)}
+.dx-svg .s-n{font-size:10.5px;fill:var(--ink-faint)}
+.dx-svg .s-who{font-size:12px;font-weight:700}
+.dx-svg .mark{font-weight:800;text-decoration:underline}
+.dx-svg .sentence.on .mark{fill:var(--amber)}
+.dx-svg .t-line .t-hi{fill:var(--amber-tint);opacity:0}
+.dx-svg .t-line.lit .t-hi{opacity:1}
+.dx-svg .t-line .s-who{fill:var(--ink)}
+.dx-svg .t-said{font-size:12px;fill:var(--ink-soft)}
+.dx-svg .t-line.lit .t-said{fill:var(--ink)}
+
+/* the floor names what it holds */
+.dx-svg .named.can-name{cursor:pointer}
+.dx-svg .dot.named.can-name:hover{stroke:var(--ink);stroke-width:2}
+.dx-svg .t-line.can-name:hover .t-hi{opacity:1;fill:var(--marine-tint)}
+.dx-svg .t-line.lit.can-name:hover .t-hi{fill:var(--amber-tint)}
+
+/* ---------- without JavaScript: each piece as a list, the output as published, the rows ---------- */
+.nojs .dx-out{background:var(--panel);border-radius:var(--radius-s);padding:18px 22px 16px}
+.nojs .dx-label{font-size:14.5px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.nojs .dx-big{font-weight:800;font-size:48px;line-height:1.05;letter-spacing:-.03em;color:var(--ink)}
+.nojs .dx-sub{font-size:14px;color:var(--ink-soft);margin-top:4px}
+.nojs .dx-cells{display:grid;grid-template-columns:1.3fr 2.2fr 1fr 1fr;gap:14px;margin:8px 0 4px}
+.nojs .dx-cell dt{font-size:12.5px;font-weight:700;color:var(--ink-faint)}
+.nojs .dx-cell dd{font-size:15px;font-weight:600;line-height:1.45;color:var(--ink)}
+.nojs .dx-hint{font-size:15px;color:var(--ink-soft);margin:14px 0 8px}
+.nojs .dx-layers{list-style:none;display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+.nojs .dx-layer{background:var(--panel);border-radius:var(--radius-s);padding:16px 20px 18px;min-width:0}
+.nojs .dx-lh{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.nojs .dx-lh h3{font-size:17px}
+.nojs .dx-back{font-family:var(--mono);font-size:12.5px;color:var(--marine)}
+.nojs .dx-what{font-size:15px}
+.nojs .dx-why{font-size:14.5px;margin-top:6px}
+.nojs .dx-optlist{font-size:14.5px;color:var(--ink-soft);margin-top:10px}
+.nojs .dx-src{font-size:13.5px;margin-top:10px}
+.nojs .dx-live{margin-top:12px;padding:12px 16px;border-radius:var(--radius-s);background:var(--paper);font-size:14.5px;color:var(--ink-soft)}
+.nojs .dx-verdict{font-weight:700;color:var(--amber);margin-right:4px}
+.nojs .dx-lit{font-size:14px;color:var(--ink-soft);margin-top:12px}
+.nojs .dx-rows{background:var(--paper)}
 
 @media(max-width:860px){
-  .dx-cells{grid-template-columns:1fr 1fr}
-  .dx-cell.action{grid-column:1 / -1}
+  .dx-scene{grid-template-columns:minmax(0,1fr);gap:20px}
+  .dx-words{position:static}
+  .dx-say h3{font-size:19px}
+  .nojs .dx-cells{grid-template-columns:1fr 1fr}
 }
 @media(max-width:600px){
-  .dx-pin{padding:8px 0 10px}
-  .dx-out{padding:12px 16px 12px;display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:12px}
-  .dx-out .dx-label{grid-column:1;margin:0}
-  .dx-out .dx-big{grid-column:2;grid-row:1 / span 2;font-size:38px}
-  .dx-out .dx-sub{grid-column:1;margin:0;font-size:13px}
-  .dx-out .dx-cells{grid-column:1 / -1;gap:8px 12px}
-  .dx-cell dd{font-size:14px}
-  .dx-out .dx-cells{grid-template-columns:minmax(0,1fr) auto auto;gap:8px 14px}
-  .dx-cell dt{font-size:11.5px;margin-bottom:1px}
-  .dx-controls{gap:6px;margin-top:10px;flex-wrap:nowrap}
-  .dx-controls .case-toggle{padding:8px 13px;font-size:13.5px}
-  .dx-controls .case-toggle .ic,.dx-count{display:none}
-  .dx-layer{padding:14px 16px 16px}
-  .dx-opt{border-radius:18px;padding:8px 15px}
+  section.dx-film{padding:40px 0 44px}
+  .dx-controls{gap:6px;margin-top:14px;flex-wrap:nowrap}
+  .dx-controls .case-toggle{padding:9px 13px;font-size:13.5px}
+  .dx-controls .case-toggle .ic{display:none}
+  .dx-count{display:none}
 }
 @media(prefers-reduced-motion:reduce){
-  .flash,.dx-layer.in{animation:none}
+  .dx-svg *,.dx-svg .is-off,.dx-say,.dx-say.is-on{transition:none!important}
+  .dx-svg .flash{animation:none}
 }
