@@ -525,120 +525,132 @@
   SCENES["01"] = {
     build: function (p, svg, W) {
       var d = p.d, G = p.g = {}, L = d.layers;
-      var tw = Math.min(260, W - 32), tl = (W - tw) / 2;
-      G.tile = sv("g", {"class": "part"}, svg);
-      sv("rect", {x: tl, y: 0, width: tw, height: 128, rx: 14, "class": "card"}, G.tile);
-      tx(G.tile, tl + 22, 32, d.out.label, "t-label");
-      G.big = tx(G.tile, tl + 19, 92, "", "t-big");
-      G.sub = tx(G.tile, tl + 22, 113, "", "t-sub");
-      // three plates, each a sieve with its switch; a plate too narrow for its label and switch side by side stacks them
-      var y = 176;
-      G.plates = []; G.stopY = [];
-      for (var k = 0; k < 3; k++) {
-        var lay = L[k], lw = wide(lay.name, 13.5, 700) + 70, swW = switchWidth(lay);
-        var stacked = lw + swW + 28 > W - 16, h = stacked ? 74 : 44;
-        var g = sv("g", {"class": "part plate"}, svg);
-        sv("rect", {x: 8, y: y, width: W - 16, height: h, rx: 10, "class": "plate-body"}, g);
-        for (var hx = 30; hx < W - 30; hx += 22) sv("ellipse", {cx: hx, cy: y + 6, rx: 5.5, ry: 2, "class": "hole"}, g);
-        tx(g, 22, y + 27, (k + 1) + " back", "k");
-        tx(g, 72, y + 27, lay.name, "t-name");
-        drawSwitch(p, g, lay, stacked ? 20 : W - 14 - swW, stacked ? y + 36 : y + 7);
-        G.plates.push({g: g, y: y, h: h});
-        G.stopY.push(y + h + (k === 0 ? 0 : 26));
-        y += h + (k === 0 ? 40 : 70);
-      }
-      // the tray of 40 contacts
-      var cols = Math.floor((W - 40) / 20), rows = Math.ceil(d.rows.length / cols);
-      G.trayY = y - 10;
-      G.tray = sv("g", {"class": "part"}, svg);
-      sv("rect", {x: 8, y: G.trayY, width: W - 16, height: rows * 20 + 22, rx: 10, "class": "tray"}, G.tray);
-      tx(G.tray, 22, G.trayY - 8, "4 back", "k");
-      G.trayPos = d.rows.map(function (r, i) {
-        var c = i % cols, rr = Math.floor(i / cols), x0 = (W - (cols - 1) * 20) / 2;
-        return [x0 + c * 20, G.trayY + 21 + rr * 20];
+      // the columns: twenty, two contacts deep; a person entered twice keeps both records in one column
+      var seen = {}, twinOf = {}, order = [];
+      d.rows.forEach(function (r, i) { if (seen[r.email] != null) twinOf[i] = seen[r.email]; else seen[r.email] = i; });
+      d.rows.forEach(function (r, i) {
+        if (twinOf[i] != null) return;
+        order.push(i);
+        Object.keys(twinOf).forEach(function (j) { if (twinOf[j] === i) order.push(+j); });
       });
-      p.H = G.trayY + rows * 20 + 26;
-      // the twins: a thread between two records of one person, and a ring when they are drawn as one
-      var seen = {}; G.twins = [];
-      d.rows.forEach(function (r, i) { if (seen[r.email] != null) G.twins.push([seen[r.email], i]); else seen[r.email] = i; });
-      G.threads = G.twins.map(function () { return sv("path", {"class": "thread"}, svg); });
+      G.twinOf = twinOf;
+      var cols = Math.ceil(order.length / 2), x0 = 22, sx = (W - 44) / (cols - 1);
+      G.r = Math.min(6, sx * 0.3);
+      G.slot = {};
+      order.forEach(function (i, k) { G.slot[i] = [x0 + Math.floor(k / 2) * sx, k % 2]; });
+      // the tile
+      var tw = Math.min(280, W - 40), tl = (W - tw) / 2;
+      G.tile = sv("g", {"class": "part"}, svg);
+      sv("rect", {x: tl, y: 0, width: tw, height: 118, rx: 14, "class": "card"}, G.tile);
+      tx(G.tile, tl + 22, 30, d.out.label, "t-label");
+      G.big = tx(G.tile, tl + 19, 86, "", "t-big");
+      G.sub = tx(G.tile, tl + 22, 106, "", "t-sub");
+      // three plates, each a bar with a hole under every column, its lever at the plate's end
+      var rest = 2 * G.r * 2 + 8, y = 118 + 18 + rest;
+      G.plates = [];
+      G.levers = [];
+      for (var k = 0; k < 3; k++) {
+        var lay = L[k], g = sv("g", {"class": "part plate"}, svg);
+        sv("rect", {x: 6, y: y, width: W - 12, height: 18, rx: 6, "class": "plate-body"}, g);
+        for (var c = 0; c < cols; c++) sv("rect", {x: x0 + c * sx - G.r - 1.5, y: y + 4, width: 2 * G.r + 3, height: 10, rx: 4, "class": "hole"}, g);
+        tx(g, 10, y + 37, (k + 1) + " back", "k");
+        tx(g, 58, y + 37, lay.name, "t-name");
+        G.levers.push(lever(p, g, lay, W - 8, y + 18));
+        G.plates.push({g: g, y: y});
+        y += 18 + 44 + rest;
+      }
+      // the tray the 40 contacts wait in
+      G.trayY = y + 2;
+      G.tray = sv("g", {"class": "part"}, svg);
+      sv("rect", {x: 6, y: G.trayY, width: W - 12, height: 4 * G.r + 22, rx: 10, "class": "tray"}, G.tray);
+      tx(G.tray, 10, G.trayY - 8, "4 back", "k");
+      p.H = G.trayY + 4 * G.r + 28;
+      // a thread joins two records of one person; drawn as one, they share a ring
+      G.threads = {}; G.rings = {};
+      Object.keys(twinOf).forEach(function (j) {
+        G.threads[j] = sv("path", {"class": "thread"}, svg);
+        G.rings[j] = sv("circle", {r: G.r + 4, "class": "ring"}, svg);
+      });
       G.sameLabel = tx(svg, 0, 0, d.words.same, "same", "middle");
-      G.rings = G.twins.map(function () { return sv("circle", {r: 11, "class": "ring"}, svg); });
-      // the dots, with a faint line up into the tile for every dot that passes
-      G.rise = d.rows.map(function () { return sv("line", {x1: 0, x2: 0, y1: 128, y2: 0, "class": "rise"}, svg); });
       G.dots = d.rows.map(function (r) {
-        var c = sv("circle", {r: W < 460 ? 5.5 : 6.5, "class": "dot"}, svg);
-        tipOn(p, c, fill(d.words.tip, Object.assign({}, r, {qualified: r.qualified || d.blank.qualified, created: r.created})));
+        var c = sv("circle", {r: G.r, "class": "dot"}, svg);
+        tipOn(p, c, fill(d.words.tip, Object.assign({}, r, {qualified: r.qualified || d.blank.qualified})));
         return c;
       });
+      G.pulse = G.levers[0].g;
     },
     update: function (p, o) {
-      var d = p.d, G = p.g, c = p.c, depth = p.depth, W = p.W;
+      var d = p.d, G = p.g, c = p.c, depth = p.depth, r = G.r;
       var pass = OUT["01"].out({count: "records", word: c.word, date: c.date}, d).lit, counted = o.lit;
-      var Q = d.quarter;
-      // where each contact stops: past every plate (top), at the qualified plate, or at the date plate
-      var level = d.rows.map(function (r) {
-        if (pass.indexOf(r.id) >= 0) return 0;
-        var date = c.date === "qualified" ? r.qualified : r.created;
-        if (!date || Q.indexOf(date.split(" ")[1]) < 0) return 2;
-        return 1;
+      var Q = d.quarter, people = c.count === "people";
+      // which plate stops each contact: none (it rises to the tile), the qualified plate, or the date plate
+      var level = d.rows.map(function (row) {
+        if (pass.indexOf(row.id) >= 0) return 0;
+        var date = c.date === "qualified" ? row.qualified : row.created;
+        return !date || Q.indexOf(date.split(" ")[1]) < 0 ? 3 : 2;
       });
       G.plates.forEach(function (pl, k) { lit(pl.g, depth > k); });
-      lit(G.tray, depth >= 4);
-      // rows of dots: the passing ones under the tile (twins side by side, or as one), the stopped ones under their plate
-      var people = c.count === "people", twinOf = {};
-      G.twins.forEach(function (t) { twinOf[t[1]] = t[0]; });
-      var top = [], stop = [[], [], []];
-      d.rows.forEach(function (r, i) {
-        if (level[i] === 0) { if (twinOf[i] != null && pass.indexOf(d.rows[twinOf[i]].id) >= 0) return; top.push(i); var tw = G.twins.filter(function (t) { return t[0] === i; })[0]; if (tw && pass.indexOf(d.rows[tw[1]].id) >= 0) top.push(tw[1]); }
-        else stop[level[i]].push(i);
+      lit(G.tray, depth === 0 || depth >= 4);
+      G.levers.forEach(function (lv) { lv.set(c[lv.key]); });
+      var restY = function (plate, lane) { return G.plates[plate].y - r - 1 - lane * (2 * r + 3); };
+      var trayY = function (lane) { return G.trayY + r + 7 + lane * (2 * r + 6); };
+      var at = {};
+      d.rows.forEach(function (row, i) {
+        var s = G.slot[i], home = depth === 0 || depth >= 4;
+        var lane = s[1];
+        if (!home && people && level[i] === 0 && G.twinOf[i] != null && level[G.twinOf[i]] === 0) lane = 0;   // drawn as one with its twin
+        at[i] = [s[0], home ? trayY(s[1]) : restY(level[i] === 0 ? 0 : level[i] - 1, lane)];
+        var dot = G.dots[i], on = depth >= 4 ? counted.indexOf(row.id) >= 0 : depth > 0 && level[i] === 0 && !(people && lane !== s[1]);
+        if (p.shown.dots && p.shown.dots[i] !== on) flash(dot);
+        dot.classList.toggle("lit", on);
+        move(dot, at[i][0], at[i][1]);
       });
-      var pos = {}, spread = function (list, y, merge) {
-        var slots = [];
-        list.forEach(function (i) { if (merge && twinOf[i] != null && list.indexOf(twinOf[i]) >= 0) return; slots.push(i); });
-        var per = Math.max(1, Math.floor((W - 24) / 15)), lines = Math.ceil(slots.length / per) || 1;
-        slots.forEach(function (i, k) {
-          var line = Math.floor(k / per), inLine = Math.min(per, slots.length - line * per), gap = Math.min(22, (W - 24) / Math.max(inLine, 1));
-          pos[i] = [W / 2 - (inLine - 1) * gap / 2 + (k % per) * gap, y + line * 17];
-        });
-        if (merge) list.forEach(function (i) { if (twinOf[i] != null && pos[twinOf[i]]) pos[i] = pos[twinOf[i]].slice(); });
-        return lines;
-      };
-      spread(top, 152, people);
-      spread(stop[1], G.stopY[1], false);
-      spread(stop[2], G.stopY[2], false);
-      // waiting in the tray as met; risen through the plates or stopped under one once stepped back; home again at the floor
-      G.dots.forEach(function (dot, i) {
-        var home = depth === 0 || depth >= 4, at = home ? G.trayPos[i] : pos[i];
-        move(dot, at[0], at[1]);
-        dot.classList.toggle("lit", depth >= 4 ? counted.indexOf(d.rows[i].id) >= 0 : depth > 0 && level[i] === 0);
-        dot.classList.toggle("held", !home && level[i] > 0 && level[i] >= depth);
-        var up = depth >= 1 && depth < 4 && level[i] === 0;
-        move(G.rise[i], at[0], 0); G.rise[i].setAttribute("y2", at[1] - 8); show(G.rise[i], up);
-      });
-      // threads and rings for the people entered twice
-      var firstLabel = true;
-      G.twins.forEach(function (t, k) {
-        var a = pos[t[0]], b = pos[t[1]], both = depth >= 1 && depth < 4 && level[t[0]] === 0 && level[t[1]] === 0;
-        var thread = both && !people, ring = both && people;
-        if (a && b && thread) {
-          G.threads[k].setAttribute("d", "M" + a[0] + " " + (a[1] - 8) + " Q" + (a[0] + b[0]) / 2 + " " + (a[1] - 24) + " " + b[0] + " " + (b[1] - 8));
-          if (firstLabel) { G.sameLabel.setAttribute("x", (a[0] + b[0]) / 2); G.sameLabel.setAttribute("y", a[1] + 24); firstLabel = false; }
+      p.shown.dots = d.rows.map(function (row, i) { return G.dots[i].classList.contains("lit"); });
+      // threads for the people entered twice, side by side on top of the first plate; a ring when they are one
+      var labelled = false;
+      Object.keys(G.threads).forEach(function (j) {
+        var a = at[G.twinOf[j]], b = at[j], both = depth >= 1 && depth < 4 && level[j] === 0 && level[G.twinOf[j]] === 0;
+        var thread = both && !people;
+        if (thread) {
+          G.threads[j].setAttribute("d", "M" + (a[0] + r + 1) + " " + a[1] + " Q" + (a[0] + r + 9) + " " + (a[1] + b[1]) / 2 + " " + (b[0] + r + 1) + " " + b[1]);
+          if (!labelled) { G.sameLabel.setAttribute("x", a[0] + 30); G.sameLabel.setAttribute("y", b[1] - r - 6); labelled = true; }
         }
-        show(G.threads[k], thread);
-        if (a) move(G.rings[k], a[0], a[1]);
-        show(G.rings[k], ring);
+        show(G.threads[j], thread);
+        move(G.rings[j], a[0], a[1]);
+        show(G.rings[j], both && people);
       });
-      show(G.sameLabel, !firstLabel);
+      show(G.sameLabel, labelled);
       // the tile
       var from = p.shown.big == null ? null : +p.shown.big;
       roll(p, "big", from, +o.big, function (v) { G.big.textContent = v; });
       if (p.shown.big != null && p.shown.big !== o.big) flash(G.big);
       G.sub.textContent = o.sub;
       p.shown.big = o.big;
-      p.svg.setAttribute("height", p.H);
+      p.svg.setAttribute("height", p.H * p.k);
     }
   };
+  // a two-position lever at a plate's end: its two settings either side of a slot, the knob on the one in force
+  function lever(p, parent, layer, right, y) {
+    var g = sv("g", {"class": "lever"}, parent), o = layer.options, segs = [];
+    var wB = wide(o[1][1], 12, 700), wA = wide(o[0][1], 12, 700), track = 34;
+    var xB = right - wB, xT = xB - 10 - track, xA = xT - 10;
+    sv("rect", {x: xT + track / 2 - 1.5, y: y, width: 3, height: 9, "class": "stem"}, g);
+    var t = sv("g", {"class": "seg lever-track", role: "button", tabindex: "0", "aria-label": layer.name + ": switch"}, g);
+    sv("rect", {x: xT, y: y + 9, width: track, height: 14, rx: 7, "class": "slot"}, t);
+    var knob = sv("circle", {cx: 0, cy: y + 16, r: 8.5, "class": "knob"}, t);
+    press(t, function () { choose(p, layer.key, p.c[layer.key] === o[0][0] ? o[1][0] : o[0][0]); });
+    [[o[0], xA, "end"], [o[1], xB, "start"]].forEach(function (s) {
+      var sg = sv("g", {"class": "seg lever-side", role: "button", tabindex: "0", "aria-label": layer.name + ": " + s[0][1]}, g);
+      var w = wide(s[0][1], 12, 700);
+      sv("rect", {x: s[2] === "end" ? s[1] - w - 4 : s[1] - 4, y: y + 4, width: w + 8, height: 24, "class": "hit"}, sg);
+      tx(sg, s[1], y + 20, s[0][1], "lever-t", s[2]);
+      if (s[0][0] === layer.pub) tx(g, s[2] === "end" ? s[1] - w / 2 : s[1] + w / 2, y + 36, p.d.words.pub, "pub", "middle");
+      press(sg, function () { choose(p, layer.key, s[0][0]); });
+      segs.push({v: s[0][0], g: sg});
+    });
+    p.switches.push({key: layer.key, segs: segs});
+    return {g: g, key: layer.key, set: function (v) { move(knob, v === o[0][0] ? xT + 8 : xT + track - 8, 0); }};
+  }
 
   // ---------- DECONSTRUCT-02: the arrivals board on a scale of delay minutes ----------
   function minutes(s) {
@@ -684,7 +696,7 @@
         if (p.depth < 1) return;
         e.preventDefault(); mine(p); G.rule.setPointerCapture(e.pointerId); G.rule.classList.add("held");
         var to = function (ev) {
-          var x = ev.clientX - p.svg.getBoundingClientRect().left, best = null;
+          var x = (ev.clientX - p.svg.getBoundingClientRect().left) / p.k, best = null;
           L[0].options.forEach(function (o) { if (best === null || Math.abs(X(+o[0]) - x) < Math.abs(X(+best) - x)) best = o[0]; });
           choose(p, "rule", best);
         };
@@ -704,6 +716,7 @@
         segs.push({v: o[0], g: s});
       });
       p.switches.push({key: "rule", segs: segs});
+      G.pulse = seg;
       tx(G.scale, W - 8, 160, "1 back · " + L[0].name, "k", "end");
       G.edge = sv("g", {"class": "edge"}, G.scale);
       sv("path", {d: "M6 -5 L20 -22", "class": "leader"}, G.edge);
@@ -766,9 +779,12 @@
         }
         move(dot, at[0], landed ? at[1] : 150);
         show(dot, landed);
-        dot.classList.toggle("lit", depth >= 1 && o.lit.indexOf(d.rows[i].id) >= 0);
+        var on = depth >= 1 && o.lit.indexOf(d.rows[i].id) >= 0;
+        if (p.shown.dots && p.shown.dots[i] !== on) flash(dot);
+        dot.classList.toggle("lit", on);
       });
       show(G.edge, depth >= 1 && c.rule === "15" && c.at === "arrival");
+      p.shown.dots = G.dots.map(function (x) { return x.classList.contains("lit"); });
       // the board
       var pct = parseInt(o.big, 10), from = p.shown.pct;
       roll(p, "pct", from, pct, function (v) { paintTiles(G, String(v) + "%"); });
@@ -776,7 +792,7 @@
       G.flights.textContent = fill(w.flights, {on: counts[1], of: counts[2]});
       if (from != null && from !== pct) { Array.prototype.forEach.call(G.tiles.querySelectorAll("text"), flash); flash(G.flights); }
       p.shown.pct = pct;
-      p.svg.setAttribute("height", p.H);
+      p.svg.setAttribute("height", p.H * p.k);
     }
   };
   function paintTiles(G, s) {
@@ -862,6 +878,7 @@
         return r;
       });
       p.switches.push({key: "line", segs: segs});
+      G.pulse = segs;
       G.link = sv("path", {"class": "thread-m strong"}, G.sentence);
       G.linkKnot = sv("circle", {r: 3.5, "class": "knot"}, G.sentence);
       G.gateY = gy;
@@ -918,7 +935,7 @@
       // the floor: the lines the row was read from lit, and the closing line when there is one
       Object.keys(G.lines).forEach(function (k) { G.lines[k].classList.toggle("lit", depth >= 3 && o.lit.indexOf(k) >= 0); });
       Object.keys(G.closers).forEach(function (k) { show(G.closers[k].g, G.closers[k].key === c.line); });
-      p.svg.setAttribute("height", p.H);
+      p.svg.setAttribute("height", p.H * p.k);
     }
   };
   // a transcript line inside a sentence card, its deciding words lit
@@ -1022,10 +1039,11 @@
 
   // the drawing is laid out at its own width, so its words stay readable on a phone
   function draw(p) {
-    p.W = Math.max(300, Math.round(p.draw.clientWidth));
+    var full = Math.max(300, Math.round(p.draw.clientWidth));
+    p.W = Math.min(full, 640); p.k = full / p.W; p.full = full;
     if (p.svg) p.draw.removeChild(p.svg);
     p.switches = []; p.named = []; p.shown = {};
-    p.svg = sv("svg", {"class": "dx-svg is-still", width: p.W, role: "group", "aria-label": p.d.code});
+    p.svg = sv("svg", {"class": "dx-svg is-still", width: full, role: "group", "aria-label": p.d.code});
     p.draw.insertBefore(p.svg, p.tip);
     SCENES[p.id].build(p, p.svg, p.W);
     p.svg.setAttribute("viewBox", "0 0 " + p.W + " " + p.H);
@@ -1044,6 +1062,10 @@
         sg.g.classList.toggle("on", on);
         sg.g.setAttribute("aria-pressed", on ? "true" : "false");
       });
+    });
+    Array.prototype.forEach.call(p.svg.querySelectorAll(".lever-track"), function (t) {
+      var asleep = !!t.closest(".dim");
+      t.setAttribute("tabindex", asleep ? "-1" : "0"); t.setAttribute("aria-disabled", asleep ? "true" : "false");
     });
     var floor = p.depth >= n;
     p.named.forEach(function (x) { x.classList.toggle("can-name", floor); });
@@ -1122,6 +1144,14 @@
     if (p.timer) { clearTimeout(p.timer); p.timer = null; }
     if (p.landed === false) { p.landed = true; render(p); }
   }
+  // the reader lands on a choice: its switch swells once and settles
+  function pulse(p) {
+    var t = p.g.pulse;
+    if (!t || reduce) return;
+    (t.length ? t.map(function (s) { return s.g; }) : [t]).forEach(function (n, k) {
+      setTimeout(function () { n.classList.remove("pulse"); void n.getBoundingClientRect(); n.classList.add("pulse"); }, k * 90);
+    });
+  }
   function play(p) {
     if (reduce || !("IntersectionObserver" in window)) return;
     var io = new IntersectionObserver(function (es) {
@@ -1130,12 +1160,13 @@
         if (p.played || p.taken || seen < 0.6 * Math.min(h, window.innerHeight)) return;
         p.played = true; io.disconnect();
         var n = p.d.layers.length, down = 0, first = p.landed === false ? 650 : 0;
+        var stop = 1 + p.d.layers.map(function (l) { return !!l.options; }).indexOf(true);
         if (first) { p.landed = true; render(p); }
         p.timer = setTimeout(function tick() {
           if (p.taken) return;
           if (down < n) { down++; step(p, 1, true); p.timer = setTimeout(tick, down === n ? 1800 : 1100); }
-          else if (p.depth > 0) { step(p, -1, true); p.timer = setTimeout(tick, 420); }
-          else p.timer = null;
+          else if (p.depth > stop) { step(p, -1, true); p.timer = setTimeout(tick, 420); }
+          else { p.timer = null; pulse(p); }
         }, first);
       });
     }, {threshold: [0, .2, .4, .5, .6, .7, .8, .9, 1]});
@@ -1173,7 +1204,7 @@
     if (window.innerWidth === lastW) return;
     lastW = window.innerWidth;
     clearTimeout(window.dxResize);
-    window.dxResize = setTimeout(function () { PIECES.forEach(function (p) { if (Math.round(p.draw.clientWidth) !== p.W) draw(p); }); }, 150);
+    window.dxResize = setTimeout(function () { PIECES.forEach(function (p) { if (Math.round(p.draw.clientWidth) !== p.full) draw(p); }); }, 150);
   });
 
   function start() { Array.prototype.forEach.call(document.querySelectorAll(".dx-stage[data-piece]"), build); }
