@@ -20,7 +20,7 @@ GROUPS = [
         ("models.html",   "Models",   "repeat", "The five models I build by"),
         ("clarity.html",  "Clarity",  "zap",    "Four short games on working with AI"),
         ("frames.html",   "Frames",   "frame",  "Four frameworks for AI at work"),
-        ("deconstruct.html", "Deconstruct", "unstack", "Three outputs taken apart, a layer at a time"),
+        ("deconstruct.html", "Deconstruct", "unstack", "Three outputs taken apart, one question at a time"),
     ]),
     ("bookshelf", "Bookshelf", "book", "Ideas I keep, from other people and my own", [
         ("knowledge.html", "Knowledge", "bookmark", "Ideas worth keeping, learned from other people"),

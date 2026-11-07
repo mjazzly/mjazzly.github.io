@@ -1,21 +1,23 @@
-/* Deconstruct (deconstruct.html): finished outputs taken apart a layer at a time.
+/* Deconstruct (deconstruct.html): finished outputs taken apart, one question at a time.
 
-   One engine, three scenes. Each piece is a drawing the output sits inside: Step back
-   reveals the next layer down inside the same drawing, a choice is a part of the drawing
-   the reader presses, and the output rolls to its new value with one amber flash. The
-   last layer is the floor: the rows themselves, drawn and named on hover or tap, with a
-   plain table of them behind a fold under the scene. Each scene plays one pass on its own
-   (down to the floor and back up) the first time it is mostly on screen, then waits.
+   One engine, three scenes. Each piece is a drawing the output sits inside. It opens with the
+   output, one plain question and one button (Show me). Each question lights one part of the
+   drawing in place and wakes the one control it is about, with a short hint beside it; the
+   reader makes the change, the output rolls to its new value with one amber flash, and a
+   one-line answer read from the rows or the record appears, then Next. A question with nothing
+   to tap shows its answer at once. After the last question every control wakes (free play),
+   with the plain table of the rows behind a fold under the scene and any source link.
 
-   Each piece's data is plain JSON between PIECE markers: its words, its layers, its rows.
-   OUT holds each piece's one small function (rows and choices in, the output out) and
-   SCENES its drawing. scripts/deconstruct.py reads the blocks and runs OUT through node
-   to write the page's no-JavaScript view. DECONSTRUCT-03's rows are the record: every
-   name, line and cell between the RECORD markers is written by scripts/deconstruct.py
-   from the meeting tracker's run, never by hand. Rerun the script after a new counted run.
+   Each piece's data is plain JSON between PIECE markers: its words, its layers, its questions
+   (guide), its rows. OUT holds each piece's one small function (rows and choices in, the output
+   out) and SCENES its drawing; a scene names, per question, what wakes (wake). scripts/deconstruct.py
+   reads the blocks and runs OUT through node to write the page's no-JavaScript view.
+   DECONSTRUCT-03's rows are the record: every name, line and cell between the RECORD markers is
+   written by scripts/deconstruct.py from the meeting tracker's run, never by hand. Rerun the
+   script after a new counted run.
 
-   A fourth piece costs its rows and words (a PIECE block), its OUT function and its scene.
-   Reduced motion: no pass on its own, no travel, no roll, no flash; every change is shown at once. */
+   A fourth piece costs its rows, words and questions (a PIECE block), its OUT function and its scene.
+   Reduced motion: no travel, no roll, no flash, no pulse; every change is shown at once. */
 (function () {
   "use strict";
 
@@ -129,7 +131,25 @@
      "what": "The 24 June flights. Point at one to read it.",
      "why": "Nothing here is a choice. Every rate above is a recount of these."}
   ],
-  "words": {"pub": "as published", "board": "Arrivals, June", "arrived": "arrived on time", "flights": "{on} of {of} flights",
+  "guide": {
+    "open": {"q": "{n} of June flights were on time. Is that the whole story?", "line": "Twenty-four flights sit under this board. Three choices decide which count as on time.", "go": "Show me"},
+    "steps": [
+      {"key": "rule", "q": "How late is still on time?", "line": "The board counts a flight on time if it lands under 15 minutes late.",
+       "hint": "Drag the line to 0 minutes.",
+       "answers": {"0": "Not late at all: {n}. {Lost} flights under 15 minutes late now count late.",
+                   "30": "Under 30 minutes late: {n}. {Gained} more flight counts as on time.",
+                   "15": "Under 15 minutes late, as shown: {n}."}},
+      {"key": "never", "q": "What about flights that never arrived?", "line": "Some flights were cancelled or diverted. The board counts them as not on time.",
+       "hint": "Tap to leave them out.",
+       "answers": {"out": "{Left} flights leave the total. {on} of {of} on time is {n}.", "counted": "Counted as not on time, as shown: {n}."}},
+      {"key": "at", "q": "When is a flight timed?", "line": "The board times each flight as it reaches the gate.",
+       "hint": "Tap to time the departure instead.",
+       "answers": {"departure": "By departure: {n}. {Lost} flights made up time in the air; {gainedw} lost time.", "arrival": "At arrival, as shown: {n}."}}
+    ],
+    "free": {"q": "Now try any mix: twelve settings, twelve answers.", "line": "Tap or point at a flight to see its row.", "again": "Start again"},
+    "next": "Next", "back": "Back", "depth": 4
+  },
+  "words": {"pub": "as shown", "tray": "The 24 flights", "board": "Arrivals, June", "arrived": "arrived on time", "flights": "{on} of {of} flights",
             "onTime": "on time", "late": "late", "early": "early", "min": "{m} min", "edge": "exactly 15: late",
             "axis": {"arrival": "minutes late at arrival", "departure": "minutes late at departure"},
             "never": ["never", "arrived"], "leftOut": "left out", "table": "The 24 flights as a table",
@@ -182,7 +202,23 @@
      "what": "The meeting as recorded, line by line. Point at a line to read it.",
      "why": "The row can only say what these lines say."}
   ],
-  "words": {"pub": "as published", "rule": "an owner only when the same sentence names them", "matched": "Matched", "missed": "Missed",
+  "guide": {
+    "open": {"q": "The tracker says {owner} owns this action. How does it know?", "line": "One row as the tracker released it. Three questions show what stands behind it.", "go": "Show me"},
+    "steps": [
+      {"key": "gate", "q": "Who checks the row?", "line": "A checker holds every row to one rule, against an answer written before the first run.",
+       "say": "{verdict}. The answer written first: {expOwner}, due {expDue}."},
+      {"key": "line", "q": "What if the meeting said it differently?", "line": "Each sentence below names the doer differently, or not at all.",
+       "hint": "Tap another sentence.",
+       "answers": {"same": "Named in the same sentence: owner {owner}, due {due}. {verdict}.",
+                   "next": "Named only in the next sentence: owner {owner}, due {due}. {verdict}.",
+                   "none": "No name at all: owner {owner}, due {due}. {verdict}."}},
+      {"key": "transcript", "q": "Where did it come from?", "line": "The meeting as recorded, line by line.",
+       "say": "Line {line}, said by {who}. {closed}"}
+    ],
+    "free": {"q": "Tap any sentence to see the row it makes.", "line": "Point at a line of the transcript to read it in full.", "again": "Start again"},
+    "next": "Next", "back": "Back"
+  },
+  "words": {"pub": "as shown", "tray": "The transcript", "closedLater": "Closed later by transcript {n}, line {line}.", "rule": "an owner only when the same sentence names them", "matched": "Matched", "missed": "Missed",
             "answer": "answer written first:", "closedBy": "closed by transcript {n}, line {line}", "table": "The transcript as text",
             "tip": "line {n} · {who}: {text}"},
   "columns": [["n", "Line"], ["who", "Speaker"], ["text", "Said"]]
@@ -354,6 +390,8 @@
     return m ? (m[2] === "late" ? +m[1] : -m[1]) : null;
   }
 
+  function fill(t, r) { return t.replace(/\{(\w+)\}/g, function (_, k) { return r[k] == null ? "" : r[k]; }); }
+
   var OUT = {
     "01": {
       out: function (c, d) {
@@ -384,7 +422,7 @@
         });
         var pct = Math.round(100 * on / of);
         return {
-          big: pct + "%", sub: on + " of " + of + " flights, June", lit: lit,
+          big: pct + "%", sub: on + " of " + of + " flights, June", lit: lit, on: on, of: of,
           litText: on + " of " + d.rows.length + " flights lit: the ones counted on time.",
           say: "On time: " + pct + " percent, " + on + " of " + of + " flights."
         };
@@ -404,7 +442,11 @@
           (r && r.closed_in && v.matched ? ", and the close by transcript " + esc(r.closed_in) + " checked too." : ".") + "</p>" +
           (v.fails.length ? "<p>What the checker found: " + v.fails.map(esc).join("; ") + ".</p>" : "") +
           v.notes.map(function (n) { return '<p class="dx-note">The run’s own note' + (n.file === d.record.transcript.file ? "" : ", transcript " + esc(n.file.slice(0, 2))) + ": “" + esc(n.text) + "”</p>"; }).join("");
+        var said = d.record.transcript.lines.filter(function (l) { return l.n === v.line; })[0];
         return {
+          vars: {owner: r ? r.owner : "", due: r ? r.due : "", verdict: v.matched ? d.words.matched : d.words.missed,
+                 expOwner: v.expected.owner, expDue: v.expected.due, line: v.line, who: said ? said.who : "",
+                 closed: r && r.closed_in ? fill(d.words.closedLater, {n: r.closed_in, line: r.closed_line}) : ""},
           cells: cells,
           sub: r ? r.id + ", read from line " + v.line + " of " + d.record.transcript.file + "." +
             (r.closed_in ? " Closed by a later meeting: transcript " + r.closed_in + ", line " + r.closed_line + "." : "") : "",
@@ -480,7 +522,6 @@
              "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"], t = ["", "", "Twenty", "Thirty", "Forty"];
     return n < 20 ? u[n] : t[Math.floor(n / 10)] + (n % 10 ? "-" + u[n % 10].toLowerCase() : "");
   }
-  function fill(t, r) { return t.replace(/\{(\w+)\}/g, function (_, k) { return r[k] == null ? "" : r[k]; }); }
   function icon(name) {
     var s = sv("svg", {"class": "ic", "aria-hidden": "true"});
     sv("use", {href: "#ic-" + name}, s);
@@ -512,7 +553,7 @@
 
   // a switch drawn into the scene: one pressable segment per setting, the published one marked
   function drawSwitch(p, parent, layer, x, y) {
-    var g = sv("g", {"class": "switch"}, parent), segs = [], cx = 2;
+    var g = sv("g", {"class": "switch"}, parent), segs = [], cx = 2, pubEl = null;
     var bg = sv("rect", {x: x, y: y, height: 30, rx: 15, "class": "switch-bg"}, g);
     layer.options.forEach(function (o) {
       var w = Math.ceil(wide(o[1], 12.5, 700)) + 26;
@@ -520,14 +561,14 @@
       sv("rect", {x: x + cx, y: y + 2, width: w, height: 26, rx: 13, "class": "seg-on"}, s);
       sv("rect", {x: x + cx - 2, y: y - 2, width: w + 4, height: 34, rx: 17, "class": "seg-ring"}, s);
       tx(s, x + cx + w / 2, y + 19.5, o[1], "seg-t", "middle");
-      if (o[0] === layer.pub) tx(g, x + cx + w / 2, y + 46, p.d.words.pub, "pub", "middle");
+      if (o[0] === layer.pub) pubEl = tx(g, x + cx + w / 2, y + 46, p.d.words.pub, "pub", "middle");
       press(s, function () { choose(p, layer.key, o[0]); });
       segs.push({v: o[0], g: s});
       cx += w;
     });
     bg.setAttribute("width", cx + 2);
     p.switches.push({key: layer.key, segs: segs});
-    return {g: g, w: cx + 4};
+    return {g: g, w: cx + 4, pub: pubEl};
   }
   function switchWidth(layer) {
     return layer.options.reduce(function (a, o) { return a + Math.ceil(wide(o[1], 12.5, 700)) + 26; }, 6);
@@ -578,6 +619,7 @@
         tx(g, 10, y + 37, lay.name, "t-name");
         var lv = lever(p, g, lay, W - 8, y + 18), step = p.d.guide && p.d.guide.steps.filter(function (st) { return st.key === lay.key; })[0];
         lv.hint = step ? tx(g, W - 8, y + 56, step.hint, "hint is-off", "end") : null;
+        wake(p, lay.key, [lv.g], lv.hint, lv.pub ? [lv.pub] : [], lv.track);
         G.levers.push(lv);
         G.plates.push({g: g, y: y});
         y += 18 + 44 + rest;
@@ -614,14 +656,7 @@
       });
       G.plates.forEach(function (pl, k) { lit(pl.g, depth > k); });
       lit(G.tray, depth === 0 || depth >= 4);
-      G.levers.forEach(function (lv, k) {
-        lv.set(c[lv.key]);
-        // guided: only the lever the question is about is awake, and its hint shows until the reader taps it
-        var awake = !p.guided || p.free || p.q === k + 1, hinting = p.guided && !p.free && p.q === k + 1 && !p.tapped;
-        lv.g.classList.toggle("asleep", !awake);
-        if (lv.hint) show(lv.hint, hinting);
-        if (lv.pub) show(lv.pub, !hinting);
-      });
+      G.levers.forEach(function (lv) { lv.set(c[lv.key]); });
       var restY = function (plate, lane) { return G.plates[plate].y - r - 1 - lane * (2 * r + 3); };
       var trayY = function (lane) { return G.trayY + r + 7 + lane * (2 * r + 6); };
       var at = {};
@@ -723,7 +758,7 @@
       sv("line", {x1: 0, y1: 196, x2: 0, y2: ax + 4}, G.rule);
       // the line drags: it snaps to the nearest of its three places as it moves
       G.rule.addEventListener("pointerdown", function (e) {
-        if (p.depth < 1) return;
+        if (p.depth < 1 || G.rule.classList.contains("asleep")) return;
         e.preventDefault(); mine(p); G.rule.setPointerCapture(e.pointerId); G.rule.classList.add("held");
         var to = function (ev) {
           var x = (ev.clientX - p.svg.getBoundingClientRect().left) / p.k, best = null;
@@ -747,7 +782,8 @@
       });
       p.switches.push({key: "rule", segs: segs});
       G.pulse = seg;
-      tx(G.scale, W - 8, 160, "1 back · " + L[0].name, "k", "end");
+      var ruleName = tx(G.scale, W - 8, 160, L[0].name, "t-name", "end");
+      wake(p, "rule", [seg, G.rule], guideHint(p, G.scale, "rule", W - 8, 160), [ruleName]);
       G.edge = sv("g", {"class": "edge"}, G.scale);
       sv("path", {d: "M6 -5 L20 -22", "class": "leader"}, G.edge);
       tx(G.edge, 22, -25, w.edge, "s-note");
@@ -758,16 +794,15 @@
         var stacked = wide(lay.name, 13.5, 700) + 70 + swW + 16 > W, h = stacked ? 74 : 44;
         var g = sv("g", {"class": "part"}, svg);
         sv("rect", {x: 0, y: y, width: W, height: h, rx: 10, "class": "plate-body"}, g);
-        tx(g, 14, y + 27, (k + 1) + " back", "k");
-        tx(g, 64, y + 27, lay.name, "t-name");
-        drawSwitch(p, g, lay, stacked ? 14 : W - 6 - swW, stacked ? y + 36 : y + 7);
+        tx(g, 14, y + 27, lay.name, "t-name");
+        var sw = drawSwitch(p, g, lay, stacked ? 14 : W - 6 - swW, stacked ? y + 36 : y + 7);
+        wake(p, lay.key, [sw.g], guideHint(p, g, lay.key, W - 8, y + h + 16), sw.pub ? [sw.pub] : []);
         var r = {g: g, y: y, h: h};
         y += h + 26;
         return r;
       });
       G.floor = sv("g", {"class": "part"}, svg);
-      tx(G.floor, 14, y + 4, "4 back", "k");
-      tx(G.floor, 64, y + 4, L[3].name, "t-name");
+      tx(G.floor, 14, y + 4, w.tray || L[3].name, "t-name");
       p.H = y + 16;
       G.dots = d.rows.map(function (r) {
         var c = sv("circle", {r: 6.5, "class": "dot"}, svg);
@@ -788,6 +823,10 @@
       var lx = G.X(+c.rule);
       move(G.rule, lx, 0);
       G.band.style.transform = "scaleX(" + (depth >= 1 ? (lx - G.X(-10)) / (G.X(60) - G.X(-10)) : 0) + ")";
+      // "on time" sits inside the band; when the band is too narrow for it, it stands just left of the line
+      var ow = G.ruleWords[0].getComputedTextLength ? G.ruleWords[0].getComputedTextLength() : 0, tight = lx - G.X(-10) < ow + 16;
+      G.ruleWords[0].setAttribute("x", tight ? lx - 6 : G.X(-10) + 8);
+      G.ruleWords[0].setAttribute("text-anchor", tight ? "end" : "start");
       G.caption.textContent = w.axis[c.at];
       show(G.leftOut, c.never === "out");
       // the flights, placed by their delay and stacked where they meet; those that never arrived at the far end
@@ -878,7 +917,7 @@
       sv("rect", {x: (W - rw) / 2, y: gy + 9, width: rw, height: 20, rx: 5, "class": "card"}, G.gate);
       tx(G.gate, W / 2, gy + 23, fit(w.rule, rw - 10, rs, 700), rs < 11.5 ? "g-rule small" : "g-rule", "middle");
       var vy = gy + 60;
-      tx(G.gate, 16, vy, "1 back · " + L[0].name, "k");
+      tx(G.gate, 16, vy, L[0].name, "t-name");
       var vx = narrow ? 16 : W * 0.48;
       if (narrow) vy += 22;
       G.check = sv("g", {"class": "check"}, G.gate);
@@ -891,7 +930,8 @@
       var tr = {}; R.transcript.lines.forEach(function (l) { tr[l.n] = l; });
       var sy = vy + 42;
       G.sentence = sv("g", {"class": "part"}, svg);
-      tx(G.sentence, 16, sy, "2 back · " + L[1].name, "k");
+      tx(G.sentence, 16, sy, L[1].name, "t-name");
+      var lineHint = guideHint(p, G.sentence, "line", W - 8, sy);
       sy += 12;
       var segs = [];
       G.cards = L[1].options.map(function (o) {
@@ -909,13 +949,15 @@
       });
       p.switches.push({key: "line", segs: segs});
       G.pulse = segs;
+      var others = segs.filter(function (x) { return x.v !== L[1].pub; }).map(function (x) { return x.g; });
+      wake(p, "line", [G.sentence], lineHint, [], others[0], others);
       G.link = sv("path", {"class": "thread-m strong"}, G.sentence);
       G.linkKnot = sv("circle", {r: 3.5, "class": "knot"}, G.sentence);
       G.gateY = gy;
       // the floor: the meeting as recorded, line by line, and the line that closed the row
       var fy = sy + 24;
       G.floor = sv("g", {"class": "part"}, svg);
-      tx(G.floor, 16, fy, "3 back · " + L[2].name, "k");
+      tx(G.floor, 16, fy, L[2].name, "t-name");
       tx(G.floor, 16, fy + 18, fit(R.transcript.file + " · " + R.transcript.meeting + " · " + R.transcript.date, W - 32, 11, 500), "mono-s");
       fy += 26;
       G.lines = {};
@@ -1000,7 +1042,7 @@
     var id = stage.getAttribute("data-piece"), d = DATA[id];
     if (!d || !OUT[id] || !SCENES[id]) return;
     var n = d.layers.length;
-    var p = {id: id, d: d, stage: stage, depth: 0, c: pubs(d), shown: {}, rolls: {}, switches: [], named: [], guided: !!d.guide, q: 0};
+    var p = {id: id, d: d, stage: stage, depth: 0, c: pubs(d), shown: {}, rolls: {}, switches: [], named: [], guided: !!d.guide, q: 0, src: []};
     if (id === "02" && !reduce && "IntersectionObserver" in window) p.landed = false;
     stage.textContent = "";
     if (d.record && d.record.run) {
@@ -1041,7 +1083,7 @@
       if (!l.source) return;
       var sp = el("p", "dx-source"), a = el("a", "", l.source.text);
       a.href = l.source.href; a.target = "_blank"; a.rel = "noopener";
-      sp.appendChild(a); stage.appendChild(sp);
+      sp.appendChild(a); stage.appendChild(sp); p.src.push(sp);
     });
     // the floor as a plain table, behind a fold under the scene
     var det = el("details", "dx-table");
@@ -1086,6 +1128,7 @@
   function render(p) {
     var o = OUT[p.id].out(p.c, p.d), n = p.d.layers.length;
     SCENES[p.id].update(p, o);
+    if (p.guided) wakeAll(p);
     p.switches.forEach(function (s) {
       s.segs.forEach(function (sg) {
         var on = sg.v === p.c[s.key], asleep = !!sg.g.closest(".dim, .is-off, .asleep");
@@ -1183,42 +1226,72 @@
     p.gback.addEventListener("click", function () { mine(p); guideTo(p, p.q - 1); });
     return w;
   }
+  // each scene names, per question, the parts that wake, the hint beside them, what the hint stands in for, and where focus goes
+  function wake(p, key, nodes, hint, hide, focus, swell) {
+    p.g.wake = p.g.wake || {};
+    p.g.wake[key] = {nodes: nodes, hint: hint, hide: hide || [], focus: focus, swell: swell || nodes.filter(function (x) { return !x.style.transform; })};
+  }
+  function guideHint(p, parent, key, x, y) {
+    var st = p.d.guide && p.d.guide.steps.filter(function (s) { return s.key === key; })[0];
+    return st && st.hint ? tx(parent, x, y, st.hint, "hint is-off", "end") : null;
+  }
+  function wakeAll(p) {
+    var W = p.g.wake || {}, st = p.q >= 1 && !p.free ? p.d.guide.steps[p.q - 1] : null;
+    Object.keys(W).forEach(function (k) {
+      var on = !!st && st.key === k, hinting = on && !p.tapped;
+      W[k].nodes.forEach(function (x) { x.classList.toggle("asleep", !p.free && !on); });
+      if (W[k].hint) show(W[k].hint, hinting);
+      W[k].hide.forEach(function (x) { show(x, !hinting); });
+    });
+  }
   function guideTo(p, q) {
-    var g = p.d.guide, n = g.steps.length;
-    p.q = Math.max(0, Math.min(n + 1, q)); p.free = p.q > n; p.tapped = false;
+    var g = p.d.guide, n = g.steps.length, st;
+    p.q = Math.max(0, Math.min(n + 1, q)); p.free = p.q > n;
+    st = p.q >= 1 && !p.free ? g.steps[p.q - 1] : null;
+    p.tapped = !!(st && st.say);              // a question with nothing to tap shows its answer at once
     p.c = pubs(p.d);
-    p.depth = p.q === 0 ? 0 : Math.min(p.q, n);
+    p.depth = p.free ? (g.depth || n) : p.q;
     render(p);
-    p.det.hidden = !p.free;
-    announce(p, p.gq.textContent + " " + p.gline.textContent);
-    if (p.q >= 1 && p.q <= n) {
-      var lv = p.g.levers[p.q - 1];
-      if (lv) { lv.track.focus({preventScroll: true}); if (!reduce) setTimeout(function () { lv.g.classList.remove("pulse"); void lv.g.getBoundingClientRect(); lv.g.classList.add("pulse"); }, 120); }
+    announce(p, p.gq.textContent + " " + p.gline.textContent + (p.tapped ? " " + p.gans.textContent : ""));
+    var wk = st && !st.say && p.g.wake && p.g.wake[st.key];
+    if (wk) {
+      var f = wk.focus || (p.switches.filter(function (s) { return s.key === st.key; })[0].segs.filter(function (x) { return x.v !== p.c[st.key]; })[0] || {}).g;
+      if (f) f.focus({preventScroll: true});
+      if (!reduce) setTimeout(function () { wk.swell.forEach(function (x) { x.classList.remove("pulse"); void x.getBoundingClientRect(); x.classList.add("pulse"); }); }, 120);
     } else p.ggo.focus({preventScroll: true});
+  }
+  // the words an answer may use, all read from the rows or the record
+  function guideVars(p, r, base) {
+    var was = base.lit, now = r.lit, v = Object.assign({}, r.vars || {});
+    v.n = r.big; v.on = r.on; v.of = r.of;
+    v.diff = +base.big - +r.big;
+    v.lost = was.filter(function (x) { return now.indexOf(x) < 0; }).length;
+    v.gained = now.filter(function (x) { return was.indexOf(x) < 0; }).length;
+    v.left = base.of != null ? base.of - r.of : "";
+    ["diff", "lost", "gained", "left"].forEach(function (k) {   // {Diff} opens a sentence, {diffw} sits inside one
+      if (typeof v[k] !== "number" || isNaN(v[k])) return;
+      v[k.charAt(0).toUpperCase() + k.slice(1)] = said(v[k]); v[k + "w"] = said(v[k]).toLowerCase();
+    });
+    return v;
   }
   function guideWords(p) {
     var g = p.d.guide, n = g.steps.length, base = OUT[p.id].out(pubs(p.d), p.d), st = p.q >= 1 && p.q <= n ? g.steps[p.q - 1] : null;
-    if (p.q === 0) { p.gq.textContent = fill(g.open.q, {n: base.big}); p.gline.textContent = g.open.line; p.gans.textContent = ""; p.ggo.textContent = g.open.go; }
+    if (p.q === 0) { p.gq.textContent = fill(g.open.q, guideVars(p, base, base)); p.gline.textContent = g.open.line; p.gans.textContent = ""; p.ggo.textContent = g.open.go; }
     else if (st) {
       p.gq.textContent = st.q; p.gline.textContent = st.line; p.ggo.textContent = g.next;
-      var r = OUT[p.id].out(p.c, p.d), was = base.lit, now = r.lit;
-      var diff = +base.big - +r.big,
-          lost = was.filter(function (x) { return now.indexOf(x) < 0; }).length,
-          gained = now.filter(function (x) { return was.indexOf(x) < 0; }).length;
-      // {diff} is the figure; {Diff} the same figure as a word, to open a sentence
-      p.gans.textContent = p.tapped ? fill(st.answers[p.c[st.key]], {
-        n: r.big, diff: diff, lost: lost, gained: gained, Diff: said(diff), Lost: said(lost), Gained: said(gained)
-      }) : "";
+      var r = OUT[p.id].out(p.c, p.d);
+      p.gans.textContent = p.tapped ? fill(st.say || st.answers[p.c[st.key]], guideVars(p, r, base)).trim() : "";
     } else { p.gq.textContent = g.free.q; p.gline.textContent = g.free.line; p.gans.textContent = ""; p.ggo.textContent = g.free.again; }
     p.ggo.hidden = !!st && !p.tapped;
     p.gback.hidden = p.q === 0 || p.free;
     p.det.hidden = !p.free;
+    p.src.forEach(function (x) { x.hidden = !p.free; });   // the source link belongs to free play
     if (p.after) p.after.hidden = !p.free;   // the closing line belongs to free play too
   }
   function reset(p) {
     if (p.reset.getAttribute("aria-disabled") === "true") return;
     p.c = pubs(p.d);
-    announce(p, "Back to as published. " + render(p).say);
+    announce(p, "Back to as shown. " + render(p).say);
   }
 
   // one pass on its own, the first time the scene is mostly on screen: down to the floor and back up, then it waits
@@ -1241,7 +1314,10 @@
       var gio = new IntersectionObserver(function (es) {
         es.forEach(function (e) {
           if (p.taken || e.intersectionRect.height < 0.6 * Math.min(e.boundingClientRect.height, window.innerHeight)) return;
-          gio.disconnect(); p.ggo.classList.add("pulse");
+          gio.disconnect();
+          var first = p.landed === false ? 650 : 0;
+          if (first) { p.landed = true; render(p); }
+          setTimeout(function () { if (!p.taken) p.ggo.classList.add("pulse"); }, first);
         });
       }, {threshold: [0, .2, .4, .6, .8, 1]});
       gio.observe(p.draw);
