@@ -29,7 +29,7 @@
       "shows": "<b>Running live</b>: a number with its definition, from metrics defined in code.", "on": true },
     { "page": "aiwork.html", "anchor": "work-08", "lit": ["#work-08 .score-open"], "icon": "calendar", "open": "#work-08 .score-open a",
       "try": "<b>Open the board</b> that updates itself each morning.",
-      "shows": "A service that <b>runs on a schedule</b>, with nobody at the keyboard.", "on": false }
+      "shows": "A service that <b>runs on a schedule</b>, with nobody at the keyboard.", "on": true }
   ]/*/STOPS*/;
   var END_LINE = "<b>That is the walk.</b> The rest of the site is yours to read at your own pace.";
 

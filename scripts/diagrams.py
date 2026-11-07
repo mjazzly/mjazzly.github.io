@@ -433,7 +433,29 @@ DIAGRAMS["sheet"] = dict(
            ((0,4),(1,5)), ((1,5),(2,5)), ((2,5),(0,6)), ((0,6),(3,6))],
 )
 
-FILES = {"casefiles.html": ["case-01-run", "case-01", "case-02", "case-03", "case-04"], "built.html": ["tracker", "harness"], "aiwork.html": ["tracker", "versions", "normaliser", "answers", "brief", "scorecard", "pipeline", "sheet"]}
+DIAGRAMS["hosted"] = dict(
+    alt="Seven steps of the meeting tracker running on its own, across six lanes: the schedule, the service, the code gates, the model, a person and the Drive folder; a run stops when another run holds the lock, the kill switch is on or the month's budget is spent, stops before any model call when nothing is new, and a stop gate holds a row as a question on the page until a person answers it on a later day, when the next run applies the answer and saves the tracker and board back in place",
+    steps=["Start", "Scan", "Read", "Hold", "Answer", "Apply", "Save"],
+    lanes=["The schedule", "The service", "Code gates", "The model", "A person", "Drive"],
+    lane_h=72,
+    nodes=[
+        dict(at=(0, 0), lines=["each morning,", "7 to 8 AM"]),
+        dict(at=(1, 0), lines=["starts", "one run"]),
+        dict(at=(2, 0), lines=["lock, budget,", "kill switch"], stop="any: stop"),
+        dict(at=(5, 0), lines=["fed today's", "transcript"], kind="soft"),
+        dict(at=(2, 1), lines=["anything", "new?"], stop="nothing: stop"),
+        dict(at=(3, 2), lines=["picks actions,", "owners, dates"]),
+        dict(at=(2, 3), lines=["four stop", "gates"], stop="unclear: hold"),
+        dict(at=(1, 3), lines=["question waits", "on the page"]),
+        dict(at=(4, 4), lines=["answers on", "a later day"]),
+        dict(at=(3, 5), lines=["applies it in", "the next run"]),
+        dict(at=(5, 6), lines=["tracker and", "board, in place"], kind="ink"),
+    ],
+    links=[((0,0),(1,0)), ((1,0),(2,0)), ((2,0),(5,0)), ((5,0),(2,1)), ((2,1),(3,2)), ((3,2),(2,3)),
+           ((2,3),(1,3)), ((1,3),(4,4)), ((4,4),(3,5)), ((3,5),(5,6))],
+)
+
+FILES = {"casefiles.html": ["case-01-run", "case-01", "case-02", "case-03", "case-04"], "built.html": ["tracker", "harness"], "aiwork.html": ["tracker", "versions", "normaliser", "answers", "brief", "scorecard", "pipeline", "sheet", "hosted"]}
 
 if __name__ == "__main__":
     root = pathlib.Path(__file__).resolve().parent.parent

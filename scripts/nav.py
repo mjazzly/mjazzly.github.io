@@ -10,7 +10,7 @@ import pathlib, re
 
 GROUPS = [
     ("craft", "Craft", "wrench", "What I have made, and the test record behind each piece", [
-        ("aiwork.html",    "AI Work",    "cpu",    "Seven AI systems, each with its test record"),
+        ("aiwork.html",    "AI Work",    "cpu",    "Eight AI systems, each with its test record"),
         ("casefiles.html", "Case Files", "folder", "Four cases from delivery work, told end to end"),
         ("built.html",     "Built",      "puzzle", "Everything built with Claude, from prompt to app"),
         ("index.html#systems", "Systems", "layers", "The systems I run in client work, and my stack"),
