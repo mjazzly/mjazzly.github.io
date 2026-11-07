@@ -54,8 +54,8 @@ const changes = (s.changes?.comparisons || []).map((c) => ({ title: c.title || c
   refused: c.refused || null, version: c.version, passed: c.passed, cost: c.cost,
   cases: (c.cases_changed || []).map((x) => ({ name: x.name || x.id, from: x.from, to: x.to })) }));
 const versions = Object.entries(s.versions).flatMap(([build, vs]) => Object.values(vs).sort((a, b) => (a.since < b.since ? -1 : 1))
-  .map((v) => ({ title: s.table[build]?.title || build, version: v.version, since: v.since,
-    models: Object.fromEntries(Object.entries(v.models).map(([m, r]) => [m, { matched: r.matched, of_cases: r.of_cases, passed: r.passed }])) })));
+  .map((v) => ({ build, title: s.table[build]?.title || build, version: v.version, since: v.since,
+    models: Object.fromEntries(Object.entries(v.models).map(([m, r]) => [m, pick(r)])) })));
 const modelInfo = settings.models.map((m) => ({ tag: modelTag(m), id: m.id, effort: m.effort }));
 console.log(JSON.stringify({ models: s.models, modelInfo, builds, last: s.last, sweeps: s.sweeps, changes, versions, numbers: s.numbers, unpassed: s.unpassed, records }));
 """
@@ -85,6 +85,10 @@ def split_version(v):
     # "v2.0 / 2.1.0" is the skill version and the tool server version
     parts = [p.strip() for p in str(v).split("/")]
     return parts[0], (parts[1] if len(parts) > 1 else "")
+def move(v):
+    # a version move names the skill; when only the tool server moved, it names the server instead
+    (a, sa), (b, sb) = split_version(v["from"]), split_version(v["to"])
+    return f"{esc(a)} to {esc(b)}" if a != b else f"server {esc(sa)} to {esc(sb)}"
 state = lambda v: "a match" if v is True else "a miss" if v is False else "absent"
 def case_name(x):
     return x["name"].split(". ", 1)[-1].split(":")[0]
@@ -94,6 +98,28 @@ def share_words(c):
     pct = round(sh * 100)
     if pct == 0: return "unchanged"
     return f"{'up' if pct > 0 else 'down'} {abs(pct)}%" + (", <b>moved</b>" if c.get("moved") else "")
+
+# A carry: a build's newer version with no counted run on a model shows that model's run on the
+# version before it, when nothing the model sees changed between the two (the skill, the tools'
+# names, descriptions and schemas, the data, the answer key and the checker). Each carry is checked
+# by hand between the two commits named here, and its cell says what it was carried from and why.
+# It lapses by itself once the newer version has its own run on that model, or the build moves on.
+CARRY = [
+    {"build": "data-answers", "from": "v1.1 / 1.1.0", "to": "v1.1 / 1.2.0", "commits": ("5ecb66f", "81cf558"),
+     "why": "the skill, the tools as the model sees them, the data, the answer key and the checker are unchanged"},
+]
+carried = []
+for c in CARRY:
+    b = next((x for x in s["builds"] if x["build"] == c["build"]), None)
+    old = next((v for v in s["versions"] if v["build"] == c["build"] and v["version"] == c["from"]), None)
+    if not b or b["version"] != c["to"] or not old:
+        continue
+    for m in models:
+        if not b["models"].get(m) and old["models"].get(m):
+            b["models"][m] = {**old["models"][m], "carried": c}
+            carried.append((b["title"], m))
+carry_note = (" A cell marked <b>carried</b> shows the run on the version before, because nothing the model sees changed between the two."
+              if carried else "")
 
 latest = max(r["date"] for b in s["builds"] for r in b["models"].values() if r)
 max_cost = max([r["cost_usd"] or 0 for b in s["builds"] for r in b["models"].values() if r] + [0.001])
@@ -105,8 +131,10 @@ def cell_small(r, smallest):
     cls = ("met" if r["passed"] else "notmet") + (" smallest" if smallest else "")
     verdict = ("bar met" if r["passed"] else "bar not met") + (" · smallest passing" if smallest else "")
     gates = f'gates <b>{r["gates_held"]} of {r["of_gates"]}</b>' if r.get("of_gates") is not None else "no gates"
+    carry = (f'<span class="ver">carried from {esc(split_version(r["carried"]["from"])[1])}: nothing the model sees changed</span>'
+             if r.get("carried") else "")
     return (f'<td class="{cls}"><b>{r["matched"]} of {r["of_cases"]}</b> cases<br>{gates}<br>{money(r["cost_usd"])}'
-            f'<span class="verdict">{verdict}</span></td>')
+            f'<span class="verdict">{verdict}</span>{carry}</td>')
 
 rows = []
 for b in s["builds"]:
@@ -121,7 +149,7 @@ for c in s["changes"]:
         moved.append(f'{esc(c["title"])} on the {labels.get(c["model"], c["model"]).lower()} was refused ({esc(c["refused"].get("gate", ""))})')
         continue
     bits = []
-    if c["version"].get("changed"): bits.append(f'moved from {esc(split_version(c["version"]["from"])[0])} to {esc(split_version(c["version"]["to"])[0])}')
+    if c["version"].get("changed"): bits.append(f'moved from {move(c["version"])}')
     for x in c["cases"]:
         bits.append(f'the case &ldquo;{esc(case_name(x))}&rdquo; from {state(x["from"])} to {state(x["to"])}')
     if c["passed"].get("changed"): bits.append("the bar is now " + ("met" if c["passed"]["to"] else "not met"))
@@ -140,7 +168,7 @@ block = "\n".join([
     "</div>",
     f'<p class="score-note">Written from the scorecard\'s records: the latest counted run of each build on each model. '
     "<b>Cases</b> are the build's own test cases, matched by its own checker; <b>gates</b> are its stop and decline cases; the cost is every token at the build's own prices, "
-    f"with the cache counted. The bar is each build's own pass rule.{since}</p>",
+    f"with the cache counted. The bar is each build's own pass rule.{carry_note}{since}</p>",
     f'<p class="score-open"><a href="scorecard.html">{ic("grid")}Open the full scorecard</a><span>the changes since the last sweep and every version, on one page</span></p>',
 ])
 
@@ -252,10 +280,13 @@ def cell_big(r, smallest):
     w = max(1.5, (r["cost_usd"] or 0) / max_cost * 100)
     gates = f'gates held <b>{r["gates_held"]} of {r["of_gates"]}</b>' if r.get("of_gates") is not None else "no gates in this set"
     verdict = (f'{ic("check")}bar met' if r["passed"] else "bar not met") + (" · smallest passing" if smallest else "")
+    c = r.get("carried")
+    carry = (f'<div class="held">Carried from {esc(split_version(c["from"])[1])}, run <span class="mono">{esc(r["sweep"])}</span>: '
+             f'{esc(c["why"])} in {esc(split_version(c["to"])[1])}.</div>' if c else "")
     return (f'<td class="{cls}"><div class="cases">{r["matched"]} of {r["of_cases"]}<small>cases</small></div>'
             f'<div class="held">{gates}</div>'
             f'<div class="cost"><svg class="costbar" viewBox="0 0 100 6" preserveAspectRatio="none" aria-hidden="true"><rect class="track" width="100" height="6" rx="3"/><rect class="fill" width="{w:.1f}" height="6" rx="3"/></svg>{money(r["cost_usd"])}</div>'
-            f'<span class="verdict">{verdict}</span></td>')
+            f'<span class="verdict">{verdict}</span>{carry}</td>')
 
 big_rows = []
 for b in s["builds"]:
@@ -272,7 +303,7 @@ for c in s["changes"]:
         change_rows.append(f'        <tr><td><b>{esc(c["title"])}</b></td><td>{mlabel}</td><td>refused</td><td colspan="4">{esc(c["refused"].get("gate", ""))}: {esc(c["refused"].get("detail", ""))}</td></tr>')
         continue
     v = c["version"]
-    ver = (f'<b>{esc(split_version(v["from"])[0])} to {esc(split_version(v["to"])[0])}</b>' if v.get("changed") else esc(split_version(v["to"])[0]))
+    ver = (f'<b>{move(v)}</b>' if v.get("changed") else esc(split_version(v["to"])[0]))
     cases = "<br>".join(f'<b>{esc(case_name(x))}</b>: {state(x["from"])} to {state(x["to"])}' for x in c["cases"]) or "none"
     cost = c["cost"]
     cost_txt = (f'{money(cost.get("from"))} to {money(cost.get("to"))}<br><span class="faint">{share_words(cost)}</span>' if c["previous"] else money(cost.get("to")))
@@ -299,7 +330,7 @@ page_block = "\n".join([
     "",
     '<section id="builds">',
     f'  <h2><span class="badge">{ic("grid")}</span>Builds by model</h2>',
-    f'  <p class="lead">The latest counted run of each build on each model. <b>Cases</b> are the build\'s own test cases, matched by its own checker. <b>Gates</b> are the cases where the build must stop or decline. The cost is every token at the build\'s own prices, with the cache counted, and <b>the bars share one scale</b> across the table.</p>',
+    f'  <p class="lead">The latest counted run of each build on each model. <b>Cases</b> are the build\'s own test cases, matched by its own checker. <b>Gates</b> are the cases where the build must stop or decline. The cost is every token at the build\'s own prices, with the cache counted, and <b>the bars share one scale</b> across the table.{carry_note}</p>',
     '  <div class="panel table">',
     '    <table class="costs">',
     f'      <thead><tr><th scope="col">Build</th>{head}</tr></thead>',

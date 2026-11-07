@@ -347,7 +347,8 @@ html.js .is-in .stair:nth-child(5){transition-delay:.48s}
 .tile.entry .for{font-size:12.5px;line-height:1.5;color:var(--ink-soft);margin-bottom:10px}
 .tile.entry .for b{color:var(--amber)}
 .work .record{margin-top:22px}
-.work .record .row{grid-template-columns:190px auto 1fr}
+/* the marks column fits the widest row (nine marks of 14px, 6px apart), so every sentence starts on one line */
+.work .record .row{grid-template-columns:190px calc(9 * 14px + 8 * 6px) 1fr}
 .work .figure{padding:0;margin:22px 0 6px}
 .work .how{margin-top:18px;font-size:15px;color:var(--ink-soft);max-width:none}
 .work .how b{color:var(--ink)}
@@ -432,6 +433,8 @@ html.js .is-in .stair:nth-child(5){transition-delay:.48s}
 
 @media(max-width:860px){
   .tiles.four,.stats.four{grid-template-columns:repeat(2,1fr)}
+  .work .record .row{grid-template-columns:calc(9 * 14px + 8 * 6px) 1fr;row-gap:6px}
+  .work .record .row .tier{grid-column:1 / -1}
 }
 @media(max-width:600px){
   .tiles.four,.stats.four{grid-template-columns:1fr}
