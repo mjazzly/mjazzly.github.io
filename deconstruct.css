@@ -267,6 +267,7 @@ section.dx-film + section{padding-top:56px}
   .dx-words{position:static}
   /* on a phone the question and its button stay at the bottom of the screen while the piece is in view */
   .dx-guide{position:sticky;bottom:0;z-index:4;background:var(--panel);border-radius:14px 14px 0 0;padding:16px 18px 18px;margin:0 -12px}
+  html.dx-asking .to-top.is-shown{opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .2s,transform .2s,visibility 0s .2s}
   .dx-guide .dx-q{font-size:20px;margin-bottom:6px}
   .dx-guide .dx-line{font-size:15px}
   .dx-guide .dx-answer{font-size:15.5px;margin-top:8px}

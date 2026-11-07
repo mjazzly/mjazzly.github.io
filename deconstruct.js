@@ -1377,6 +1377,15 @@
     window.dxResize = setTimeout(function () { PIECES.forEach(function (p) { if (Math.round(p.draw.clientWidth) !== p.full) draw(p); }); }, 150);
   });
 
-  function start() { Array.prototype.forEach.call(document.querySelectorAll(".dx-stage[data-piece]"), build); }
+  // while a question card sits at the foot of the screen the site's back-to-top button steps aside (deconstruct.css hides it where the card sits at the bottom)
+  function watchCards() {
+    if (!("IntersectionObserver" in window)) return;
+    var seen = [], io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { var i = seen.indexOf(e.target); if (e.isIntersecting && i < 0) seen.push(e.target); if (!e.isIntersecting && i >= 0) seen.splice(i, 1); });
+      document.documentElement.classList.toggle("dx-asking", seen.length > 0);
+    }, {rootMargin: "-92% 0px 0px 0px"});   // only the strip at the foot of the screen, where the button sits
+    Array.prototype.forEach.call(document.querySelectorAll(".dx-guide"), function (c) { io.observe(c); });
+  }
+  function start() { Array.prototype.forEach.call(document.querySelectorAll(".dx-stage[data-piece]"), build); watchCards(); }
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(start); else start();
 })();
