@@ -42,7 +42,23 @@
      "what": "The 40 contacts in the export. Point at one to read it.",
      "why": "Nothing here is a choice. Every count above is a recount of these."}
   ],
-  "words": {"pub": "as published", "same": "same email", "stopped": "stopped here", "table": "The 40 contacts as a table",
+  "guide": {
+    "open": {"q": "Where does {n} come from?", "line": "Forty contacts sit under this tile. Three choices decide which ones it counts.", "go": "Show me"},
+    "steps": [
+      {"key": "count", "q": "What counts as one?", "line": "The tile counts records. A person entered twice is two records.",
+       "hint": "Tap to count people instead of records",
+       "answers": {"people": "{diff} of the people counted were entered twice. Counted once each: {n}.", "records": "Counting records again: {n}."}},
+      {"key": "word", "q": "What does qualified mean?", "line": "Anyone who ever qualified, or only those still at that stage today?",
+       "hint": "Tap to count only those still qualified now",
+       "answers": {"now": "{diff} moved on after qualifying. Still qualified today: {n}.", "any": "Everyone who ever qualified: {n}."}},
+      {"key": "date", "q": "Which date?", "line": "The day they qualified, or the day they were first entered?",
+       "hint": "Tap to use the date each contact was created",
+       "answers": {"created": "By date created: {n}. {lost} were created before July; {gained} qualified after September.", "qualified": "By date qualified: {n}."}}
+    ],
+    "free": {"q": "Now try any mix: eight settings, eight answers.", "line": "Tap or point at a contact to see its row.", "again": "Start again"},
+    "next": "Next", "back": "Back"
+  },
+  "words": {"pub": "as published", "same": "same email", "tray": "The 40 contacts", "table": "The 40 contacts as a table",
             "tip": "{id} · {name}, {company} · created {created}, qualified {qualified} · now {stage}"},
   "quarter": ["Jul", "Aug", "Sep"],
   "columns": [["id", "Id"], ["name", "Name"], ["company", "Company"], ["email", "Email"], ["created", "Created"], ["qualified", "Qualified"], ["stage", "Stage now"]],
@@ -553,9 +569,10 @@
         var lay = L[k], g = sv("g", {"class": "part plate"}, svg);
         sv("rect", {x: 6, y: y, width: W - 12, height: 18, rx: 6, "class": "plate-body"}, g);
         for (var c = 0; c < cols; c++) sv("rect", {x: x0 + c * sx - G.r - 1.5, y: y + 4, width: 2 * G.r + 3, height: 10, rx: 4, "class": "hole"}, g);
-        tx(g, 10, y + 37, (k + 1) + " back", "k");
-        tx(g, 58, y + 37, lay.name, "t-name");
-        G.levers.push(lever(p, g, lay, W - 8, y + 18));
+        tx(g, 10, y + 37, lay.name, "t-name");
+        var lv = lever(p, g, lay, W - 8, y + 18), step = p.d.guide && p.d.guide.steps.filter(function (st) { return st.key === lay.key; })[0];
+        lv.hint = step ? tx(g, W - 8, y + 56, step.hint, "hint is-off", "end") : null;
+        G.levers.push(lv);
         G.plates.push({g: g, y: y});
         y += 18 + 44 + rest;
       }
@@ -563,7 +580,7 @@
       G.trayY = y + 2;
       G.tray = sv("g", {"class": "part"}, svg);
       sv("rect", {x: 6, y: G.trayY, width: W - 12, height: 4 * G.r + 22, rx: 10, "class": "tray"}, G.tray);
-      tx(G.tray, 10, G.trayY - 8, "4 back", "k");
+      tx(G.tray, 10, G.trayY - 8, d.words.tray, "t-name");
       p.H = G.trayY + 4 * G.r + 28;
       // a thread joins two records of one person; drawn as one, they share a ring
       G.threads = {}; G.rings = {};
@@ -591,7 +608,14 @@
       });
       G.plates.forEach(function (pl, k) { lit(pl.g, depth > k); });
       lit(G.tray, depth === 0 || depth >= 4);
-      G.levers.forEach(function (lv) { lv.set(c[lv.key]); });
+      G.levers.forEach(function (lv, k) {
+        lv.set(c[lv.key]);
+        // guided: only the lever the question is about is awake, and its hint shows until the reader taps it
+        var awake = !p.guided || p.free || p.q === k + 1, hinting = p.guided && !p.free && p.q === k + 1 && !p.tapped;
+        lv.g.classList.toggle("asleep", !awake);
+        if (lv.hint) show(lv.hint, hinting);
+        if (lv.pub) show(lv.pub, !hinting);
+      });
       var restY = function (plate, lane) { return G.plates[plate].y - r - 1 - lane * (2 * r + 3); };
       var trayY = function (lane) { return G.trayY + r + 7 + lane * (2 * r + 6); };
       var at = {};
@@ -631,7 +655,7 @@
   };
   // a two-position lever at a plate's end: its two settings either side of a slot, the knob on the one in force
   function lever(p, parent, layer, right, y) {
-    var g = sv("g", {"class": "lever"}, parent), o = layer.options, segs = [];
+    var g = sv("g", {"class": "lever"}, parent), o = layer.options, segs = [], pubEl = null;
     var wB = wide(o[1][1], 12, 700), wA = wide(o[0][1], 12, 700), track = 34;
     var xB = right - wB, xT = xB - 10 - track, xA = xT - 10;
     sv("rect", {x: xT + track / 2 - 1.5, y: y, width: 3, height: 9, "class": "stem"}, g);
@@ -644,12 +668,12 @@
       var w = wide(s[0][1], 12, 700);
       sv("rect", {x: s[2] === "end" ? s[1] - w - 4 : s[1] - 4, y: y + 4, width: w + 8, height: 24, "class": "hit"}, sg);
       tx(sg, s[1], y + 20, s[0][1], "lever-t", s[2]);
-      if (s[0][0] === layer.pub) tx(g, s[2] === "end" ? s[1] - w / 2 : s[1] + w / 2, y + 36, p.d.words.pub, "pub", "middle");
+      if (s[0][0] === layer.pub) pubEl = tx(g, s[2] === "end" ? s[1] - w / 2 : s[1] + w / 2, y + 36, p.d.words.pub, "pub", "middle");
       press(sg, function () { choose(p, layer.key, s[0][0]); });
       segs.push({v: s[0][0], g: sg});
     });
     p.switches.push({key: layer.key, segs: segs});
-    return {g: g, key: layer.key, set: function (v) { move(knob, v === o[0][0] ? xT + 8 : xT + track - 8, 0); }};
+    return {g: g, key: layer.key, track: t, pub: pubEl, set: function (v) { move(knob, v === o[0][0] ? xT + 8 : xT + track - 8, 0); }};
   }
 
   // ---------- DECONSTRUCT-02: the arrivals board on a scale of delay minutes ----------
@@ -970,7 +994,7 @@
     var id = stage.getAttribute("data-piece"), d = DATA[id];
     if (!d || !OUT[id] || !SCENES[id]) return;
     var n = d.layers.length;
-    var p = {id: id, d: d, stage: stage, depth: 0, c: pubs(d), shown: {}, rolls: {}, switches: [], named: []};
+    var p = {id: id, d: d, stage: stage, depth: 0, c: pubs(d), shown: {}, rolls: {}, switches: [], named: [], guided: !!d.guide, q: 0};
     if (id === "02" && !reduce && "IntersectionObserver" in window) p.landed = false;
     stage.textContent = "";
     if (d.record && d.record.run) {
@@ -992,9 +1016,9 @@
     p.reset = button("Reset", "dx-reset", "repeat");
     p.count = el("span", "dx-count");
     [p.back, p.fwd, p.reset, p.count].forEach(function (x) { ctl.appendChild(x); });
-    // the words cell: one entry per step, all in one cell, so nothing below moves
-    p.words = el("div", "dx-words");
-    p.says = [d.met].concat(d.layers).map(function (l, k) {
+    // the words cell: one entry per step, all in one cell, so nothing below moves (a guided piece carries its question here instead)
+    p.words = p.guided ? guideCell(p) : el("div", "dx-words");
+    p.says = p.guided ? [] : [d.met].concat(d.layers).map(function (l, k) {
       var s = el("div", "dx-say");
       s.appendChild(el("span", "dx-back", k ? k + " back" + (l.floor ? " · the floor" : "") : " "));
       s.appendChild(el("h3", "", l.name));
@@ -1004,7 +1028,7 @@
       return s;
     });
     var left = el("div", "dx-left");
-    left.appendChild(p.draw); left.appendChild(ctl);
+    left.appendChild(p.draw); if (!p.guided) left.appendChild(ctl);
     scene.appendChild(left); scene.appendChild(p.words);
     stage.appendChild(scene);
     d.layers.forEach(function (l) {
@@ -1020,6 +1044,8 @@
     det.appendChild(sum);
     p.rowsBox = det.appendChild(el("div", "dx-rows"));
     stage.appendChild(det);
+    p.det = det;
+    p.after = stage.closest("section") && stage.closest("section").querySelector(".dx-after");
     p.say = stage.appendChild(el("p", "visually-hidden"));
     p.say.setAttribute("aria-live", "polite");
 
@@ -1056,7 +1082,7 @@
     SCENES[p.id].update(p, o);
     p.switches.forEach(function (s) {
       s.segs.forEach(function (sg) {
-        var on = sg.v === p.c[s.key], asleep = !!sg.g.closest(".dim, .is-off");
+        var on = sg.v === p.c[s.key], asleep = !!sg.g.closest(".dim, .is-off, .asleep");
         sg.g.setAttribute("tabindex", asleep ? "-1" : "0");
         sg.g.setAttribute("aria-disabled", asleep ? "true" : "false");
         sg.g.classList.toggle("on", on);
@@ -1064,20 +1090,21 @@
       });
     });
     Array.prototype.forEach.call(p.svg.querySelectorAll(".lever-track"), function (t) {
-      var asleep = !!t.closest(".dim");
+      var asleep = !!t.closest(".dim, .asleep");
       t.setAttribute("tabindex", asleep ? "-1" : "0"); t.setAttribute("aria-disabled", asleep ? "true" : "false");
     });
-    var floor = p.depth >= n;
+    var floor = p.depth >= n || !!p.free;
     p.named.forEach(function (x) { x.classList.toggle("can-name", floor); });
     if (!floor) tip(p, null);
+    p.rowsBox.textContent = "";
+    p.rowsBox.appendChild(table(p, floorGroups(p.id, p.c, p.d), o.lit));
+    if (p.guided) { guideWords(p); return o; }
     p.says.forEach(function (s, k) { s.classList.toggle("is-on", k === p.depth); s.setAttribute("aria-hidden", k === p.depth ? "false" : "true"); });
     p.count.textContent = p.depth + " of " + n + " back";
     off(p.back, p.depth >= n);
     off(p.fwd, p.depth <= 0);
     var base = pubs(p.d);
     off(p.reset, Object.keys(p.c).every(function (k) { return p.c[k] === base[k]; }));
-    p.rowsBox.textContent = "";
-    p.rowsBox.appendChild(table(p, floorGroups(p.id, p.c, p.d), o.lit));
     return o;
   }
 
@@ -1128,9 +1155,57 @@
   }
   function choose(p, key, v) {
     mine(p);
+    if (p.guided && !p.free && !(p.q >= 1 && p.d.guide.steps[p.q - 1].key === key)) return;
     if (p.c[key] === v) return;
     p.c[key] = v;
+    if (p.guided && !p.free) { p.tapped = true; render(p); announce(p, p.gans.textContent); return; }
     announce(p, render(p).say);
+  }
+
+  // ---------- guided first, free play after ----------
+  // The piece opens with its output, one plain question and one large button. Each question wakes one lever
+  // and asks the reader to tap it; the answer appears, then Next. After the last question every lever wakes.
+  function guideCell(p) {
+    var g = p.d.guide, w = el("div", "dx-words dx-guide");
+    p.gq = w.appendChild(el("h3", "dx-q"));
+    p.gline = w.appendChild(el("p", "dx-line"));
+    p.gans = w.appendChild(el("p", "dx-answer"));
+    var act = w.appendChild(el("div", "dx-act"));
+    p.ggo = act.appendChild(el("button", "dx-go")); p.ggo.type = "button";
+    p.gback = act.appendChild(el("button", "dx-backlink", g.back)); p.gback.type = "button";
+    p.ggo.addEventListener("click", function () { mine(p); guideTo(p, p.free ? 0 : p.q + 1); });
+    p.gback.addEventListener("click", function () { mine(p); guideTo(p, p.q - 1); });
+    return w;
+  }
+  function guideTo(p, q) {
+    var g = p.d.guide, n = g.steps.length;
+    p.q = Math.max(0, Math.min(n + 1, q)); p.free = p.q > n; p.tapped = false;
+    p.c = pubs(p.d);
+    p.depth = p.q === 0 ? 0 : Math.min(p.q, n);
+    render(p);
+    p.det.hidden = !p.free;
+    announce(p, p.gq.textContent + " " + p.gline.textContent);
+    if (p.q >= 1 && p.q <= n) {
+      var lv = p.g.levers[p.q - 1];
+      if (lv) { lv.track.focus({preventScroll: true}); if (!reduce) setTimeout(function () { lv.g.classList.remove("pulse"); void lv.g.getBoundingClientRect(); lv.g.classList.add("pulse"); }, 120); }
+    } else p.ggo.focus({preventScroll: true});
+  }
+  function guideWords(p) {
+    var g = p.d.guide, n = g.steps.length, base = OUT[p.id].out(pubs(p.d), p.d), st = p.q >= 1 && p.q <= n ? g.steps[p.q - 1] : null;
+    if (p.q === 0) { p.gq.textContent = fill(g.open.q, {n: base.big}); p.gline.textContent = g.open.line; p.gans.textContent = ""; p.ggo.textContent = g.open.go; }
+    else if (st) {
+      p.gq.textContent = st.q; p.gline.textContent = st.line; p.ggo.textContent = g.next;
+      var r = OUT[p.id].out(p.c, p.d), was = base.lit, now = r.lit;
+      p.gans.textContent = p.tapped ? fill(st.answers[p.c[st.key]], {
+        n: r.big, diff: +base.big - +r.big,
+        lost: was.filter(function (x) { return now.indexOf(x) < 0; }).length,
+        gained: now.filter(function (x) { return was.indexOf(x) < 0; }).length
+      }) : "";
+    } else { p.gq.textContent = g.free.q; p.gline.textContent = g.free.line; p.gans.textContent = ""; p.ggo.textContent = g.free.again; }
+    p.ggo.hidden = !!st && !p.tapped;
+    p.gback.hidden = p.q === 0 || p.free;
+    p.det.hidden = !p.free;
+    if (p.after) p.after.hidden = !p.free;   // the closing line belongs to free play too
   }
   function reset(p) {
     if (p.reset.getAttribute("aria-disabled") === "true") return;
@@ -1154,6 +1229,16 @@
   }
   function play(p) {
     if (reduce || !("IntersectionObserver" in window)) return;
+    if (p.guided) {
+      var gio = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (p.taken || e.intersectionRect.height < 0.6 * Math.min(e.boundingClientRect.height, window.innerHeight)) return;
+          gio.disconnect(); p.ggo.classList.add("pulse");
+        });
+      }, {threshold: [0, .2, .4, .6, .8, 1]});
+      gio.observe(p.draw);
+      return;
+    }
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
         var h = e.boundingClientRect.height, seen = e.intersectionRect.height;
@@ -1177,8 +1262,9 @@
   // or else the one most in view. They never scroll the page and never take over a field.
   function current() {
     var a = document.activeElement, best = null, most = 0, vh = window.innerHeight;
-    for (var i = 0; i < PIECES.length; i++) if (a && PIECES[i].stage.contains(a)) return PIECES[i];
+    for (var i = 0; i < PIECES.length; i++) if (a && PIECES[i].stage.contains(a)) return PIECES[i].guided ? null : PIECES[i];
     PIECES.forEach(function (p) {
+      if (p.guided) return;
       var r = p.stage.getBoundingClientRect(), seen = Math.min(r.bottom, vh) - Math.max(r.top, 0);
       if (seen > most) { most = seen; best = p; }
     });

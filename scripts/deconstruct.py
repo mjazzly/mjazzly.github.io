@@ -157,10 +157,16 @@ def view(nid, d, res):
     else:
         p.append(f'<div class="dx-big">{esc(o["big"])}</div>')
     p.append(f'<div class="dx-sub">{esc(o.get("sub", ""))}</div></div>')
-    p.append('<p class="dx-hint">As published. What it rests on, a layer at a time:</p>')
+    guide = d.get("guide")
+    asks = {st["key"]: st["q"] for st in guide["steps"]} if guide else {}
+    p.append(f'<p class="dx-hint">{esc(guide["open"]["line"]) if guide else "As published. What it rests on, a layer at a time:"}</p>')
     p.append('<ol class="dx-layers">')
     for k, l in enumerate(d["layers"], 1):
-        li = [f'<li class="dx-layer{" floor" if l.get("floor") else ""}"><div class="dx-lh"><span class="dx-back">{k} back{" · the floor" if l.get("floor") else ""}</span><h3>{esc(l["name"])}</h3></div>',
+        if guide:   # a guided piece asks its questions; "back" and "layer" stay off it
+            head = f'<h3>{esc(asks.get(l.get("key"), d["words"].get("tray", l["name"])))}</h3>'
+        else:
+            head = f'<span class="dx-back">{k} back{" · the floor" if l.get("floor") else ""}</span><h3>{esc(l["name"])}</h3>'
+        li = [f'<li class="dx-layer{" floor" if l.get("floor") else ""}"><div class="dx-lh">{head}</div>',
               f'<p class="dx-what">{esc(l["what"])}</p>', f'<p class="dx-why">{esc(l["why"])}</p>']
         if l.get("options"):
             li.append('<p class="dx-optlist">The choices: ' + ", ".join(
