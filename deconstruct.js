@@ -511,17 +511,13 @@
     return layer.options.reduce(function (a, o) { return a + Math.ceil(wide(o[1], 12.5, 700)) + 26; }, 6);
   }
   function press(g, fn) {
-    g.addEventListener("click", function (e) { e.stopPropagation(); fn(); });
+    g.addEventListener("click", function (e) { e.stopPropagation(); if (!g.closest(".dim")) fn(); });
     g.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fn(); }
+      if ((e.key === "Enter" || e.key === " ") && !g.closest(".dim")) { e.preventDefault(); fn(); }
     });
   }
-  function ghost(parent, x, y, w, h, label) {
-    var g = sv("g", {"class": "ghost"}, parent);
-    sv("rect", {x: x, y: y, width: w, height: h, rx: 10}, g);
-    tx(g, x + 14, y + (h && h < 46 ? h / 2 + 4 : 24), label, "k");
-    return g;
-  }
+  // a part of the drawing the reader has not stepped back to yet is drawn, dim; stepping back lights it in place
+  function lit(e, on) { e.classList.toggle("dim", !on); }
   function tipOn(p, node, text) { node.setAttribute("data-tip", text); node.classList.add("named"); p.named.push(node); }
 
   // ---------- DECONSTRUCT-01: the tile on three sieves, the contacts as dots ----------
@@ -541,21 +537,19 @@
       for (var k = 0; k < 3; k++) {
         var lay = L[k], lw = wide(lay.name, 13.5, 700) + 70, swW = switchWidth(lay);
         var stacked = lw + swW + 28 > W - 16, h = stacked ? 74 : 44;
-        var gh = ghost(svg, 8, y, W - 16, h, (k + 1) + " back");
         var g = sv("g", {"class": "part plate"}, svg);
         sv("rect", {x: 8, y: y, width: W - 16, height: h, rx: 10, "class": "plate-body"}, g);
         for (var hx = 30; hx < W - 30; hx += 22) sv("ellipse", {cx: hx, cy: y + 6, rx: 5.5, ry: 2, "class": "hole"}, g);
         tx(g, 22, y + 27, (k + 1) + " back", "k");
         tx(g, 72, y + 27, lay.name, "t-name");
         drawSwitch(p, g, lay, stacked ? 20 : W - 14 - swW, stacked ? y + 36 : y + 7);
-        G.plates.push({g: g, y: y, h: h, ghost: gh});
+        G.plates.push({g: g, y: y, h: h});
         G.stopY.push(y + h + (k === 0 ? 0 : 26));
         y += h + (k === 0 ? 40 : 70);
       }
       // the tray of 40 contacts
       var cols = Math.floor((W - 40) / 20), rows = Math.ceil(d.rows.length / cols);
       G.trayY = y - 10;
-      G.trayGhost = ghost(svg, 8, G.trayY, W - 16, rows * 20 + 22, "4 back");
       G.tray = sv("g", {"class": "part"}, svg);
       sv("rect", {x: 8, y: G.trayY, width: W - 16, height: rows * 20 + 22, rx: 10, "class": "tray"}, G.tray);
       tx(G.tray, 22, G.trayY - 8, "4 back", "k");
@@ -580,7 +574,7 @@
     },
     update: function (p, o) {
       var d = p.d, G = p.g, c = p.c, depth = p.depth, W = p.W;
-      var pass = OUT["01"].out({count: "records", word: c.word, date: c.date}, d).lit, lit = o.lit;
+      var pass = OUT["01"].out({count: "records", word: c.word, date: c.date}, d).lit, counted = o.lit;
       var Q = d.quarter;
       // where each contact stops: past every plate (top), at the qualified plate, or at the date plate
       var level = d.rows.map(function (r) {
@@ -589,10 +583,8 @@
         if (!date || Q.indexOf(date.split(" ")[1]) < 0) return 2;
         return 1;
       });
-      var tileY = 0;
-      G.plates.forEach(function (pl, k) { show(pl.g, depth > k); show(pl.ghost, depth <= k); move(pl.g, 0, depth > k ? 0 : -10); });
-      show(G.tray, depth >= 4); show(G.trayGhost, depth < 4);
-      var nextY = depth < 3 ? G.plates[depth].y + 4 : G.trayY + 6;
+      G.plates.forEach(function (pl, k) { lit(pl.g, depth > k); });
+      lit(G.tray, depth >= 4);
       // rows of dots: the passing ones under the tile (twins side by side, or as one), the stopped ones under their plate
       var people = c.count === "people", twinOf = {};
       G.twins.forEach(function (t) { twinOf[t[1]] = t[0]; });
@@ -615,15 +607,12 @@
       spread(top, 152, people);
       spread(stop[1], G.stopY[1], false);
       spread(stop[2], G.stopY[2], false);
-      var hideY = nextY + 4;
+      // waiting in the tray as met; risen through the plates or stopped under one once stepped back; home again at the floor
       G.dots.forEach(function (dot, i) {
-        var visible, at;
-        if (depth >= 4) { visible = true; at = G.trayPos[i]; }
-        else if (depth === 0) { visible = false; at = [W / 2, tileY + 100]; }
-        else { visible = level[i] === 0 || level[i] < depth; at = visible ? pos[i] : [pos[i] ? pos[i][0] : W / 2, hideY]; }
+        var home = depth === 0 || depth >= 4, at = home ? G.trayPos[i] : pos[i];
         move(dot, at[0], at[1]);
-        show(dot, visible);
-        dot.classList.toggle("lit", depth >= 4 ? lit.indexOf(d.rows[i].id) >= 0 : level[i] === 0);
+        dot.classList.toggle("lit", depth >= 4 ? counted.indexOf(d.rows[i].id) >= 0 : depth > 0 && level[i] === 0);
+        dot.classList.toggle("held", !home && level[i] > 0 && level[i] >= depth);
         var up = depth >= 1 && depth < 4 && level[i] === 0;
         move(G.rise[i], at[0], 0); G.rise[i].setAttribute("y2", at[1] - 8); show(G.rise[i], up);
       });
@@ -661,7 +650,6 @@
     build: function (p, svg, W) {
       var d = p.d, G = p.g = {}, L = d.layers, w = d.words;
       var bw = Math.min(400, W - 16), bl = (W - bw) / 2;
-      G.scaleGhost = ghost(svg, 0, 152, W, 236, "1 back");
       G.board = sv("g", {"class": "part"}, svg);
       sv("rect", {x: bl, y: 0, width: bw, height: 140, rx: 14, "class": "board"}, G.board);
       tx(G.board, bl + 22, 28, w.board, "b-small");
@@ -675,8 +663,7 @@
       G.ax = ax; G.zx = zx;
       G.scale = sv("g", {"class": "part"}, svg);
       G.band = sv("rect", {x: x0, y: 200, width: x1 - x0, height: ax - 200, "class": "band"}, G.scale);
-      tx(G.scale, x0 + 8, 218, w.onTime, "s-on");
-      tx(G.scale, x1 - 6, 218, w.late, "s-late", "end");
+      G.ruleWords = [tx(G.scale, x0 + 8, 218, w.onTime, "s-on"), tx(G.scale, x1 - 6, 218, w.late, "s-late", "end")];
       sv("line", {x1: x0, y1: ax, x2: x1, y2: ax, "class": "axis"}, G.scale);
       [0, 15, 30, 45, 60].forEach(function (m) {
         sv("line", {x1: X(m), y1: ax, x2: X(m), y2: ax + 5, "class": "axis"}, G.scale);
@@ -690,9 +677,22 @@
       G.leftOut = tx(G.scale, zx + 26, 194, w.leftOut, "s-tick", "middle");
       // the rule: a line the reader moves to 0, 15 or 30
       G.rule = sv("g", {"class": "rule"}, G.scale);
+      sv("rect", {x: -14, y: 196, width: 28, height: 44, rx: 6, "class": "grab"}, G.rule);
       sv("line", {x1: 0, y1: 196, x2: 0, y2: ax + 4}, G.rule);
+      // the line drags: it snaps to the nearest of its three places as it moves
+      G.rule.addEventListener("pointerdown", function (e) {
+        if (p.depth < 1) return;
+        e.preventDefault(); mine(p); G.rule.setPointerCapture(e.pointerId); G.rule.classList.add("held");
+        var to = function (ev) {
+          var x = ev.clientX - p.svg.getBoundingClientRect().left, best = null;
+          L[0].options.forEach(function (o) { if (best === null || Math.abs(X(+o[0]) - x) < Math.abs(X(+best) - x)) best = o[0]; });
+          choose(p, "rule", best);
+        };
+        var up = function (ev) { to(ev); G.rule.classList.remove("held"); G.rule.removeEventListener("pointermove", to); G.rule.removeEventListener("pointerup", up); };
+        G.rule.addEventListener("pointermove", to); G.rule.addEventListener("pointerup", up);
+      });
       G.handles = [];
-      var seg = sv("g", {"class": "switch"}, G.scale), segs = [];
+      var seg = G.handles = sv("g", {"class": "switch part"}, G.scale), segs = [];
       L[0].options.forEach(function (o) {
         var cx = X(+o[0]), hw = Math.min(60, X(15) - X(0) - 6), s = sv("g", {"class": "seg handle", role: "button", tabindex: "0", "aria-label": L[0].name + ": " + o[1]}, seg);
         sv("rect", {x: cx - hw / 2, y: 170, width: hw, height: 26, rx: 13, "class": "seg-on"}, s);
@@ -713,19 +713,18 @@
       G.rows = [1, 2].map(function (k) {
         var lay = L[k], swW = switchWidth(lay);
         var stacked = wide(lay.name, 13.5, 700) + 70 + swW + 16 > W, h = stacked ? 74 : 44;
-        var gh = ghost(svg, 0, y, W, h, (k + 1) + " back"), g = sv("g", {"class": "part"}, svg);
+        var g = sv("g", {"class": "part"}, svg);
         sv("rect", {x: 0, y: y, width: W, height: h, rx: 10, "class": "plate-body"}, g);
         tx(g, 14, y + 27, (k + 1) + " back", "k");
         tx(g, 64, y + 27, lay.name, "t-name");
         drawSwitch(p, g, lay, stacked ? 14 : W - 6 - swW, stacked ? y + 36 : y + 7);
-        var r = {g: g, y: y, h: h, ghost: gh};
+        var r = {g: g, y: y, h: h};
         y += h + 26;
         return r;
       });
-      G.floorGhost = ghost(svg, 0, y - 18, W, 32, "4 back");
       G.floor = sv("g", {"class": "part"}, svg);
       tx(G.floor, 14, y + 4, "4 back", "k");
-      tx(G.floor, 64, y + 4, L[3].name + ": " + L[3].what, "t-name");
+      tx(G.floor, 64, y + 4, L[3].name, "t-name");
       p.H = y + 16;
       G.dots = d.rows.map(function (r) {
         var c = sv("circle", {r: 6.5, "class": "dot"}, svg);
@@ -733,16 +732,19 @@
         tipOn(p, c, fill(tpl, r));
         return c;
       });
+      svg.appendChild(G.rule);
     },
     update: function (p, o) {
       var d = p.d, G = p.g, c = p.c, depth = p.depth, w = d.words;
-      show(G.scale, depth >= 1); show(G.scaleGhost, depth < 1); move(G.scale, 0, depth >= 1 ? 0 : -10);
-      G.rows.forEach(function (r, k) { show(r.g, depth >= k + 2); show(r.ghost, depth < k + 2); move(r.g, 0, depth >= k + 2 ? 0 : -10); });
-      show(G.floor, depth >= 4); show(G.floorGhost, depth < 4);
+      var landed = p.landed !== false;
+      show(G.rule, depth >= 1); lit(G.handles, depth >= 1);
+      G.ruleWords.forEach(function (t) { show(t, depth >= 1); });
+      G.rows.forEach(function (r, k) { lit(r.g, depth >= k + 2); });
+      lit(G.floor, depth >= 4);
       // the rule and the band of on-time minutes
       var lx = G.X(+c.rule);
       move(G.rule, lx, 0);
-      G.band.style.transform = "scaleX(" + ((lx - G.X(-10)) / (G.X(60) - G.X(-10))) + ")";
+      G.band.style.transform = "scaleX(" + (depth >= 1 ? (lx - G.X(-10)) / (G.X(60) - G.X(-10)) : 0) + ")";
       G.caption.textContent = w.axis[c.at];
       show(G.leftOut, c.never === "out");
       // the flights, placed by their delay and stacked where they meet; those that never arrived at the far end
@@ -762,9 +764,9 @@
           at = [x, G.ax - 9 - lv * 14];
           if (d.rows[i].arr === "15 late" && c.at === "arrival") { move(G.edge, at[0], at[1]); }
         }
-        move(dot, at[0], at[1]);
-        show(dot, depth >= 1);
-        dot.classList.toggle("lit", o.lit.indexOf(d.rows[i].id) >= 0);
+        move(dot, at[0], landed ? at[1] : 150);
+        show(dot, landed);
+        dot.classList.toggle("lit", depth >= 1 && o.lit.indexOf(d.rows[i].id) >= 0);
       });
       show(G.edge, depth >= 1 && c.rule === "15" && c.at === "arrival");
       // the board
@@ -813,10 +815,10 @@
       G.status = tx(G.card, col.status[0] + 8, col.status[1] + 23, "", "chip-t");
       // threads from each cell down to the gate
       var gy = ch + 54;
-      G.gateGhost = ghost(svg, 0, ch + 30, W, (narrow ? 112 : 90), "1 back");
       G.gate = sv("g", {"class": "part"}, svg);
       G.threads = [["owner", 40], ["action", narrow ? W * 0.45 : W * 0.3 + 40], ["due", col.due[0] + 30], ["status", col.status[0] + 20]].map(function (t) {
-        sv("line", {x1: t[1], y1: ch, x2: t[1], y2: gy + 4, "class": "thread-m"}, G.gate);
+        G.drops = G.drops || [];
+        G.drops.push(sv("line", {x1: t[1], y1: ch, x2: t[1], y2: gy + 4, "class": "thread-m drop"}, svg));
         sv("circle", {cx: t[1], cy: ch, r: 3, "class": "knot"}, G.gate);
         return t[1];
       });
@@ -842,7 +844,6 @@
       // the three recorded sentences, each pressable; a thread runs from the gate to the one chosen
       var tr = {}; R.transcript.lines.forEach(function (l) { tr[l.n] = l; });
       var sy = vy + 42;
-      G.sentGhost = ghost(svg, 0, sy - 18, W, 0, "2 back");
       G.sentence = sv("g", {"class": "part"}, svg);
       tx(G.sentence, 16, sy, "2 back · " + L[1].name, "k");
       sy += 12;
@@ -864,10 +865,8 @@
       G.link = sv("path", {"class": "thread-m strong"}, G.sentence);
       G.linkKnot = sv("circle", {r: 3.5, "class": "knot"}, G.sentence);
       G.gateY = gy;
-      G.sentGhost.firstChild.setAttribute("height", sy - (vy + 42) + 18);
       // the floor: the meeting as recorded, line by line, and the line that closed the row
       var fy = sy + 24;
-      G.floorGhost = ghost(svg, 0, fy - 18, W, 0, "3 back");
       G.floor = sv("g", {"class": "part"}, svg);
       tx(G.floor, 16, fy, "3 back · " + L[2].name, "k");
       tx(G.floor, 16, fy + 18, fit(R.transcript.file + " · " + R.transcript.meeting + " · " + R.transcript.date, W - 32, 11, 500), "mono-s");
@@ -884,15 +883,13 @@
         G.closers[cl.file + cl.n] = {g: g, key: k};
       });
       p.H = fy + 60;
-      G.floorGhost.firstChild.setAttribute("height", p.H - (G.fy0 = sy + 24) + 12);
       G.ch = ch;
     },
     update: function (p, o) {
       var d = p.d, G = p.g, c = p.c, depth = p.depth, R = d.record, w = d.words;
       var v = R.variants[c.line], r = v.row || {}, none = r.owner === "not stated";
-      show(G.gate, depth >= 1); show(G.gateGhost, depth < 1); move(G.gate, 0, depth >= 1 ? 0 : -10);
-      show(G.sentence, depth >= 2); show(G.sentGhost, depth < 2); move(G.sentence, 0, depth >= 2 ? 0 : -10);
-      show(G.floor, depth >= 3); show(G.floorGhost, depth < 3); move(G.floor, 0, depth >= 3 ? 0 : -10);
+      lit(G.gate, depth >= 1); lit(G.sentence, depth >= 2); lit(G.floor, depth >= 3);
+      G.drops.forEach(function (t) { t.classList.toggle("up", depth < 1); });
       // the cells, read from the record
       var prev = p.shown.row;
       G.cardBg.classList.toggle("unowned", none);
@@ -914,10 +911,12 @@
       var chosen = G.cards.filter(function (k) { return k.v === c.line; })[0];
       G.cards.forEach(function (k, i) { p.switches[0].segs[i].g.classList.toggle("on", k.v === c.line); });
       var mid = chosen.y + chosen.h / 2;
-      G.link.setAttribute("d", "M8 " + (G.gateY + 38) + " L8 " + (mid - 8) + " Q8 " + mid + " 14 " + mid);
+      var path = "M8 " + (G.gateY + 38) + " L8 " + (mid - 8) + " Q8 " + mid + " 14 " + mid;
+      if (G.link.getAttribute("d") !== path) { G.link.setAttribute("d", path); flash(G.link); }
       G.linkKnot.setAttribute("cx", 14); G.linkKnot.setAttribute("cy", mid);
+      show(G.link, depth >= 2); show(G.linkKnot, depth >= 2);
       // the floor: the lines the row was read from lit, and the closing line when there is one
-      Object.keys(G.lines).forEach(function (k) { G.lines[k].classList.toggle("lit", o.lit.indexOf(k) >= 0); });
+      Object.keys(G.lines).forEach(function (k) { G.lines[k].classList.toggle("lit", depth >= 3 && o.lit.indexOf(k) >= 0); });
       Object.keys(G.closers).forEach(function (k) { show(G.closers[k].g, G.closers[k].key === c.line); });
       p.svg.setAttribute("height", p.H);
     }
@@ -955,6 +954,7 @@
     if (!d || !OUT[id] || !SCENES[id]) return;
     var n = d.layers.length;
     var p = {id: id, d: d, stage: stage, depth: 0, c: pubs(d), shown: {}, rolls: {}, switches: [], named: []};
+    if (id === "02" && !reduce && "IntersectionObserver" in window) p.landed = false;
     stage.textContent = "";
     if (d.record && d.record.run) {
       var run = el("p", "dx-run");
@@ -983,11 +983,6 @@
       s.appendChild(el("h3", "", l.name));
       s.appendChild(el("p", "dx-what", l.what));
       s.appendChild(el("p", "dx-why", l.why));
-      if (l.source) {
-        var a = el("a", "dx-src", l.source.text);
-        a.href = l.source.href; a.target = "_blank"; a.rel = "noopener";
-        s.appendChild(a);
-      }
       p.words.appendChild(s);
       return s;
     });
@@ -995,6 +990,12 @@
     left.appendChild(p.draw); left.appendChild(ctl);
     scene.appendChild(left); scene.appendChild(p.words);
     stage.appendChild(scene);
+    d.layers.forEach(function (l) {
+      if (!l.source) return;
+      var sp = el("p", "dx-source"), a = el("a", "", l.source.text);
+      a.href = l.source.href; a.target = "_blank"; a.rel = "noopener";
+      sp.appendChild(a); stage.appendChild(sp);
+    });
     // the floor as a plain table, behind a fold under the scene
     var det = el("details", "dx-table");
     var sum = el("summary", "case-toggle");
@@ -1037,7 +1038,9 @@
     SCENES[p.id].update(p, o);
     p.switches.forEach(function (s) {
       s.segs.forEach(function (sg) {
-        var on = sg.v === p.c[s.key];
+        var on = sg.v === p.c[s.key], asleep = !!sg.g.closest(".dim, .is-off");
+        sg.g.setAttribute("tabindex", asleep ? "-1" : "0");
+        sg.g.setAttribute("aria-disabled", asleep ? "true" : "false");
         sg.g.classList.toggle("on", on);
         sg.g.setAttribute("aria-pressed", on ? "true" : "false");
       });
@@ -1114,7 +1117,11 @@
   }
 
   // one pass on its own, the first time the scene is mostly on screen: down to the floor and back up, then it waits
-  function mine(p) { p.taken = true; if (p.timer) { clearTimeout(p.timer); p.timer = null; } }
+  function mine(p) {
+    p.taken = true;
+    if (p.timer) { clearTimeout(p.timer); p.timer = null; }
+    if (p.landed === false) { p.landed = true; render(p); }
+  }
   function play(p) {
     if (reduce || !("IntersectionObserver" in window)) return;
     var io = new IntersectionObserver(function (es) {
@@ -1122,13 +1129,14 @@
         var h = e.boundingClientRect.height, seen = e.intersectionRect.height;
         if (p.played || p.taken || seen < 0.6 * Math.min(h, window.innerHeight)) return;
         p.played = true; io.disconnect();
-        var n = p.d.layers.length, down = 0;
-        (function tick() {
+        var n = p.d.layers.length, down = 0, first = p.landed === false ? 650 : 0;
+        if (first) { p.landed = true; render(p); }
+        p.timer = setTimeout(function tick() {
           if (p.taken) return;
           if (down < n) { down++; step(p, 1, true); p.timer = setTimeout(tick, down === n ? 1800 : 1100); }
           else if (p.depth > 0) { step(p, -1, true); p.timer = setTimeout(tick, 420); }
           else p.timer = null;
-        })();
+        }, first);
       });
     }, {threshold: [0, .2, .4, .5, .6, .7, .8, .9, 1]});
     io.observe(p.draw);
