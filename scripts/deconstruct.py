@@ -170,7 +170,7 @@ def view(nid, d, res):
               f'<p class="dx-what">{esc(l["what"])}</p>', f'<p class="dx-why">{esc(l["why"])}</p>']
         if l.get("options"):
             li.append('<p class="dx-optlist">The choices: ' + ", ".join(
-                f'<b>{esc(t)}</b> (as published)' if v == l["pub"] else esc(t) for v, t in l["options"]) + ".</p>")
+                f'<b>{esc(t)}</b> ({esc(d["words"]["pub"])})' if v == l["pub"] else esc(t) for v, t in l["options"]) + ".</p>")
         if l.get("source"):
             li.append(f'<p class="dx-src"><a href="{esc(l["source"]["href"])}" target="_blank" rel="noopener">{esc(l["source"]["text"])}</a></p>')
         if l.get("live"):

@@ -47,18 +47,18 @@
     "steps": [
       {"key": "count", "q": "What counts as one?", "line": "The tile counts records. A person entered twice is two records.",
        "hint": "Tap to count people instead of records",
-       "answers": {"people": "{diff} of the people counted were entered twice. Counted once each: {n}.", "records": "Counting records again: {n}."}},
+       "answers": {"people": "{Diff} of the people counted were entered twice. Counted once each: {n}.", "records": "Counting records again: {n}."}},
       {"key": "word", "q": "What does qualified mean?", "line": "Anyone who ever qualified, or only those still at that stage today?",
        "hint": "Tap to count only those still qualified now",
        "answers": {"now": "{diff} moved on after qualifying. Still qualified today: {n}.", "any": "Everyone who ever qualified: {n}."}},
       {"key": "date", "q": "Which date?", "line": "The day they qualified, or the day they were first entered?",
        "hint": "Tap to use the date each contact was created",
-       "answers": {"created": "By date created: {n}. {lost} were created before July; {gained} qualified after September.", "qualified": "By date qualified: {n}."}}
+       "answers": {"created": "By date created: {n}. {Lost} drop out, created before July. {Gained} come in, created July to September.", "qualified": "By date qualified: {n}."}}
     ],
     "free": {"q": "Now try any mix: eight settings, eight answers.", "line": "Tap or point at a contact to see its row.", "again": "Start again"},
     "next": "Next", "back": "Back"
   },
-  "words": {"pub": "as published", "same": "same email", "tray": "The 40 contacts", "table": "The 40 contacts as a table",
+  "words": {"pub": "as shown", "same": "same email", "tray": "The 40 contacts", "table": "The 40 contacts as a table",
             "tip": "{id} · {name}, {company} · created {created}, qualified {qualified} · now {stage}"},
   "quarter": ["Jul", "Aug", "Sep"],
   "columns": [["id", "Id"], ["name", "Name"], ["company", "Company"], ["email", "Email"], ["created", "Created"], ["qualified", "Qualified"], ["stage", "Stage now"]],
@@ -473,6 +473,12 @@
     lines.push(cur);
     if (lines.length > max) { lines = lines.slice(0, max); lines[max - 1] = fit(lines[max - 1] + " ……", px, size, weight); }
     return lines;
+  }
+  // a count as a word, capitalised, for the start of a sentence (the rows stay under forty)
+  function said(n) {
+    var u = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen",
+             "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"], t = ["", "", "Twenty", "Thirty", "Forty"];
+    return n < 20 ? u[n] : t[Math.floor(n / 10)] + (n % 10 ? "-" + u[n % 10].toLowerCase() : "");
   }
   function fill(t, r) { return t.replace(/\{(\w+)\}/g, function (_, k) { return r[k] == null ? "" : r[k]; }); }
   function icon(name) {
@@ -1196,10 +1202,12 @@
     else if (st) {
       p.gq.textContent = st.q; p.gline.textContent = st.line; p.ggo.textContent = g.next;
       var r = OUT[p.id].out(p.c, p.d), was = base.lit, now = r.lit;
+      var diff = +base.big - +r.big,
+          lost = was.filter(function (x) { return now.indexOf(x) < 0; }).length,
+          gained = now.filter(function (x) { return was.indexOf(x) < 0; }).length;
+      // {diff} is the figure; {Diff} the same figure as a word, to open a sentence
       p.gans.textContent = p.tapped ? fill(st.answers[p.c[st.key]], {
-        n: r.big, diff: +base.big - +r.big,
-        lost: was.filter(function (x) { return now.indexOf(x) < 0; }).length,
-        gained: now.filter(function (x) { return was.indexOf(x) < 0; }).length
+        n: r.big, diff: diff, lost: lost, gained: gained, Diff: said(diff), Lost: said(lost), Gained: said(gained)
       }) : "";
     } else { p.gq.textContent = g.free.q; p.gline.textContent = g.free.line; p.gans.textContent = ""; p.ggo.textContent = g.free.again; }
     p.ggo.hidden = !!st && !p.tapped;
