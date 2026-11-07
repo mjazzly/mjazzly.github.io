@@ -13,7 +13,7 @@ page; only what is between those markers is replaced.
 """
 import pathlib, re
 
-W = 720          # drawing width (fits the card at scale 1)
+W = 720          # drawing width (fits the card at scale 1); a spec with more steps may set its own "w"
 LW = 98          # the lane label column
 H0 = 30          # the step header row
 PAD_B = 6
@@ -37,6 +37,7 @@ def node_text(x, y, lines, stop_note=None, light=False):
 def draw(spec):
     steps = spec["steps"]; lanes = spec["lanes"]; nodes = spec["nodes"]
     LH = spec.get("lane_h", 72)
+    W = spec.get("w", globals()["W"])
     n = len(steps); CW = (W - LW) / n
     H = H0 + len(lanes) * LH + PAD_B
     step_delay = spec.get("step_delay", 0.3)
@@ -320,29 +321,30 @@ DIAGRAMS["normaliser"] = dict(
 )
 
 DIAGRAMS["answers"] = dict(
-    alt="Seven steps of data answers across four lanes: me, Claude with the skill, the tool server, and the table and logs on disk; Claude refuses a question about one person, the tool server refuses a metric or dimension nobody has defined, and stops to ask when a period or a branch cannot be matched to the data",
-    steps=["Ask", "List", "Choose", "Check", "Match", "Compute", "Answer"],
+    alt="Eight steps of data answers across four lanes: me, Claude with the skill, the tool server, and the table and logs on disk; the tested tables stop the build when a row fails a test, Claude refuses a question about one person, the tool server refuses a metric or dimension nobody has defined, and stops to ask when a period or a branch cannot be matched to the data",
+    steps=["Rows checked", "Ask", "List", "Choose", "Check", "Match", "Compute", "Answer"],
     lanes=["Me", "Claude with|the skill", "The tool|server", "Table and|logs"],
-    lane_h=72,
+    lane_h=72, w=820,
     nodes=[
-        dict(at=(0, 0), lines=['"Returns rate', 'by branch, Q3"']),
-        dict(at=(1, 1), lines=["reads the", "metric list"]),
-        dict(at=(2, 1), lines=["list_metrics"]),
-        dict(at=(3, 1), lines=["twelve metrics", "in code"], kind="soft"),
-        dict(at=(1, 2), lines=["picks metric,", "filters, period"], stop="a person: refuse"),
-        dict(at=(2, 3), lines=["run_metric"], stop="unknown: refuse"),
-        dict(at=(2, 4), lines=["period and", "branch names"], stop="unclear: ask"),
-        dict(at=(0, 4), lines=["answers if", "it stops"]),
-        dict(at=(2, 5), lines=["the query,", "run in code"]),
-        dict(at=(3, 5), lines=["orders table,", "rows counted"], kind="soft"),
-        dict(at=(2, 6), lines=["builds the", "answer block"]),
-        dict(at=(3, 6), lines=["answer log", "and run id"], kind="soft"),
-        dict(at=(1, 6), lines=["adds one", "plain sentence"]),
-        dict(at=(0, 6), lines=["number with", "its definition"], kind="ink"),
+        dict(at=(3, 0), lines=["tested tables,", "37 tests"], stop="a fail: stop"),
+        dict(at=(0, 1), lines=['"Returns rate', 'by branch, Q3"']),
+        dict(at=(1, 2), lines=["reads the", "metric list"]),
+        dict(at=(2, 2), lines=["list_metrics"]),
+        dict(at=(3, 2), lines=["twelve metrics", "in code"], kind="soft"),
+        dict(at=(1, 3), lines=["picks metric,", "filters, period"], stop="a person: refuse"),
+        dict(at=(2, 4), lines=["run_metric"], stop="unknown: refuse"),
+        dict(at=(2, 5), lines=["period and", "branch names"], stop="unclear: ask"),
+        dict(at=(0, 5), lines=["answers if", "it stops"]),
+        dict(at=(2, 6), lines=["the query,", "run in code"]),
+        dict(at=(3, 6), lines=["orders table,", "rows counted"], kind="soft"),
+        dict(at=(2, 7), lines=["builds the", "answer block"]),
+        dict(at=(3, 7), lines=["answer log", "and run id"], kind="soft"),
+        dict(at=(1, 7), lines=["adds one", "plain sentence"]),
+        dict(at=(0, 7), lines=["number with", "its definition"], kind="ink"),
     ],
-    links=[((0,0),(1,1)), ((1,1),(2,1)), ((2,1),(3,1)), ((1,1),(1,2)), ((1,2),(2,3)),
-           ((2,3),(2,4)), ((2,4),(2,5)), ((2,5),(3,5)), ((2,5),(2,6)), ((2,6),(3,6)),
-           ((2,6),(1,6)), ((1,6),(0,6))],
+    links=[((0,1),(1,2)), ((1,2),(2,2)), ((2,2),(3,2)), ((1,2),(1,3)), ((1,3),(2,4)),
+           ((2,4),(2,5)), ((2,5),(2,6)), ((2,6),(3,6)), ((2,6),(2,7)), ((2,7),(3,7)),
+           ((2,7),(1,7)), ((1,7),(0,7))],
 )
 
 DIAGRAMS["brief"] = dict(

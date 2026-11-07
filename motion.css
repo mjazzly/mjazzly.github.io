@@ -49,6 +49,11 @@ body{font-variant-ligatures:no-common-ligatures}
 .diagram.cols-7 .node-text{font-size:9px}
 .diagram.cols-7 .node-text.code{font-size:7.9px}
 .diagram.cols-7 .stop-text{font-size:8.6px}
+/* eight steps are drawn 820 wide, so their boxes and text match seven; the phone width grows to keep the same scale */
+.diagram.cols-8 .node-text{font-size:9px}
+.diagram.cols-8 .node-text.code{font-size:7.9px}
+.diagram.cols-8 .stop-text{font-size:8.6px}
+.scroll .diagram.cols-8{min-width:683px}
 .diagram .node-text.light{fill:#FBFCFB}
 .diagram .link{stroke:var(--marine);stroke-width:1.3;fill:none}
 .diagram .head{fill:var(--marine)}
