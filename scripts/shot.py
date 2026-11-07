@@ -22,7 +22,7 @@ if "--tour" in sys.argv:
                 pg.close()
         b.close()
     print("done"); sys.exit()
-pages = sys.argv[2:] or ["index.html", "built.html", "aiwork.html", "clarity.html", "frames.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "output-06.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
+pages = sys.argv[2:] or ["index.html", "built.html", "aiwork.html", "clarity.html", "frames.html", "deconstruct.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "output-06.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
 with sync_playwright() as p:
     b = p.chromium.launch()
     for page in pages:

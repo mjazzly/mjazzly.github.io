@@ -745,6 +745,8 @@ nav.top .menu-head{display:flex;align-items:center;gap:10px;margin:2px 4px 14px;
 nav.top .menu-head b{font-size:14.5px;margin-right:6px}
 nav.top .menu-head .badge{background:var(--marine);color:#fff}
 nav.top .menu-items{display:grid;grid-auto-flow:column;grid-auto-columns:184px;gap:8px}
+/* a shelf of five (Compass, with Deconstruct, 7 Nov 2026) narrows its tiles to the page's width rather than run past the left edge of the window */
+nav.top .menu-items{grid-auto-columns:minmax(0,184px)}
 nav.top .go{display:flex;flex-direction:column;gap:10px;align-items:flex-start;padding:14px 14px 15px;border-radius:var(--radius-s);background:var(--paper);color:inherit;border-bottom:none;-webkit-tap-highlight-color:transparent;transition:background-color .15s}
 nav.top .go b{display:block;font-size:14.5px;margin-bottom:3px}
 nav.top .go .go-line{display:block;font-size:13px;line-height:1.45;color:var(--ink-soft)}

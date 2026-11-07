@@ -66,6 +66,7 @@ ICONS = {
     "plane":     '<path d="M10.5 3.5a1.5 1.5 0 013 0V9l7 4v2l-7-2v4.5l2 1.5v1.5L12 19.5 8.5 20.5V19l2-1.5V13l-7 2v-2l7-4z"/>',
     "music":     '<path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>',
     "pen":       '<path d="M4 20l1-4.5L16 4.5a2.1 2.1 0 013 3L8 18.5z"/><path d="M14.5 6l3.5 3.5"/>',
+    "unstack":   '<path d="M12 10.5l8 3.75-8 3.75-8-3.75z"/><path d="M4 18l8 3.75 8-3.75"/><path d="M12 2.5l7.5 3.25-7.5 3.25-7.5-3.25z" transform="rotate(-8 12 5.75)"/>',
     "mic":       '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0"/><path d="M12 17.5V21M9 21h6"/>',
 }
 
@@ -79,7 +80,7 @@ def sprite():
 def use(name, cls="ic"):
     return f'<svg class="{cls}" aria-hidden="true"><use href="#ic-{name}"/></svg>'
 
-PAGES = ["index.html", "built.html", "aiwork.html", "clarity.html", "frames.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "output-06.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
+PAGES = ["index.html", "built.html", "aiwork.html", "clarity.html", "frames.html", "deconstruct.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "output-06.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
 
 if __name__ == "__main__":
     root = pathlib.Path(__file__).resolve().parent.parent

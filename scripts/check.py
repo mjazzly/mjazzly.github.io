@@ -4,7 +4,7 @@ Run from the repo root: python3 scripts/check.py
 """
 import re, sys, json, pathlib, html.parser, subprocess
 
-PAGES = ["index.html", "built.html", "aiwork.html", "clarity.html", "frames.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "output-06.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
+PAGES = ["index.html", "built.html", "aiwork.html", "clarity.html", "frames.html", "deconstruct.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "output-06.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
 BANNED_WORDS = ["marketing", "enablement", "agentic", "FDE", "real users"]   # never on the site, in any case
 BANNED_CHARS = {"\u2014": "em dash", "\u2013": "en dash"}
 failures = []
@@ -53,7 +53,7 @@ for page in PAGES:
         failures.append(f"{page}: shelves are {shelves}, run scripts/nav.py")
     navm = re.search(r'<nav class="top.*?</nav>', src, re.S)
     order = re.findall(r'class="go" href="([^"]+)"', navm.group(0)) if navm else []
-    want = ["aiwork.html", "casefiles.html", "built.html", "index.html#systems", "operator.html", "models.html", "clarity.html", "frames.html", "knowledge.html", "chapters.html"]
+    want = ["aiwork.html", "casefiles.html", "built.html", "index.html#systems", "operator.html", "models.html", "clarity.html", "frames.html", "deconstruct.html", "knowledge.html", "chapters.html"]
     if order != want:
         failures.append(f"{page}: nav pages are {order}, run scripts/nav.py")
 
@@ -159,6 +159,23 @@ else:
     if r.returncode:
         failures += [f"{line}: run scripts/scorecard.py" for line in (r.stdout + r.stderr).strip().splitlines()]
 
+# Deconstruct: every word of its pieces lives in deconstruct.js, so the word rules are checked there too;
+# DECONSTRUCT-03's record and the page's no-JavaScript view must match what scripts/deconstruct.py writes
+dj = pathlib.Path("deconstruct.js")
+if not dj.exists():
+    failures.append("deconstruct.js: missing")
+else:
+    dsrc = dj.read_text(encoding="utf-8")
+    for ch, name in BANNED_CHARS.items():
+        if ch in dsrc: failures.append(f"deconstruct.js: {dsrc.count(ch)} {name}(s)")
+    for w in BANNED_WORDS + [r"\bwar\b", r"\bthings?\b"]:
+        for m in re.finditer(w, dsrc, flags=re.I):
+            failures.append(f"deconstruct.js: banned word '{w}' at line ~{dsrc[:m.start()].count(chr(10)) + 1}")
+    if re.search(r"(?:US)?\$\s?\d|\bUSD\b|\bRM\s?\d", dsrc): failures.append("deconstruct.js: a money amount")
+    r = subprocess.run([sys.executable, "scripts/deconstruct.py", "--check"], capture_output=True, text=True)
+    if r.returncode:
+        failures += [f"{line}: run scripts/deconstruct.py" for line in (r.stdout + r.stderr).strip().splitlines()]
+
 if failures:
     print("CHECK FAILED"); [print(" -", f) for f in failures]; sys.exit(1)
-print("CHECK PASSED: no dashes, no banned words, tags balanced, LIVE markers paired, nav shelves correct, every stop of the walk in place, scorecard numbers match its records")
+print("CHECK PASSED: no dashes, no banned words, tags balanced, LIVE markers paired, nav shelves correct, every stop of the walk in place, scorecard numbers match its records, Deconstruct current with its record")
