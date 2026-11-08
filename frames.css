@@ -415,7 +415,7 @@ section.film{padding:0;scroll-margin-top:58px}
   .board .say .posts{margin-top:6px;padding-top:6px}
   .board .post{padding:5px 8px;font-size:13px;line-height:1.4;gap:1px}
   .board .say{line-height:1.45}
-  .film .ex.stepper > .controls,.film .pin > .controls{margin:10px 0 12px}
+  .film .ex.stepper > .controls,.film .pin > .controls,.film .dock > .controls{margin:10px 0 12px}
   .film .says.board{padding:6px;gap:3px}
   .map.song{padding:12px 10px 10px}
   .film .map.song .seg{padding:9px 5px 46px}
@@ -549,16 +549,25 @@ section.film{padding:0;scroll-margin-top:58px}
 .is-stepping > .pin .map.flight{margin-top:0}
 /* FRAME-03: the words for the step sit in a white card right under Back and Next, every step sharing one cell so nothing below jumps;
    the gate rule stays under them as a quieter note on the paper */
-.roads ~ .says{display:grid;background:var(--panel);border-radius:var(--radius-s);padding:18px 22px;max-width:760px}
-.roads ~ .says .say{font-size:17px;line-height:1.5}
-.is-stepping .roads ~ .says .say{grid-area:1 / 1;transition:opacity .25s ease,visibility 0s}
-.is-stepping .roads ~ .says .say[hidden]{display:block;visibility:hidden;opacity:0;transition:opacity .15s ease,visibility 0s .15s}
+.roads ~ .says,.dock .says{display:grid;background:var(--panel);border-radius:var(--radius-s);padding:18px 22px;max-width:760px}
+.roads ~ .says .say,.dock .says .say{font-size:17px;line-height:1.5}
+.is-stepping .dock .says .say{grid-area:1 / 1;transition:opacity .25s ease,visibility 0s}
+.is-stepping .dock .says .say[hidden]{display:block;visibility:hidden;opacity:0;transition:opacity .15s ease,visibility 0s .15s}
 .fixed-note{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;border-top:1px solid var(--line);padding:16px 0 0;margin-top:26px;max-width:760px;font-size:14px;line-height:1.55;color:var(--ink-faint)}
 .fixed-note b{color:var(--ink-soft)}
 @media(max-width:600px){
   .pass-lines > div{grid-template-columns:1fr;gap:1px}
-  .roads ~ .says{padding:14px 16px}
-  .roads ~ .says .say{font-size:15.5px}
+  .roads ~ .says,.dock .says{padding:14px 16px}
+  .roads ~ .says .say,.dock .says .say{font-size:15.5px}
+  /* 8 Nov 2026: on a phone the roads run down the screen taller than the window, so the buttons and the words for the step
+     stay docked at the foot of the screen while the roads pass above, and each step brings its stop into the room above the dock */
+  .is-stepping > .dock{position:sticky;bottom:0;z-index:4;background:var(--tone);margin:0 -12px;padding:2px 12px 12px;box-shadow:0 -10px 14px -10px rgba(16,42,67,.18)}
+  .is-stepping > .dock > .controls{margin:8px 0 8px}
+  .is-stepping > .dock .says{max-width:none}
+  .is-stepping > .dock .says .say{grid-area:auto}           /* each step's words take only their own height, so the dock leaves no blank under short steps */
+  .is-stepping > .dock .says .say[hidden]{display:none}
+  .is-stepping > .dock .say .say-k{font-size:12.5px;margin-bottom:2px}
+  html.f-docked .to-top.is-shown{opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .2s,transform .2s,visibility 0s .2s}
 }
 
 /* the index cards: description and count on the same lines across all four */

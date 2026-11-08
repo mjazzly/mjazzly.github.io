@@ -262,7 +262,7 @@ document.documentElement.classList.add("js");
 
   // Focus: the card under the pointer plays its drawing once
   figures.forEach(function (fig) {
-    if (fig.classList.contains("shelf-fig")) return;  // the shelf and the timeline are pointed at, so they never replay under the pointer
+    if (fig.classList.contains("shelf-fig") || fig.classList.contains("hero-map")) return;  // the shelf, the timeline and the constellation are pointed at for their names, so they never replay under the pointer
     var card = fig.closest(".model, .case, .deep, .panel, .hero-map");
     if (!card) return;
     var grid = card.closest(".models");
@@ -331,6 +331,85 @@ document.documentElement.classList.add("js");
     }, { threshold: 0.2 });
     rise.observe(stairs);
   }
+})();
+
+// The constellation on the home hero (8 Nov 2026): pointing at a name, tapping it or reaching it by keyboard shows what it means in a small card beside it,
+// read from the page's template[data-defs]; the rest of the drawing steps back while the card is up. Works with or without motion.
+(function () {
+  var fig = document.querySelector(".hero-map");
+  var tpl = fig && fig.querySelector("template[data-defs]");
+  var svg = fig && fig.querySelector("svg.constellation");
+  if (!tpl || !svg || !svg.getBBox) return;
+  var ns = "http://www.w3.org/2000/svg", defs = {}, order = [];
+  Array.prototype.forEach.call(tpl.content.querySelectorAll("[data-def]"), function (d) {
+    defs[d.getAttribute("data-def")] = d; order.push(d.getAttribute("data-def"));
+  });
+  var card = document.createElement("div");
+  card.className = "def-card"; card.id = "map-def"; card.setAttribute("role", "tooltip"); card.setAttribute("aria-hidden", "true");
+  fig.appendChild(card);
+  var hint = fig.querySelector(".map-hint");
+  var on = null, pinned = false, hits = {};
+
+  function show(k) {
+    var d = defs[k], hit = hits[k];
+    if (!d || !hit) return;
+    on = k;
+    card.innerHTML = '<div class="def-head"></div>';
+    var head = card.firstChild, name = d.querySelector("b").cloneNode(true), src = document.createElement("span");
+    src.className = "src"; src.textContent = d.getAttribute("data-src");
+    head.appendChild(name); head.appendChild(src);
+    Array.prototype.forEach.call(d.querySelectorAll("p"), function (p) { card.appendChild(p.cloneNode(true)); });
+    // beside the name: under it when the name sits in the top half, over it otherwise, always inside the figure's width
+    var f = fig.getBoundingClientRect(), r = hit.getBoundingClientRect();
+    var w = Math.min(250, f.width), x = Math.min(Math.max(r.left + r.width / 2 - f.left - w / 2, 0), f.width - w);
+    card.style.width = w + "px"; card.style.left = x + "px";
+    var h = card.offsetHeight, below = r.top + r.height / 2 - f.top < f.height * 0.45;
+    card.style.top = (below ? r.bottom - f.top + 6 : r.top - f.top - h - 6) + "px";
+    card.classList.add("is-on"); card.setAttribute("aria-hidden", "false");
+    svg.classList.add("has-def");
+    Array.prototype.forEach.call(svg.querySelectorAll("[data-def]"), function (e) { e.classList.toggle("is-def", e.getAttribute("data-def") === k); });
+  }
+  function hide() {
+    on = null; pinned = false;
+    card.classList.remove("is-on"); card.setAttribute("aria-hidden", "true");
+    svg.classList.remove("has-def");
+  }
+
+  function build() {
+    // one invisible target per name, covering its star and its label, laid over the drawing so a pointer anywhere on either finds it
+    order.forEach(function (k) {
+      var parts = svg.querySelectorAll('[data-def="' + k + '"]');
+      if (!parts.length) return;
+      var x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+      Array.prototype.forEach.call(parts, function (e) {
+        var b = e.getBBox();
+        x0 = Math.min(x0, b.x); y0 = Math.min(y0, b.y); x1 = Math.max(x1, b.x + b.width); y1 = Math.max(y1, b.y + b.height);
+      });
+      var hit = document.createElementNS(ns, "rect");
+      hit.setAttribute("class", "hit"); hit.setAttribute("rx", "6");
+      hit.setAttribute("x", x0 - 5); hit.setAttribute("y", y0 - 4); hit.setAttribute("width", x1 - x0 + 10); hit.setAttribute("height", y1 - y0 + 8);
+      hit.setAttribute("tabindex", "0"); hit.setAttribute("role", "button");
+      hit.setAttribute("aria-label", defs[k].querySelector("b").textContent);
+      hit.setAttribute("aria-describedby", "map-def");
+      hit.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse" && !pinned) show(k); });
+      hit.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse" && !pinned) hide(); });
+      hit.addEventListener("click", function () {
+        if (pinned && on === k) { hide(); return; }
+        show(k); pinned = true;
+      });
+      hit.addEventListener("focus", function () { if (hit.matches(":focus-visible")) show(k); });
+      hit.addEventListener("blur", function () { if (!pinned) hide(); });
+      hit.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); show(k); pinned = true; }
+      });
+      svg.appendChild(hit); hits[k] = hit;
+    });
+    svg.setAttribute("role", "group");   // its names are now reachable one by one; the label still reads the whole map
+    if (hint) hint.hidden = false;
+  }
+  document.addEventListener("pointerdown", function (e) { if (on && !fig.contains(e.target)) hide(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && on) hide(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(build); else build();
 })();
 
 // Works with or without motion, so it sits outside the drawings' block

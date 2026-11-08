@@ -15,7 +15,8 @@
    carrying data-on="1 3" lights while step 1 or 3 is showing (the four
    sources and their risers on FRAME-04). A stepper marked data-still
    (FRAME-03's roads, FRAME-04's building) never moves the page on Back,
-   Next or the arrow keys: its words share one cell, so nothing below moves. The departures board on FRAME-01
+   Next or the arrow keys: its words share one cell, so nothing below moves. On a phone FRAME-03's Back, Next and words sit in a dock at the foot
+   of the screen, and each step brings its stop into the room above the dock (8 Nov 2026). The departures board on FRAME-01
    keeps every row and fills them in as the plane moves; the brief on
    FRAME-03 starts with nothing ticked. Nothing moves on its own. Without
    JavaScript every step shows as a list, and each part links to its words. */
@@ -75,6 +76,18 @@
       pin = el("div", "pin");
       mapEl.parentNode.insertBefore(pin, mapEl);
       pin.appendChild(mapEl); pin.appendChild(controls);
+    }
+    // on FRAME-03's roads the buttons and the words for the step share a dock under the roads; on a phone, where the roads run
+    // down the screen taller than the window, the dock stays at the foot of the screen and each step brings its stop into the room above it
+    var dock = null, narrow = window.matchMedia("(max-width:600px)");
+    if (map.classList.contains("roads") && list) {
+      dock = el("div", "dock");
+      controls.parentNode.insertBefore(dock, controls);
+      dock.appendChild(controls); dock.appendChild(list);
+      // while the dock sits at the foot of the screen the site's back-to-top button steps aside (frames.css hides it on a phone)
+      if ("IntersectionObserver" in window) new IntersectionObserver(function (es) {
+        document.documentElement.classList.toggle("f-docked", es[0].isIntersecting);
+      }, { rootMargin: "-92% 0px 0px 0px" }).observe(dock);
     }
 
     // on the roads each stop gets a road that fills with a sliding layer and a dot that grows in, so a step animates rather than redraws
@@ -151,12 +164,24 @@
       if (Math.abs(dy) > 2) window.scrollBy({ top: dy, behavior: calm.matches ? "auto" : "smooth" });
     }
 
+    // with the dock at the foot of a phone screen, the lit stop is brought to the middle of the room above it; a stop already in that room stays put
+    function keepStop() {
+      var cur = parts.filter(function (p) { return p.classList.contains("is-now"); })[0];
+      if (!cur) return;
+      var reel = document.querySelector(".reel"), top = (reel && reel.classList.contains("is-shown") ? reel.offsetHeight : 0) + 12;
+      var bottom = dock.getBoundingClientRect().top - 12, r = cur.getBoundingClientRect();
+      if (r.top >= top && r.bottom <= bottom) return;
+      var dy = r.top + r.height / 2 - (top + bottom) / 2;
+      window.scrollBy({ top: dy, behavior: calm.matches ? "auto" : "smooth" });
+    }
+    function docked() { return dock && narrow.matches; }
+
     // A tap on a part shows its words, brought into view with the drawing
     parts.forEach(function (p) {
       p.addEventListener("click", function (e) {
         e.preventDefault();
         go(from(p));
-        keep();
+        if (docked()) keepStop(); else keep();
       });
     });
     // on the departures board a folded stage opens with one tap, at its first post
@@ -165,10 +190,10 @@
         if (!s.classList.contains("is-now")) { go(from(s)); keep(); }
       });
     });
-    back.addEventListener("click", function () { if (now > first) { go(now - 1); if (!still) keep(); } });
+    back.addEventListener("click", function () { if (now > first) { go(now - 1); if (!still) keep(); else if (docked()) keepStop(); } });
     next.addEventListener("click", function () {
       if (now === n && arc) roundAgain(); else go(now === n ? first : now + 1);
-      if (!still) keep();
+      if (!still) keep(); else if (docked()) keepStop();
     });
     // the loop goes round, never back: past Reuse the arc closes the circle, then the next version starts at Write
     var wrapping = false;
@@ -199,7 +224,8 @@
       last: n,
       controls: controls,
       still: still,
-      keep: keep
+      keep: function () { if (docked()) keepStop(); else keep(); },
+      dock: dock
     };
     box.classList.add("is-stepping");
     go(first);
