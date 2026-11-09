@@ -49,11 +49,24 @@
       cutImg.style.width = Math.round(W * s) + "px";
       cutImg.style.left = -Math.round(b[0] * s) + "px"; cutImg.style.top = -Math.round(b[1] * s) + "px";
     }
-    // and each step brings the lit part into the room above the question card
-    function keep() {
-      if (!phone.matches) return;
-      var r = draw.getBoundingClientRect(), top = g.getBoundingClientRect().top;
-      if (r.top < 12 || r.bottom > top - 8) window.scrollBy({ top: r.top - 16, behavior: reduce ? "auto" : "smooth" });
+    // Each Next, Back and Start again keeps the lit part in view (the whole picture when nothing is lit),
+    // scrolling only as far as it must: a small gap under the top of the window, and on a phone the room
+    // above the question card at the foot of the screen. A part taller than the room shows its top.
+    // A part already in view never moves the page. Reduced motion jumps instead of gliding.
+    var GAP = 16;
+    function keep(st) {
+      var top, bottom;
+      if (phone.matches) {
+        var r = (st ? cut : pic).getBoundingClientRect(); top = r.top; bottom = r.bottom;
+      } else {
+        var p = pic.getBoundingClientRect(), b = st ? st.box : [0, 0, W, H];
+        top = p.top + b[1] / H * p.height; bottom = top + b[3] / H * p.height;
+      }
+      var room = window.innerHeight - (phone.matches ? g.offsetHeight : 0) - GAP, by = 0;
+      if (top >= GAP && bottom <= room) return;
+      if (bottom - top > room - GAP || top < GAP) by = top - GAP;
+      else by = bottom - room;
+      window.scrollBy({ top: by, behavior: reduce ? "auto" : "smooth" });
     }
     var g = scene.appendChild(el("div", "db-guide"));
     var tag = g.appendChild(el("p", "db-tag")), hq = g.appendChild(el("h3", "db-q")), line = g.appendChild(el("p", "db-line"));
@@ -83,8 +96,9 @@
       say.textContent = "";
       setTimeout(function () { say.textContent = [tag.textContent, hq.textContent, line.textContent, ans.textContent].join(" ").trim(); }, 30);
     }
-    go.addEventListener("click", function () { taken = true; q = q > n ? 0 : q + 1; render(); keep(); go.focus({ preventScroll: true }); });
-    back.addEventListener("click", function () { taken = true; q = Math.max(0, q - 1); render(); keep(); (q === 0 ? go : back).focus({ preventScroll: true }); });
+    function lit() { return q >= 1 && q <= n ? steps[q - 1] : null; }
+    go.addEventListener("click", function () { taken = true; q = q > n ? 0 : q + 1; render(); go.focus({ preventScroll: true }); keep(lit()); });
+    back.addEventListener("click", function () { taken = true; q = Math.max(0, q - 1); render(); (q === 0 ? go : back).focus({ preventScroll: true }); keep(lit()); });
     window.addEventListener("resize", function () { sizeCut(q >= 1 && q <= n ? steps[q - 1] : null); });
     render();
 

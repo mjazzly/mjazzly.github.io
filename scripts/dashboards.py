@@ -10,7 +10,8 @@ What it reads, all in ../data-answers (read only; this script never runs git the
 
 What it writes into dashboards.html:
   <!--DASH:01-->     the picture and the guided read (its words are the constants below)
-  <!--DASHREC:01-->  the record: the check's result, what was left out and why, the definitions
+  <!--DASHRUN:01-->  the record's one line, in view above its fold: the check's run id and its result
+  <!--DASHREC:01-->  the record behind the fold: the four numbers, what was left out and why, the definitions
 
 Usage, from the repo root:
   python3 scripts/dashboards.py                    write both regions
@@ -176,9 +177,9 @@ def region_rec(rec, mets):
     if not rows: sys.exit("the record's data state no longer names its row count")
     if rec["misses"] or not rec["model"]["passed"]:
         sys.exit(f"the newest record {rec['run_id']} is not a pass: the page states only a passing check")
-    o = [f'<p class="db-run"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg><span>From check <b>{rec["run_id"]}</b>, '
-         f'on the report as committed: the model check passed and <b>{rec["matched"]} of {rec["total"]}</b> questions matched, with no miss.</span></p>',
-         '<div class="stats four">',
+    run = (f'<p class="db-run"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg><span>From check <b>{rec["run_id"]}</b>, '
+           f'on the report as committed: the model check passed and <b>{rec["matched"]} of {rec["total"]}</b> questions matched, with no miss.</span></p>')
+    o = ['<div class="stats four">',
          f'<div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><div class="n">{rec["matched"]} of {rec["total"]}</div>'
          f'<div class="what">questions matched</div><div class="basis">The dashboard\'s own measures, run on every question it can answer, against <b>the answers the data answers assistant is tested on</b>. A miss is named by its question.</div></div>',
          f'<div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-hash"/></svg></span><div class="n">{rec["values_compared"]}</div>'
@@ -214,7 +215,7 @@ def region_rec(rec, mets):
         if name not in mets: sys.exit(f"{name} is in the record but not in metrics.json")
         o.append(f'<li><b><code>{E(name)}</code></b> {E(mets[name]["definition"])}</li>')
     o.append('</ul>')
-    return "\n".join(o)
+    return run, "\n".join(o)
 
 # ---------- the pictures ----------
 def shoot():
@@ -250,7 +251,9 @@ def main():
     size, bx = boxes()
     src = PAGE.read_text(encoding="utf-8")
     new = fill(src, "DASH:01", region_01(numbers(), size, bx))
-    new = fill(new, "DASHREC:01", region_rec(record(), metrics()))
+    run, rec = region_rec(record(), metrics())
+    new = fill(new, "DASHRUN:01", run)
+    new = fill(new, "DASHREC:01", rec)
     missing = [x for x in LINKED if not (DA / x).exists()]
     for href in re.findall(r'href="https://github\.com/mjazzly/data-answers/(?:blob|tree)/main/([^"]+)"', new):
         if not (DA / href.replace("%20", " ")).exists(): missing.append(href)

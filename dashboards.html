@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261031e"><link rel="stylesheet" href="motion.css?v=20261108"><link rel="stylesheet" href="dashboards.css?v=20261109"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261031e"><link rel="stylesheet" href="motion.css?v=20261108"><link rel="stylesheet" href="dashboards.css?v=20261109b"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
 <title>Dashboards | Megat Jazly</title>
 <meta name="description" content="A Power BI dashboard for one month-end decision, read one part at a time, with every number checked against the answers the data answers assistant is tested on."><meta property="og:type" content="website"><meta property="og:site_name" content="Megat Jazly"><meta property="og:title" content="Dashboards | Megat Jazly"><meta property="og:description" content="A Power BI dashboard for one month-end decision, read one part at a time, with every number checked against the answers the data answers assistant is tested on."><meta property="og:url" content="https://mjazzly.github.io/dashboards.html"><meta property="og:image" content="https://mjazzly.github.io/preview.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
 </head>
@@ -150,12 +150,16 @@
   </div>
 </section>
 
-<section id="record">
+<section id="record" class="fold">
   <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-shield"/></svg></span>The record</h2>
+<!--DASHRUN:01-->
+<p class="db-run"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg><span>From check <b>D202611082324-ebdafcd</b>, on the report as committed: the model check passed and <b>14 of 14</b> questions matched, with no miss.</span></p>
+<!--/DASHRUN:01-->
+  <div class="case-foot"><button type="button" class="case-toggle" data-open="Read the record" aria-expanded="true" aria-controls="record-body" hidden><span class="case-toggle-label">Read the record</span><svg class="ic" aria-hidden="true"><use href="#ic-chevron"/></svg></button></div>
+  <div class="case-body" id="record-body">
   <p class="lead">Every question the dashboard can answer was asked of it, and <b>each answer was compared with the one the data answers assistant is tested on</b>.</p>
   <div class="work">
 <!--DASHREC:01-->
-<p class="db-run"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg><span>From check <b>D202611082324-ebdafcd</b>, on the report as committed: the model check passed and <b>14 of 14</b> questions matched, with no miss.</span></p>
 <div class="stats four">
 <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><div class="n">14 of 14</div><div class="what">questions matched</div><div class="basis">The dashboard's own measures, run on every question it can answer, against <b>the answers the data answers assistant is tested on</b>. A miss is named by its question.</div></div>
 <div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-hash"/></svg></span><div class="n">44</div><div class="what">values compared</div><div class="basis">Every number in each answer, a whole table where the question asks for one, each <b>rounded by the assistant's own rule</b> before it is compared.</div></div>
@@ -196,7 +200,7 @@
       <li><a target="_blank" href="https://github.com/mjazzly/data-answers/blob/main/eval/expected/cases.json" rel="noopener"><b>eval/expected/cases.json</b></a> The expected answers, generated from a seed before the assistant's first run.</li>
       <li><a target="_blank" href="https://github.com/mjazzly/data-answers/blob/main/dashboard/DESIGN.md" rel="noopener"><b>dashboard/DESIGN.md</b></a> The design note: the reader, the decision, every measure and why it is written that way.</li>
     </ul>
-    <p class="how"><b>Who did what:</b> Claude drafted every measure and the page, as text in git. <b>I approved each measure against a known answer</b> and refined the layout in Power BI. The check proves the numbers.</p>
+  </div>
   </div>
 </section>
 
@@ -240,6 +244,6 @@
 </div>
 <script data-goatcounter="https://mjazzly.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 <script src="site.js?v=20261108"></script>
-<script src="dashboards.js?v=20261109"></script>
+<script src="dashboards.js?v=20261109b"></script>
 </body>
 </html>
