@@ -11,6 +11,7 @@ import pathlib, re
 GROUPS = [
     ("craft", "Craft", "wrench", "What I have made, and the test record behind each piece", [
         ("aiwork.html",    "AI Work",    "cpu",    "Eight AI systems, each with its test record"),
+        ("dashboards.html", "Dashboards", "chart", "A dashboard for a month-end decision, every number checked"),
         ("casefiles.html", "Case Files", "folder", "Four cases from delivery work, told end to end"),
         ("built.html",     "Built",      "puzzle", "Everything built with Claude, from prompt to app"),
         ("index.html#systems", "Systems", "layers", "The systems I run in client work, and my stack"),
@@ -36,7 +37,7 @@ HERE = {
     "output-06.html": "aiwork.html",
 }
 
-PAGES = ["index.html", "built.html", "aiwork.html", "clarity.html", "frames.html", "deconstruct.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "output-06.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
+PAGES = ["index.html", "built.html", "aiwork.html", "dashboards.html", "clarity.html", "frames.html", "deconstruct.html", "scorecard.html", "output-01.html", "output-01-board.html", "output-02.html", "output-03.html", "output-04.html", "output-06.html", "casefiles.html", "operator.html", "models.html", "knowledge.html", "chapters.html"]
 
 def ic(name, cls="ic"):
     return f'<svg class="{cls}" aria-hidden="true"><use href="#ic-{name}"/></svg>'

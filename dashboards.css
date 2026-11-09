@@ -1,0 +1,97 @@
+/* ---------- Dashboards page (dashboards.html only, loaded after motion.css) ----------
+   The guided read sits on a soft cool tone across the full width, as Deconstruct's pieces do: the
+   report's picture on the left with a lens on the part being read (the rest steps back), one words
+   cell on the right. On a phone each step shows its part cut from the picture at full width, and the
+   question card sits at the foot of the screen. Only position, size, opacity and colour move.
+   Reduced motion: nothing glides or swells. */
+
+section.db-film{--tone:#E7EEF4;background:var(--tone);box-shadow:0 0 0 100vmax var(--tone);clip-path:inset(0 -100vmax);padding:52px 0 56px;margin-top:56px;scroll-margin-top:12px}
+section.db-film + section{padding-top:56px}
+.db-film > h2,.db-film > .db-wide{width:min(1320px,calc(100vw - 80px));margin-left:calc(50% - min(660px,50vw - 40px))}
+.coda{font-size:17px;font-weight:600;color:var(--ink);letter-spacing:-.01em;max-width:620px;padding:40px 0 0}
+.work code,.words code{font-family:var(--mono);font-size:.9em}
+
+/* the scene: the picture, then the words cell */
+.db-scene{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:40px;align-items:start}
+.db-pic{position:relative;overflow:hidden;margin:0;border-radius:var(--radius-s);background:#F3F4F6}
+.db-pic img{display:block;width:100%;height:auto}
+.db-lens{position:absolute;left:calc(var(--bx) / var(--W) * 100%);top:calc(var(--by) / var(--H) * 100%);width:calc(var(--bw) / var(--W) * 100%);height:calc(var(--bh) / var(--H) * 100%);
+  border-radius:8px;box-shadow:0 0 0 2px var(--marine),0 0 0 100vmax rgba(231,238,244,.8);opacity:0;pointer-events:none;
+  transition:left .45s cubic-bezier(.2,.7,.2,1),top .45s cubic-bezier(.2,.7,.2,1),width .45s cubic-bezier(.2,.7,.2,1),height .45s cubic-bezier(.2,.7,.2,1),opacity .3s ease}
+.db-pic.is-lit .db-lens{opacity:1}
+.db-cut{display:none;position:relative;overflow:hidden;border-radius:8px;background:#F3F4F6}
+.db-cut img{position:absolute;max-width:none;height:auto}
+
+/* the words cell */
+.db-guide{position:sticky;top:20px}
+.db-tag{font-family:var(--mono);font-size:12.5px;color:var(--marine);margin-bottom:6px}
+.db-tag[hidden]{display:none}
+.db-q{font-size:24px;line-height:1.25;margin:0 0 10px;letter-spacing:-.01em}
+.db-line{font-size:16px;line-height:1.55;color:var(--ink-soft)}
+.db-line b{color:var(--ink)}
+.db-answer{font-size:16.5px;line-height:1.5;font-weight:700;color:var(--marine);margin-top:14px}
+.db-answer:empty{display:none}
+.db-act{display:flex;align-items:center;gap:18px;margin-top:22px}
+.db-go{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 30px;border:0;border-radius:999px;background:var(--marine);color:#fff;font:700 17px var(--sans);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background-color .15s}
+.db-go:hover{background:var(--marine-deep)}
+.db-go:focus-visible{outline:2px solid var(--marine);outline-offset:3px}
+@keyframes db-pulse{0%{transform:scale(1)}45%{transform:scale(1.12)}100%{transform:scale(1)}}
+.db-go.pulse{animation:db-pulse .55s cubic-bezier(.2,.7,.2,1)}
+.db-backlink{background:none;border:0;padding:8px 4px;color:var(--marine);font:600 14.5px var(--sans);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.db-backlink:focus-visible{outline:2px solid var(--marine);outline-offset:2px}
+.db-backlink[hidden]{display:none}
+
+/* without JavaScript: the steps as a list under the picture */
+.db-steps{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:20px}
+.db-steps li{background:var(--panel);border-radius:var(--radius-s);padding:16px 18px 18px}
+.db-steps .db-part{font-family:var(--mono);font-size:12.5px;color:var(--marine)}
+.db-steps h3{font-size:17px;line-height:1.3;margin:4px 0 8px}
+.db-feeds{font-size:14.5px;color:var(--ink-soft)}
+.db-feeds b{color:var(--ink)}
+.db-say{font-size:14.5px;font-weight:700;color:var(--marine);margin-top:8px}
+.db-rule{font-size:15px;line-height:1.55;color:var(--ink-soft);margin-top:16px;max-width:760px}
+.db-rule b{color:var(--ink)}
+.db-steps[hidden],.db-rule[hidden]{display:none}
+
+/* the live report, on request */
+.db-live{margin-top:28px;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.db-live-line{font-size:15px;line-height:1.55;color:var(--ink-soft);max-width:760px}
+.db-load .ic{width:15px;height:15px}
+.db-load[hidden],.db-frame[hidden]{display:none}
+.db-frame{width:100%;aspect-ratio:1280 / 1160;border-radius:var(--radius-s);overflow:hidden;background:var(--panel)}
+.db-frame iframe{display:block;width:100%;height:100%;border:0}
+
+/* the record */
+.db-run{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.5;color:var(--ink-soft);margin-bottom:18px}
+.db-run .ic{width:18px;height:18px;flex:none;margin-top:2px;color:var(--amber)}
+.db-run b:first-of-type{font-family:var(--mono);font-weight:500;font-size:13px}
+#record .work{margin-top:18px}
+.db-left{font-size:15px;color:var(--ink-soft);margin-bottom:10px}
+.db-left b{color:var(--ink)}
+
+@media(max-width:1000px){ .db-scene{grid-template-columns:minmax(0,1fr) 280px;gap:32px} }
+@media(max-width:860px){
+  .db-scene{grid-template-columns:minmax(0,1fr);gap:20px}
+  .db-film > h2,.db-film > .db-wide{width:calc(100vw - 24px);margin-left:calc(50% - 50vw + 12px)}
+  /* each step shows its part cut from the picture at full width */
+  .db-lens{display:none}
+  .db-pic.is-lit{overflow-x:auto;overflow-y:hidden;background:none}
+  .db-pic.is-lit > img{display:none}
+  .db-pic.is-lit .db-cut{display:block}
+  /* the question card stays at the foot of the screen while the picture is in view */
+  .db-guide{position:sticky;top:auto;bottom:0;z-index:4;background:var(--panel);border-radius:14px 14px 0 0;padding:16px 18px 18px;margin:0 -12px}
+  html.db-asking .to-top.is-shown{opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .2s,transform .2s,visibility 0s .2s}
+  .db-q{font-size:20px;margin-bottom:6px}
+  .db-line{font-size:15px}
+  .db-answer{font-size:15.5px;margin-top:8px}
+  .db-act{margin-top:14px}
+  .db-go{min-height:48px;padding:0 26px;font-size:16px}
+  .db-live .db-load{display:none}
+}
+@media(max-width:600px){
+  section.db-film{padding:40px 0 44px}
+}
+@media(prefers-reduced-motion:reduce){
+  .db-lens{transition:none}
+  .db-go.pulse{animation:none}
+}

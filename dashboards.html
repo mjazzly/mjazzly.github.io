@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css?v=20261031e"><link rel="stylesheet" href="motion.css?v=20261108"><link rel="stylesheet" href="dashboards.css?v=20261109"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#2C5F7C">
+<title>Dashboards | Megat Jazly</title>
+<meta name="description" content="A Power BI dashboard for one month-end decision, read one part at a time, with every number checked against the answers the data answers assistant is tested on."><meta property="og:type" content="website"><meta property="og:site_name" content="Megat Jazly"><meta property="og:title" content="Dashboards | Megat Jazly"><meta property="og:description" content="A Power BI dashboard for one month-end decision, read one part at a time, with every number checked against the answers the data answers assistant is tested on."><meta property="og:url" content="https://mjazzly.github.io/dashboards.html"><meta property="og:image" content="https://mjazzly.github.io/preview.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+<!--ICONS-->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+<symbol id="ic-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></symbol>
+<symbol id="ic-briefcase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1.5 1.5 0 011.5-1.5h3A1.5 1.5 0 0115 5v2"/><path d="M3 12h18"/></symbol>
+<symbol id="ic-circle-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></symbol>
+<symbol id="ic-hash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h14M5 15h14M10 4l-2 16M16 4l-2 16"/></symbol>
+<symbol id="ic-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></symbol>
+<symbol id="ic-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="ic-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a1 1 0 00-1 1v16a1 1 0 001 1h10a1 1 0 001-1V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></symbol>
+<symbol id="ic-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l8 4-8 4-8-4z"/><path d="M4 12l8 4 8-4"/><path d="M4 16l8 4 8-4"/></symbol>
+<symbol id="ic-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6l-5 9a1.5 1.5 0 001.3 2.2h11.4A1.5 1.5 0 0019 18l-5-9V3"/><path d="M7.5 15h9"/></symbol>
+<symbol id="ic-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5"/><path d="M12 12v9"/></symbol>
+<symbol id="ic-funnel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16l-6 7v6l-4 2v-8z"/></symbol>
+<symbol id="ic-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M7 16v-5M12 16V7M17 16v-9"/></symbol>
+<symbol id="ic-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 10h4v4h-4z"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4M7 4v3M17 4v3M7 17v3M17 17v3"/></symbol>
+<symbol id="ic-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/></symbol>
+<symbol id="ic-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></symbol>
+<symbol id="ic-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5.5"/><path d="M8.5 13.5L7 21l5-2.5 5 2.5-1.5-7.5"/></symbol>
+<symbol id="ic-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></symbol>
+<symbol id="ic-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
+<symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+<symbol id="ic-puzzle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4a2 2 0 014 0v1h3a1 1 0 011 1v3h1a2 2 0 010 4h-1v3a1 1 0 01-1 1h-3v1a2 2 0 01-4 0v-1H7a1 1 0 01-1-1v-3H5a2 2 0 010-4h1V6a1 1 0 011-1h3z"/></symbol>
+<symbol id="ic-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1 1 0 011-1h5l2 2h9a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1z"/></symbol>
+<symbol id="ic-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4.5a5 5 0 00-5.5 6.8L4 16.3V20h3.7l5-5a5 5 0 006.8-5.5l-3 3-3-3z"/></symbol>
+<symbol id="ic-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+<symbol id="ic-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="12" height="16" rx="1.5"/><path d="M9 5a1.5 1.5 0 013 0h0a1.5 1.5 0 013 0"/><path d="M9 14l2 2 4-4"/></symbol>
+<symbol id="ic-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H9l-5 4z"/></symbol>
+<symbol id="ic-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></symbol>
+<symbol id="ic-server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="6" rx="1.5"/><rect x="4" y="14" width="16" height="6" rx="1.5"/><path d="M8 7h.01M8 17h.01"/></symbol>
+<symbol id="ic-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 17h2"/></symbol>
+<symbol id="ic-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V6a1.5 1.5 0 013 0v6M11 11V4.5a1.5 1.5 0 013 0V11M14 11V6a1.5 1.5 0 013 0v8a6 6 0 01-6 6h-1a6 6 0 01-5.4-3.4L3.3 12a1.5 1.5 0 012.5-1.6L8 13"/></symbol>
+<symbol id="ic-stop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></symbol>
+<symbol id="ic-table" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3 10h18M9 10v9M15 10v9"/></symbol>
+<symbol id="ic-ticket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 002 2 2 2 0 010 4 2 2 0 00-2 2v2h16v-2a2 2 0 01-2-2 2 2 0 010-4 2 2 0 002-2V6H4z"/><path d="M12 6v12"/></symbol>
+<symbol id="ic-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M8 13a5 5 0 118 0c-1 1-1.5 2-1.5 3h-5c0-1-.5-2-1.5-3z"/></symbol>
+<symbol id="ic-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7h11M9 12h11M9 17h11"/><path d="M4 7l1 1 2-2M4 12l1 1 2-2M4 17l1 1 2-2"/></symbol>
+<symbol id="ic-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 012-2h5v17H6a2 2 0 01-2-2z"/><path d="M20 5a2 2 0 00-2-2h-5v17h5a2 2 0 002-2z"/></symbol>
+<symbol id="ic-stairs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4v-4h4v-4h4V8h4"/></symbol>
+<symbol id="ic-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></symbol>
+<symbol id="ic-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9L3.5 9.7l5.9-.8z"/></symbol>
+<symbol id="ic-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 010 7M21.5 20c0-3-2-4.8-4.5-5.3"/></symbol>
+<symbol id="ic-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/></symbol>
+<symbol id="ic-wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/></symbol>
+<symbol id="ic-sprout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9"/><path d="M12 12c0-4-3-6-7-6 0 4 3 6 7 6z"/><path d="M12 10c0-3.5 2.5-5.5 6.5-5.5 0 3.5-2.5 5.5-6.5 5.5z"/></symbol>
+<symbol id="ic-repeat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l3 3-3 3"/><path d="M20 6H8a4 4 0 00-4 4v1"/><path d="M7 21l-3-3 3-3"/><path d="M4 18h12a4 4 0 004-4v-1"/></symbol>
+<symbol id="ic-bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4a1 1 0 011-1h10a1 1 0 011 1v17l-6-4-6 4z"/></symbol>
+<symbol id="ic-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8.5v7M8.5 12h7"/></symbol>
+<symbol id="ic-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/></symbol>
+<symbol id="ic-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
+<symbol id="ic-frame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 011-1h3M16 4h3a1 1 0 011 1v3M20 16v3a1 1 0 01-1 1h-3M8 20H5a1 1 0 01-1-1v-3"/><rect x="9" y="9" width="6" height="6" rx="1"/></symbol>
+<symbol id="ic-plane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 3.5a1.5 1.5 0 013 0V9l7 4v2l-7-2v4.5l2 1.5v1.5L12 19.5 8.5 20.5V19l2-1.5V13l-7 2v-2l7-4z"/></symbol>
+<symbol id="ic-music" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></symbol>
+<symbol id="ic-pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4.5L16 4.5a2.1 2.1 0 013 3L8 18.5z"/><path d="M14.5 6l3.5 3.5"/></symbol>
+<symbol id="ic-unstack" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 10.5l8 3.75-8 3.75-8-3.75z"/><path d="M4 18l8 3.75 8-3.75"/><path d="M12 2.5l7.5 3.25-7.5 3.25-7.5-3.25z" transform="rotate(-8 12 5.75)"/></symbol>
+<symbol id="ic-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0"/><path d="M12 17.5V21M9 21h6"/></symbol>
+</svg>
+<!--/ICONS-->
+<nav class="top" aria-label="Site"><a class="skip" href="#main">Skip to the content</a><div class="wrap">
+  <a class="brand" href="index.html"><span class="seam silver" aria-hidden="true"></span><span class="brand-name">Megat Jazly</span><span class="seam" aria-hidden="true"></span></a>
+  <div class="shelves">
+    <details class="shelf active" data-shelf="craft">
+      <summary aria-controls="menu-craft">Craft<svg class="ic chev" aria-hidden="true"><use href="#ic-chevron"/></svg></summary>
+      <div class="menu" id="menu-craft"><div class="wrap"><div class="menu-card">
+        <div class="menu-head"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-wrench"/></svg></span><span><b>Craft</b><span class="menu-line">What I have made, and the test record behind each piece</span></span></div>
+        <div class="menu-items">
+          <a class="go" href="aiwork.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-cpu"/></svg></span><span><b>AI Work</b><span class="go-line">Eight AI systems, each with its test record</span></span></a>
+          <a class="go" href="dashboards.html" aria-current="page"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-chart"/></svg></span><span><b>Dashboards</b><span class="go-line">A dashboard for a month-end decision, every number checked</span></span></a>
+          <a class="go" href="casefiles.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-folder"/></svg></span><span><b>Case Files</b><span class="go-line">Four cases from delivery work, told end to end</span></span></a>
+          <a class="go" href="built.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-puzzle"/></svg></span><span><b>Built</b><span class="go-line">Everything built with Claude, from prompt to app</span></span></a>
+          <a class="go" href="index.html#systems"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-layers"/></svg></span><span><b>Systems</b><span class="go-line">The systems I run in client work, and my stack</span></span></a>
+        </div>
+      </div></div></div>
+    </details>
+    <details class="shelf" data-shelf="compass">
+      <summary aria-controls="menu-compass">Compass<svg class="ic chev" aria-hidden="true"><use href="#ic-chevron"/></svg></summary>
+      <div class="menu" id="menu-compass"><div class="wrap"><div class="menu-card">
+        <div class="menu-head"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-compass"/></svg></span><span><b>Compass</b><span class="menu-line">How I think, decide and work</span></span></div>
+        <div class="menu-items">
+          <a class="go" href="operator.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-user"/></svg></span><span><b>Operator</b><span class="go-line">How I work, read through three assessments</span></span></a>
+          <a class="go" href="models.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-repeat"/></svg></span><span><b>Models</b><span class="go-line">The five models I build by</span></span></a>
+          <a class="go" href="clarity.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-zap"/></svg></span><span><b>Clarity</b><span class="go-line">Four short games on working with AI</span></span></a>
+          <a class="go" href="frames.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-frame"/></svg></span><span><b>Frames</b><span class="go-line">Four frameworks for AI at work</span></span></a>
+          <a class="go" href="deconstruct.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-unstack"/></svg></span><span><b>Deconstruct</b><span class="go-line">Three outputs taken apart, one question at a time</span></span></a>
+        </div>
+      </div></div></div>
+    </details>
+    <details class="shelf" data-shelf="bookshelf">
+      <summary aria-controls="menu-bookshelf">Bookshelf<svg class="ic chev" aria-hidden="true"><use href="#ic-chevron"/></svg></summary>
+      <div class="menu" id="menu-bookshelf"><div class="wrap"><div class="menu-card">
+        <div class="menu-head"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-book"/></svg></span><span><b>Bookshelf</b><span class="menu-line">Ideas I keep, from other people and my own</span></span></div>
+        <div class="menu-items">
+          <a class="go" href="knowledge.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-bookmark"/></svg></span><span><b>Knowledge</b><span class="go-line">Ideas worth keeping, learned from other people</span></span></a>
+          <a class="go" href="chapters.html"><span class="badge badge-s"><svg class="ic" aria-hidden="true"><use href="#ic-sprout"/></svg></span><span><b>Chapters</b><span class="go-line">Lessons from the road, in my own words</span></span></a>
+        </div>
+      </div></div></div>
+    </details>
+  </div>
+</div></nav>
+<div class="wrap" id="main" tabindex="-1">
+
+<header class="hero">
+  <div class="eyebrow">Dashboards <span class="dot">·</span> Synthetic data <span class="dot">·</span> Every number checked</div>
+  <h1>Dashboards</h1>
+  <p class="thesis">Views a team makes a decision from, <b>each number checked against answers written before the view was built.</b> Each one opens on its decision and reads it one part at a time.</p>
+  <p class="hero-note">The data is synthetic. The same table answers typed questions on <a href="aiwork.html#work-03">AI Work</a>, through the data answers assistant.</p>
+</header>
+
+<section id="dash-01">
+  <div class="work">
+    <div class="work-head">
+      <span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-grid"/></svg></span>
+      <div class="sys-head"><span class="sys-id">DASH-01 / Branch review</span></div>
+    </div>
+    <h3>Which branches need attention next month?</h3>
+    <div class="fit"><p><b>For:</b> an operations lead at the month-end review, choosing where to look first.</p><dl class="measure"><div><dt>Decision</dt><dd>which branches need attention next month</dd></div><div><dt>Reads</dt><dd><code>fct_orders</code>, the tested table under data answers</dd></div><div><dt>Built in</dt><dd>Power BI, published to the web, no sign-in</dd></div></dl></div>
+    <p class="how"><b>One table, two readers:</b> the dashboard and the <a href="aiwork.html#work-03">data answers assistant</a> read the same tested table with the same definitions, and <b>a recorded check proves they give the same numbers</b>. The record is <a href="#record">below</a>.</p>
+    <p class="score-open"><a target="_blank" href="https://app.powerbi.com/view?r=eyJrIjoiYjFhM2Q3OGEtNzkwOS00ZjRlLWE0MDktY2RmMTNhNjUxODEyIiwidCI6ImY0ZjM0NzE0LWYzZTEtNGY1NC04ZTg0LTYxYWQyYWQ3ZWRkNCIsImMiOjEwfQ%3D%3D" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#ic-chart"/></svg>Open the dashboard</a><span>the live report, no sign-in: pick a month or a branch</span></p>
+  </div>
+</section>
+
+<section id="read" class="db-film">
+  <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-search"/></svg></span>The page, one part at a time</h2>
+  <div class="db-wide">
+<!--DASH:01-->
+<div class="db-stage" id="dash-01-stage" data-w="1280" data-h="1100">
+<figure class="db-pic"><img src="dashboards/dash-01-desktop.png" width="1280" height="1100" alt="The Branch review report on its opening view, December 2025 and all branches: five cards, the eight branches ranked by net revenue with three marked amber, revenue by month, and revenue by category and by channel."></figure>
+<ol class="db-steps" data-q="Which branches need attention next month?" data-line="Five parts of the page answer it, in the order the decision is made." data-go="Show me" data-next="Next" data-back="Back" data-free-q="The amber mark, in plain words" data-free-line="A branch is marked amber when more of its orders came back than across all branches, or its revenue fell on the month before. The mark says where to look first, not what went wrong." data-again="Start again">
+<li data-box="24 168 1232 96"><span class="db-part">The five cards</span><h3>How did the month go across all branches?</h3><p class="db-feeds"><b>It feeds:</b> It sets the bar every branch is judged against.</p><p class="db-say">December: 147,575.80 revenue, 7.82% of orders returned, up 9.98% on November.</p></li>
+<li data-box="24 280 1232 312"><span class="db-part">The branch table</span><h3>Which branches fall short of that bar?</h3><p class="db-feeds"><b>It feeds:</b> The shortlist for next month&#x27;s attention.</p><p class="db-say">Three of eight marked amber: Westgate, Northpoint and Hillside.</p></li>
+<li data-box="24 608 1232 220"><span class="db-part">Revenue by month</span><h3>Is it one month, or a pattern?</h3><p class="db-feeds"><b>It feeds:</b> Whether to act now or keep watching.</p><p class="db-say">December is the highest of the twelve months, after five rises in a row.</p></li>
+<li data-box="24 844 608 200"><span class="db-part">Revenue by category</span><h3>Where in a branch does the revenue come from?</h3><p class="db-feeds"><b>It feeds:</b> Which kind of product to look at first.</p><p class="db-say">Kitchen brings 41.60% of December&#x27;s revenue; pick a branch and this follows.</p></li>
+<li data-box="648 844 608 200"><span class="db-part">Revenue by channel</span><h3>Through which channel does it come?</h3><p class="db-feeds"><b>It feeds:</b> Whether the fix belongs in store, online or by phone.</p><p class="db-say">In store takes 58.70% of December&#x27;s revenue, Phone the least.</p></li>
+</ol>
+<p class="db-rule"><b>The amber mark, in plain words:</b> A branch is marked amber when more of its orders came back than across all branches, or its revenue fell on the month before. The mark says where to look first, not what went wrong.</p>
+</div>
+<!--/DASH:01-->
+    <div class="db-live" id="live">
+      <p class="db-live-line">The picture is the report as published, kept here so the page still shows the work if the live link stops. <a target="_blank" href="https://app.powerbi.com/view?r=eyJrIjoiYjFhM2Q3OGEtNzkwOS00ZjRlLWE0MDktY2RmMTNhNjUxODEyIiwidCI6ImY0ZjM0NzE0LWYzZTEtNGY1NC04ZTg0LTYxYWQyYWQ3ZWRkNCIsImMiOjEwfQ%3D%3D" rel="noopener">Open the dashboard</a> to use it live.</p>
+      <button type="button" class="case-toggle db-load" hidden><span class="case-toggle-label">Load it live on this page</span><svg class="ic" aria-hidden="true"><use href="#ic-chart"/></svg></button>
+      <div class="db-frame" hidden></div>
+    </div>
+  </div>
+</section>
+
+<section id="record">
+  <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-shield"/></svg></span>The record</h2>
+  <p class="lead">Every question the dashboard can answer was asked of it, and <b>each answer was compared with the one the data answers assistant is tested on</b>.</p>
+  <div class="work">
+<!--DASHREC:01-->
+<p class="db-run"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg><span>From check <b>D202611082324-ebdafcd</b>, on the report as committed: the model check passed and <b>14 of 14</b> questions matched, with no miss.</span></p>
+<div class="stats four">
+<div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-circle-check"/></svg></span><div class="n">14 of 14</div><div class="what">questions matched</div><div class="basis">The dashboard's own measures, run on every question it can answer, against <b>the answers the data answers assistant is tested on</b>. A miss is named by its question.</div></div>
+<div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-hash"/></svg></span><div class="n">44</div><div class="what">values compared</div><div class="basis">Every number in each answer, a whole table where the question asks for one, each <b>rounded by the assistant's own rule</b> before it is compared.</div></div>
+<div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-list"/></svg></span><div class="n">8</div><div class="what">measures, named as the metrics</div><div class="basis">Each carries its metric's definition word for word as its description, <b>checked from the report's own files</b> before any number is compared.</div></div>
+<div class="stat"><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-layers"/></svg></span><div class="n">0</div><div class="what">joins between tables</div><div class="basis">The report reads <b>one table</b>, so no number can be counted twice through a join. It shows export batch 1 only, 4,948 rows: the rows the live assistant reads.</div></div>
+</div>
+<h4><svg class="ic" aria-hidden="true"><use href="#ic-hand"/></svg>What the check leaves out, and why</h4>
+<p class="db-left">A question the dashboard cannot answer is left out and named, <b>never counted as a pass</b>.</p>
+<ul class="words db-out">
+<li><b>A08, A13, A15, A16.</b> A metric with no measure on this page (<code>revenue_share</code>, <code>largest_order</code>, <code>qoq_growth</code>, <code>orders_share</code>).</li>
+<li><b>A17, A18.</b> <code>compare_periods</code>: a comparison the assistant builds, with change columns the page has no measure for.</li>
+<li><b>R01, R03, R04, R06.</b> A gate: the right answer is a refusal, with no number.</li>
+<li><b>R02, R05.</b> A gate first; the number after it repeats a kind of question already counted.</li>
+<li><b>S01.</b> The same question as A02.</li>
+<li><b>S02.</b> Assumes batch 2 is loaded; the dashboard shows <code>export_batch</code> 1 only.</li>
+</ul>
+<h4><svg class="ic" aria-hidden="true"><use href="#ic-bookmark"/></svg>The definitions</h4>
+<p class="db-left">Each measure in the report, with the definition it carries, copied from the assistant's own list.</p>
+<ul class="words db-defs">
+<li><b><code>orders</code></b> Count of orders placed in the period, returned or not.</li>
+<li><b><code>returns</code></b> Count of orders placed in the period that were later returned.</li>
+<li><b><code>revenue</code></b> Sum of the order value of every order placed in the period, before returns.</li>
+<li><b><code>returned_value</code></b> Sum of the order value of the orders placed in the period that were later returned.</li>
+<li><b><code>net_revenue</code></b> Revenue minus returned value: the order value of the orders placed in the period that were not returned.</li>
+<li><b><code>returns_rate</code></b> Returns divided by orders, as a percent: the share of orders placed in the period that were later returned.</li>
+<li><b><code>average_order_value</code></b> Revenue divided by orders: the mean order value of the orders placed in the period.</li>
+<li><b><code>mom_growth</code></b> Revenue in the month minus revenue in the month before, divided by the month before, as a percent. The period must be one month, and January has no month before it in the data.</li>
+</ul>
+<!--/DASHREC:01-->
+    <h4><svg class="ic" aria-hidden="true"><use href="#ic-link"/></svg>Where to look in the code</h4>
+    <ul class="words checks">
+      <li><a target="_blank" href="https://github.com/mjazzly/data-answers/blob/main/dashboard/report/Branch%20review.SemanticModel/definition/tables/fct_orders.tmdl" rel="noopener"><b>fct_orders.tmdl</b></a> The measures as the report holds them, each with its definition as its description and its format.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/data-answers/blob/main/dashboard/agreement.dax" rel="noopener"><b>dashboard/agreement.dax</b></a> The query that runs the dashboard's own measures on every question it can answer.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/data-answers/blob/main/scripts/check_dashboard.js" rel="noopener"><b>scripts/check_dashboard.js</b></a> The check: the report's files first, then every value against the expected answers. It runs on every push.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/data-answers/tree/main/results/dashboard" rel="noopener"><b>results/dashboard</b></a> The check's records, each naming its commit, every miss and every question left out.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/data-answers/blob/main/transform/models/mart/fct_orders.sql" rel="noopener"><b>fct_orders.sql</b></a> The tested table the report reads, built from the raw export and checked by tests before anything reads it.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/data-answers/blob/main/metrics.json" rel="noopener"><b>metrics.json</b></a> The definitions both readers share, each with its unit.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/data-answers/blob/main/eval/expected/cases.json" rel="noopener"><b>eval/expected/cases.json</b></a> The expected answers, generated from a seed before the assistant's first run.</li>
+      <li><a target="_blank" href="https://github.com/mjazzly/data-answers/blob/main/dashboard/DESIGN.md" rel="noopener"><b>dashboard/DESIGN.md</b></a> The design note: the reader, the decision, every measure and why it is written that way.</li>
+    </ul>
+    <p class="how"><b>Who did what:</b> Claude drafted every measure and the page, as text in git. <b>I approved each measure against a known answer</b> and refined the layout in Power BI. The check proves the numbers.</p>
+  </div>
+</section>
+
+<section id="words" class="fold">
+  <h2><span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-book"/></svg></span>The words on this page</h2>
+  <p class="fold-note">Every term used on this page, in plain words.</p>
+  <div class="case-foot"><button type="button" class="case-toggle" data-open="Show the words" aria-expanded="true" aria-controls="words-body" hidden><span class="case-toggle-label">Show the words</span><svg class="ic" aria-hidden="true"><use href="#ic-chevron"/></svg></button></div>
+  <div class="case-body" id="words-body">
+  <ul class="words">
+    <li><b>Dashboard.</b> One page of numbers and charts that a team reads to make a decision.</li>
+    <li><b>Measure.</b> A named calculation in the report, such as revenue or returns rate. Each one here is named after a metric and carries its definition.</li>
+    <li><b>Metric.</b> A number with a written definition, a unit and the ways it may be split. The assistant and the dashboard share one list of them.</li>
+    <li><b>Tested table.</b> A table built in code from the raw export and checked by tests before anything reads it. <code>fct_orders</code> holds one row per order.</li>
+    <li><b>Export batch.</b> One delivery of rows from the source. The dashboard shows the first batch only, the rows the live assistant reads.</li>
+    <li><b>Net revenue.</b> The order value of the orders that were not returned.</li>
+    <li><b>Returns rate.</b> The share of orders placed in the period that were later returned.</li>
+    <li><b>Month on month growth.</b> The change in revenue from the month before, as a percent of the month before.</li>
+    <li><b>Agreement check.</b> The dashboard's own measures run on the assistant's test questions, each answer compared with the expected one, value by value.</li>
+    <li><b>Expected answer.</b> The right answer to a test question, generated from a seed with the data, before any run.</li>
+    <li><b>Gate.</b> A point where the assistant must stop or refuse instead of giving a number. A question whose right answer is a refusal has no number to compare.</li>
+    <li><b>Relationship.</b> A join between two tables in a report. With one table there are none, so no number can be counted twice through one.</li>
+    <li><b>Publish to web.</b> Power BI's public link: anyone with it can view the report, with no sign-in.</li>
+    <li><b>Slicer.</b> A control on the report that picks what every part shows: here, the month and the branches.</li>
+  </ul>
+  </div>
+</section>
+
+<p class="coda">One table, two readers, the same numbers: <b>a view is only as good as the definitions under it.</b></p>
+
+<footer>
+  <div class="end">
+    <p>Thanks for reading. Say hello anytime.</p>
+    <ul class="icon-links">
+      <li><a href="mailto:megatjazly@gmail.com" aria-label="Email" title="Email"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg></a></li>
+      <li><a target="_blank" href="https://linkedin.com/in/megatjazly" rel="me noopener" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/></svg></a></li>
+      <li><a target="_blank" href="https://github.com/mjazzly" rel="me noopener" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/></svg></a></li>
+    </ul>
+  </div>
+</footer>
+
+</div>
+<script data-goatcounter="https://mjazzly.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script src="site.js?v=20261108"></script>
+<script src="dashboards.js?v=20261109"></script>
+</body>
+</html>
