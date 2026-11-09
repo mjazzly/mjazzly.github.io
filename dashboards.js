@@ -62,9 +62,11 @@
         var p = pic.getBoundingClientRect(), b = st ? st.box : [0, 0, W, H];
         top = p.top + b[1] / H * p.height; bottom = top + b[3] / H * p.height;
       }
+      // while the tour card sits at the top of the window (tour.js sets --tour-top), the room starts under it
+      var head = GAP + (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--tour-top")) || 0);
       var room = window.innerHeight - (phone.matches ? g.offsetHeight : 0) - GAP, by = 0;
-      if (top >= GAP && bottom <= room) return;
-      if (bottom - top > room - GAP || top < GAP) by = top - GAP;
+      if (top >= head && bottom <= room) return;
+      if (bottom - top > room - head || top < head) by = top - head;
       else by = bottom - room;
       window.scrollBy({ top: by, behavior: reduce ? "auto" : "smooth" });
     }

@@ -573,9 +573,9 @@ document.documentElement.classList.add("js");
 // The walk: tour.js loads only when the address carries ?tour=N, so no page is heavier for anyone else.
 // Change the date here when tour.js changes.
 (function () {
-  if (!/[?&]tour=\d/.test(location.search)) return;
+  if (!/[?&]tour=(data-)?\d/.test(location.search)) return;
   var s = document.createElement("script");
-  s.src = "tour.js?v=20261106b";
+  s.src = "tour.js?v=20261109";
   document.body.appendChild(s);
 })();
 

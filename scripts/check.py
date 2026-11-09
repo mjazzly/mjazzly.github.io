@@ -94,52 +94,69 @@ def select(tree, query):
     return found
 
 tour = pathlib.Path("tour.js")
+# the two walks: their marker, the pages that carry a start link to stop 1, the prefix in ?tour=, and words
+# kept off that walk's cards beyond the site's own rules (the data tour: SQL never named, dbt models are tested tables)
+WALKS = [("STOPS", ("index.html", "aiwork.html"), "", []),
+         ("STOPS:data", ("index.html", "dashboards.html"), "data-", [r"\bSQL\b", r"\bdbt\b"])]
 if not tour.exists():
     failures.append("tour.js: missing")
 else:
     tsrc = tour.read_text(encoding="utf-8")
-    m = re.search(r"/\*STOPS\*/(.*?)/\*/STOPS\*/", tsrc, re.S)
-    try: stops = json.loads(m.group(1)) if m else None
-    except ValueError as e: stops = None; failures.append(f"tour.js: the stop list is not plain JSON ({e})")
-    if m is None: failures.append("tour.js: no stop list between the STOPS markers")
     for ch, name in BANNED_CHARS.items():
         if ch in tsrc: failures.append(f"tour.js: {name} in the walk")
     words = " ".join(re.findall(r'"(?:try|shows)":\s*"([^"]*)"', tsrc) + re.findall(r'END_LINE = "([^"]*)"', tsrc))
     for w in BANNED_WORDS + [r"\bwar\b", r"\bthings?\b"]:
         if re.search(w, words, flags=re.I): failures.append(f"tour.js: banned word '{w}' in the card words")
-    on = [s for s in (stops or []) if s.get("on")]
-    for k, s in enumerate(on, 1):
-        page = pathlib.Path(s["page"])
-        if s["page"] not in PAGES or not page.exists():
-            failures.append(f"tour.js stop {k}: page {s['page']} is not on the site"); continue
-        src = page.read_text(encoding="utf-8")
-        tree = Tree(); tree.feed(src)
-        if not select(tree, "#" + s["anchor"]):
-            failures.append(f"tour.js stop {k}: no #{s['anchor']} on {s['page']}"); continue
-        scripts = "".join(pathlib.Path(x).read_text(encoding="utf-8") for x in re.findall(r'<script src="([\w.-]+\.js)', src) if pathlib.Path(x).exists())
-        for q in s["lit"]:
-            if not q.startswith("#" + s["anchor"] + " "):
-                failures.append(f"tour.js stop {k}: lit part '{q}' does not start inside #{s['anchor']}")
-            elif not select(tree, q):
-                # a part the page's own script draws (the Check-in's printed pass) passes when that script names it
-                drawn = re.search(r"[.]([\w-]+)$", q)
-                if not (drawn and f'"{drawn.group(1)}"' in scripts):
-                    failures.append(f"tour.js stop {k}: lit part '{q}' not found on {s['page']}")
-        if s.get("open"):
-            links = select(tree, s["open"])
-            if not links or links[0]["tag"] != "a" or links[0]["attrs"].get("target") != "_blank":
-                failures.append(f"tour.js stop {k}: its Open it link '{s['open']}' is not an outside link on {s['page']}")
-        ic = f'id="ic-{s["icon"]}"'
-        if ic not in src: failures.append(f"tour.js stop {k}: icon ic-{s['icon']} is not in the sprite")
-    if on:
-        first = f'href="{on[0]["page"]}?tour=1#{on[0]["anchor"]}"'
-        say = ["no", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"][len(on)] + " stops"
-        for page in ("index.html", "aiwork.html"):
-            line = re.search(r'<p class="tour-start">(.*?)</p>', pathlib.Path(page).read_text(encoding="utf-8"))
-            if not line or first not in line.group(1):
-                failures.append(f"{page}: the start link does not point at stop 1 ({first})")
-            elif say not in line.group(1):
-                failures.append(f"{page}: the start link does not say '{say}'")
+    for mark, starts, pre, banned in WALKS:
+        tag = "the AI tour" if not pre else "the data tour"
+        m = re.search(r"/\*" + re.escape(mark) + r"\*/(.*?)/\*/" + re.escape(mark) + r"\*/", tsrc, re.S)
+        if m is None: failures.append(f"tour.js: no stop list between the {mark} markers"); continue
+        try: stops = json.loads(m.group(1))
+        except ValueError as e: failures.append(f"tour.js: {tag}'s stop list is not plain JSON ({e})"); continue
+        own = " ".join(x for s in stops for x in (s.get("try", ""), s.get("shows", "")))
+        for w in banned:
+            if re.search(w, own): failures.append(f"tour.js: '{w}' in {tag}'s card words")
+        on = [s for s in stops if s.get("on")]
+        for k, s in enumerate(on, 1):
+            where = f"tour.js {tag} stop {k}"
+            page = pathlib.Path(s["page"])
+            if s["page"] not in PAGES or not page.exists():
+                failures.append(f"{where}: page {s['page']} is not on the site"); continue
+            src = page.read_text(encoding="utf-8")
+            tree = Tree(); tree.feed(src)
+            if not select(tree, "#" + s["anchor"]):
+                failures.append(f"{where}: no #{s['anchor']} on {s['page']}"); continue
+            scripts = "".join(pathlib.Path(x).read_text(encoding="utf-8") for x in re.findall(r'<script src="([\w.-]+\.js)', src) if pathlib.Path(x).exists())
+            for q in s["lit"]:
+                if not q.startswith("#" + s["anchor"] + " "):
+                    failures.append(f"{where}: lit part '{q}' does not start inside #{s['anchor']}")
+                elif not select(tree, q):
+                    # a part the page's own script draws (the Check-in's printed pass) passes when that script names it
+                    drawn = re.search(r"[.]([\w-]+)$", q)
+                    if not (drawn and f'"{drawn.group(1)}"' in scripts):
+                        failures.append(f"{where}: lit part '{q}' not found on {s['page']}")
+            if s.get("open"):
+                links = select(tree, s["open"])
+                if not links or links[0]["tag"] != "a" or links[0]["attrs"].get("target") != "_blank":
+                    failures.append(f"{where}: its Open it link '{s['open']}' is not an outside link on {s['page']}")
+            if s.get("folded") and not select(tree, "#" + s["anchor"] + " .case-toggle"):
+                failures.append(f"{where}: marked folded, but #{s['anchor']} holds no .case-toggle")
+            ic = f'id="ic-{s["icon"]}"'
+            if ic not in src: failures.append(f"{where}: icon ic-{s['icon']} is not in the sprite")
+        if on:
+            # each start pill points at stop 1, and the card it is described by (aria-describedby) names the stop count
+            first = f'href="{on[0]["page"]}?tour={pre}1#{on[0]["anchor"]}"'
+            say = ["no", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"][len(on)] + " stops"
+            for page in starts:
+                src = pathlib.Path(page).read_text(encoding="utf-8")
+                pill = re.search(r'<div class="tour-start">.*?<span class="tour-pick"><a ' + re.escape(first) + r' aria-describedby="([\w-]+)">', src, re.S)
+                card = pill and re.search(r'<span class="tour-card" id="' + re.escape(pill.group(1)) + r'" role="tooltip">([^<]*)</span>', src)
+                if not pill:
+                    failures.append(f"{page}: no start pill pointing at {tag}'s stop 1 ({first})")
+                elif not card:
+                    failures.append(f"{page}: {tag}'s start pill has no card #{pill.group(1)}")
+                elif not card.group(1).lower().startswith(say):
+                    failures.append(f"{page}: {tag}'s start card does not open with '{say.capitalize()}'")
 
 # WORK-05 and the Scorecard page against the scorecard's records: the table and every data-sc number
 sc = pathlib.Path("..", "scorecard")

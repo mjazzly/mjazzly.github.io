@@ -1,15 +1,20 @@
-/* The walk ("Take the tour"): one card that carries a reader from page to page, one try at each stop.
-   site.js loads this file only when the address carries ?tour=N, so no page is heavier for anyone else.
-   The address is the whole state: ?tour=3 is the third stop that is on, Back and Next are plain links,
+/* The walks (the AI tour and the data tour): one card that carries a reader from page to page, one try at each stop.
+   site.js loads this file only when the address carries ?tour=N or ?tour=data-N, so no page is heavier for anyone else.
+   The address is the whole state: ?tour=3 is the third stop of the AI tour that is on (every address from before
+   the data tour still works), ?tour=data-3 the third of the data tour; Back and Next are plain links,
    and a stop can be shared. End, Finish and Escape take ?tour off the address and leave the reader where
    they are. The walk never binds the arrow keys and never takes over scrolling; it scrolls once, on arrival,
    only as far as the stop needs. Without JavaScript the start link still lands on stop 1.
 
-   The stop list below is plain JSON between the STOPS markers, read by scripts/check.py, which fails when
+   Each stop list below is plain JSON between its markers (STOPS for the AI tour, STOPS:data for the data tour),
+   read by scripts/check.py and scripts/shot.py; check.py fails when
    a stop's page, anchor or lit part is missing. Each stop: the page and the anchor it opens at; "lit", the
    parts to light (selectors inside the anchor, drawn as one lit area); "icon", from scripts/icons.py; "try"
    and "shows", the two lines on the card; "open", a link already on the page that the card's Open it
-   button follows (for a stop that ends outside the site); "on", false keeps a stop out of the walk. */
+   button follows (for a stop that ends outside the site); "foot", true for a stop whose page keeps its own
+   question card at the foot of a narrow screen, so the tour card sits at the top there; "folded", true for a stop
+   whose try is opening a fold that its address would otherwise open on arrival (site.js), so the card closes it; "on", false keeps a stop
+   out of the walk. The finish card offers the other tour. */
 (function () {
   var STOPS = /*STOPS*/[
     { "page": "frames.html", "anchor": "check-in", "lit": ["#check-in .desk", "#check-in .print-slot"], "icon": "ticket",
@@ -31,17 +36,46 @@
       "try": "<b>Open the board</b> that updates itself each morning.",
       "shows": "A service that <b>runs on a schedule</b>, with nobody at the keyboard.", "on": true }
   ]/*/STOPS*/;
+  var DATA = /*STOPS:data*/[
+    { "page": "dashboards.html", "anchor": "read", "lit": ["#read .db-stage"], "icon": "chart", "foot": true,
+      "try": "<b>Press Show me</b>, then Next through two or three parts of the page.",
+      "shows": "A dashboard read <b>in the order the decision is made</b>: which branches need attention next month.", "on": true },
+    { "page": "dashboards.html", "anchor": "record", "lit": ["#record .db-run", "#record .case-foot"], "icon": "shield", "folded": true,
+      "try": "<b>Press Read the record</b> to see what was compared and what was left out.",
+      "shows": "Each number on the dashboard <b>checked against answers written first</b>, and every question it cannot answer named and left out of the count.", "on": true },
+    { "page": "deconstruct.html", "anchor": "deconstruct-01", "lit": ["#deconstruct-01 .dx-stage"], "icon": "unstack", "foot": true,
+      "try": "<b>Press Show me</b> and change one choice under the tile.",
+      "shows": "One export <b>counted eight ways</b>, each right by its own setting: ask how a number was made.", "on": true },
+    { "page": "aiwork.html", "anchor": "work-03", "lit": ["#work-03 figure.figure"], "icon": "database",
+      "try": "<b>Point at or tap the first column</b>, Rows checked, then any other.",
+      "shows": "Before any question, messy rows become <b>tested tables</b>, and a failed test keeps the live demo on its last passing version.", "on": true },
+    { "page": "aiwork.html", "anchor": "work-03", "lit": ["#work-03 .score-open"], "icon": "message", "open": "#work-03 .score-open a",
+      "try": "<b>Open the live demo</b> and ask your own question about the orders, or press a preset one.",
+      "shows": "<b>Running live</b>, on the table the dashboard reads: a number with its definition and filters.", "on": true }
+  ]/*/STOPS:data*/;
   var END_LINE = "<b>That is the walk.</b> The rest of the site is yours to read at your own pace.";
 
-  var stops = STOPS.filter(function (s) { return s.on; });
-  var n = parseInt(new URLSearchParams(location.search).get("tour"), 10);
+  // Two tours share this card. ?tour=N is the AI tour (every address from before the data tour still works),
+  // ?tour=data-N the data tour. Each counts its own start and finish, and its finish card offers the other.
+  var TOURS = {
+    ai: { list: STOPS, pre: "", name: "AI tour", say: "AI tour", start: ["tour-start", "Tour started"], finish: ["tour-finish", "Tour finished"], seen: "tour-started", other: "data" },
+    data: { list: DATA, pre: "data-", name: "Data tour", say: "data tour", start: ["data-tour-start", "Data tour started"], finish: ["data-tour-finish", "Data tour finished"], seen: "data-tour-started", other: "ai" }
+  };
+  var m = /^(data-)?(\d+)$/.exec(new URLSearchParams(location.search).get("tour") || "");
+  if (!m) return;
+  var T = TOURS[m[1] ? "data" : "ai"], O = TOURS[T.other];
+  var stops = T.list.filter(function (s) { return s.on; });
+  var n = parseInt(m[2], 10);
   if (!(n >= 1 && n <= stops.length)) return;
   var stop = stops[n - 1];
   var root = document.documentElement;
   var calm = window.matchMedia("(prefers-reduced-motion: reduce)");
   var reel = document.querySelector(".reel");   // Frames keeps a strip of film fixed at the top, so the card stays at the bottom there
+  // a stop whose page keeps its own question card at the foot of the screen (Dashboards, Deconstruct, up to 860px wide)
+  // puts the tour card at the top on those widths, and tells the page how much room it takes there (--tour-top)
+  var footed = stop.foot ? window.matchMedia("(max-width: 860px)") : null;
 
-  function href(s, k) { return s.page + "?tour=" + k + "#" + s.anchor; }
+  function href(s, k, t) { t = t || T; return s.page + "?tour=" + t.pre + k + "#" + s.anchor; }
   function badge(name) { return '<span class="badge"><svg class="ic" aria-hidden="true"><use href="#ic-' + name + '"/></svg></span>'; }
 
   // One GoatCounter event when a walk starts and one when it finishes, nothing else
@@ -79,7 +113,7 @@
   var card = document.createElement("aside");
   card.className = "tour";
   card.tabIndex = -1;
-  card.setAttribute("aria-label", "The tour, stop " + n + " of " + stops.length);
+  card.setAttribute("aria-label", "The " + T.say + ", stop " + n + " of " + stops.length);
   var last = n === stops.length;
   var bar = '<button type="button" class="end">End</button>';
   if (n > 1) bar += '<a class="btn" href="' + href(stops[n - 2], n - 1) + '">Back</a>';
@@ -87,15 +121,25 @@
   if (out) bar += '<a class="btn go" target="_blank" rel="noopener" href="' + out.getAttribute("href") + '">Open it</a>';
   bar += last ? '<button type="button" class="btn finish' + (out ? "" : " go") + '">Finish</button>'
               : '<a class="btn go" href="' + href(stops[n], n + 1) + '">Next stop</a>';
-  card.innerHTML = badge(stop.icon) + '<p class="tour-n">' + n + " of " + stops.length + "</p>" +
+  card.innerHTML = badge(stop.icon) + '<p class="tour-n">' + T.name + " · " + n + " of " + stops.length + "</p>" +
     '<p class="tour-try">' + stop["try"] + '</p><p class="tour-shows">' + stop.shows + "</p>" +
     '<div class="tour-bar">' + bar + "</div>";
 
-  function measure() { root.style.setProperty("--tour-h", (card.offsetHeight + (window.innerWidth > 600 ? 28 : 12)) + "px"); }
+  function measure() {
+    root.style.setProperty("--tour-h", (card.offsetHeight + (window.innerWidth > 600 ? 28 : 12)) + "px");
+    root.style.setProperty("--tour-top", (card.classList.contains("at-top") ? card.offsetHeight + (window.innerWidth > 600 ? 16 : 0) : 0) + "px");
+  }
 
   // The card docks at the bottom, and moves to the top only when that hides less of the stop
   var arriving = true;   // no docking while the arrival scroll is still moving
+  function footTop() {
+    if (!footed) return false;
+    var was = card.classList.contains("at-top");
+    if (was !== footed.matches) { card.classList.toggle("at-top", footed.matches); measure(); }
+    return footed.matches;
+  }
   function dock() {
+    if (footTop()) return;
     if (reel || arriving || card.classList.contains("is-done")) return;
     var b = area();
     if (!b) return;
@@ -111,7 +155,8 @@
   function bring() {
     var b = area();
     if (!b) return;
-    var head = (reel ? reel.offsetHeight : 0) + 24, foot = window.innerHeight - card.offsetHeight - 32;
+    var top = card.classList.contains("at-top");
+    var head = (reel ? reel.offsetHeight : 0) + (top ? card.offsetHeight + 16 : 0) + 24, foot = window.innerHeight - (top ? 0 : card.offsetHeight) - 32;
     var by = 0;
     if (b.top < head) by = b.top - head;
     else if (b.bottom > foot) by = Math.min(b.bottom - foot, b.top - head);
@@ -138,12 +183,16 @@
     if (card.parentNode) card.parentNode.removeChild(card);
   }
   function finish() {
-    count("tour-finish", "Tour finished");
+    count(T.finish[0], T.finish[1]);
     leave();
     card.classList.remove("at-top");
     card.classList.add("is-done");
-    card.setAttribute("aria-label", "The tour, finished");
-    card.innerHTML = badge("circle-check") + '<p class="tour-try">' + END_LINE + '</p><div class="tour-bar"><button type="button" class="btn go end">Close</button></div>';
+    card.setAttribute("aria-label", "The " + T.say + ", finished");
+    // the finish card offers the other tour, from its first stop
+    var next = O.list.filter(function (s) { return s.on; })[0];
+    card.innerHTML = badge("circle-check") + '<p class="tour-try">' + END_LINE + '</p><div class="tour-bar">' +
+      (next ? '<button type="button" class="end">Close</button><a class="btn go" href="' + href(next, 1, O) + '">Take the ' + O.say + "</a>"
+            : '<button type="button" class="btn go end">Close</button>') + "</div>";
     card.querySelector(".end").addEventListener("click", end);
     card.querySelector(".end").focus();
   }
@@ -169,14 +218,18 @@
     end();
   }, true);   // ahead of site.js, which closes the shelf on the same press
 
+  if (stop.folded) {
+    var shut = document.querySelector("#" + stop.anchor + " .case-toggle[aria-expanded='true']");
+    if (shut) shut.click();
+  }
   document.body.appendChild(lit);
   document.body.appendChild(card);
   root.classList.add("touring");
-  measure(); place();
+  footTop(); measure(); place();
   if (n === 1) {
     var seen = false;
-    try { seen = sessionStorage.getItem("tour-started") === "1"; sessionStorage.setItem("tour-started", "1"); } catch (e) {}
-    if (!seen) count("tour-start", "Tour started");
+    try { seen = sessionStorage.getItem(T.seen) === "1"; sessionStorage.setItem(T.seen, "1"); } catch (e) {}
+    if (!seen) count(T.start[0], T.start[1]);
   }
 
   var ticking = false;
