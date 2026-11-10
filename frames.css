@@ -724,3 +724,6 @@ section.film + section.film{margin-top:0}
   .roads .part.is-done .fill{transform:none}
   .roads .part .dot{left:20px;top:12px}
 }
+
+/* FRAME-04 ends on one line linking the dashboard that reads it in numbers (DASH-02) */
+.lead.f4-dash{margin-top:32px;max-width:760px}

@@ -8,7 +8,9 @@
 
    Every word and number comes from the page: scripts/dashboards.py writes the steps as a plain list
    (ol.db-steps, each li carrying the part's position on the report page in data-box, read from the
-   report's own files). This script only turns that list into the stepper. On a phone each step shows
+   report's own files). This script only turns that list into the stepper. A report with several pages
+   gives each step its own picture (data-pic, with its data-alt); the opening and the last card show
+   the stage's own picture, and the pictures load once the reader presses Show me. On a phone each step shows
    its part cut from the picture at full width, and the question card sits at the foot of the screen.
 
    The live report loads only when the reader asks (Load it live on this page, wide screens only):
@@ -27,6 +29,7 @@
       var feeds = li.querySelector(".db-feeds").cloneNode(true), b = feeds.querySelector("b");
       if (b) b.remove();
       return { box: li.getAttribute("data-box").split(" ").map(Number), part: li.querySelector(".db-part").textContent,
+               pic: li.getAttribute("data-pic"), alt: li.getAttribute("data-alt"),
                q: li.querySelector("h3").textContent, feeds: feeds.textContent.trim(), say: li.querySelector(".db-say").textContent };
     });
     var n = steps.length, q = 0, taken = false;
@@ -39,8 +42,19 @@
     var lens = pic.appendChild(el("span", "db-lens"));
     lens.setAttribute("aria-hidden", "true");
     // on a phone the lit part is cut from the picture at a readable size, scrolling sideways when wider than the screen
-    var cut = pic.appendChild(el("div", "db-cut")), cutImg = cut.appendChild(pic.querySelector("img").cloneNode());
+    var img = pic.querySelector("img"), home = { src: img.getAttribute("src"), alt: img.alt };
+    var cut = pic.appendChild(el("div", "db-cut")), cutImg = cut.appendChild(img.cloneNode());
     cut.setAttribute("aria-hidden", "true"); cutImg.alt = "";
+    function show(st) {
+      var src = st && st.pic ? st.pic : home.src, alt = st && st.pic ? st.alt : home.alt;
+      if (img.getAttribute("src") !== src) { img.src = src; cutImg.src = src; }
+      img.alt = alt;
+    }
+    var loaded = false;
+    function preload() {
+      if (loaded) return; loaded = true;
+      steps.forEach(function (st) { if (st.pic) (new Image()).src = st.pic; });
+    }
     var phone = window.matchMedia("(max-width: 860px)");
     function sizeCut(st) {
       if (!st) return;
@@ -91,6 +105,7 @@
       } else {
         tag.textContent = ""; hq.textContent = d.freeQ; line.textContent = d.freeLine; ans.textContent = ""; go.textContent = d.again;
       }
+      show(st);
       sizeCut(st);
       pic.classList.toggle("is-lit", !!st);
       pic.scrollLeft = 0;
@@ -99,7 +114,7 @@
       setTimeout(function () { say.textContent = [tag.textContent, hq.textContent, line.textContent, ans.textContent].join(" ").trim(); }, 30);
     }
     function lit() { return q >= 1 && q <= n ? steps[q - 1] : null; }
-    go.addEventListener("click", function () { taken = true; q = q > n ? 0 : q + 1; render(); go.focus({ preventScroll: true }); keep(lit()); });
+    go.addEventListener("click", function () { taken = true; preload(); q = q > n ? 0 : q + 1; render(); go.focus({ preventScroll: true }); keep(lit()); });
     back.addEventListener("click", function () { taken = true; q = Math.max(0, q - 1); render(); (q === 0 ? go : back).focus({ preventScroll: true }); keep(lit()); });
     window.addEventListener("resize", function () { sizeCut(q >= 1 && q <= n ? steps[q - 1] : null); });
     render();
@@ -130,7 +145,7 @@
     btn.hidden = false;
     btn.addEventListener("click", function () {
       var f = document.createElement("iframe");
-      f.src = link.href; f.title = "Branch review, the live report"; f.setAttribute("allowfullscreen", "");
+      f.src = link.href; f.title = box.getAttribute("data-title") || "Branch review, the live report"; f.setAttribute("allowfullscreen", "");
       frame.appendChild(f); frame.hidden = false; btn.hidden = true;
     });
   }
