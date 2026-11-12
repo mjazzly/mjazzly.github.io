@@ -31,7 +31,7 @@ html = """<!DOCTYPE html><html><head><meta charset="utf-8">
 <div class="panel">
   <div class="eyebrow">Data Analyst<span>·</span>AI Workflows<span>·</span>Kuala Lumpur</div>
   <div class="name"><i class="seam silver"></i>Megat Jazly<i class="seam gold"></i></div>
-  <div class="role">Six years of client-facing analytics, delivered as systems that can be checked. AI systems built to take over a real task, each with its test record and its code.</div>
+  <div class="role">Data analyst. Six years of client-facing analytics, and AI workflows tested before they are trusted.</div>
   <div class="pages"><span class="on">Built</span><span>AI Work</span><span>Case Files</span><span>Systems</span></div>
   <div class="url">mjazzly.github.io</div>
 </div>

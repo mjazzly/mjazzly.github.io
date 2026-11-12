@@ -193,7 +193,7 @@
   <ul class="words">
     <li><b>Build.</b> One of the AI systems on the AI Work page, each with its own test cases, checker and pass rule.</li>
     <li><b>Case.</b> One test input with a known right answer, written down before the first run. A run matches a case when its result equals that answer.</li>
-    <li><b>Gate.</b> A case where the build must stop and ask, or decline the task. The gate is held when the code did so.</li>
+    <li><b>Gate.</b> A case where the build must stop and ask, or decline the task. The gate is held when the code did so. The stop it tests is also called a <b>guardrail</b>.</li>
     <li><b>Bar.</b> The build's own pass rule, such as every case matched and every gate held. The bar is met or not met; there is no partial credit.</li>
     <li><b>Smallest passing.</b> The cheapest model that meets a build's bar. The cost of a full sweep adds up one run per build on that model.</li>
     <li><b>Sweep.</b> One run of every build on every model, started by one command and compared with the sweep before it.</li>

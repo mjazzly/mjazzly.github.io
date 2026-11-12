@@ -165,7 +165,7 @@
   <ul class="words">
     <li><b>Round.</b> One contact export run through every stage once, with its own run record.</li>
     <li><b>Row key.</b> The name the code gives each row when it reads the export. The run record uses it instead of a name or an email.</li>
-    <li><b>Stop.</b> A point where the run halts and prints a count. It goes on only when that stop is confirmed, and a count confirmed wrong halts it.</li>
+    <li><b>Stop.</b> A point where the run halts and prints a count. It goes on only when that stop is confirmed, and a count confirmed wrong halts it. Also called a <b>guardrail</b>. Because it waits for a person to confirm, the field calls it <b>human in the loop</b>.</li>
     <li><b>Scope.</b> The rules in code that keep the US and Canada, take out a blank or broken email, and keep the first of two rows with one email.</li>
     <li><b>Seniority floor.</b> The level a job title must reach to stay: director and above. The model reads the title; the code applies the floor.</li>
     <li><b>Verdict.</b> What the email validation stub says of an address: valid and suspect stay, invalid, honeypot and no result leave.</li>

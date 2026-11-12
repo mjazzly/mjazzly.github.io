@@ -158,7 +158,7 @@
       <span class="shape"><svg class="ic" aria-hidden="true"><use href="#ic-server"/></svg>Shape 4</span>
       <h3>A tool server the model calls</h3>
       <ul>
-        <li><b>Meeting Tracker Assistant</b><span>ten tools, four stop gates, a test harness</span></li>
+        <li><b>Meeting Tracker Assistant</b><span>ten tools and three for the library check, four stop gates, a test harness</span></li>
         <li><b>Spreadsheet normaliser</b><span>nine tools, four stop gates, one table out</span></li>
         <li><b>Data answers</b><span>seven tools, every number from a defined metric</span></li>
         <li><b>Sourced brief</b><span>five tools, every sentence checked against its source</span></li>
@@ -373,7 +373,7 @@
       <div class="gate"><span class="g"><svg class="ic" aria-hidden="true"><use href="#ic-hand"/></svg>Stops to ask</span><b>A due date before its own meeting.</b> The record tool refuses the row.</div>
       <div class="gate"><span class="g"><svg class="ic" aria-hidden="true"><use href="#ic-stop"/></svg>Declines</span><b>A transcript marked confidential</b> is left unread and reported as declined.</div>
     </div>
-    <p class="how"><b>How it runs:</b> a small Node.js tool server on my machine, connected through MCP, holding the ten tools; the Claude desktop app starts it and calls the tools as it works. It reads its transcripts from a Google Drive folder, and the tracker and the run log live in files on disk, so next week it reads only the new transcripts and <b>never rewrites an old row</b>. The contacts table stands in for a CRM; the data is synthetic.</p>
+    <p class="how"><b>How it runs:</b> a small Node.js tool server on my machine, connected through MCP, holding the ten tools and the library check's three; the Claude desktop app starts it and calls the tools as it works. It reads its transcripts from a Google Drive folder, and the tracker and the run log live in files on disk, so next week it reads only the new transcripts and <b>never rewrites an old row</b>. The contacts table stands in for a CRM; the data is synthetic.</p>
     <p class="how">The tracker and four more builds in the same shape, each with its record and its code, are on <a href="aiwork.html"><b>AI Work</b></a>.</p>
     <div class="record">
       <p class="rec-head"><b>Tested:</b> five cases plus one it must decline, the expected results written before the first run, rerun blind on two model tiers.</p>
@@ -496,13 +496,13 @@
     <li><b>Claude Project.</b> A workspace with standing instructions and files, so the same context is in place every time. ChatGPT's version is a custom GPT.</li>
     <li><b>Skill.</b> A packaged set of instructions Claude loads for a specific task. Some carry scripts.</li>
     <li><b>Script.</b> Code that does a step the same way every time, without the model deciding.</li>
-    <li><b>Tool.</b> A function in code the model calls by itself to act. A prompt asks it to write; a tool lets it do.</li>
-    <li><b>Tool server.</b> The program that holds the tools. Mine runs on my Mac; the Claude desktop app starts it.</li>
+    <li><b>Tool.</b> A function in code the model calls by itself to act. A prompt asks it to write; a tool lets it do. A model calling a tool is <b>tool calling</b>.</li>
+    <li><b>Tool server.</b> The program that holds the tools. Mine runs on my Mac; the Claude desktop app starts it. It connects through <b>MCP</b> (Model Context Protocol), a shared standard for connecting tools to a model.</li>
     <li><b>API.</b> The way code calls Claude directly, with a key, outside the chat app. The harness and the web app use it.</li>
     <li><b>Node.js and Next.js.</b> Node.js runs JavaScript outside the browser. Next.js is a website framework built on it: the pages and the server code in one project.</li>
     <li><b>Test harness.</b> A script that runs every test case the same way, checks the results against answers written first, and records them.</li>
-    <li><b>Blind run.</b> A test where the model cannot see the expected answers.</li>
-    <li><b>Model tier.</b> The size of model, from the largest to the smallest and cheapest.</li>
+    <li><b>Blind run.</b> A test where the model cannot see the expected answers. Testing a model this way, against answers written first, is what the field calls <b>evaluation</b>, or <b>evals</b>.</li>
+    <li><b>Model tier.</b> The size of model, from the largest to the smallest and cheapest. Model here means a <b>large language model (LLM)</b>.</li>
     <li><b>Claude Code.</b> Claude working inside a project folder: it writes the code, runs it and fixes it.</li>
     <li><b>Spec and tickets.</b> The written plan, broken into small pieces of work, each with a clear finish line.</li>
     <li><b>Python, DuckDB, pytest.</b> The language, a small database that lives in a file, and Python's testing tool.</li>

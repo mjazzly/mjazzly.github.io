@@ -177,7 +177,7 @@
     <li><b>Owner.</b> The person named in the same sentence as the action, looked up in the contacts table. When no one is named, the owner is <b>not stated</b>, never guessed.</li>
     <li><b>Due.</b> The date as said in the meeting, turned into a calendar date from the meeting's own date. When it cannot be, it is kept as said.</li>
     <li><b>Status.</b> <b>Open</b> until done, <b>closed</b> when a later transcript says it happened, <b>confirm</b> while its date waits on a meeting date.</li>
-    <li><b>Gate.</b> A point in the code where the run must stop and ask a person before it writes anything for that transcript.</li>
+    <li><b>Gate.</b> A point in the code where the run must stop and ask a person before it writes anything for that transcript. Also called a <b>guardrail</b>. A gate that waits for a person is what the field calls <b>human in the loop</b>.</li>
     <li><b>Contacts table.</b> A list of names, companies and roles that stands in for a CRM.</li>
     <li><b>Run.</b> One pass over the folder by one model, recorded with its id, its tokens and its cost.</li>
   </ul>
