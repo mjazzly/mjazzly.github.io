@@ -457,7 +457,27 @@ DIAGRAMS["hosted"] = dict(
            ((2,3),(1,3)), ((1,3),(4,4)), ((4,4),(3,5)), ((3,5),(5,6))],
 )
 
-FILES = {"casefiles.html": ["case-01-run", "case-01", "case-02", "case-03", "case-04"], "built.html": ["tracker", "harness"], "aiwork.html": ["tracker", "versions", "normaliser", "answers", "brief", "scorecard", "pipeline", "sheet", "hosted"]}
+DIAGRAMS["review"] = dict(
+    alt="Seven steps of one brief with a second agent across four lanes: the drafter, the reviewer in a fresh conversation, the code, and the record; the drafter stops where two sources disagree, the reviewer reads the same sources and returns findings without writing a sentence, the drafter keeps or changes each sentence and submits once, and the code takes off the page any sentence whose claims fail their source, then marks the page against the facts set first",
+    steps=["Read", "Draft", "Review", "Findings", "Revise", "Check", "Mark"],
+    lanes=["The drafter|smallest model", "The reviewer|starts fresh", "The code", "The record"],
+    lane_h=72,
+    nodes=[
+        dict(at=(0, 0), lines=["reads every", "source"], stop="disagree: stop"),
+        dict(at=(0, 1), lines=["drafts, a claim", "per fact"]),
+        dict(at=(1, 2), lines=["reads the", "same sources"]),
+        dict(at=(3, 1), lines=["the draft before", "review, kept"], kind="soft"),
+        dict(at=(1, 3), lines=["findings: fault", "and fix"], kind="ink"),
+        dict(at=(0, 4), lines=["revises, then", "submits once"]),
+        dict(at=(2, 5), lines=["checks each", "claim"], stop="fails: removed"),
+        dict(at=(2, 6), lines=["marks against", "facts set first"]),
+        dict(at=(3, 6), lines=["page, removals,", "trace"], kind="ink"),
+    ],
+    links=[((0,0),(0,1)), ((0,1),(1,2)), ((0,1),(3,1)), ((1,2),(1,3)), ((1,3),(0,4)),
+           ((0,4),(2,5)), ((2,5),(2,6)), ((2,6),(3,6))],
+)
+
+FILES = {"casefiles.html": ["case-01-run", "case-01", "case-02", "case-03", "case-04"], "built.html": ["tracker", "harness"], "aiwork.html": ["tracker", "versions", "normaliser", "answers", "brief", "scorecard", "pipeline", "sheet", "hosted", "review"]}
 
 if __name__ == "__main__":
     root = pathlib.Path(__file__).resolve().parent.parent

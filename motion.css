@@ -364,6 +364,9 @@ html.js .is-in .stair:nth-child(5){transition-delay:.48s}
 /* The scorecard on WORK-05: builds down, models across, written from the records by scripts/scorecard.py */
 .work .scoretable{margin-top:4px;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .scoretable table{width:100%;min-width:520px;border-collapse:collapse;font-size:14px}
+/* WORK-09's predictions table only (12 Nov 2026): three short columns fit a phone, so it never scrolls sideways */
+.scoretable.predictions table{min-width:0}
+@media(max-width:600px){ .scoretable.predictions th,.scoretable.predictions td{padding:10px 8px} .scoretable.predictions tbody th{width:44%} }
 .scoretable th,.scoretable td{text-align:left;vertical-align:top;padding:12px 14px;border-top:1px solid var(--line)}
 .scoretable thead th{border-top:0;padding-top:4px;font-size:12.5px;font-weight:600;color:var(--ink-faint)}
 .scoretable tbody th{font-weight:400;width:30%}
