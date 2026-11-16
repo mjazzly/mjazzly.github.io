@@ -914,3 +914,61 @@ html.touring .peek:not(.at-top){bottom:var(--tour-h,150px)}
 .def-card .prac{margin-top:6px;color:rgba(255,255,255,.78)}
 .def-card .prac span{color:var(--amber);font-weight:700;margin-right:5px}
 @media(prefers-reduced-motion:reduce){ .def-card,.def-card.is-on{transform:none;transition:none} }
+
+/* WORK-10, what the drafter was shown (aiwork.html, written by scripts/work10.py, stepped by aiwork.js):
+   one square a line handed to the drafter, marine for this week's files, a pale neutral for earlier weeks;
+   amber is never used here. Without the script every route shows under its own name. */
+.dv-lead{font-size:15px;color:var(--ink-soft);margin:0 0 14px;max-width:640px}
+.dv-lead b{color:var(--ink)}
+.dv-picks{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;padding:0}
+.dv-pick{font:600 13.5px/1.2 var(--sans);padding:9px 13px;border-radius:999px;border:0;background:var(--paper);color:var(--ink-soft);cursor:pointer;transition:background-color .15s,color .15s}
+.dv-pick:hover{background:var(--marine-tint);color:var(--ink)}
+.dv-pick[aria-pressed="true"]{background:var(--marine);color:#fff}
+.dv-pick:focus-visible,.dv-next:focus-visible,.dv-back:focus-visible{outline:2px solid var(--marine);outline-offset:3px}
+.dv-step{background:var(--paper);border-radius:12px;padding:18px}
+.dv-step + .dv-step{margin-top:12px}
+.dv.is-stepped .dv-step + .dv-step{margin-top:0}
+.dv-name{font-size:14px;font-weight:700;margin:0 0 10px;color:var(--ink)}
+.dv.is-stepped .dv-name{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.dv-field{display:grid;align-content:start}
+.dv.is-stepped .dv-field{min-height:112px}
+.dv-field.big{grid-template-columns:repeat(auto-fill,16px);gap:4px}
+.dv-field.small{grid-template-columns:repeat(auto-fill,5px);gap:1.5px}
+.dv-field i{display:block;background:#D3D8DD}
+.dv-field.big i{width:16px;height:16px;border-radius:3px}
+.dv-field.small i{width:5px;height:5px;border-radius:1px}
+.dv-field i.w{background:var(--marine)}
+.dv.is-stepped .dv-step:not([hidden]) .dv-field{animation:dv-in .3s ease}
+@keyframes dv-in{from{opacity:.25}to{opacity:1}}
+.dv-key{display:flex;gap:4px 18px;flex-wrap:wrap;margin:12px 0 0;font-size:13px;color:var(--ink-soft)}
+.dv-key span{display:inline-flex;align-items:center;gap:7px}
+.dv-key i{width:12px;height:12px;border-radius:3px;background:#D3D8DD;display:inline-block}
+.dv-key i.w{background:var(--marine)}
+.dv-order{font-size:13px;color:var(--ink-soft);margin:4px 0 0}
+.dv-under{display:grid;grid-template-columns:1fr auto;gap:22px;align-items:start;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.dv-say{font-size:15px;color:var(--ink-soft);margin:0;max-width:520px}
+.dv-say b{color:var(--ink)}
+.dv-nums{display:flex;gap:22px;margin:0}
+.dv-nums div{min-width:120px}
+.dv-nums dt{font-weight:800;font-size:24px;letter-spacing:-.02em;color:var(--ink);line-height:1.1}
+.dv-nums dd{margin:4px 0 0;font-size:13px;color:var(--ink-soft);line-height:1.35}
+.dv-ctl{display:flex;align-items:center;gap:16px;margin-top:14px}
+.dv-next{font:700 14px/1 var(--sans);padding:11px 18px;border-radius:999px;border:0;background:var(--marine);color:#fff;cursor:pointer}
+.dv-back{font:600 14px/1 var(--sans);border:0;background:none;color:var(--marine);cursor:pointer;padding:6px 2px}
+.pred-key{font-size:13.5px;color:var(--ink-soft);margin:-4px 0 12px}
+.pred-key b{color:var(--ink)}
+@media(max-width:600px){
+  .dv-step{padding:14px}
+  .dv-picks{display:grid;grid-template-columns:1fr 1fr}
+  .dv-pick{width:100%;padding:9px 8px}
+  .dv.is-stepped .dv-field{min-height:150px}
+  .dv-field.big{grid-template-columns:repeat(auto-fill,14px);gap:3px}
+  .dv-field.big i{width:14px;height:14px}
+  .dv-field.small{grid-template-columns:repeat(auto-fill,4px);gap:1px}
+  .dv-field.small i{width:4px;height:4px}
+  .dv-under{grid-template-columns:1fr;gap:14px}
+  .dv-nums{flex-direction:column;gap:12px}
+  .dv-ctl{padding-right:62px}
+  .dv-nums div{min-width:0}
+}
+@media(prefers-reduced-motion:reduce){ .dv.is-stepped .dv-step:not([hidden]) .dv-field{animation:none} }

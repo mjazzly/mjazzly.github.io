@@ -477,7 +477,27 @@ DIAGRAMS["review"] = dict(
            ((0,4),(2,5)), ((2,5),(2,6)), ((2,6),(3,6))],
 )
 
-FILES = {"casefiles.html": ["case-01-run", "case-01", "case-02", "case-03", "case-04"], "built.html": ["tracker", "harness"], "aiwork.html": ["tracker", "versions", "normaliser", "answers", "brief", "scorecard", "pipeline", "sheet", "hosted", "review"]}
+DIAGRAMS["keep"] = dict(
+    alt="Eight steps of one brief keeping this week across four lanes: the graph in code, the model, the tool server and a person; the graph lists and reads every source through the tool server, keeps the lines of this week's files, and the model drafts the brief in one call, stopping where two sources differ; the tool server logs the stop once and the run waits for the answer, then the graph submits, and the tool server takes off the page any sentence whose claims fail their source before it releases the page",
+    steps=["List", "Read", "Keep", "Draft", "Record", "Wait", "Submit", "Check"],
+    lanes=["The graph|code", "The model|smallest", "The tool|server", "A person"],
+    lane_h=72, w=820,
+    nodes=[
+        dict(at=(0, 0), lines=["lists every", "source"]),
+        dict(at=(2, 0), lines=["list_sources"]),
+        dict(at=(2, 1), lines=["read_source,", "every file"]),
+        dict(at=(0, 2), lines=["keeps this", "week's lines"]),
+        dict(at=(1, 3), lines=["drafts the brief", "in one call"], stop="differ: stop"),
+        dict(at=(2, 4), lines=["logs the", "stop once"]),
+        dict(at=(3, 5), lines=["one fixed", "answer"], kind="soft"),
+        dict(at=(2, 6), lines=["draft_brief"]),
+        dict(at=(2, 7), lines=["checks each", "claim"], stop="fails: removed"),
+        dict(at=(0, 7), lines=["page, removals,", "trace"], kind="ink"),
+    ],
+    links=[((0,0),(2,0)), ((2,0),(2,1)), ((2,1),(0,2)), ((0,2),(1,3)), ((1,3),(2,4)), ((2,4),(3,5)), ((3,5),(2,6)), ((2,6),(2,7)), ((2,7),(0,7))],
+)
+
+FILES = {"casefiles.html": ["case-01-run", "case-01", "case-02", "case-03", "case-04"], "built.html": ["tracker", "harness"], "aiwork.html": ["tracker", "versions", "normaliser", "answers", "brief", "scorecard", "pipeline", "sheet", "hosted", "review", "keep"]}
 
 if __name__ == "__main__":
     root = pathlib.Path(__file__).resolve().parent.parent

@@ -176,6 +176,45 @@ else:
     if r.returncode:
         failures += [f"{line}: run scripts/scorecard.py" for line in (r.stdout + r.stderr).strip().splitlines()]
 
+# WORK-10 on AI Work against the sourced brief's records (scripts/work10.py). ../sourced-brief is read only:
+# git is never run there, so its HEAD is read from its own .git files and its origin's main from GitHub
+sbr = pathlib.Path("..", "sourced-brief")
+if not (sbr / "eval" / "results-graph").is_dir():
+    failures.append("../sourced-brief not found: WORK-10's numbers cannot be checked against its records")
+else:
+    def head_of(repo):
+        g = repo / ".git"
+        ref = (g / "HEAD").read_text().strip()
+        if not ref.startswith("ref: "): return ref
+        name = ref[5:]
+        if (g / name).exists(): return (g / name).read_text().strip()
+        packed = g / "packed-refs"
+        for ln in (packed.read_text().splitlines() if packed.exists() else []):
+            if ln.endswith(" " + name): return ln.split()[0]
+        return ""
+    try:
+        r = subprocess.run(["git", "ls-remote", "https://github.com/mjazzly/sourced-brief", "refs/heads/main"], capture_output=True, text=True, timeout=30)
+        origin = r.stdout.split()[0] if r.returncode == 0 and r.stdout.strip() else ""
+    except subprocess.TimeoutExpired:
+        origin = ""
+    local = head_of(sbr)
+    if not origin:
+        print("note: the sourced brief's origin could not be reached; WORK-10 checked against its local records")
+    elif local != origin:
+        failures.append(f"../sourced-brief is at {local[:7]}, its origin's main at {origin[:7]}: pull it, then run scripts/work10.py")
+    r = subprocess.run([sys.executable, "scripts/work10.py", "--check"], capture_output=True, text=True)
+    if r.returncode:
+        failures += [f"{line}: run scripts/work10.py" for line in (r.stdout + r.stderr).strip().splitlines()]
+aj = pathlib.Path("aiwork.js")
+if not aj.exists():
+    failures.append("aiwork.js: missing")
+else:
+    asrc = aj.read_text(encoding="utf-8")
+    for ch, name in BANNED_CHARS.items():
+        if ch in asrc: failures.append(f"aiwork.js: {asrc.count(ch)} {name}(s)")
+    for w in BANNED_WORDS + [r"\bwar\b", r"\bthings?\b"]:
+        if re.search(w, asrc, flags=re.I): failures.append(f"aiwork.js: banned word '{w}'")
+
 # Deconstruct: every word of its pieces lives in deconstruct.js, so the word rules are checked there too;
 # DECONSTRUCT-03's record and the page's no-JavaScript view must match what scripts/deconstruct.py writes
 dj = pathlib.Path("deconstruct.js")
@@ -211,4 +250,4 @@ else:
 
 if failures:
     print("CHECK FAILED"); [print(" -", f) for f in failures]; sys.exit(1)
-print("CHECK PASSED: no dashes, no banned words, tags balanced, LIVE markers paired, nav shelves correct, every stop of the walk in place, scorecard numbers match its records, Deconstruct current with its record, Dashboards current with its record")
+print("CHECK PASSED: no dashes, no banned words, tags balanced, LIVE markers paired, nav shelves correct, every stop of the walk in place, scorecard numbers match its records, WORK-10 current with its records, Deconstruct current with its record, Dashboards current with its record")
