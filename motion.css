@@ -456,6 +456,15 @@ html.js .is-in .stair:nth-child(5){transition-delay:.48s}
 .tile.entry .k{font-family:var(--mono);font-size:12.5px;color:var(--marine);font-weight:500}
 .tile.entry:hover .badge{background:var(--marine);color:#fff}
 .tile.entry:hover .what{color:var(--marine)}
+/* AI Work: the entries in three groups (20 Nov 2026), named in the index and again before each group's entries */
+.entry-group + .entry-group{margin-top:30px}
+.entry-group h3{margin-bottom:4px}
+.entry-group h3 a{color:var(--ink);border-bottom:none}
+.entry-group h3 a:hover,.entry-group h3 a:focus-visible{color:var(--marine)}
+.entry-group .lead{font-size:15px;margin-bottom:14px}
+section.group{padding:56px 0 0}
+section.group h2{margin-bottom:8px}
+section.group .lead{margin-bottom:0}
 .work .case-foot{padding:16px 0 0}
 .work .case-body{margin-top:18px;padding-top:4px;border-top:1px solid var(--line)}
 .work .case-body[hidden]{display:none}
