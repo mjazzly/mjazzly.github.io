@@ -20,7 +20,7 @@ class Balance(html.parser.HTMLParser):
         else: self.bad.append((t, self.getpos()))
 
 def visible_text(src):
-    # strip comments (hidden LIVE blocks are allowed to contain anything)
+    # strip comments (markers and comments are allowed to contain anything)
     return re.sub(r"<!--.*?-->", "", src, flags=re.S)
 
 for page in PAGES:
@@ -39,14 +39,6 @@ for page in PAGES:
     b = Balance(); b.feed(vis)
     if b.stack: failures.append(f"{page}: unclosed tags {b.stack}")
     if b.bad: failures.append(f"{page}: mismatched closing tags {b.bad[:3]}")
-    # LIVE markers must be paired
-    opens = len(re.findall(r"<!--LIVE:(SECTION-OPEN|SECTION-CLOSE|A|B)\b", src))
-    ends = len(re.findall(r"LIVE:END-->", src))
-    shipped = len(re.findall(r"<!-- LIVE:(SECTION-OPEN|SECTION-CLOSE|A|B) shipped -->", src))
-    if opens != ends: failures.append(f"{page}: LIVE marker mismatch ({opens} open, {ends} end)")
-    # a SHIPPED pill must never appear inside a hidden block, and never with an in-progress label
-    for blk in re.findall(r"<!--LIVE:(?:A|B)[^\n]*\n(.*?)LIVE:END-->", src, flags=re.S):
-        if "SHIPPED" in blk: failures.append(f"{page}: SHIPPED pill inside a hidden block")
     # nav: the three shelves, in order, with every page under its shelf (written by scripts/nav.py)
     shelves = re.findall(r'data-shelf="([a-z]+)"', src)
     if shelves != ["craft", "compass", "bookshelf"]:
@@ -250,4 +242,4 @@ else:
 
 if failures:
     print("CHECK FAILED"); [print(" -", f) for f in failures]; sys.exit(1)
-print("CHECK PASSED: no dashes, no banned words, tags balanced, LIVE markers paired, nav shelves correct, every stop of the walk in place, scorecard numbers match its records, WORK-10 current with its records, Deconstruct current with its record, Dashboards current with its record")
+print("CHECK PASSED: no dashes, no banned words, tags balanced, nav shelves correct, every stop of the walk in place, scorecard numbers match its records, WORK-10 current with its records, Deconstruct current with its record, Dashboards current with its record")

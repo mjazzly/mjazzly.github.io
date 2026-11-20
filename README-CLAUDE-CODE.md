@@ -21,9 +21,5 @@
 - Change wording, add a cert, edit a system card:
   `/update add "Power BI PL-300" to the certifications list with year 2026`
   then `/publish` when happy.
-- The day Project A is complete (all questions in the repo):
-  `/ship-project A --questions 20`
-- The day the Power BI dashboard is public:
-  `/ship-project B https://app.powerbi.com/view?r=...`
 
-`scripts/check.py` runs before every commit and blocks dashes, the words marketing, enablement, agentic and real users, broken tags, a wrong nav order, and a SHIPPED pill inside a hidden block. If it fails, Claude Code fixes the issue and reruns it; it will not bypass it.
+`scripts/check.py` runs before every commit and blocks dashes, the words marketing, enablement, agentic and real users, broken tags, a wrong nav order. If it fails, Claude Code fixes the issue and reruns it; it will not bypass it.

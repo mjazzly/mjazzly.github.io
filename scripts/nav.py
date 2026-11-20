@@ -14,7 +14,7 @@ GROUPS = [
         ("dashboards.html", "Dashboards", "chart", "Two dashboards, two decisions, every number checked"),
         ("casefiles.html", "Case Files", "folder", "Four cases from delivery work, told end to end"),
         ("built.html",     "Built",      "puzzle", "Everything built with Claude, from prompt to app"),
-        ("index.html#systems", "Systems", "layers", "The systems I run in client work, and my stack"),
+        ("index.html#systems", "Systems", "layers", "The systems behind the work, and my stack"),
     ]),
     ("compass", "Compass", "compass", "How I think, decide and work", [
         ("operator.html", "Operator", "user",   "How I work, read through three assessments"),
